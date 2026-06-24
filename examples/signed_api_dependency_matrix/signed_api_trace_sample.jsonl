@@ -1,0 +1,8 @@
+{"step":"case_signed","case_name":"path_payload_basic","signed":true,"signature":"demo_5f20fccd..."}
+{"step":"dependencies_traced","case_name":"path_payload_basic","dependencies":{"method":"POST","path":"/local/mock/signed-api/basic","payload_hash":"146b3963...","algorithm":"WARBDemoV2"},"dependency_count":3}
+{"step":"mock_api_verified","case_name":"path_payload_basic","accepted":true,"reason":"signature_match"}
+{"step":"negative_case_rejected","case_name":"path_payload_basic","negative_type":"tampered_payload","rejected":true}
+{"step":"case_signed","case_name":"timestamp_nonce","signed":true,"signature":"demo_c41cbadf..."}
+{"step":"dependencies_traced","case_name":"timestamp_nonce","dependencies":{"method":"POST","path":"/local/mock/signed-api/timestamp-nonce","payload_hash":"e0a70624...","timestamp":"2026-06-24T00:00:00Z","nonce":"synthetic_nonce_v1","algorithm":"WARBDemoV2"},"dependency_count":5}
+{"step":"mock_api_verified","case_name":"timestamp_nonce","accepted":true,"reason":"signature_match"}
+{"step":"negative_case_rejected","case_name":"timestamp_nonce","negative_type":"tampered_payload","rejected":true}

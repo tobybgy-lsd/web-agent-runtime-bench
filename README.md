@@ -1,8 +1,8 @@
 # WebAgentRuntimeBench: Dynamic Web Runtime Benchmark for AI Agents
 
-WebAgentRuntimeBench is a **public-safe research prototype** and benchmark harness for AI-agent web extraction and synthetic dynamic web runtime evaluation.
+WebAgentRuntimeBench is a **developer-facing benchmark and debugging toolkit** for AI web agents — covering runtime diagnosis, synthetic browser shim testing, signed API dependency tracing, failure replay, and evaluation harness design.
 
-WebAgentRuntimeBench 是一个面向 AI Agent 的动态 Web 运行时评测框架，覆盖网页抽取评测、防作弊设计、failure replay、browser runtime shim、synthetic signature challenge。
+WebAgentRuntimeBench 是一个面向 AI Agent 开发者的 Benchmark 与调试工具集，覆盖运行时诊断、synthetic browser shim 测试、签名 API 依赖追踪、failure replay、评测框架设计。所有示例均为 local synthetic mock，无需外网，无需真实平台。
 
 ## What This Is
 
@@ -58,6 +58,22 @@ python run_bundle_variant_cases.py --out-dir ..\..\sample_run\a2 --node node
 # A3: Signed API benchmark
 python run_signed_api_benchmark.py --out-dir ..\..\sample_run\a3 --node node
 ```
+
+Or run everything in one command:
+
+```powershell
+.\scripts\smoke_test.ps1
+```
+
+## What You Can Learn
+
+- **Runtime Diagnosis**: Why JS bundles fail outside a browser, and how to classify missing runtime objects
+- **Synthetic Browser Shim**: How to stub `window`, `document`, `navigator`, `EventTarget`, `localStorage` for headless testing
+- **Signed API Dependency Tracing**: How synthetic signatures depend on method, path, payload, timestamp, nonce, and browser environment
+- **Failure Replay**: How to trace and reproduce extraction/runtime failures step by step
+- **Positive/Negative Verification**: How to avoid "fake pass" bugs by testing tampered inputs
+
+No UI required. No external network. No real platforms. See [docs/cookbook.md](docs/cookbook.md) for more recipes.
 
 Expected: all cases PASS with external_network=0.
 

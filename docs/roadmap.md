@@ -12,11 +12,13 @@
 - Pushed to GitHub private repo (tobybgy-lsd/web-agent-runtime-bench)
 - Public release remains CONDITIONAL — requires manual review
 
-## Public Release Polish (Conditional)
-- Manual review of all README/docs text
-- Attribution and license final review
-- Optional: CI pipeline for safety scan on push
-- Public release only after explicit human approval
+## Developer Toolkit Polish v1 ✅ DONE
+- Cookbook with 5 practical recipes
+- Runtime diagnosis patterns, signed API dependency patterns, failure replay patterns
+- Developer toolkit positioning document
+- Examples: static product list, dynamic runtime missing, signed API dependency matrix
+- `scripts/smoke_test.ps1` for one-command validation
+- All synthetic/local-only, no real platform content
 
 ## Future
 

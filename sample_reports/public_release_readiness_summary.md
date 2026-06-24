@@ -23,6 +23,19 @@
 | GitHub private visibility confirmed | ✅ PRIVATE |
 | LearnSpider original answer leakage | ✅ None |
 
+## Developer Toolkit Polish v1
+
+| Item | Result |
+|------|:---:|
+| Cookbook (5 practical recipes) | ✅ Added |
+| Runtime diagnosis patterns | ✅ Added |
+| Signed API dependency patterns | ✅ Added |
+| Failure replay patterns | ✅ Added |
+| Developer toolkit positioning | ✅ Added |
+| Examples (static product list, runtime missing, signed API matrix) | ✅ Added |
+| `scripts/smoke_test.ps1` | ✅ PASS |
+| All examples synthetic/local only | ✅ Verified |
+
 ## Conclusion
 
 **Public Release Readiness: CONDITIONAL**

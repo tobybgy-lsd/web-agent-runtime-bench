@@ -1,0 +1,57 @@
+{
+  "cases": [
+    {
+      "case_name": "path_payload_basic",
+      "dependency_count": 3,
+      "dependencies": ["method", "path", "payload"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    },
+    {
+      "case_name": "timestamp_nonce",
+      "dependency_count": 5,
+      "dependencies": ["method", "path", "payload", "timestamp", "nonce"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    },
+    {
+      "case_name": "user_agent_salt",
+      "dependency_count": 5,
+      "dependencies": ["method", "path", "payload", "user_agent", "salt"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    },
+    {
+      "case_name": "document_meta_token",
+      "dependency_count": 4,
+      "dependencies": ["method", "path", "payload", "meta_token"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    },
+    {
+      "case_name": "event_token",
+      "dependency_count": 4,
+      "dependencies": ["method", "path", "payload", "event_token"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    },
+    {
+      "case_name": "full_dependency_matrix",
+      "dependency_count": 9,
+      "dependencies": ["method", "path", "payload", "timestamp", "nonce", "user_agent", "salt", "meta_token", "event_token"],
+      "signed": true,
+      "verified": true,
+      "negative_rejected": true
+    }
+  ],
+  "synthetic_only": true,
+  "algorithm": "WARBDemoV2",
+  "header": "x-demo-signature",
+  "external_network": 0,
+  "real_platform_logic": 0
+}

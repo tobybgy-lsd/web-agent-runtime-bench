@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "title": "Synthetic Widget A",
+      "price": "$19.99",
+      "stock": "In Stock",
+      "rating": 4.5,
+      "product_url": "/demo/products/item-001"
+    },
+    {
+      "title": "Demo Gadget B",
+      "price": "$34.50",
+      "stock": "Low Stock",
+      "rating": 4.0,
+      "product_url": "/demo/products/item-002"
+    },
+    {
+      "title": "Mock Device C",
+      "price": "$149.00",
+      "stock": "Out of Stock",
+      "rating": 4.8,
+      "product_url": "/demo/products/item-003"
+    }
+  ]
+}

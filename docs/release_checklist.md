@@ -19,13 +19,17 @@ This checklist must be completed by a human reviewer before changing GitHub repo
 | 11 | A3 demo (signed API benchmark) passes | ✅ |
 | 12 | `sk-` pattern scan is clean (only docs + scan script) | ✅ |
 | 13 | Overclaim phrases not present in any text | ✅ |
+| 14 | `scripts/smoke_test.ps1` passes (safety + A0 + A2 + A3) | ✅ |
+| 15 | All examples are synthetic/local (no real URLs, no network) | ✅ |
+| 16 | Developer toolkit docs reviewed (cookbook, patterns, positioning) | ✅ |
+| 17 | No production crawler claims anywhere in text | ✅ |
 
 ## Human Decision Required
 
 | # | Decision |
 |:--:|----------|
-| 14 | **Change repo visibility to PUBLIC** ← requires explicit human action |
-| 15 | Do NOT link to resume/LinkedIn unless a separate resume-focused audit is done |
+| 18 | **Change repo visibility to PUBLIC** ← requires explicit human action |
+| 19 | Do NOT link to resume/LinkedIn unless a separate resume-focused audit is done |
 
 ## Post-Public Rules
 

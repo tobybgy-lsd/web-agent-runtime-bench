@@ -1,0 +1,3 @@
+{"step":"case_signed","case":"missing_window","expected_error":"missing_window","actual_error":"missing_window","status":"CLASSIFIED_OK","stderr":"ReferenceError: window is not defined"}
+{"step":"case_signed","case":"missing_document","expected_error":"missing_document","actual_error":"missing_document","status":"CLASSIFIED_OK","stderr":"ReferenceError: document is not defined"}
+{"step":"case_signed","case":"full_shim_success","shim_success":true,"mock_api_accepted":true,"sign_function":"__warb_demo_sign","dependency_count":5,"status":"SUCCESS_OK"}

@@ -1,0 +1,9 @@
+{
+  "fields": [
+    {"name": "title", "type": "string", "selector": ".title"},
+    {"name": "price", "type": "string", "selector": ".price"},
+    {"name": "stock", "type": "string", "selector": ".stock"},
+    {"name": "rating", "type": "number", "selector": ".rating"},
+    {"name": "product_url", "type": "string", "selector": ".product-link", "attr": "href"}
+  ]
+}
