@@ -36,10 +36,22 @@
 | `scripts/smoke_test.ps1` | ✅ PASS |
 | All examples synthetic/local only | ✅ Verified |
 
+## Post-Public Verification (2026-06-24)
+
+| Item | Result |
+|------|:---:|
+| Repo visibility | **PUBLIC** |
+| smoke_test.ps1 | ✅ PASS |
+| Safety scan | ✅ PASS |
+| A0/A2/A3 demos | ✅ All PASS |
+| Resume link | NOT ADDED |
+| GitHub Pages | NOT ENABLED |
+| Docs visibility | ✅ All present |
+| Overclaim audit | ✅ Clean |
+| **Final verification** | **PASS** |
+
 ## Conclusion
 
-**Public Release Readiness: CONDITIONAL**
+**Public Release: COMPLETE ✅**
 
-The showcase is technically ready for public visibility. All safety scans pass. All demos work. No sensitive data is exposed.
-
-**Changing visibility to PUBLIC requires an explicit human decision.** This audit confirms readiness but does not perform the visibility change. See [docs/release_checklist.md](../docs/release_checklist.md) for the human approval checklist.
+The repo is now publicly visible at https://github.com/tobybgy-lsd/web-agent-runtime-bench. All verifications pass at public visibility.

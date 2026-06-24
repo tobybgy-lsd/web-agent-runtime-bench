@@ -31,6 +31,17 @@ This checklist must be completed by a human reviewer before changing GitHub repo
 | 18 | **Change repo visibility to PUBLIC** ← requires explicit human action |
 | 19 | Do NOT link to resume/LinkedIn unless a separate resume-focused audit is done |
 
+## Post-Public Verification (2026-06-24)
+
+| # | Item | Status |
+|:--:|------|:---:|
+| P1 | GitHub visibility confirmed PUBLIC | ✅ |
+| P2 | smoke_test.ps1 PASS after public | ✅ |
+| P3 | No resume link added | ✅ |
+| P4 | No GitHub Pages enabled | ✅ |
+| P5 | Docs and attribution still visible | ✅ |
+| P6 | Safety boundary still clear | ✅ |
+
 ## Post-Public Rules
 
 - Continue enforcing safety boundary: no real platform signatures, no real scraping logic
