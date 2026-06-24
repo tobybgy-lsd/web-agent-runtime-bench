@@ -38,3 +38,16 @@ Each `__warb_demo_sign()` call tracks 5 dependencies:
 - 5/5 mock API signature verifications passed
 - 0 external network calls
 - 0 real platform logic
+
+## A3: Signed API Benchmark Dashboard
+
+| Capability | Status |
+|------------|:---:|
+| matrix_bundle_loaded | PASS |
+| cases_signed (6/6) | PASS |
+| dependencies_traced | PASS |
+| mock_api_verified (6/6) | PASS |
+| negative_cases_rejected (6/6) | PASS |
+| external_network_avoided | PASS |
+| real_platform_logic_absent | PASS |
+| synthetic_only | PASS |

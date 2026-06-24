@@ -29,6 +29,28 @@
 - Results: 5/5 classified failures, 5/5 full shim success, 5/5 mock API accepted
 - Overall PASS, external_network=0, real_platform_logic=0
 
+## A3: Synthetic Signed API Benchmark
+
+- 6 signed API cases with increasing dependency complexity
+- Dependencies: method, path, payload, timestamp, nonce, userAgent, localStorage salt, document meta token, event token
+- Signature algorithm: WARBDemoV2 (SHA-256 over ordered seed string)
+- Each case verified against locally computed expectation
+- Each case tested with tampered-payload negative (must be rejected)
+- Results: 6/6 signed, 6/6 verified, 6/6 negative rejected
+- Dependency range: 3–9
+- Overall PASS, external_network=0, real_platform_logic=0
+
+### A3 Cases
+
+| Case | Dependencies | Count |
+|------|-------------|:---:|
+| path_payload_basic | method, path, payload | 3 |
+| timestamp_nonce | +timestamp, +nonce | 5 |
+| user_agent_salt | +userAgent, +localStorage salt | 5 |
+| document_meta_token | +document meta token | 4 |
+| event_token | +synthetic event token | 4 |
+| full_dependency_matrix | all 9 dependencies | 9 |
+
 ## Safety
 
 All bundles are synthetic-only. No real platform signatures (x-s, x-t, x-s-common). No network requests. No cookies or Authorization. Local mock API with x-demo-signature only.

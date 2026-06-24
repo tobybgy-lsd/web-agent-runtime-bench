@@ -1,26 +1,23 @@
 # Roadmap
 
-## Phase 5.2-A3: Synthetic Signed API Benchmark
-- Multi-dependency signature variants (path, payload, timestamp, nonce, userAgent, localStorage salt, document meta)
-- All synthetic/local mock only
-- No real platform signatures
+## Phase 5.2-A3: Synthetic Signed API Benchmark ✅ DONE
+- 6 signed API cases (path_payload / timestamp_nonce / user_agent_salt / document_meta_token / event_token / full_matrix)
+- 6/6 verified, 6/6 negative rejected, dependency range 3–9
+- All synthetic/local mock only. No real platform signatures.
+- Synced to showcase via A4.
 
-## Phase 5.2-A4: Public-Safe Showcase Hardening
-- Package demo as runnable local-only distribution
-- Safety scan automation
-- README and documentation polish
+## Phase 5.2-A4: Showcase Sync + Private Push ✅ DONE
+- A3 code synced to D:\WebAgentRuntimeBench-GitHub
+- README/docs/demo/sample_reports updated
+- Pushed to GitHub private repo (tobybgy-lsd/web-agent-runtime-bench)
+- Public release remains CONDITIONAL — requires manual review
 
-## Phase 5.2-A5: Distribution
-- Package for pip/npm optional
-- Docker demo image
-- CI for safety scan
+## Public Release Polish (Conditional)
+- Manual review of all README/docs text
+- Attribution and license final review
+- Optional: CI pipeline for safety scan on push
+- Public release only after explicit human approval
 
-## GitHub Release
-- Private repo first, then public after full safety audit
-- No real challenge answers included
-- No database dumps
-- No real API endpoints
-- [ ] Safety audit complete
-- [ ] External dependency review
-- [ ] License confirmed
-- [ ] README and docs finalized
+## Future
+- A5: Docker demo image, CI pipeline
+- A5: Package for distribution (pip/npm optional)

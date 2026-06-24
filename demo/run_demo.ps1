@@ -63,6 +63,22 @@ try {
 }
 Pop-Location
 
+# A3: Signed API Benchmark
+Write-Host ""
+Write-Host "--- A3: Synthetic Signed API Benchmark ---" -ForegroundColor Yellow
+$A3Out = Join-Path $ScriptDir $OutDir "a3"
+New-Item -ItemType Directory -Force -Path $A3Out | Out-Null
+Push-Location $RuntimeDir
+try {
+    & $Python run_signed_api_benchmark.py --out-dir $A3Out --node $Node
+    Write-Host "[OK] A3 signed API benchmark passed" -ForegroundColor Green
+} catch {
+    Write-Host "[FAIL] A3 signed API benchmark failed: $_" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+Pop-Location
+
 Write-Host ""
 Write-Host "=== All demos passed ===" -ForegroundColor Green
 Write-Host "Output: $(Join-Path $ScriptDir $OutDir)" -ForegroundColor Cyan

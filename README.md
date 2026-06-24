@@ -29,6 +29,7 @@ WebAgentRuntimeBench 是一个面向 AI Agent 的动态 Web 运行时评测框�
 | 5.2-A0 | **PASS** | Synthetic dynamic runtime MVP: shim repair, classifier, mock API |
 | 5.2-A1 | **PASS** | Runtime shim variants: 3/5 classified, full shim success |
 | 5.2-A2 | **PASS** | Synthetic bundle variants: 5/5 classified, 5/5 full shim, 5/5 mock API accepted |
+| 5.2-A3 | **PASS** | Synthetic signed API benchmark: 6/6 verified, 6/6 negative rejected, dependency range 3–9 |
 
 ### Phase 5.2 Detailed Results
 
@@ -37,6 +38,7 @@ WebAgentRuntimeBench 是一个面向 AI Agent 的动态 Web 运行时评测框�
 | A0 (runtime demo) | 1/1 | ✅ | ✅ | 0 |
 | A1 (shim variants) | 3/5 | ✅ | ✅ | 0 |
 | A2 (bundle variants) | 5/5 | 5/5 | 5/5 | 0 |
+| A3 (signed API benchmark) | 6/6 signed | 6/6 verified | 6/6 accepted | 0 |
 
 ## Quickstart
 
@@ -52,6 +54,9 @@ python run_synthetic_runtime_demo.py --out-dir ..\..\sample_run\a0 --node node
 
 # A2: Bundle variant cases
 python run_bundle_variant_cases.py --out-dir ..\..\sample_run\a2 --node node
+
+# A3: Signed API benchmark
+python run_signed_api_benchmark.py --out-dir ..\..\sample_run\a3 --node node
 ```
 
 Expected: all cases PASS with external_network=0.

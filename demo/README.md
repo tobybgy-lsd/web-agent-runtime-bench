@@ -38,6 +38,23 @@ This runs 10 cases (5 failure + 5 success) across 5 synthetic bundles:
 - `bundle_local_storage_required.js`
 - `bundle_full_runtime_required.js`
 
+### A3: Signed API Benchmark
+
+```powershell
+cd demo\phase5_2_runtime
+python run_signed_api_benchmark.py --out-dir ..\..\sample_run\a3 --node node
+```
+
+This runs 12 cases (6 signed + 6 negative) across 6 synthetic signed-API scenarios:
+- `path_payload_basic` — 3 dependencies (method, path, payload)
+- `timestamp_nonce` — 5 dependencies (+timestamp, +nonce)
+- `user_agent_salt` — 5 dependencies (+userAgent, +localStorage salt)
+- `document_meta_token` — 4 dependencies (+document meta token)
+- `event_token` — 4 dependencies (+synthetic event token)
+- `full_dependency_matrix` — 9 dependencies (all)
+
+All use WARBDemoV2 (SHA-256) with `x-demo-signature` header. No external network, no real platform logic.
+
 ## What is Synthetic?
 
 All JS code is **locally generated mock** — no real websites, no real signatures, no real anti-bot systems. The `x-demo-signature` header is a local SHA-256 hash for benchmark purposes only.
