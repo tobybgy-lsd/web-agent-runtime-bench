@@ -19,5 +19,7 @@
 - Public release only after explicit human approval
 
 ## Future
-- A5: Docker demo image, CI pipeline
-- A5: Package for distribution (pip/npm optional)
+
+- **Synthetic benchmark expansion**: Additional signed API dependency combinations, obfuscated bundle variants
+- **Product MVP (optional)**: AI-powered web data automation for public and user-authorized workflows
+- **GitHub public release**: After explicit human approval of [release checklist](release_checklist.md)

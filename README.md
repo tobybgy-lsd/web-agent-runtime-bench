@@ -100,15 +100,14 @@ Phase 5.2: Synthetic Dynamic Web Runtime Benchmark
 
 ## Roadmap
 
-- **A3**: Synthetic signed API benchmark (multi-dependency variants)
-- **A4**: Public-safe showcase hardening
-- **A5**: Package for distribution
-- **GitHub release**: After safety audit only
+- **A0/A1/A2/A3**: Completed — see [Phase 5.2 Synthetic Runtime](docs/phase_5_2_synthetic_runtime.md)
+- **Public Release**: Conditional on final manual safety audit approval
+- **Future (optional)**: Synthetic benchmark expansion, product MVP for public/user-authorized web data automation
 
 ## Attribution
 
-The original LearnSpider challenge pool is based on publicly available web scraping textbook materials and serves as an experimental foundation. The extensions — evaluation harness, runtime benchmark framework, failure replay system, capability dashboard, shim design, signed API mock, and synthetic bundle variants — represent the showcase contributions.
+See [docs/attribution.md](docs/attribution.md) for full details. The original LearnSpider challenge pool is based on publicly available web scraping textbook materials and serves as an experimental foundation. The extensions — evaluation harness, runtime benchmark framework, failure replay system, capability dashboard, shim design, signed API mock, and synthetic bundle variants — represent the showcase contributions.
 
 ## License
 
-MIT (pending final review)
+MIT
