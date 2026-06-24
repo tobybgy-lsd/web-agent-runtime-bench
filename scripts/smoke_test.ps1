@@ -71,5 +71,14 @@ Pop-Location
 if (-not $ok) { Write-Host "[FAIL] A3 demo" -ForegroundColor Red; exit 1 }
 Write-Host "[OK] A3 demo PASS" -ForegroundColor Green
 
+# Diagnosis CLI
+Write-Host ""
+Write-Host "--- Diagnosis CLI ---" -ForegroundColor Yellow
+Push-Location $RepoRoot
+$diagResult = & powershell -ExecutionPolicy Bypass -File (Join-Path $RepoRoot "scripts\diagnosis_smoke_test.ps1") -Python "$Python" 2>&1; $diagOk = ($LASTEXITCODE -eq 0)
+Pop-Location
+if (-not $diagOk) { Write-Host "[FAIL] Diagnosis CLI" -ForegroundColor Red; exit 1 }
+Write-Host "[OK] Diagnosis CLI PASS" -ForegroundColor Green
+
 Write-Host ""
 Write-Host "=== SMOKE TEST: PASS ===" -ForegroundColor Green

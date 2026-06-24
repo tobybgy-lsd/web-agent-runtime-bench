@@ -1,0 +1,4 @@
+{"step":"bundle_loaded","status":"ok","synthetic_only":true}
+{"step":"runtime_call","object":"localStorage","operation":"getItem","key":"warb_demo_salt","status":"failed"}
+{"step":"classifier","error_type":"missing_local_storage","confidence":"high"}
+{"step":"repair_hint","hint":"enable synthetic localStorage shim"}

@@ -1,0 +1,4 @@
+{"step":"case_signed","case_name":"path_payload_basic","status":"ok","synthetic_only":true}
+{"step":"mock_api_verified","case_name":"path_payload_basic","accepted":true}
+{"step":"negative_case","case_name":"path_payload_basic","type":"tampered_payload","accepted":true}
+{"step":"diagnosis_hint","failure_type":"negative_case_not_rejected"}
