@@ -50,6 +50,14 @@ def classify_runtime_error(stderr: str, stdout: str = "") -> dict:
         if needle in lowered and ref_key in lowered:
             return _result(error_type, 0.85, combined, "apply synthetic_browser_shim.js (broad match)")
 
+    if "typeerror" in lowered and "getitem" in lowered and "warb_demo_salt" in lowered:
+        return _result(
+            "missing_local_storage",
+            0.86,
+            combined,
+            "apply synthetic_browser_shim.js to provide localStorage.getItem/setItem",
+        )
+
     if "__warb_demo_sign" in combined and ("not a function" in lowered or "undefined" in lowered):
         return _result(
             "signature_function_missing",

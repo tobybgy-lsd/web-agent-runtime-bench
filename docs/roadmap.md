@@ -20,8 +20,16 @@
 - `scripts/smoke_test.ps1` for one-command validation
 - All synthetic/local-only, no real platform content
 
+## Benchmark Credibility Layer v1 ✅ DONE
+- Standard six-task benchmark suite
+- Deterministic scoring protocol with per-dimension weights
+- Comparison baselines for static parsing, shim repair, signed mock API checks, diagnosis, and safety guard
+- Third-party reproducibility guide
+- GitHub Actions benchmark workflow with report artifact upload
+- Real-world scenario mapping without real-platform collection
+
 ## Future
 
-- **Synthetic benchmark expansion**: Additional signed API dependency combinations, obfuscated bundle variants
-- **Product MVP (optional)**: AI-powered web data automation for public and user-authorized workflows
-- **GitHub public release**: After explicit human approval of [release checklist](release_checklist.md)
+- **Synthetic benchmark expansion**: More task fixtures, harder bundle variants, richer negative cases
+- **External reproducibility runs**: Ask third parties to run the standard suite and attach CI/report artifacts
+- **Product MVP (optional)**: Separate repository for public and user-authorized web data automation
