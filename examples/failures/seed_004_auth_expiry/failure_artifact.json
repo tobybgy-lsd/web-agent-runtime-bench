@@ -1,0 +1,36 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_004_auth_expiry",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure",
+  "summary": "Expected product page returned HTTP 200 but contained a login form after session expiry.",
+  "error": {
+    "message": "Timeout waiting for selector .product-price",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {},
+  "observations": {
+    "final_url": "/login",
+    "redirected_to_login": true,
+    "html_excerpt": "<form id=\"login-form\"><input type=\"password\" /></form>"
+  },
+  "expected": {
+    "required_fields": ["title", "price", "shop"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "auth_expiry",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Login page reduced to generic form markers."
+  }
+}

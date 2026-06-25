@@ -1,0 +1,35 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_005_captcha_wall",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure",
+  "summary": "Automation reached a challenge page instead of the expected content.",
+  "error": {
+    "message": "Expected content container not found",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {},
+  "observations": {
+    "html_excerpt": "<title>Verify you are human</title><div>captcha challenge</div>",
+    "challenge_markers": ["verify you are human", "captcha"]
+  },
+  "expected": {
+    "required_fields": ["content"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "captcha_or_bot_wall",
+    "confidence": 0.9
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Challenge text reduced to generic marker; no bypass details."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/web-agent-runtime-bench/failure_artifact.schema.json",
+  "title": "WebAgentRuntimeBench Failure Artifact",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "tool",
+    "target_type",
+    "summary",
+    "error",
+    "artifacts",
+    "observations",
+    "expected",
+    "actual",
+    "labels",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": { "const": "failure-artifact/v1" },
+    "run_id": { "type": "string" },
+    "tool": { "type": "string" },
+    "target_type": {
+      "type": "string",
+      "enum": ["synthetic", "user_authorized", "public_fixture", "sanitized_real_failure"]
+    },
+    "summary": { "type": "string" },
+    "error": { "type": "object" },
+    "artifacts": {
+      "type": "object",
+      "description": "Relative paths to optional local artifacts such as error.log, snapshot.html, network.json, screenshot.png, expected_schema.json, or actual_output.json."
+    },
+    "observations": { "type": "object" },
+    "expected": { "type": "object" },
+    "actual": { "type": "object" },
+    "labels": {
+      "type": "object",
+      "required": ["failure_type", "confidence"],
+      "properties": {
+        "failure_type": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "sanitized",
+        "contains_credentials",
+        "external_network_required",
+        "user_authorized_or_synthetic"
+      ],
+      "properties": {
+        "sanitized": { "type": "boolean" },
+        "contains_credentials": { "type": "boolean" },
+        "external_network_required": { "type": "boolean" },
+        "user_authorized_or_synthetic": { "type": "boolean" },
+        "redaction_notes": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

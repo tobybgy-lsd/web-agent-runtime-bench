@@ -1,150 +1,165 @@
-# WebAgentRuntimeBench: Dynamic Web Runtime Benchmark for AI Agents
+# WebAgentRuntimeBench
 
-WebAgentRuntimeBench is a **developer-facing benchmark and debugging toolkit** for AI web agents — covering runtime diagnosis, synthetic browser shim testing, signed API dependency tracing, failure replay, and evaluation harness design.
+**Your web scraper failed. You don't know why. This tool tells you.**
 
-WebAgentRuntimeBench 是一个面向 AI Agent 开发者的 Benchmark 与调试工具集，覆盖运行时诊断、synthetic browser shim 测试、签名 API 依赖追踪、failure replay、评测框架设计。所有示例均为 local synthetic mock，无需外网，无需真实平台。
+WebAgentRuntimeBench classifies web automation failures, generates evidence-backed
+reports, and converts real failures into regression tests — so you never debug the
+same problem twice.
 
-## What This Is
+```bash
+python tools/warb.py diagnose examples/failures/seed_004_auth_expiry/failure_artifact.json
+```
 
-- A **synthetic-only** dynamic web runtime benchmark
-- An **evaluation harness** for AI-agent web data extraction (Phase 5.1)
-- A **runtime shim framework** for browser APIs in headless Node.js (Phase 5.2)
-- A **local mock** signed API challenge generator
-- A **safety-first** research prototype with explicit anti-leakage boundaries
+```
+Failure type:  auth_expiry
+Confidence:    0.84
 
-## What This Is NOT
+Evidence:
+  - HTTP 200 but page contains <input type="password">
+  - URL redirected from /products to /login
+  - Expected fields title/price missing from output
 
-- Not a production crawler
-- Not a real-platform scraper
-- Not a signature bypass tool
-- Not a CAPTCHA bypass tool
-- Not a tool for evading anti-bot systems
-- Not a real website data collector
+Suggested fix:
+  - Refresh authenticated session before scraping
+  - Add preflight login-state check
+  - Re-run with valid storage_state
 
-## Current Status
+Regression case saved: failure_corpus/sanitized/auth_001/
+```
 
-| Phase | Status | Key Result |
-|-------|--------|-----------|
-| 5.1-A3 | **Frozen** | 315/315 baseline PASS, evaluation harness frozen, PASS=0 on agent solving |
-| 5.2-A0 | **PASS** | Synthetic dynamic runtime MVP: shim repair, classifier, mock API |
-| 5.2-A1 | **PASS** | Runtime shim variants: 3/5 classified, full shim success |
-| 5.2-A2 | **PASS** | Synthetic bundle variants: 5/5 classified, 5/5 full shim, 5/5 mock API accepted |
-| 5.2-A3 | **PASS** | Synthetic signed API benchmark: 6/6 verified, 6/6 negative rejected, dependency range 3–9 |
+No network required. No API keys. No credentials captured.
 
-### Phase 5.2 Detailed Results
+---
 
-| Variant | Classified Failures | Full Shim Success | Mock API Accepted | External Network |
-|---------|:---:|:---:|:---:|:---:|
-| A0 (runtime demo) | 1/1 | ✅ | ✅ | 0 |
-| A1 (shim variants) | 3/5 | ✅ | ✅ | 0 |
-| A2 (bundle variants) | 5/5 | 5/5 | 5/5 | 0 |
-| A3 (signed API benchmark) | 6/6 signed | 6/6 verified | 6/6 accepted | 0 |
+## What it does
+
+| Problem | What warb does |
+|---|---|
+| Playwright script crashes | Classifies the root cause in seconds |
+| Scrapy spider returns empty | Detects response shape change or auth expiry |
+| Node.js chokes on `window` | Identifies missing browser API, suggests shim |
+| Fixed a bug, broke something else | Regression suite catches it in CI |
+| Same bug keeps coming back | Every real failure becomes a test case |
+
+---
 
 ## Quickstart
 
 **Requirements:** Python 3.10+, Node.js 18+
 
-No network required. No API keys needed. No cookies or auth tokens.
+```bash
+git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench
+cd web-agent-runtime-bench
 
-Run the standard benchmark suite:
+# Diagnose a failure
+python tools/warb.py diagnose examples/failures/seed_004_auth_expiry/failure_artifact.json
 
-```powershell
-python tools\benchmark\run_benchmark.py --out-dir sample_run\benchmark --node node
+# Run full benchmark suite
+python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
 ```
 
-This writes a reproducible benchmark report to `sample_run\benchmark\benchmark_report.md` and `benchmark_report.json`.
+---
 
-```powershell
-cd demo\phase5_2_runtime
+## Failure types detected
 
-# A0: Synthetic runtime demo
-python run_synthetic_runtime_demo.py --out-dir ..\..\sample_run\a0 --node node
+| Type | Example | Detected from |
+|---|---|---|
+| `runtime_api_missing` | `window is not defined` | stderr, console log |
+| `network_http_error` | 403, 429, 503 | status code, response |
+| `response_shape_change` | expected field `price` missing | schema diff |
+| `auth_expiry` | 200 but got login page | HTML snapshot, URL |
+| `captcha_or_bot_wall` | Cloudflare challenge page | HTML markers |
 
-# A2: Bundle variant cases
-python run_bundle_variant_cases.py --out-dir ..\..\sample_run\a2 --node node
+---
 
-# A3: Signed API benchmark
-python run_signed_api_benchmark.py --out-dir ..\..\sample_run\a3 --node node
+## Submit a failure, get a diagnosis
+
+Have a failed Playwright/Scrapy/requests run? Send it, get back a free diagnosis report.
+
+**What to send** (no credentials, no tokens needed):
+
+```
+error.log          # the error message or stack trace
+snapshot.html      # the page HTML at time of failure (sanitized)
+screenshot.png     # optional but helpful
+network.json       # optional: network log
+expected_schema.json  # what fields you expected
+actual_output.json    # what you actually got
+notes.md           # what you were trying to do
 ```
 
-Or run everything in one command:
+→ [Open a GitHub issue](https://github.com/tobybgy-lsd/web-agent-runtime-bench/issues/new?template=failure-artifact.yml)
 
-```powershell
-.\scripts\smoke_test.ps1
+---
+
+## For AI-assisted debugging
+
+The failure artifacts and diagnosis reports are structured for direct use with
+Codex, Claude, or any coding assistant. Instead of pasting raw error logs,
+pass the diagnosis report:
+
+```
+Here is a structured failure diagnosis: [diagnosis.md]
+Please generate a fix for the Playwright script.
 ```
 
-## What You Can Learn
+The report includes: failure type, confidence, evidence, suggested fix direction,
+and a repair prompt template.
 
-- **Runtime Diagnosis**: Why JS bundles fail outside a browser, and how to classify missing runtime objects
-- **Synthetic Browser Shim**: How to stub `window`, `document`, `navigator`, `EventTarget`, `localStorage` for headless testing
-- **Signed API Dependency Tracing**: How synthetic signatures depend on method, path, payload, timestamp, nonce, and browser environment
-- **Failure Replay**: How to trace and reproduce extraction/runtime failures step by step
-- **Positive/Negative Verification**: How to avoid "fake pass" bugs by testing tampered inputs
-
-No UI required. No external network. No real platforms. See [docs/cookbook.md](docs/cookbook.md) for more recipes.
-
-Expected: all cases PASS with external_network=0.
-
-## Standard Benchmark Layer
-
-The public benchmark layer adds the six credibility pieces needed for third-party use:
-
-- **Standard task set:** [docs/benchmark_tasks.md](docs/benchmark_tasks.md)
-- **Scoring protocol:** [docs/scoring_protocol.md](docs/scoring_protocol.md)
-- **Comparison baselines:** [docs/baselines.md](docs/baselines.md)
-- **Third-party reproduction:** [docs/reproducibility.md](docs/reproducibility.md)
-- **CI benchmark report:** [sample_reports/benchmark_ci_report_sample.md](sample_reports/benchmark_ci_report_sample.md)
-- **Real-world scenario mapping:** [docs/real_world_scenario_mapping.md](docs/real_world_scenario_mapping.md)
-
-The standard suite remains synthetic-only and local-only. It is designed so an external reviewer can clone the repo, run one command, and compare results without any API keys, accounts, cookies, or live websites.
-
-## Safety Boundary
-
-✅ **Allowed (synthetic only):**
-- Synthetic JavaScript bundles
-- Local mock API verification (x-demo-signature)
-- Fake navigator, localStorage stubs
-- Runtime error trace and classification
-- Local `subprocess.run(["node", ...])` only
-
-❌ **Forbidden:**
-- Real platform signatures (x-s, x-t, x-s-common)
-- Real website JavaScript
-- Real API endpoints
-- Network requests (http/https/fetch/axios)
-- Cookies or Authorization headers
-- CAPTCHA bypass or anti-bot evasion
-- Database access with real credentials
+---
 
 ## Architecture
 
 ```
-Phase 5.1: AI-Agent Web Extraction Evaluation Harness
-├── 315 baseline challenges (public canonical)
-├── Visible observation pipeline
-├── Preimage candidate generator
-├── Response shape router
-└── Evaluation harness (frozen)
-
-Phase 5.2: Synthetic Dynamic Web Runtime Benchmark
-├── Runtime error classifier (rule-based, no model)
-├── Synthetic browser shim (window, document, navigator...)
-├── Synthetic obfuscated bundles (runtime contract checks)
-├── Locally-signed mock API (x-demo-signature, SHA-256)
-├── Dependency tracer (path, payload_hash, UA, salt, algorithm)
-└── Failure replay & capability dashboard
+Your failed run (Playwright / Scrapy / requests)
+        ↓
+warb collect    →  failure_artifact.json  (unified schema)
+        ↓
+warb diagnose   →  diagnosis.json + diagnosis.md + repair_prompt.md
+        ↓
+warb report     →  diagnosis_report.html  (shareable)
+        ↓
+warb regression →  sanitized synthetic test case added to corpus
+        ↓
+CI benchmark    →  regression never recurs
 ```
 
-## Roadmap
+---
 
-- **A0/A1/A2/A3**: Completed — see [Phase 5.2 Synthetic Runtime](docs/phase_5_2_synthetic_runtime.md)
-- **Public Release**: Conditional on final manual safety audit approval
-- **Future (optional)**: Synthetic benchmark expansion, product MVP for public/user-authorized web data automation
+## Safety boundary
 
-## Attribution
+✅ Allowed:
+- Your own failure logs and HTML snapshots
+- Sanitized local artifacts (no credentials)
+- Synthetic local mock cases
+- Local Node.js subprocess execution
 
-See [docs/attribution.md](docs/attribution.md) for full details. The original LearnSpider challenge pool is based on publicly available web scraping textbook materials and serves as an experimental foundation. The extensions — evaluation harness, runtime benchmark framework, failure replay system, capability dashboard, shim design, signed API mock, and synthetic bundle variants — represent the showcase contributions.
+❌ Never:
+- Real platform signatures or tokens
+- Network requests to real sites
+- Credentials, cookies, Authorization headers
+- CAPTCHA bypass or anti-bot evasion
 
-## License
+---
 
-MIT
+## Standard benchmark
+
+The repo includes a synthetic benchmark suite for testing runtime diagnosis
+capabilities without any real-world targets.
+
+```bash
+python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
+```
+
+See [docs/benchmark_tasks.md](docs/benchmark_tasks.md) for task definitions and
+[sample_reports/benchmark_ci_report_sample.md](sample_reports/benchmark_ci_report_sample.md)
+for a sample CI report.
+
+---
+
+## Contributing
+
+See [docs/submit_failure_pack.md](docs/submit_failure_pack.md) to submit a
+sanitized failure artifact.
+
+MIT License

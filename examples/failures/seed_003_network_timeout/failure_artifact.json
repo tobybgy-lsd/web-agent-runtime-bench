@@ -1,0 +1,36 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_003_network_timeout",
+  "tool": "requests",
+  "target_type": "sanitized_real_failure",
+  "summary": "A user-authorized fetch timed out before any DOM or JSON payload was available.",
+  "error": {
+    "message": "Timeout waiting for response after 30000ms",
+    "stack": "",
+    "status_code": null
+  },
+  "artifacts": {},
+  "observations": {
+    "network_error": "timeout",
+    "attempts": 1,
+    "response_body_bytes": 0
+  },
+  "expected": {
+    "required_fields": ["title", "price"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "network_http_error",
+    "confidence": 0.86
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Host and URL removed."
+  }
+}

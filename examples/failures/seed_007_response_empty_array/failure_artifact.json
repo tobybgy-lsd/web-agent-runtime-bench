@@ -1,0 +1,37 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_007_response_empty_array",
+  "tool": "requests",
+  "target_type": "sanitized_real_failure",
+  "summary": "HTTP request returned success but the expected product array was empty.",
+  "error": {
+    "message": "Expected non-empty products array, got empty array",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {},
+  "observations": {
+    "response_marker": "empty array",
+    "status_code": 200
+  },
+  "expected": {
+    "required_fields": ["products"]
+  },
+  "actual": {
+    "fields": {
+      "products": []
+    },
+    "array_length": 0
+  },
+  "labels": {
+    "failure_type": "response_shape_change",
+    "confidence": 0.82
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Payload reduced to shape only."
+  }
+}

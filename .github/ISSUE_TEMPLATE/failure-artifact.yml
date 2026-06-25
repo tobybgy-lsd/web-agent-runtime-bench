@@ -1,0 +1,60 @@
+name: Submit sanitized failure artifact
+description: Share a public-safe web automation failure pack for diagnosis.
+title: "[failure-artifact]: "
+labels: ["failure-artifact", "diagnosis"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve WebAgentRuntimeBench.
+
+        Please submit only sanitized artifacts. Do not include cookies, tokens, passwords, authorization headers, private customer data, or real platform signature secrets.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: Which tool produced the failed run?
+      placeholder: Playwright / Scrapy / requests / browser agent / other
+    validations:
+      required: true
+  - type: dropdown
+    id: suspected_failure_type
+    attributes:
+      label: Suspected failure type
+      options:
+        - runtime_api_missing
+        - network_http_error
+        - response_shape_change
+        - auth_expiry
+        - captcha_or_bot_wall
+        - unknown
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Failure summary
+      description: What were you trying to do, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Paste sanitized error text, schema diffs, redirect notes, or attach a generated failure pack.
+      placeholder: |
+        python tools\warb.py validate path\to\failure_artifact.json -> PASS
+        Attached: failure_artifact.json, error.log, snapshot.html
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I removed cookies, tokens, passwords, authorization headers, and private customer data.
+          required: true
+        - label: I have permission to share this sanitized artifact.
+          required: true
+        - label: I am not asking for CAPTCHA bypass, anti-bot evasion, or real signature bypass.
+          required: true

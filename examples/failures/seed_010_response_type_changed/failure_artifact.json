@@ -1,0 +1,43 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_010_response_type_changed",
+  "tool": "requests",
+  "target_type": "public_fixture",
+  "summary": "Response shape changed: price used to be numeric but actual output contains a formatted string.",
+  "error": {
+    "message": "Schema validation failed: price type changed from number to string",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {},
+  "observations": {
+    "schema_diff": "type changed for price"
+  },
+  "expected": {
+    "required_fields": ["title", "price"],
+    "field_types": {
+      "price": "number"
+    }
+  },
+  "actual": {
+    "fields": {
+      "title": "Synthetic Widget",
+      "price": "$19.99"
+    },
+    "field_types": {
+      "price": "string"
+    },
+    "array_length": 1
+  },
+  "labels": {
+    "failure_type": "response_shape_change",
+    "confidence": 0.85
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Synthetic response object."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_009_auth_redirect_chain",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure",
+  "summary": "Navigation redirected through a signin path and extraction later timed out.",
+  "error": {
+    "message": "Timeout waiting for data table",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {},
+  "observations": {
+    "redirect_chain": ["/dashboard", "/signin"],
+    "html_excerpt": "<main>Please sign in to continue</main>"
+  },
+  "expected": {
+    "required_fields": ["rows"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "auth_expiry",
+    "confidence": 0.83
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Route names generalized."
+  }
+}

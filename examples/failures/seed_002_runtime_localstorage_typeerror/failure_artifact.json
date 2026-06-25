@@ -1,0 +1,36 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_002_runtime_localstorage_typeerror",
+  "tool": "node",
+  "target_type": "public_fixture",
+  "summary": "Newer Node runtime produced a TypeError at localStorage.getItem instead of a ReferenceError.",
+  "error": {
+    "message": "TypeError: Cannot read properties of undefined (reading 'getItem')",
+    "stack": "var salt = _ls.getItem(\"warb_demo_salt\")",
+    "status_code": null
+  },
+  "artifacts": {},
+  "observations": {
+    "runtime": "node",
+    "missing_api": "localStorage",
+    "text_marker": "warb_demo_salt getItem"
+  },
+  "expected": {
+    "required_fields": ["signature", "dependency_trace"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "runtime_api_missing",
+    "confidence": 0.9
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Derived from synthetic local runtime behavior."
+  }
+}

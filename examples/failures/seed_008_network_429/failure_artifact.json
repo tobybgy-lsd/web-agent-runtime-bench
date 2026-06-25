@@ -1,0 +1,35 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_008_network_429",
+  "tool": "scrapy",
+  "target_type": "sanitized_real_failure",
+  "summary": "Request received HTTP 429, so extraction should be classified as transport/rate-limit failure.",
+  "error": {
+    "message": "HTTP 429 Too Many Requests",
+    "stack": "",
+    "status_code": 429
+  },
+  "artifacts": {},
+  "observations": {
+    "status_code": 429,
+    "retry_after_seconds": 60
+  },
+  "expected": {
+    "required_fields": ["title"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "network_http_error",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "URL and provider removed."
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "seed_001_runtime_window_missing",
+  "tool": "node",
+  "target_type": "public_fixture",
+  "summary": "Synthetic JS bundle failed in Node because the browser window object was absent.",
+  "error": {
+    "message": "ReferenceError: window is not defined",
+    "stack": "at synthetic_obfuscated_bundle.js:8",
+    "status_code": null
+  },
+  "artifacts": {},
+  "observations": {
+    "runtime": "node",
+    "missing_api": "window",
+    "html_excerpt": ""
+  },
+  "expected": {
+    "required_fields": ["signature"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "runtime_api_missing",
+    "confidence": 0.95
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Synthetic fixture only."
+  }
+}
