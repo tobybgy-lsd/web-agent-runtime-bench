@@ -23,7 +23,7 @@ try { & "$Python" --version 2>&1 | Out-Null; Write-Host "[OK] Python" -Foregroun
 # Safety scan
 Write-Host ""
 Write-Host "--- Safety Scan ---" -ForegroundColor Yellow
-$scanResult = & powershell -ExecutionPolicy Bypass -File "$Scan" 2>&1
+$scanResult = & "$Scan" 2>&1
 $scanOk = ($LASTEXITCODE -eq 0)
 if (-not $scanOk) {
     # Allow false positives from docs; check if demo code is actually clean
@@ -75,7 +75,7 @@ Write-Host "[OK] A3 demo PASS" -ForegroundColor Green
 Write-Host ""
 Write-Host "--- Diagnosis CLI ---" -ForegroundColor Yellow
 Push-Location $RepoRoot
-$diagResult = & powershell -ExecutionPolicy Bypass -File (Join-Path $RepoRoot "scripts\diagnosis_smoke_test.ps1") -Python "$Python" 2>&1; $diagOk = ($LASTEXITCODE -eq 0)
+$diagResult = & (Join-Path $RepoRoot "scripts\diagnosis_smoke_test.ps1") -Python "$Python" 2>&1; $diagOk = ($LASTEXITCODE -eq 0)
 Pop-Location
 if (-not $diagOk) { Write-Host "[FAIL] Diagnosis CLI" -ForegroundColor Red; exit 1 }
 Write-Host "[OK] Diagnosis CLI PASS" -ForegroundColor Green
