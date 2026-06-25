@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-"""warb — Web Automation Repair Bench CLI.
+"""warb - Web Automation Repair Bench CLI.
 
 Commands:
   diagnose  <failure_artifact.json>   Classify failure and generate report
-  collect   --tool <tool> --input <dir> --out <dir>   Package a failed run
+  collect   --tool <tool> --input <dir> --out <dir>   Create a basic artifact
+  pack      --tool <tool> --input <dir> --out <dir>   Sanitize, diagnose, and zip a pack
   report    <diagnosis.json>          Generate HTML report
   regression add <dir>                Add sanitized case to corpus
   validate  <failure_artifact.json>   Validate artifact schema
@@ -21,6 +22,7 @@ sys.path.insert(0, str(ROOT))
 
 from tools.failure_artifacts.classifier import classify_failure_artifact
 from tools.failure_artifacts.collector import collect_from_dir
+from tools.failure_artifacts.packager import package_failure_dir
 from tools.failure_artifacts.regression import add_to_corpus
 from tools.failure_artifacts.reporter import render_html_report, render_markdown_report
 from tools.failure_artifacts.schema import load_artifact, validate_artifact
@@ -29,6 +31,7 @@ from tools.failure_artifacts.schema import load_artifact, validate_artifact
 def _c(code: str, text: str) -> str:
     try:
         import os
+
         if os.name == "nt":
             return text
     except Exception:
@@ -90,7 +93,7 @@ def _print_diagnosis(diagnosis: dict, artifact: dict) -> None:
     confidence_colour = GREEN if confidence >= 0.8 else (YELLOW if confidence >= 0.5 else RED)
 
     print()
-    print(BOLD("  WebAgentRuntimeBench — Failure Diagnosis"))
+    print(BOLD("  WebAgentRuntimeBench - Failure Diagnosis"))
     print(DIM(f"  Run: {run_id}  |  Tool: {tool}"))
     print()
     print(f"  Failure type:  {BOLD(failure_type)}")
@@ -112,9 +115,9 @@ def _print_diagnosis(diagnosis: dict, artifact: dict) -> None:
         print()
 
     if diagnosis.get("can_auto_fix", False):
-        print(GREEN("  Auto-fix may be possible — see repair_prompt.md"))
+        print(GREEN("  Auto-fix may be possible - see repair_prompt.md"))
     else:
-        print(DIM("  Manual fix required — see repair_prompt.md"))
+        print(DIM("  Manual fix required - see repair_prompt.md"))
 
 
 def _render_repair_prompt(diagnosis: dict, artifact: dict) -> str:
@@ -161,6 +164,32 @@ def cmd_collect(args: argparse.Namespace) -> int:
     print(GREEN(f"Artifact written: {out_path}"))
     print(f"Run ID: {artifact.get('run_id')}")
     print(f"Tool:   {artifact.get('tool')}")
+    return 0
+
+
+def cmd_pack(args: argparse.Namespace) -> int:
+    input_dir = Path(args.input)
+    out_dir = Path(args.out)
+    try:
+        result = package_failure_dir(
+            input_dir,
+            out_dir,
+            tool=args.tool,
+            run_id=args.run_id,
+            summary=args.summary,
+            required_fields=args.required_field,
+            status_code=args.status_code,
+        )
+    except (FileNotFoundError, NotADirectoryError) as exc:
+        print(RED(str(exc)))
+        return 1
+
+    diagnosis = result["diagnosis"]
+    print(GREEN(f"Failure pack written: {out_dir}"))
+    print(f"Artifact: {result['artifact_path']}")
+    print(f"Issue:    {result['issue_path']}")
+    print(f"Zip:      {result['zip_path']}")
+    print(f"Initial diagnosis: {diagnosis.get('failure_type')} ({float(diagnosis.get('confidence', 0)):.0%})")
     return 0
 
 
@@ -213,7 +242,7 @@ def cmd_regression(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="warb",
-        description="Web Automation Repair Bench — failure diagnosis and regression CLI",
+        description="Web Automation Repair Bench - failure diagnosis and regression CLI",
     )
     sub = parser.add_subparsers(dest="command")
 
@@ -221,10 +250,19 @@ def build_parser() -> argparse.ArgumentParser:
     diagnose.add_argument("artifact", help="Path to failure_artifact.json")
     diagnose.add_argument("--out-dir", default=None, help="Output directory; defaults to sample_run/diagnosis/<run_id>")
 
-    collect = sub.add_parser("collect", help="Package a failed run into a failure artifact")
+    collect = sub.add_parser("collect", help="Create a basic failure artifact from a directory")
     collect.add_argument("--tool", default="unknown", help="Tool name: playwright, scrapy, requests, node, other")
     collect.add_argument("--input", required=True, help="Directory containing failed run files")
     collect.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
+
+    pack = sub.add_parser("pack", help="Sanitize, diagnose, and zip a shareable failure pack")
+    pack.add_argument("--tool", default="unknown", help="Tool name: playwright, scrapy, requests, node, other")
+    pack.add_argument("--input", required=True, help="Directory containing failed run files")
+    pack.add_argument("--out", required=True, help="Output directory for sanitized pack")
+    pack.add_argument("--run-id", default=None, help="Stable pack identifier; defaults to pack_<timestamp>")
+    pack.add_argument("--summary", default="Collected sanitized failure pack", help="Short failure summary")
+    pack.add_argument("--status-code", type=int, default=None, help="HTTP status code observed at failure time")
+    pack.add_argument("--required-field", action="append", default=[], help="Expected output field; repeat for multiple fields")
 
     report = sub.add_parser("report", help="Generate HTML report from diagnosis.json")
     report.add_argument("diagnosis", help="Path to diagnosis.json")
@@ -250,6 +288,7 @@ def main() -> int:
     dispatch = {
         "diagnose": cmd_diagnose,
         "collect": cmd_collect,
+        "pack": cmd_pack,
         "report": cmd_report,
         "validate": cmd_validate,
         "regression": cmd_regression,

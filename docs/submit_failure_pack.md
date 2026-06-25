@@ -29,21 +29,27 @@ Do not include:
 ## Package the Artifact
 
 ```powershell
-python tools\warb.py collect `
-  --input path\to\sanitized_failure `
+python tools\warb.py pack `
+  --tool playwright `
+  --input path\to\failed_run `
   --out sample_run\failure_pack_001 `
   --run-id failure_pack_001 `
-  --tool playwright `
   --summary "Expected product page returned login form" `
-  --error-message "Timeout waiting for selector .price" `
   --status-code 200 `
-  --failure-type auth_expiry `
-  --label-confidence 0.8 `
   --required-field title `
-  --required-field price `
-  --sanitized `
-  --redaction-notes "Host, account, and credentials removed."
+  --required-field price
 ```
+
+This creates:
+
+- `failure_artifact.json`
+- `diagnosis.md`
+- `github_issue.md`
+- `failure_pack.zip`
+
+`warb pack` applies local text redaction rules for common tokens, cookies,
+authorization headers, password fields, and session values. Review the generated
+files before sharing them.
 
 Validate it:
 

@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from zipfile import ZipFile
 
 from tools.failure_artifacts.artifact import (
     discover_seed_artifacts,
@@ -8,6 +9,7 @@ from tools.failure_artifacts.artifact import (
     validate_artifact,
 )
 from tools.failure_artifacts.diagnose import diagnose_artifact
+from tools.failure_artifacts.packager import package_failure_dir
 from tools.failure_artifacts.report import render_markdown_report, write_report
 
 
@@ -67,6 +69,48 @@ class FailureArtifactTests(unittest.TestCase):
 
             self.assertTrue(out.exists())
             self.assertIn("runtime_api_missing", out.read_text(encoding="utf-8"))
+
+    def test_package_failure_dir_sanitizes_files_and_generates_issue_pack(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            src = tmp_path / "raw"
+            out = tmp_path / "pack"
+            src.mkdir()
+            (src / "error.log").write_text(
+                "Authorization: Bearer secret-token-123\n"
+                "Cookie: sessionid=private-cookie\n"
+                "Timeout waiting for selector .price\n",
+                encoding="utf-8",
+            )
+            (src / "snapshot.html").write_text(
+                '<html><input type="password" value="hunter2"></html>',
+                encoding="utf-8",
+            )
+            (src / "expected_schema.json").write_text('{"required": ["title", "price"]}', encoding="utf-8")
+            (src / "actual_output.json").write_text('{"title": "demo"}', encoding="utf-8")
+
+            result = package_failure_dir(
+                src,
+                out,
+                tool="playwright",
+                run_id="pack_001",
+                summary="Product page returned a login form",
+                required_fields=["title", "price"],
+                status_code=200,
+            )
+
+            artifact_path = Path(result["artifact_path"])
+            artifact = load_artifact(artifact_path)
+            errors = validate_artifact(artifact, base_dir=artifact_path.parent)
+
+            self.assertEqual(errors, [])
+            self.assertTrue((out / "github_issue.md").exists())
+            self.assertTrue((out / "failure_pack.zip").exists())
+            self.assertIn("auth_expiry", result["diagnosis"]["failure_type"])
+            self.assertNotIn("secret-token-123", (out / "error.log").read_text(encoding="utf-8"))
+            self.assertNotIn("private-cookie", (out / "error.log").read_text(encoding="utf-8"))
+            self.assertNotIn("hunter2", (out / "snapshot.html").read_text(encoding="utf-8"))
+            self.assertIn("failure_artifact.json", ZipFile(out / "failure_pack.zip").namelist())
 
 
 if __name__ == "__main__":
