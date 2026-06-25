@@ -5,8 +5,9 @@ Commands:
   diagnose  <failure_artifact.json>   Classify failure and generate report
   collect   --tool <tool> --input <dir> --out <dir>   Create a basic artifact
   pack      --tool <tool> --input <dir> --out <dir>   Sanitize, diagnose, and zip a pack
+  adapt     <tool> ...                 Convert tool output into failure_artifact.json
   report    <diagnosis.json>          Generate HTML report
-  regression add <dir>                Add sanitized case to corpus
+  regression add|generate <dir>        Add pack or generate synthetic fixture
   validate  <failure_artifact.json>   Validate artifact schema
 """
 
@@ -20,10 +21,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from tools.failure_artifacts.adapters import artifact_from_playwright_trace, artifact_from_requests_run, artifact_from_scrapy_run
 from tools.failure_artifacts.classifier import classify_failure_artifact
 from tools.failure_artifacts.collector import collect_from_dir
 from tools.failure_artifacts.packager import package_failure_dir
-from tools.failure_artifacts.regression import add_to_corpus
+from tools.failure_artifacts.regression import add_to_corpus, generate_synthetic_fixture
 from tools.failure_artifacts.reporter import render_html_report, render_markdown_report
 from tools.failure_artifacts.schema import load_artifact, validate_artifact
 
@@ -207,6 +209,35 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_adapt(args: argparse.Namespace) -> int:
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        if args.adapter_command == "playwright-trace":
+            artifact = artifact_from_playwright_trace(args.trace_zip, run_id=args.run_id)
+        elif args.adapter_command == "scrapy":
+            artifact = artifact_from_scrapy_run(args.log, args.response, run_id=args.run_id)
+        elif args.adapter_command == "requests":
+            artifact = artifact_from_requests_run(args.capture, run_id=args.run_id)
+        else:
+            print(RED("Unknown adapt command"))
+            return 1
+    except (FileNotFoundError, NotADirectoryError) as exc:
+        print(RED(str(exc)))
+        return 1
+
+    diagnosis = classify_failure_artifact(artifact)
+    artifact["labels"] = {
+        "failure_type": diagnosis.get("failure_type", "unknown"),
+        "confidence": diagnosis.get("confidence", 0.0),
+    }
+    out_path = out_dir / "failure_artifact.json"
+    out_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(GREEN(f"Artifact written: {out_path}"))
+    print(f"Initial diagnosis: {diagnosis.get('failure_type')} ({float(diagnosis.get('confidence', 0)):.0%})")
+    return 0
+
+
 def cmd_validate(args: argparse.Namespace) -> int:
     path = Path(args.artifact)
     if not path.exists():
@@ -223,6 +254,14 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 
 def cmd_regression(args: argparse.Namespace) -> int:
+    if args.regression_command == "generate":
+        result = generate_synthetic_fixture(args.src, args.out)
+        if result["ok"]:
+            print(GREEN(f"Synthetic fixture written: {result['fixture_path']}"))
+            print(f"Case ID: {result['case_id']}")
+            return 0
+        print(RED(f"Failed: {result.get('error')}"))
+        return 1
     if args.regression_command != "add":
         print("Unknown regression command")
         return 1
@@ -264,6 +303,22 @@ def build_parser() -> argparse.ArgumentParser:
     pack.add_argument("--status-code", type=int, default=None, help="HTTP status code observed at failure time")
     pack.add_argument("--required-field", action="append", default=[], help="Expected output field; repeat for multiple fields")
 
+    adapt = sub.add_parser("adapt", help="Convert captured tool output into a failure artifact")
+    adapt_sub = adapt.add_subparsers(dest="adapter_command")
+    adapt_pw = adapt_sub.add_parser("playwright-trace", help="Convert a sanitized Playwright trace.zip")
+    adapt_pw.add_argument("trace_zip", help="Path to trace.zip")
+    adapt_pw.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
+    adapt_pw.add_argument("--run-id", default=None, help="Stable run identifier")
+    adapt_scrapy = adapt_sub.add_parser("scrapy", help="Convert a Scrapy log and optional response snapshot")
+    adapt_scrapy.add_argument("log", help="Path to scrapy.log")
+    adapt_scrapy.add_argument("--response", default=None, help="Optional response HTML/text snapshot")
+    adapt_scrapy.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
+    adapt_scrapy.add_argument("--run-id", default=None, help="Stable run identifier")
+    adapt_requests = adapt_sub.add_parser("requests", help="Convert a requests JSON/text capture")
+    adapt_requests.add_argument("capture", help="Path to JSON/text capture")
+    adapt_requests.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
+    adapt_requests.add_argument("--run-id", default=None, help="Stable run identifier")
+
     report = sub.add_parser("report", help="Generate HTML report from diagnosis.json")
     report.add_argument("diagnosis", help="Path to diagnosis.json")
 
@@ -275,6 +330,9 @@ def build_parser() -> argparse.ArgumentParser:
     regression_add = regression_sub.add_parser("add", help="Add a failure run to regression corpus")
     regression_add.add_argument("src", help="Directory containing failure_artifact.json + diagnosis.json")
     regression_add.add_argument("--no-sanitize", action="store_true", help="Skip sanitized corpus path")
+    regression_generate = regression_sub.add_parser("generate", help="Generate a synthetic fixture from a sanitized pack")
+    regression_generate.add_argument("src", help="Directory containing failure_artifact.json")
+    regression_generate.add_argument("--out", default="failure_corpus/synthetic", help="Synthetic fixture output root")
 
     return parser
 
@@ -289,6 +347,7 @@ def main() -> int:
         "diagnose": cmd_diagnose,
         "collect": cmd_collect,
         "pack": cmd_pack,
+        "adapt": cmd_adapt,
         "report": cmd_report,
         "validate": cmd_validate,
         "regression": cmd_regression,

@@ -66,9 +66,14 @@ python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node no
 |---|---|---|
 | `runtime_api_missing` | `window is not defined` | stderr, console log |
 | `network_http_error` | 403, 429, 503 | status code, response |
+| `rate_limit_or_soft_block` | 200 page says "too many requests" | response body, empty output |
 | `response_shape_change` | expected field `price` missing | schema diff |
+| `selector_drift` | `.price` no longer matches | selector errors, DOM snapshot |
+| `async_hydration_timing` | extraction ran before hydration | console, network, DOM mutation hints |
 | `auth_expiry` | 200 but got login page | HTML snapshot, URL |
 | `captcha_or_bot_wall` | Cloudflare challenge page | HTML markers |
+| `js_bundle_obfuscation` | bundle export disappears behind eval/webpack chunks | bundle markers, runtime error |
+| `toolchain_environment` | Node/Python/PowerShell missing | local stderr, process output |
 
 ---
 
@@ -113,6 +118,30 @@ Please generate a fix for the Playwright script.
 
 The report includes: failure type, confidence, evidence, suggested fix direction,
 and a repair prompt template.
+
+--- 
+
+## Tool adapters
+
+Convert captured tool output into the unified artifact format:
+
+```bash
+python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace
+python tools/warb.py adapt scrapy scrapy.log --response response.html --out sample_run/from_scrapy
+python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
+```
+
+Then diagnose it:
+
+```bash
+python tools/warb.py diagnose sample_run/from_trace/failure_artifact.json
+```
+
+Generate a synthetic regression fixture from a sanitized pack:
+
+```bash
+python tools/warb.py regression generate sample_run/failure_pack_001 --out failure_corpus/synthetic
+```
 
 ---
 
