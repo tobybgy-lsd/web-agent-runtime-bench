@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -76,6 +77,14 @@ def _run_command(args: list[str], cwd: Path = ROOT) -> dict[str, object]:
     }
 
 
+def select_powershell(which=shutil.which) -> str:
+    if which("pwsh"):
+        return "pwsh"
+    if which("powershell"):
+        return "powershell"
+    raise RuntimeError("PowerShell is required to run the safety guard")
+
+
 def _static_extraction_summary() -> dict[str, object]:
     expected = _read_json(ROOT / "examples" / "static_product_list" / "expected_output.json")
     if isinstance(expected, list):
@@ -127,7 +136,7 @@ def _run_failure_diagnosis(out_dir: Path) -> dict[str, object]:
 def _run_safety_guard() -> dict[str, object]:
     proc = _run_command(
         [
-            "powershell",
+            select_powershell(),
             "-ExecutionPolicy",
             "Bypass",
             "-File",

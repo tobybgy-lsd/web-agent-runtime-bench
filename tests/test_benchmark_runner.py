@@ -7,6 +7,7 @@ from tools.benchmark.run_benchmark import (
     BenchmarkPaths,
     build_benchmark_report,
     render_markdown_report,
+    select_powershell,
     write_reports,
 )
 
@@ -67,6 +68,10 @@ class BenchmarkRunnerTests(unittest.TestCase):
             self.assertTrue(paths.markdown_path.exists())
             data = json.loads(paths.json_path.read_text(encoding="utf-8"))
             self.assertEqual(data["benchmark_version"], "2026-06-25")
+
+    def test_select_powershell_prefers_pwsh_then_windows_powershell(self):
+        self.assertEqual(select_powershell(lambda name: name == "pwsh"), "pwsh")
+        self.assertEqual(select_powershell(lambda name: name == "powershell"), "powershell")
 
 
 if __name__ == "__main__":
