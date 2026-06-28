@@ -32,6 +32,7 @@ web automation categories above:
 | `playwright_download` | download event, `acceptDownloads`, `saveAs`, or suggested filename markers | Wait for the download and persist before context close |
 | `playwright_popup` | popup/new-page event markers | Wait for the popup and continue extraction on the new page |
 | `playwright_service_worker_cache` | service-worker/cache-source markers such as `fromServiceWorker` | Separate stale cache/state from parser or selector bugs |
+| `playwright_storage_state_context` | storageState/context markers, missing cookies/storage, login redirects after state reuse | Align storageState, baseURL, cookies, and browser context lifecycle |
 
 ## Adapters
 

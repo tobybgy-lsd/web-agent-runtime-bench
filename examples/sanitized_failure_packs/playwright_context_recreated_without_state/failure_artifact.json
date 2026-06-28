@@ -1,0 +1,41 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_context_recreated_without_state",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The browser context was recreated after login without carrying storageState into the new context.",
+  "error": {
+    "message": "Authenticated step redirected_to_login after browser.newContext without storageState",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "context_recreated": true,
+    "new_context_storage_state": null,
+    "previous_authenticated_context": true,
+    "redirected_to_login": true,
+    "final_url": "https://example.test/login"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_storage_state_context",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Only context lifecycle markers are included. No credentials or storage payloads are included."
+  }
+}
+

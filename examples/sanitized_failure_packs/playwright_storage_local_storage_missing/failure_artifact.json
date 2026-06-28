@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_storage_local_storage_missing",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The saved Playwright state missed app localStorage keys required for authenticated UI routes.",
+  "error": {
+    "message": "Login gate shown because expected localStorage auth session key was missing",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "storage_state_loaded": true,
+    "expected_local_storage_keys": ["auth:user", "auth:session"],
+    "missing_local_storage_keys": ["auth:session"],
+    "final_url": "https://example.test/login"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_storage_state_context",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Only synthetic storage key names are included. Values are omitted."
+  }
+}
+

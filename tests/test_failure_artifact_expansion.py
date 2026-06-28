@@ -457,6 +457,49 @@ class FailureArtifactExpansionTests(unittest.TestCase):
 
                 self.assertEqual(diagnosis["failure_type"], expected_type, name)
 
+    def test_playwright_trace_adapter_extracts_storage_context_markers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "storage_trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "context",
+                                    "storageStateExpected": True,
+                                    "storageStateLoaded": False,
+                                    "missingCookieNames": ["session"],
+                                    "finalUrl": "https://example.test/login",
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "event",
+                                    "method": "Network.responseReceived",
+                                    "params": {
+                                        "response": {
+                                            "url": "https://example.test/account",
+                                            "status": 401,
+                                            "request": {"method": "GET"},
+                                        }
+                                    },
+                                }
+                            ),
+                        ]
+                    ),
+                )
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_storage_trace")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(diagnosis["failure_type"], "playwright_storage_state_context")
+            self.assertEqual(diagnosis["subtype"], "storage_state_not_loaded")
+            self.assertEqual(artifact["observations"]["storage_state_expected"], True)
+            self.assertEqual(artifact["observations"]["storage_state_loaded"], False)
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

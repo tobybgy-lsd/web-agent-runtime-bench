@@ -34,6 +34,7 @@ Current templates cover:
 - `playwright_download`: download event/saveAs/acceptDownloads issue
 - `playwright_popup`: popup/new-page flow was not awaited or wrong page used
 - `playwright_service_worker_cache`: stale cached response from service worker/cache storage
+- `playwright_storage_state_context`: storageState/browser context mismatch, including cookie domain, missing state, recreated context, missing localStorage, and baseURL/origin mismatch
 
 List available templates:
 

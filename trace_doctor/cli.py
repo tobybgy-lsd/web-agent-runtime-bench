@@ -109,7 +109,11 @@ def _render_repair_suggestions(diagnosis: Mapping[str, Any]) -> str:
         fixes = ["Collect more local evidence and inspect the trace manually."]
     lines = ["# Suggested Repair", ""]
     for item in fixes:
-        lines.append(f"- {item}")
+        text = str(item)
+        if "\n" in text:
+            lines.extend([text, ""])
+        else:
+            lines.append(f"- {text}")
     lines.extend(
         [
             "",

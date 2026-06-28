@@ -1,0 +1,45 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_storage_cookie_domain_mismatch",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "Authenticated request redirected to login because the saved session cookie domain did not match the current host.",
+  "error": {
+    "message": "Authenticated request redirected_to_login after session cookie was not attached",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "storage_state_loaded": true,
+    "current_host": "app.example.test",
+    "cookie_domain": "auth.example.test",
+    "missing_cookie_names": ["session"],
+    "response_chain": [
+      {"url": "https://app.example.test/account", "status": 302},
+      {"url": "https://app.example.test/login", "status": 200}
+    ],
+    "final_url": "https://app.example.test/login"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_storage_state_context",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Cookie names and domains are synthetic. No cookie values are included."
+  }
+}
+

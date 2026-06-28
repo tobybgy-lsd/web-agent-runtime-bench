@@ -27,6 +27,18 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "playwright_download_failure": "playwright_download",
             "playwright_popup_new_page": "playwright_popup",
             "playwright_service_worker_cache_stale": "playwright_service_worker_cache",
+            "playwright_storage_cookie_domain_mismatch": "playwright_storage_state_context",
+            "playwright_storage_state_not_loaded": "playwright_storage_state_context",
+            "playwright_context_recreated_without_state": "playwright_storage_state_context",
+            "playwright_storage_local_storage_missing": "playwright_storage_state_context",
+            "playwright_storage_base_url_origin_mismatch": "playwright_storage_state_context",
+        }
+        expected_subtypes = {
+            "playwright_storage_cookie_domain_mismatch": "cookie_domain_mismatch",
+            "playwright_storage_state_not_loaded": "storage_state_not_loaded",
+            "playwright_context_recreated_without_state": "context_recreated_without_state",
+            "playwright_storage_local_storage_missing": "local_storage_missing",
+            "playwright_storage_base_url_origin_mismatch": "base_url_state_origin_mismatch",
         }
 
         for case_name, expected_type in expected_types.items():
@@ -49,6 +61,8 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
 
                 diagnosis = diagnose_artifact(artifact)
                 self.assertEqual(diagnosis["failure_type"], expected_type)
+                if case_name in expected_subtypes:
+                    self.assertEqual(diagnosis["subtype"], expected_subtypes[case_name])
                 self.assertGreaterEqual(diagnosis["confidence"], 0.8)
 
 

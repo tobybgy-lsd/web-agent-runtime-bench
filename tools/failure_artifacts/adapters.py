@@ -65,6 +65,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
 
     action_events, failed_action, action_stack = _extract_action_observations(records)
     exception_details = _extract_exception_details(records)
+    storage_context = _extract_storage_context_observations(records)
     error_stack = action_stack or _first_exception_stack(exception_details)
     missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
     snapshot_excerpts = _link_snapshot_excerpts(snapshot_refs, text_resources)
@@ -92,6 +93,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             "missing_selectors": missing_selectors,
             "dom_hints": dom_hints,
             "html_excerpt": html_snapshot[:1000],
+            **storage_context,
         },
     )
 
@@ -383,6 +385,41 @@ def _extract_exception_details(records: list[dict[str, Any]]) -> list[dict[str, 
         if detail and detail not in details:
             details.append(detail)
     return details
+
+
+def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    observations: dict[str, Any] = {}
+    field_map = {
+        "storageStateExpected": "storage_state_expected",
+        "storageStateLoaded": "storage_state_loaded",
+        "missingCookieNames": "missing_cookie_names",
+        "cookieDomain": "cookie_domain",
+        "currentHost": "current_host",
+        "contextRecreated": "context_recreated",
+        "newContextStorageState": "new_context_storage_state",
+        "previousAuthenticatedContext": "previous_authenticated_context",
+        "expectedLocalStorageKeys": "expected_local_storage_keys",
+        "missingLocalStorageKeys": "missing_local_storage_keys",
+        "baseURL": "base_url",
+        "storageStateOrigin": "storage_state_origin",
+        "finalUrl": "final_url",
+        "redirectedToLogin": "redirected_to_login",
+    }
+    for record in records:
+        candidates = [record]
+        params = record.get("params")
+        if isinstance(params, dict):
+            candidates.append(params)
+        metadata = record.get("metadata")
+        if isinstance(metadata, dict):
+            candidates.append(metadata)
+        for source in candidates:
+            for raw_key, normalized_key in field_map.items():
+                if raw_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[raw_key]
+                elif normalized_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[normalized_key]
+    return observations
 
 
 def _extract_snapshot_ref(record: dict[str, Any]) -> dict[str, str] | None:

@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_storage_state_not_loaded",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "Authenticated Playwright flow failed because storageState was expected but not loaded into the browser context.",
+  "error": {
+    "message": "First authenticated request returned 401 and redirected to login",
+    "stack": "",
+    "status_code": 401
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "storage_state_expected": true,
+    "storage_state_loaded": false,
+    "missing_cookie_names": ["session"],
+    "final_url": "https://example.test/login"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_storage_state_context",
+    "confidence": 0.92
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "No storage state file, cookie values, or credentials are included."
+  }
+}
+

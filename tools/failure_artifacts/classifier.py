@@ -113,6 +113,116 @@ def _classify_auth_expiry(artifact: Mapping[str, Any], text: str) -> dict[str, A
     )
 
 
+def _classify_playwright_storage_state_context(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        observations = {}
+    if artifact.get("tool") != "playwright" and "playwright" not in text:
+        return None
+
+    auth_markers = ("login", "redirected_to_login", "401", "302", "missing_cookie", "storage_state", "storagestate")
+    if not any(marker in text for marker in auth_markers):
+        return None
+
+    evidence: list[str] = []
+    subtype = ""
+    confidence = 0.83
+
+    storage_state_expected = observations.get("storage_state_expected")
+    storage_state_loaded = observations.get("storage_state_loaded")
+    if storage_state_expected is True and storage_state_loaded is False:
+        subtype = "storage_state_not_loaded"
+        confidence = 0.92
+        evidence.append("storageState was expected but not observed as loaded")
+
+    if not subtype and observations.get("context_recreated") is True and not observations.get("new_context_storage_state"):
+        subtype = "context_recreated_without_state"
+        confidence = 0.88
+        evidence.append("browser context was recreated without storageState after authenticated setup")
+
+    missing_local_storage = observations.get("missing_local_storage_keys")
+    if not subtype and isinstance(missing_local_storage, list) and missing_local_storage:
+        subtype = "local_storage_missing"
+        confidence = 0.87
+        evidence.append(f"missing localStorage keys: {', '.join(map(str, missing_local_storage[:5]))}")
+
+    base_url = observations.get("base_url")
+    storage_origin = observations.get("storage_state_origin")
+    if not subtype and base_url and storage_origin and _origin_host(str(base_url)) != _origin_host(str(storage_origin)):
+        subtype = "base_url_state_origin_mismatch"
+        confidence = 0.87
+        evidence.append(f"baseURL host does not match storageState origin: {base_url} vs {storage_origin}")
+
+    cookie_domain = observations.get("cookie_domain")
+    current_host = observations.get("current_host")
+    if not subtype and cookie_domain and current_host and not _cookie_domain_matches_host(str(cookie_domain), str(current_host)):
+        subtype = "cookie_domain_mismatch"
+        confidence = 0.87
+        evidence.append(f"cookie domain does not match current host: {cookie_domain} vs {current_host}")
+
+    if not subtype:
+        return None
+
+    missing_cookies = observations.get("missing_cookie_names")
+    if isinstance(missing_cookies, list) and missing_cookies:
+        evidence.append(f"authenticated request missed cookies: {', '.join(map(str, missing_cookies[:5]))}")
+    final_url = observations.get("final_url")
+    if final_url:
+        evidence.append(f"final URL indicates auth redirect or login page: {final_url}")
+    response_chain = observations.get("response_chain")
+    if isinstance(response_chain, list) and response_chain:
+        statuses = []
+        for item in response_chain[:5]:
+            if isinstance(item, Mapping):
+                status = item.get("status")
+                url = item.get("url")
+                statuses.append(f"{status} {url}" if url else str(status))
+        if statuses:
+            evidence.append(f"response chain: {' -> '.join(statuses)}")
+
+    return _result(
+        "playwright_storage_state_context",
+        confidence,
+        evidence,
+        _storage_state_fix_suggestions(subtype),
+        subtype=subtype,
+    )
+
+
+def _storage_state_fix_suggestions(subtype: str) -> list[str]:
+    common = [
+        "confirm storageState is created from the same authorized origin used by the failing test",
+        "add a login-state preflight before the first authenticated request",
+        """Playwright repair sketch:
+```ts
+const context = await browser.newContext({ storageState: 'playwright/.auth/user.json' });
+const page = await context.newPage();
+await page.goto(baseURL);
+await expect(page).not.toHaveURL(/\\/login/);
+```""",
+    ]
+    specific = {
+        "cookie_domain_mismatch": "regenerate storageState on the target host, and check cookie domain/path/sameSite before reuse",
+        "storage_state_not_loaded": "pass the storageState option to browser.newContext or test.use before creating the page",
+        "context_recreated_without_state": "reuse the authenticated context or pass storageState each time a new context is created",
+        "local_storage_missing": "verify localStorage/sessionStorage origins are present in the saved storageState JSON",
+        "base_url_state_origin_mismatch": "align baseURL with the origin used to generate storageState, or maintain one state file per origin",
+    }
+    return [specific.get(subtype, "review storageState and browser context setup")] + common
+
+
+def _origin_host(url: str) -> str:
+    lowered = url.lower()
+    without_scheme = lowered.split("://", 1)[-1]
+    return without_scheme.split("/", 1)[0].split(":", 1)[0]
+
+
+def _cookie_domain_matches_host(domain: str, host: str) -> bool:
+    normalized_domain = domain.lower().lstrip(".")
+    normalized_host = host.lower()
+    return normalized_host == normalized_domain or normalized_host.endswith(f".{normalized_domain}")
+
+
 def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     status = artifact.get("error", {}).get("status_code") or artifact.get("observations", {}).get("status_code")
     markers = (
@@ -416,6 +526,7 @@ CLASSIFIERS = (
     _classify_runtime_api_missing,
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,
+    _classify_playwright_storage_state_context,
     _classify_auth_expiry,
     _classify_rate_limit_or_soft_block,
     _classify_network_http_error,
