@@ -146,11 +146,9 @@ def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -
 
 def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     status = artifact.get("error", {}).get("status_code") or artifact.get("observations", {}).get("status_code")
-    if status in (401, 403, 429) or (isinstance(status, int) and status >= 500):
+    if status in (401, 403) or (isinstance(status, int) and status >= 500):
         subtype = f"http_{status}"
         evidence = [f"HTTP status code indicates transport/server failure: {status}"]
-        if status == 429:
-            evidence.append("rate-limit status detected")
         return _result(
             "network_http_error",
             0.9 if status in (401, 403, 429) else 0.82,

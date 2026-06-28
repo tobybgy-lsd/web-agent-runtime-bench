@@ -1,0 +1,5 @@
+[info] navigating to /products/widget-123
+[info] redirected_to_login=true
+[warn] session expired before extraction
+[error] Timeout waiting for selector .product-title
+

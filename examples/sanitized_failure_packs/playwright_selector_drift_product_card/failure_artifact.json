@@ -1,0 +1,60 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_selector_drift_product_card",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A product card redesign removed the legacy price selector, causing Playwright to time out while the rest of the page loaded normally.",
+  "error": {
+    "message": "Timeout 5000ms exceeded while waiting for locator('.product-card .price')",
+    "stack": "TimeoutError: locator('.product-card .price') did not resolve before timeout\n    at ProductPage.extractProduct",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "final_url": "https://example.invalid/products/widget-123",
+    "missing_selectors": [".product-card .price", "[data-testid='product-price']"],
+    "failed_action": {
+      "api_name": "locator.waitFor",
+      "selector": ".product-card .price",
+      "after_snapshot": "product-card-after-redesign"
+    },
+    "snapshot_refs": [
+      {
+        "name": "product-card-after-redesign",
+        "sha1": "template-selector-drift-snapshot"
+      }
+    ],
+    "dom_hints": {
+      "candidate_selectors": ["[data-testid='price-value']", ".priceBlock .amount", "span[itemprop='price']"],
+      "candidate_text": ["Sample Widget", "$19.99", "In stock"]
+    }
+  },
+  "expected": {
+    "required_fields": ["title", "price", "availability"]
+  },
+  "actual": {
+    "fields": {
+      "title": "Sample Widget",
+      "availability": "In stock"
+    },
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "selector_drift",
+    "confidence": 0.86
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Product name, URL, DOM ids, and business fields are synthetic placeholders."
+  }
+}
+

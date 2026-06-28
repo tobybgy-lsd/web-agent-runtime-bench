@@ -4,6 +4,12 @@ WebAgentRuntimeBench improves by turning real failures into sanitized synthetic 
 
 ## What to Include
 
+Start from one of the templates in `examples/sanitized_failure_packs/` when possible:
+
+- `playwright_selector_drift_product_card/`
+- `playwright_auth_expired_login_page/`
+- `scrapy_rate_limit_soft_block/`
+
 Create a local directory with any of these files:
 
 ```text

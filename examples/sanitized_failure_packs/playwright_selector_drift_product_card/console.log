@@ -1,0 +1,4 @@
+[info] page loaded: /products/widget-123
+[warn] locator('.product-card .price') resolved to 0 elements after product card redesign
+[error] Timeout 5000ms exceeded while waiting for locator('.product-card .price')
+

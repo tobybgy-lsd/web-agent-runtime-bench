@@ -1,0 +1,46 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_scrapy_rate_limit_soft_block",
+  "tool": "scrapy",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The request returned HTTP 429 with a soft-block message, and extraction produced an empty product list.",
+  "error": {
+    "message": "HTTP 429 Too Many Requests",
+    "stack": "",
+    "status_code": 429
+  },
+  "artifacts": {
+    "html_snapshot": "response.html",
+    "network_log": "network.json",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "status_code": 429,
+    "retry_after_seconds": 120,
+    "html_excerpt": "Too many requests. Please slow down and try again later.",
+    "empty_product_list": true
+  },
+  "expected": {
+    "required_fields": ["items"]
+  },
+  "actual": {
+    "fields": {
+      "items": []
+    },
+    "array_length": 0
+  },
+  "labels": {
+    "failure_type": "rate_limit_or_soft_block",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Host, path, headers, and response identifiers are placeholders. No bypass or replay material is included."
+  }
+}
+

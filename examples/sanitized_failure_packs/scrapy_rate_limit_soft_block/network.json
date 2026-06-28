@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://example.invalid/catalog?page=1"
+  },
+  "response": {
+    "status": 429,
+    "headers": {
+      "retry-after": "120"
+    }
+  }
+}
+
