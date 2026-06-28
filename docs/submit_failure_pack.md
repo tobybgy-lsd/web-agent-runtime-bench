@@ -12,6 +12,12 @@ Start from one of the templates in `examples/sanitized_failure_packs/` when poss
 - `playwright_js_bundle_obfuscation/`
 - `playwright_navigation_timeout/`
 - `playwright_selector_drift_product_card/`
+- `playwright_strict_mode_violation/`
+- `playwright_frame_locator_missing/`
+- `playwright_file_chooser_upload/`
+- `playwright_download_failure/`
+- `playwright_popup_new_page/`
+- `playwright_service_worker_cache_stale/`
 - `node_runtime_document_missing/`
 - `api_response_shape_changed/`
 - `scrapy_rate_limit_soft_block/`

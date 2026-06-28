@@ -206,6 +206,114 @@ def _classify_async_hydration_timing(artifact: Mapping[str, Any], text: str) -> 
     )
 
 
+def _classify_playwright_strict_mode_violation(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("strict mode violation", "resolved to 2 elements", "resolved to multiple elements")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_strict_mode_violation",
+        0.87,
+        [f"strict-mode marker found: {marker}" for marker in found[:3]],
+        [
+            "narrow the locator so it resolves to one intended element",
+            "prefer role/text filters or scoped locators over broad CSS",
+            "add a regression DOM snapshot with duplicate matches",
+        ],
+        subtype="locator_multiple_matches",
+    )
+
+
+def _classify_playwright_frame_locator(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("framelocator", "frame locator", "iframe", "waiting for frame", "frame was detached", "no frame found")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_frame_locator",
+        0.84,
+        [f"frame/iframe marker found: {marker}" for marker in found[:3]],
+        [
+            "wait for the iframe to attach before locating inside it",
+            "scope selectors through frameLocator or the correct frame",
+            "capture parent and frame DOM snapshots separately",
+        ],
+        subtype="iframe_locator",
+    )
+
+
+def _classify_playwright_file_chooser(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("filechooser", "file chooser", "setinputfiles", "set input files", "upload", "input[type=file]")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_file_chooser",
+        0.84,
+        [f"file-upload marker found: {marker}" for marker in found[:3]],
+        [
+            "ensure the file chooser is awaited before the click that opens it",
+            "verify the input accepts files and the local file path exists",
+            "avoid relying on hidden upload widgets without a stable trigger",
+        ],
+        subtype="upload",
+    )
+
+
+def _classify_playwright_download(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("download", "acceptdownloads", "saveas", "download path", "download event", "suggestedfilename")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_download",
+        0.84,
+        [f"download marker found: {marker}" for marker in found[:3]],
+        [
+            "enable acceptDownloads in the browser context when needed",
+            "wait for the download event around the user action",
+            "persist the file with saveAs before the context closes",
+        ],
+        subtype="download_event",
+    )
+
+
+def _classify_playwright_popup(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("popup", "new page", "page.waitforevent('popup'", "target page, context or browser has been closed")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_popup",
+        0.84,
+        [f"popup/new-page marker found: {marker}" for marker in found[:3]],
+        [
+            "wrap the click and popup wait in the same Promise.all or equivalent",
+            "continue extraction on the popup page instead of the opener",
+            "record opener and popup URLs separately",
+        ],
+        subtype="popup_page",
+    )
+
+
+def _classify_playwright_service_worker_cache(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("service worker", "serviceworker", "stale cache", "from service worker", "cache storage", "cached response")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_service_worker_cache",
+        0.84,
+        [f"service-worker/cache marker found: {marker}" for marker in found[:3]],
+        [
+            "separate cache/service-worker state from parser failures",
+            "clear context storage or disable service workers for the regression when appropriate",
+            "capture response source metadata such as fromServiceWorker/from cache",
+        ],
+        subtype="stale_cache",
+    )
+
+
 def _classify_selector_drift(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     observations = artifact.get("observations", {})
     missing_selectors = observations.get("missing_selectors", []) if isinstance(observations, Mapping) else []
@@ -313,6 +421,12 @@ CLASSIFIERS = (
     _classify_network_http_error,
     _classify_toolchain_environment,
     _classify_async_hydration_timing,
+    _classify_playwright_strict_mode_violation,
+    _classify_playwright_frame_locator,
+    _classify_playwright_file_chooser,
+    _classify_playwright_download,
+    _classify_playwright_popup,
+    _classify_playwright_service_worker_cache,
     _classify_selector_drift,
     _classify_response_shape_change,
 )

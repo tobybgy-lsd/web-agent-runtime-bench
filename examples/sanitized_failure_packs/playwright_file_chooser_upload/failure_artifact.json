@@ -1,0 +1,46 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_file_chooser_upload",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The upload button opened a hidden file input, but the file chooser was not captured before setInputFiles.",
+  "error": {
+    "message": "Timeout waiting for file chooser; setInputFiles could not find input[type=file]",
+    "stack": "TimeoutError: filechooser event was not emitted\n    at UploadPage.attachFile",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "failed_action": {
+      "api_name": "setInputFiles",
+      "selector": "input[type=file]"
+    },
+    "file_chooser_expected": true,
+    "html_excerpt": "<button id=\"upload\">Upload document</button>"
+  },
+  "expected": {
+    "required_fields": ["uploaded"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_file_chooser",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "No real file path or uploaded content is included."
+  }
+}
+

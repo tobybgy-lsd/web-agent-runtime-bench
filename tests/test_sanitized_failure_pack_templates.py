@@ -21,6 +21,12 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "node_runtime_document_missing": "runtime_api_missing",
             "api_response_shape_changed": "response_shape_change",
             "playwright_js_bundle_obfuscation": "js_bundle_obfuscation",
+            "playwright_strict_mode_violation": "playwright_strict_mode_violation",
+            "playwright_frame_locator_missing": "playwright_frame_locator",
+            "playwright_file_chooser_upload": "playwright_file_chooser",
+            "playwright_download_failure": "playwright_download",
+            "playwright_popup_new_page": "playwright_popup",
+            "playwright_service_worker_cache_stale": "playwright_service_worker_cache",
         }
 
         for case_name, expected_type in expected_types.items():

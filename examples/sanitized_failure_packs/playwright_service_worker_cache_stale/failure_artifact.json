@@ -1,0 +1,44 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_service_worker_cache_stale",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The page loaded stale cached content from a service worker, so extraction saw an old response shape.",
+  "error": {
+    "message": "Cached response served from service worker; stale cache contained old product schema",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "network_log": "network.json",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "fromServiceWorker": true,
+    "cache_storage_hit": true,
+    "response_source": "from service worker cached response"
+  },
+  "expected": {
+    "required_fields": ["title", "price"]
+  },
+  "actual": {
+    "fields": {
+      "legacy_title": "Sample Widget"
+    },
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_service_worker_cache",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Cache keys and URLs are placeholders."
+  }
+}
+

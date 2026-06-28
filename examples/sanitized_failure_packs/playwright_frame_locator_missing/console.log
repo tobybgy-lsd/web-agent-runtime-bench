@@ -1,0 +1,3 @@
+[warn] waiting for frame #checkout-frame
+[error] frameLocator('#checkout-frame').locator('.total') timed out
+

@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://example.invalid/products/cached"
+  },
+  "response": {
+    "status": 200,
+    "fromServiceWorker": true,
+    "source": "cached response"
+  }
+}
+

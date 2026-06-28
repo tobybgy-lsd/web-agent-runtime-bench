@@ -1,0 +1,47 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_strict_mode_violation",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A broad locator matched two buy buttons after a duplicate sticky action bar was added.",
+  "error": {
+    "message": "strict mode violation: locator('button.buy') resolved to 2 elements",
+    "stack": "Error: strict mode violation\n    at ProductPage.clickBuy",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "failed_action": {
+      "api_name": "locator.click",
+      "selector": "button.buy",
+      "after_snapshot": "duplicate-buy-buttons"
+    },
+    "matched_count": 2,
+    "html_excerpt": "<button class=\"buy\">Buy</button><div class=\"sticky\"><button class=\"buy\">Buy</button></div>"
+  },
+  "expected": {
+    "required_fields": ["clicked"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_strict_mode_violation",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "DOM and product action are synthetic placeholders."
+  }
+}
+

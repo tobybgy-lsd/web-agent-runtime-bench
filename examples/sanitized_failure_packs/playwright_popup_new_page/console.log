@@ -1,0 +1,3 @@
+[info] click opened popup new page
+[error] page.waitForEvent('popup') was not awaited before click
+

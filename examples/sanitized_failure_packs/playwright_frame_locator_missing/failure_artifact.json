@@ -1,0 +1,46 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_frame_locator_missing",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A widget moved into an iframe, but the scraper still queried the parent page.",
+  "error": {
+    "message": "Timeout waiting for frameLocator('#checkout-frame').locator('.total'); no frame found",
+    "stack": "TimeoutError: waiting for frame locator\n    at CheckoutPage.readTotal",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "frame_selector": "#checkout-frame",
+    "failed_action": {
+      "api_name": "frameLocator.locator.waitFor",
+      "selector": "#checkout-frame >> .total"
+    },
+    "html_excerpt": "<iframe id=\"checkout-frame\" src=\"/frame/checkout-sanitized\"></iframe>"
+  },
+  "expected": {
+    "required_fields": ["total"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_frame_locator",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Frame URL and checkout fields are placeholders."
+  }
+}
+

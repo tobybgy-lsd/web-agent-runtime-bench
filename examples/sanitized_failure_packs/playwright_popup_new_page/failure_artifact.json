@@ -1,0 +1,42 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_popup_new_page",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A details link opened a popup page, but the scraper kept reading from the opener.",
+  "error": {
+    "message": "Timeout after click: expected content opened in popup new page; target page, context or browser has been closed",
+    "stack": "TimeoutError: page.waitForEvent('popup') was not awaited\n    at SearchPage.openDetails",
+    "status_code": 200
+  },
+  "artifacts": {
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "popup_expected": true,
+    "opener_url": "https://example.invalid/search",
+    "popup_url": "https://example.invalid/details/sanitized"
+  },
+  "expected": {
+    "required_fields": ["detail_title"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_popup",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "URLs are placeholders and no live popup target is included."
+  }
+}
+

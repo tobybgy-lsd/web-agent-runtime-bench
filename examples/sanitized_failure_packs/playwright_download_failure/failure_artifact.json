@@ -1,0 +1,42 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_download_failure",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The report download button was clicked, but no download event was captured before the context closed.",
+  "error": {
+    "message": "Timeout waiting for download event; acceptDownloads was not enabled before saveAs",
+    "stack": "TimeoutError: download event not fired\n    at ReportsPage.downloadCsv",
+    "status_code": 200
+  },
+  "artifacts": {
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "download_expected": true,
+    "acceptDownloads": false,
+    "suggestedFilename": "report-sanitized.csv"
+  },
+  "expected": {
+    "required_fields": ["downloaded_file"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_download",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Filename is synthetic and no downloaded content is included."
+  }
+}
+

@@ -7,7 +7,7 @@ All examples are **synthetic/local only**. No real websites, no external network
 | `static_product_list/` | Synthetic HTML product list with expected extraction schema and output |
 | `dynamic_runtime_missing/` | Runtime failure trace samples demonstrating diagnosis and repair |
 | `signed_api_dependency_matrix/` | Signed API dependency matrix and trace samples from A3 benchmark |
-| `sanitized_failure_packs/` | Realistic but sanitized failure pack templates covering selector drift, auth expiry, rate limiting, network timeout, hydration timing, challenge pages, runtime API gaps, response shape changes, and JS bundle changes |
+| `sanitized_failure_packs/` | Realistic but sanitized failure pack templates covering broad failure classes plus Playwright-specific strict mode, frame locator, upload, download, popup, and service-worker cache issues |
 
 ## Usage
 

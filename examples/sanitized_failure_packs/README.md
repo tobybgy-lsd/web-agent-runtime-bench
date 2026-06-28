@@ -28,6 +28,12 @@ Current templates cover:
 - `runtime_api_missing`: browser runtime API missing in Node
 - `response_shape_change`: required fields missing or typed differently
 - `js_bundle_obfuscation`: parser coupled to changed obfuscated bundle internals
+- `playwright_strict_mode_violation`: locator matched multiple elements
+- `playwright_frame_locator`: iframe/frame locator failed or frame attached late
+- `playwright_file_chooser`: upload flow missed file chooser or file input
+- `playwright_download`: download event/saveAs/acceptDownloads issue
+- `playwright_popup`: popup/new-page flow was not awaited or wrong page used
+- `playwright_service_worker_cache`: stale cached response from service worker/cache storage
 
 List available templates:
 

@@ -35,6 +35,12 @@ class WarbCliTests(unittest.TestCase):
         self.assertIn("node_runtime_document_missing", result.stdout)
         self.assertIn("api_response_shape_changed", result.stdout)
         self.assertIn("playwright_js_bundle_obfuscation", result.stdout)
+        self.assertIn("playwright_strict_mode_violation", result.stdout)
+        self.assertIn("playwright_frame_locator_missing", result.stdout)
+        self.assertIn("playwright_file_chooser_upload", result.stdout)
+        self.assertIn("playwright_download_failure", result.stdout)
+        self.assertIn("playwright_popup_new_page", result.stdout)
+        self.assertIn("playwright_service_worker_cache_stale", result.stdout)
 
     def test_template_copy_creates_editable_pack_from_builtin_template(self):
         with tempfile.TemporaryDirectory() as tmp:
