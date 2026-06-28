@@ -59,7 +59,7 @@ class CredibilityEngineeringTests(unittest.TestCase):
                 text=True,
             )
 
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(result.returncode, 0, (result.stdout or "") + (result.stderr or ""))
             self.assertTrue((out_dir / "diagnosis.json").exists())
             self.assertTrue((out_dir / "codex_fix_prompt.md").exists())
 
