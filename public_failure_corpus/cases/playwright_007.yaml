@@ -1,0 +1,17 @@
+case_id: playwright_007
+source_url: https://github.com/microsoft/playwright/issues/16168
+source_type: playwright_issue
+symptom: Navigation fails in a Linux container despite ignoring HTTPS errors.
+raw_error_excerpt: "ignoreHTTPSErrors did not let playwright test pass the page loading step"
+input_available:
+  - error_log
+  - environment_notes
+likely_user_facing_category: 网络/代理问题
+likely_technical_category: network_http_error
+evidence:
+  - TLS/certificate or network marker
+  - container environment involved
+reported_fix:
+  - inspect container certificate trust and network access
+next_action_expected: Ask Codex to collect cert/proxy diagnostics before modifying waits.
+can_convert_to_template: yes

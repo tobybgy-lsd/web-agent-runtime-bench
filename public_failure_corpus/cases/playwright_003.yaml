@@ -1,0 +1,18 @@
+case_id: playwright_003
+source_url: https://github.com/microsoft/playwright/issues/39380
+source_type: playwright_issue
+symptom: Restored storage state drops localhost-domain cookies in WebKit.
+raw_error_excerpt: "cookies with domain localhost silently dropped during storageState restoration"
+input_available:
+  - issue_description
+  - storage_state_summary
+likely_user_facing_category: 登录状态失效
+likely_technical_category: playwright_storage_state_context
+evidence:
+  - storageState restore mentioned
+  - cookie domain and current host mismatch risk
+reported_fix:
+  - regenerate state for the exact origin
+  - verify cookie domain before reuse
+next_action_expected: Ask Codex to inspect storageState domain/path and test baseURL origin.
+can_convert_to_template: yes

@@ -1,0 +1,18 @@
+case_id: playwright_004
+source_url: https://github.com/microsoft/playwright/issues/31108
+source_type: playwright_issue
+symptom: Session storage is not persisted by storageState, causing logged-in state gaps.
+raw_error_excerpt: "support sessionStorage option for storageState persistence"
+input_available:
+  - issue_description
+  - auth_state_notes
+likely_user_facing_category: 登录状态失效
+likely_technical_category: playwright_storage_state_context
+evidence:
+  - sessionStorage required by app
+  - storageState alone cannot restore it
+reported_fix:
+  - add explicit sessionStorage setup
+  - prefer app-supported login setup
+next_action_expected: Generate a prompt to add global setup or sessionStorage bootstrap without hardcoding secrets.
+can_convert_to_template: no

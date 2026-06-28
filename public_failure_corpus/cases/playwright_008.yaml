@@ -1,0 +1,18 @@
+case_id: playwright_008
+source_url: https://github.com/microsoft/playwright/issues/33515
+source_type: playwright_issue
+symptom: Action fails after browser/page/context closes unexpectedly.
+raw_error_excerpt: "Target page, context or browser has been closed"
+input_available:
+  - error_log
+  - browser_name
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: playwright_browser_context_closed
+evidence:
+  - target closed marker
+  - browser lifecycle ended before action completed
+reported_fix:
+  - inspect crash/lifecycle logs
+  - avoid closing context before awaited action finishes
+next_action_expected: Generate a prompt to add lifecycle tracing and fail-fast handling.
+can_convert_to_template: yes

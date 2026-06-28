@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "required": [
+    "case_id",
+    "source_url",
+    "source_type",
+    "symptom",
+    "raw_error_excerpt",
+    "input_available",
+    "likely_user_facing_category",
+    "likely_technical_category",
+    "evidence",
+    "reported_fix",
+    "next_action_expected",
+    "can_convert_to_template"
+  ],
+  "properties": {
+    "case_id": {"type": "string"},
+    "source_url": {"type": "string"},
+    "source_type": {"type": "string"},
+    "symptom": {"type": "string"},
+    "raw_error_excerpt": {"type": "string"},
+    "input_available": {"type": "array", "items": {"type": "string"}},
+    "likely_user_facing_category": {"type": "string"},
+    "likely_technical_category": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "reported_fix": {"type": "array", "items": {"type": "string"}},
+    "next_action_expected": {"type": "string"},
+    "can_convert_to_template": {"enum": ["yes", "no"]}
+  }
+}

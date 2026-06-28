@@ -489,16 +489,43 @@ def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict
             ],
             subtype=subtype,
         )
-    transport_markers = ("timeout waiting for response", '"network_error": "timeout"', "proxy", "dns", "connection reset", "tls", "empty response")
+    subtype_hints = artifact.get("observations", {}).get("subtype_hint") if isinstance(artifact.get("observations"), Mapping) else None
+    if subtype_hints in {"proxy_connection_failed", "dns_name_not_resolved", "tls_certificate_error"}:
+        return _result(
+            "network_http_error",
+            0.88,
+            [f"transport subtype hint found: {subtype_hints}"],
+            ["verify network/proxy/DNS/TLS settings before changing selectors", "capture response metadata separately from parser errors"],
+            subtype=str(subtype_hints),
+        )
+    transport_markers = (
+        "timeout waiting for response",
+        '"network_error": "timeout"',
+        "proxy",
+        "err_name_not_resolved",
+        "dns",
+        "err_cert",
+        "certificate",
+        "tls",
+        "connection reset",
+        "empty response",
+    )
     found = [marker for marker in transport_markers if marker in text]
     if not found:
         return None
+    subtype = "transport_error"
+    if found[0] == "proxy":
+        subtype = "proxy_connection_failed"
+    elif found[0] in {"err_name_not_resolved", "dns"}:
+        subtype = "dns_name_not_resolved"
+    elif found[0] in {"err_cert", "certificate", "tls"}:
+        subtype = "tls_certificate_error"
     return _result(
         "network_http_error",
         0.86,
         [f"transport marker found: {found[0]}"],
         ["retry with backoff if authorized", "capture response metadata separately from parser errors"],
-        subtype="proxy_connection_failed" if found[0] == "proxy" else "transport_error",
+        subtype=subtype,
     )
 
 
@@ -514,6 +541,9 @@ def _classify_async_hydration_timing(artifact: Mapping[str, Any], text: str) -> 
         "after failure",
         "element appeared after timeout",
         "wait_until",
+        "page.goto",
+        "waiting until load",
+        "timeout 30000ms exceeded",
     )
     found = [marker for marker in markers if marker in text]
     timing_evidence = []
@@ -568,6 +598,86 @@ def _classify_playwright_frame_locator(artifact: Mapping[str, Any], text: str) -
             "capture parent and frame DOM snapshots separately",
         ],
         subtype="iframe_locator",
+    )
+
+
+def _classify_playwright_browser_context_closed(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    if "popup" in text or "new page" in text or "waitforevent('popup'" in text:
+        return None
+    markers = (
+        "target page, context or browser has been closed",
+        "targetclosederror",
+        "browser has been closed",
+        "page has been closed",
+        "context has been closed",
+    )
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_browser_context_closed",
+        0.88,
+        [f"closed browser/page/context marker found: {found[0]}"],
+        [
+            "separate page lifecycle failure from locator failure",
+            "check whether the page/context closes before the awaited action completes",
+            "persist trace/screenshot/log before closing the browser context",
+        ],
+        subtype="target_closed",
+    )
+
+
+def _classify_playwright_execution_context_destroyed(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("execution context was destroyed", "most likely because of a navigation", "cannot find context with specified id")
+    found = [marker for marker in markers if marker in text]
+    if not found:
+        return None
+    return _result(
+        "playwright_execution_context_destroyed",
+        0.86,
+        [f"navigation-race marker found: {marker}" for marker in found[:2]],
+        [
+            "wait for navigation/load state before evaluating page JavaScript",
+            "avoid reusing element handles across navigation",
+            "wrap the click and navigation wait in the same awaited block",
+        ],
+        subtype="navigation_race",
+    )
+
+
+def _classify_cdp_websocket_disconnected(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("cdp websocket", "websocket silent disconnect", "httpx.readerror", "browser session is alive", "cdp client not initialized")
+    found = [marker for marker in markers if marker in text]
+    if len(found) < 2 and "cdp client not initialized" not in text:
+        return None
+    return _result(
+        "cdp_websocket_disconnected",
+        0.87,
+        [f"CDP/session transport marker found: {marker}" for marker in found[:3]],
+        [
+            "treat this as browser transport/session instability before changing page selectors",
+            "capture browser process logs and CDP connection lifecycle",
+            "add reconnect or fail-fast handling around remote browser sessions",
+        ],
+        subtype="websocket_disconnect",
+    )
+
+
+def _classify_agent_repetition_loop(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    markers = ("infinite loop", "repeatedly executed", "same action", "extract_content action", "unknown led to infinite loop")
+    found = [marker for marker in markers if marker in text]
+    if len(found) < 2:
+        return None
+    return _result(
+        "agent_repetition_loop",
+        0.84,
+        [f"agent repetition marker found: {marker}" for marker in found[:3]],
+        [
+            "add a repeated-action guard with a clear failure reason",
+            "save the last few actions, observations, screenshots, and tool results",
+            "return a structured diagnosis instead of continuing the same browser action",
+        ],
+        subtype="repeated_action_loop",
     )
 
 
@@ -751,12 +861,16 @@ CLASSIFIERS = (
     _classify_rate_limit_or_soft_block,
     _classify_network_http_error,
     _classify_toolchain_environment,
+    _classify_playwright_popup,
+    _classify_playwright_browser_context_closed,
+    _classify_playwright_execution_context_destroyed,
+    _classify_cdp_websocket_disconnected,
+    _classify_agent_repetition_loop,
     _classify_async_hydration_timing,
     _classify_playwright_strict_mode_violation,
     _classify_playwright_frame_locator,
     _classify_playwright_file_chooser,
     _classify_playwright_download,
-    _classify_playwright_popup,
     _classify_playwright_service_worker_cache,
     _classify_playwright_shadow_dom_locator,
     _classify_selector_drift,

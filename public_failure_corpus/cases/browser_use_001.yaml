@@ -1,0 +1,17 @@
+case_id: browser_use_001
+source_url: https://github.com/browser-use/browser-use/issues/4860
+source_type: browser_use_issue
+symptom: Agent failures are hard to debug because there is no structured replay or audit trail.
+raw_error_excerpt: "Session replay / task audit trail for agent runs"
+input_available:
+  - issue_description
+  - action_history_request
+likely_user_facing_category: 代码等待逻辑错误
+likely_technical_category: agent_replay_missing
+evidence:
+  - request for replay/audit evidence
+  - current debugging depends on scattered logs/screenshots
+reported_fix:
+  - persist step timeline, screenshots, tool calls, and errors
+next_action_expected: Prioritize report format and fix prompt over more subtype names.
+can_convert_to_template: no

@@ -1,0 +1,16 @@
+case_id: stackoverflow_003
+source_url: https://stackoverflow.com/search?q=Playwright+net%3A%3AERR_NAME_NOT_RESOLVED
+source_type: stackoverflow_search
+symptom: Navigation fails before page code runs because DNS cannot resolve the host.
+raw_error_excerpt: "net::ERR_NAME_NOT_RESOLVED"
+input_available:
+  - error_log
+likely_user_facing_category: 网络/代理问题
+likely_technical_category: network_http_error
+evidence:
+  - DNS error marker
+  - no DOM or locator evidence
+reported_fix:
+  - verify URL, DNS, container network, or VPN/tunnel
+next_action_expected: Ask Codex to add a network preflight and clearer failure message.
+can_convert_to_template: yes

@@ -1,0 +1,18 @@
+case_id: browser_use_006
+source_url: https://github.com/browser-use/browser-use/issues/5048
+source_type: browser_use_issue
+symptom: Browser agent becomes unstable after CDP disconnects or page crashes.
+raw_error_excerpt: "CDP instability on Windows (httpx.ReadError / Page crashed / WebSocket silent disconnect)"
+input_available:
+  - error_log
+  - environment_notes
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: cdp_websocket_disconnected
+evidence:
+  - CDP marker
+  - WebSocket disconnect marker
+  - page crash marker
+reported_fix:
+  - capture CDP lifecycle logs and fail fast or reconnect
+next_action_expected: Ask Codex to add CDP reconnect/fail-fast telemetry before page-level fixes.
+can_convert_to_template: yes

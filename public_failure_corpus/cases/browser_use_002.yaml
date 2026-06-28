@@ -1,0 +1,17 @@
+case_id: browser_use_002
+source_url: https://github.com/browser-use/browser-use/issues/1913
+source_type: browser_use_issue
+symptom: Agent clicks or triggers a download but the file is not saved.
+raw_error_excerpt: "Downloads are not saved"
+input_available:
+  - issue_description
+  - task_steps
+likely_user_facing_category: 文件上传下载失败
+likely_technical_category: playwright_download
+evidence:
+  - download action expected
+  - saved artifact missing
+reported_fix:
+  - enable downloads and persist with saveAs/download path handling
+next_action_expected: Ask Codex to wrap the download-producing action with a download wait and save step.
+can_convert_to_template: yes

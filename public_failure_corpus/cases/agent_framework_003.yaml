@@ -1,0 +1,17 @@
+case_id: agent_framework_003
+source_url: https://github.com/crewAIInc/crewAI/issues
+source_type: agent_framework_issue_index
+symptom: Agent repeats a tool call without new evidence until the task times out.
+raw_error_excerpt: "repeated tool call loop"
+input_available:
+  - action_history_summary
+  - error_log
+likely_user_facing_category: 代码等待逻辑错误
+likely_technical_category: agent_repetition_loop
+evidence:
+  - repeated action marker
+  - timeout without progress
+reported_fix:
+  - add repeated-action detection and terminal diagnostic output
+next_action_expected: Generate a prompt to add loop detection and report the last useful evidence.
+can_convert_to_template: yes

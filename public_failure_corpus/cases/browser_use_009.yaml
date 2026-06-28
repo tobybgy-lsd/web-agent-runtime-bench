@@ -1,0 +1,18 @@
+case_id: browser_use_009
+source_url: https://github.com/browser-use/browser-use/issues/4651
+source_type: browser_use_issue
+symptom: Screenshot capture times out.
+raw_error_excerpt: "Screenshot times out"
+input_available:
+  - error_log
+  - screenshot_request
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: toolchain_environment
+evidence:
+  - screenshot timeout marker
+  - browser tool path involved
+reported_fix:
+  - collect browser/page state before screenshot
+  - add timeout and fallback metadata
+next_action_expected: Generate a prompt to preserve screenshot metadata and avoid claiming image understanding.
+can_convert_to_template: no

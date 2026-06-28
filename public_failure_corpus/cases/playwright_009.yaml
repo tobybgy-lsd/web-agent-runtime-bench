@@ -1,0 +1,18 @@
+case_id: playwright_009
+source_url: https://github.com/microsoft/playwright/issues/41125
+source_type: playwright_issue
+symptom: locator.click hangs around same-document navigation interception.
+raw_error_excerpt: "locator.click() hangs on a Navigation API same-document intercept"
+input_available:
+  - issue_description
+  - error_log
+likely_user_facing_category: 页面没加载完
+likely_technical_category: playwright_execution_context_destroyed
+evidence:
+  - navigation behavior around click
+  - click waits never resolve
+reported_fix:
+  - wait on a semantic ready condition
+  - avoid stale handles across navigation
+next_action_expected: Ask Codex to wrap click and navigation/load wait consistently.
+can_convert_to_template: yes

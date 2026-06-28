@@ -1,0 +1,18 @@
+case_id: playwright_001
+source_url: https://github.com/microsoft/playwright/issues/36045
+source_type: playwright_issue
+symptom: Locator action fails because the selector resolves to multiple candidates.
+raw_error_excerpt: "strict mode violation"
+input_available:
+  - error_log
+  - locator_snippet
+likely_user_facing_category: 按钮/元素找不到
+likely_technical_category: playwright_strict_mode_violation
+evidence:
+  - strict mode marker
+  - multiple matching elements
+reported_fix:
+  - narrow the locator
+  - add role/text filters or scope through a parent
+next_action_expected: Generate a Codex prompt to replace the broad locator with a stable scoped locator.
+can_convert_to_template: yes

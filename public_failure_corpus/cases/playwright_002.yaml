@@ -1,0 +1,17 @@
+case_id: playwright_002
+source_url: https://github.com/microsoft/playwright/issues/30363
+source_type: playwright_issue
+symptom: Locator does not auto-wait away a multiple-match strict-mode problem.
+raw_error_excerpt: "resolved to multiple elements"
+input_available:
+  - error_log
+  - dom_excerpt
+likely_user_facing_category: 按钮/元素找不到
+likely_technical_category: playwright_strict_mode_violation
+evidence:
+  - strict mode error
+  - duplicate visible candidates
+reported_fix:
+  - disambiguate locator instead of increasing timeout
+next_action_expected: Point the developer at the selector scope, not page load timing.
+can_convert_to_template: yes

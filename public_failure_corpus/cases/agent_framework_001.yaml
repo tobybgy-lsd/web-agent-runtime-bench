@@ -1,0 +1,17 @@
+case_id: agent_framework_001
+source_url: https://github.com/All-Hands-AI/OpenHands/issues
+source_type: agent_framework_issue_index
+symptom: Agent task fails because browser/runtime dependency is missing in the execution environment.
+raw_error_excerpt: "browser runtime dependency missing"
+input_available:
+  - error_log
+  - environment_notes
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: toolchain_environment
+evidence:
+  - environment mismatch
+  - missing browser/runtime dependency
+reported_fix:
+  - install or bundle browser dependencies and run a smoke test
+next_action_expected: Generate an environment repair checklist for Codex.
+can_convert_to_template: no

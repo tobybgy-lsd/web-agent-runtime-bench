@@ -1,0 +1,17 @@
+case_id: stackoverflow_002
+source_url: https://stackoverflow.com/search?q=Playwright+storageState+login+redirect
+source_type: stackoverflow_search
+symptom: User expects stored login state but test redirects to login.
+raw_error_excerpt: "storageState login redirect"
+input_available:
+  - error_log
+  - config_excerpt
+likely_user_facing_category: 登录状态失效
+likely_technical_category: playwright_storage_state_context
+evidence:
+  - storageState marker
+  - login redirect marker
+reported_fix:
+  - ensure state is loaded before page creation and matches baseURL origin
+next_action_expected: Generate a prompt to inspect global setup, baseURL, and storageState path.
+can_convert_to_template: yes

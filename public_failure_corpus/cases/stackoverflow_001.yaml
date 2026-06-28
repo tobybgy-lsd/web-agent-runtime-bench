@@ -1,0 +1,16 @@
+case_id: stackoverflow_001
+source_url: https://stackoverflow.com/search?q=Playwright+TimeoutError+locator.click+strict+mode+violation
+source_type: stackoverflow_search
+symptom: User reports locator.click timeout or strict mode and only has console output.
+raw_error_excerpt: "TimeoutError: locator.click"
+input_available:
+  - error_log
+likely_user_facing_category: 按钮/元素找不到
+likely_technical_category: selector_drift
+evidence:
+  - locator.click marker
+  - timeout marker
+reported_fix:
+  - inspect locator target and wait condition
+next_action_expected: Give a compact fix prompt that asks Codex to replace brittle selectors and save trace.
+can_convert_to_template: yes

@@ -1,0 +1,18 @@
+case_id: playwright_010
+source_url: https://github.com/microsoft/playwright/issues/40682
+source_type: playwright_issue
+symptom: HAR replay serves the wrong failed/retried response.
+raw_error_excerpt: "routeFromHAR records duplicate entries for retried requests"
+input_available:
+  - issue_description
+  - har_summary
+likely_user_facing_category: 接口返回变了
+likely_technical_category: playwright_route_mock_har
+evidence:
+  - routeFromHAR marker
+  - duplicate/retried request entries
+reported_fix:
+  - regenerate or normalize HAR fixture
+  - fail closed on HAR miss during debugging
+next_action_expected: Generate a prompt to inspect HAR matching and fallback behavior.
+can_convert_to_template: no

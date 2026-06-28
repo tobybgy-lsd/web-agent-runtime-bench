@@ -1,0 +1,17 @@
+case_id: browser_use_004
+source_url: https://github.com/browser-use/browser-use/issues/4257
+source_type: browser_use_issue
+symptom: Browser session storage_state object does not take effect.
+raw_error_excerpt: "storage_state incoming object does not take effect"
+input_available:
+  - issue_description
+  - storage_state_summary
+likely_user_facing_category: 登录状态失效
+likely_technical_category: playwright_storage_state_context
+evidence:
+  - storage_state marker
+  - authenticated state not observed
+reported_fix:
+  - verify when state is passed into context/session creation
+next_action_expected: Ask Codex to inspect state loading order and context recreation.
+can_convert_to_template: yes

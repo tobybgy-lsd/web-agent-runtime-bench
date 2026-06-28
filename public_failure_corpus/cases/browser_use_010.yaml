@@ -1,0 +1,17 @@
+case_id: browser_use_010
+source_url: https://github.com/browser-use/browser-use/issues/4742
+source_type: browser_use_issue
+symptom: Screenshot blob in tool result breaks later model/tool calls.
+raw_error_excerpt: "Screenshot blob in tool result poisons conversation context"
+input_available:
+  - issue_description
+  - tool_result_summary
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: toolchain_environment
+evidence:
+  - screenshot blob marker
+  - subsequent API/tool failure marker
+reported_fix:
+  - store screenshots as artifacts and pass references instead of raw blobs
+next_action_expected: Ask Codex to separate binary artifacts from text prompts.
+can_convert_to_template: no

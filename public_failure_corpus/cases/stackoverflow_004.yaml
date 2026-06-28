@@ -1,0 +1,17 @@
+case_id: stackoverflow_004
+source_url: https://stackoverflow.com/search?q=Playwright+Target+page+context+or+browser+has+been+closed
+source_type: stackoverflow_search
+symptom: Action or assertion runs after page/context/browser has already closed.
+raw_error_excerpt: "Target page, context or browser has been closed"
+input_available:
+  - error_log
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: playwright_browser_context_closed
+evidence:
+  - target closed marker
+  - lifecycle race likely
+reported_fix:
+  - await actions before teardown
+  - inspect browser crash or context close ordering
+next_action_expected: Generate a prompt to add lifecycle logging and await missing promises.
+can_convert_to_template: yes

@@ -1,0 +1,18 @@
+case_id: browser_use_008
+source_url: https://github.com/browser-use/browser-use/issues/4471
+source_type: browser_use_issue
+symptom: BrowserSession fails on headless Linux with watchdog timeout and CDP loop.
+raw_error_excerpt: "watchdog timeout and CDP WebSocket loop"
+input_available:
+  - error_log
+  - environment_notes
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: cdp_websocket_disconnected
+evidence:
+  - watchdog timeout
+  - CDP WebSocket loop
+reported_fix:
+  - collect launch flags and transport logs
+  - fail fast on repeated reconnect loop
+next_action_expected: Ask Codex to add session health checks and bounded retry.
+can_convert_to_template: yes

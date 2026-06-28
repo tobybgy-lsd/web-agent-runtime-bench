@@ -1,0 +1,17 @@
+case_id: browser_use_005
+source_url: https://github.com/browser-use/browser-use/issues/3523
+source_type: browser_use_issue
+symptom: State store loads but cookies do not appear in the browser session.
+raw_error_excerpt: "State store isn't loading any cookies"
+input_available:
+  - issue_description
+  - storage_state_summary
+likely_user_facing_category: 登录状态失效
+likely_technical_category: playwright_storage_state_context
+evidence:
+  - cookie load failure
+  - state-store/auth markers
+reported_fix:
+  - validate cookie domain/path and context state injection
+next_action_expected: Generate a prompt to compare cookie domain with active host.
+can_convert_to_template: yes

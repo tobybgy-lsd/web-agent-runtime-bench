@@ -1,0 +1,17 @@
+case_id: browser_use_007
+source_url: https://github.com/browser-use/browser-use/issues/3919
+source_type: browser_use_issue
+symptom: Chromium or CDP handshake fails on a network-restricted VM.
+raw_error_excerpt: "Cannot launch Chromium / CDP handshake fails on network-restricted Azure VM"
+input_available:
+  - error_log
+  - environment_notes
+likely_user_facing_category: 浏览器环境不一致
+likely_technical_category: cdp_websocket_disconnected
+evidence:
+  - CDP handshake marker
+  - restricted VM environment
+reported_fix:
+  - check browser launch dependencies and CDP port reachability
+next_action_expected: Generate a prompt to inspect environment and browser process logs.
+can_convert_to_template: no

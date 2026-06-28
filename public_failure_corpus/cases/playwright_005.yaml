@@ -1,0 +1,17 @@
+case_id: playwright_005
+source_url: https://github.com/microsoft/playwright/issues/9437
+source_type: playwright_issue
+symptom: Browser context uses proxy-per-context mode but no proxy is supplied.
+raw_error_excerpt: "net::ERR_PROXY_CONNECTION_FAILED"
+input_available:
+  - error_log
+  - browser_context_options
+likely_user_facing_category: 网络/代理问题
+likely_technical_category: network_http_error
+evidence:
+  - proxy connection failed marker
+  - context-level proxy configuration
+reported_fix:
+  - set proxy server explicitly or remove per-context proxy mode
+next_action_expected: Ask Codex to verify browser.newContext proxy settings before changing selectors.
+can_convert_to_template: yes

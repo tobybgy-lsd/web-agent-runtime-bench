@@ -1,0 +1,16 @@
+case_id: stackoverflow_005
+source_url: https://stackoverflow.com/search?q=Playwright+Execution+context+was+destroyed
+source_type: stackoverflow_search
+symptom: Evaluation or locator operation crosses a navigation boundary.
+raw_error_excerpt: "Execution context was destroyed, most likely because of a navigation"
+input_available:
+  - error_log
+likely_user_facing_category: 页面没加载完
+likely_technical_category: playwright_execution_context_destroyed
+evidence:
+  - execution context destroyed marker
+  - navigation marker
+reported_fix:
+  - wait for navigation/load state and avoid stale element handles
+next_action_expected: Ask Codex to wrap navigation-producing action and wait together.
+can_convert_to_template: yes

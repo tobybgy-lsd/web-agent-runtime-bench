@@ -1,0 +1,18 @@
+case_id: browser_use_003
+source_url: https://github.com/browser-use/browser-use/issues/4094
+source_type: browser_use_issue
+symptom: Download flow fails for filenames with Japanese characters.
+raw_error_excerpt: "Japanese file downloads are not functioning properly"
+input_available:
+  - issue_description
+  - filename_locale
+likely_user_facing_category: 文件上传下载失败
+likely_technical_category: playwright_download
+evidence:
+  - download marker
+  - non-ASCII filename edge case
+reported_fix:
+  - preserve suggested filename encoding
+  - verify save path normalization
+next_action_expected: Generate a prompt to test download saveAs with Unicode filenames.
+can_convert_to_template: no

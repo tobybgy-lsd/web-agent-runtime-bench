@@ -166,7 +166,7 @@ def user_category_for(technical: str, subtype: str = "") -> str:
         return "登录状态失效"
     if technical in {"selector_drift", "playwright_shadow_dom_locator", "playwright_strict_mode_violation", "playwright_frame_locator"}:
         return "按钮/元素找不到"
-    if technical == "async_hydration_timing":
+    if technical in {"async_hydration_timing", "playwright_execution_context_destroyed"}:
         return "页面没加载完"
     if technical in {"playwright_popup"}:
         return "弹窗/遮罩挡住"
@@ -176,7 +176,7 @@ def user_category_for(technical: str, subtype: str = "") -> str:
         return "请求被限流"
     if technical == "network_http_error":
         return "网络/代理问题"
-    if technical in {"runtime_api_missing", "toolchain_environment"}:
+    if technical in {"runtime_api_missing", "toolchain_environment", "playwright_browser_context_closed", "cdp_websocket_disconnected"}:
         return "浏览器环境不一致"
     if technical in {"playwright_file_chooser", "playwright_download"}:
         return "文件上传下载失败"
@@ -218,10 +218,14 @@ def _diagnosis_hint_from_text(log_text: str, description_text: str, network_even
         hints.update({"network_error": "proxy connection failed", "transport_marker": "proxy", "subtype_hint": "proxy_connection_failed"})
     if "err_name_not_resolved" in text:
         hints.update({"network_error": "dns name not resolved", "transport_marker": "dns", "subtype_hint": "dns_name_not_resolved"})
+    if "err_cert_authority_invalid" in text or "err_cert" in text or "certificate" in text:
+        hints.update({"network_error": "tls certificate error", "transport_marker": "tls", "subtype_hint": "tls_certificate_error"})
     if "strict mode violation" in text:
         hints["strict_mode_violation"] = True
     if "timeout waiting for selector" in text or "locator.click" in text:
         hints["missing_selectors"] = ["button.submit" if "button.submit" in text else "unknown"]
+    if "page.goto" in text and "timeout" in text:
+        hints["navigation_timeout"] = True
     if "page stayed" in text or "never worked" in text:
         hints["wait_or_click_failed"] = True
     statuses = [item.get("status") for item in network_events if isinstance(item, Mapping)]
@@ -292,7 +296,7 @@ def _render_public_markdown(public: Mapping[str, Any], diagnosis: Mapping[str, A
 def _plain_summary(public: Mapping[str, Any]) -> str:
     category = public.get("user_facing_category")
     technical = public.get("technical_category")
-    return f"这个失败更像是「{category}」，不是单纯的代码语法错误。技术分类是 `{technical}`。"
+    return f"这个失败更像是“{category}”，不是单纯的代码语法错误。技术分类是 `{technical}`。"
 
 
 def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
