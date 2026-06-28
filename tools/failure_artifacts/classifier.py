@@ -489,7 +489,7 @@ def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict
             ],
             subtype=subtype,
         )
-    transport_markers = ("timeout waiting for response", '"network_error": "timeout"', "dns", "connection reset", "tls", "empty response")
+    transport_markers = ("timeout waiting for response", '"network_error": "timeout"', "proxy", "dns", "connection reset", "tls", "empty response")
     found = [marker for marker in transport_markers if marker in text]
     if not found:
         return None
@@ -498,7 +498,7 @@ def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict
         0.86,
         [f"transport marker found: {found[0]}"],
         ["retry with backoff if authorized", "capture response metadata separately from parser errors"],
-        subtype="transport_error",
+        subtype="proxy_connection_failed" if found[0] == "proxy" else "transport_error",
     )
 
 
