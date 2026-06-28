@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_har_not_loaded",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "HAR replay was expected but the HAR file was missing or not loaded.",
+  "error": {
+    "message": "routeFromHAR failed because HAR fixture was not found",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "har_expected": true,
+    "har_loaded": false,
+    "har_path": "fixtures/api.har",
+    "har_error": "ENOENT: no such file or directory"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_route_mock_har",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "HAR path is synthetic. No HAR content or live traffic is included."
+  }
+}
+

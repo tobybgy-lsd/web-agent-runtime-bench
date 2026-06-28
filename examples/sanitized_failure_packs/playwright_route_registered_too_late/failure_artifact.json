@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_route_registered_too_late",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The route mock was registered after navigation triggered the request.",
+  "error": {
+    "message": "Route handler registered after first request was sent",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "route_registered_after_request": true,
+    "first_request_url": "https://example.test/api/cart",
+    "route_registered_at_ms": 850,
+    "first_request_at_ms": 120
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_route_mock_har",
+    "confidence": 0.89
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Timing and URL evidence are synthetic and local-only."
+  }
+}
+

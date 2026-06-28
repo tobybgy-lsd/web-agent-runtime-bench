@@ -20,6 +20,7 @@ def _result(
     suggested_fix: list[str],
     can_auto_fix: bool = False,
     subtype: str | None = None,
+    evidence_level: str | None = None,
 ) -> dict[str, Any]:
     result = {
         "failure_type": failure_type,
@@ -31,6 +32,8 @@ def _result(
     }
     if subtype:
         result["subtype"] = subtype
+    if evidence_level:
+        result["evidence_level"] = evidence_level
     return result
 
 
@@ -221,6 +224,122 @@ def _cookie_domain_matches_host(domain: str, host: str) -> bool:
     normalized_domain = domain.lower().lstrip(".")
     normalized_host = host.lower()
     return normalized_host == normalized_domain or normalized_host.endswith(f".{normalized_domain}")
+
+
+def _classify_playwright_route_mock_har(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        observations = {}
+    if artifact.get("tool") != "playwright" and "playwright" not in text:
+        return None
+
+    markers = ("route", "mock", "har", "routefromhar", "live_network_request", "route_matched")
+    if not any(marker in text for marker in markers):
+        return None
+
+    evidence: list[str] = []
+    subtype = ""
+    confidence = 0.84
+    evidence_level = "inferred"
+
+    if observations.get("route_registered_after_request") is True:
+        subtype = "route_registered_too_late"
+        confidence = 0.89
+        evidence_level = "confirmed"
+        first_request = observations.get("first_request_url")
+        evidence.append("route was registered after the first matching request had already started")
+        if first_request:
+            evidence.append(f"first request was not intercepted: {first_request}")
+
+    if not subtype and observations.get("har_expected") is True and observations.get("har_loaded") is False:
+        subtype = "har_not_found_or_not_loaded"
+        confidence = 0.88
+        evidence_level = "confirmed"
+        har_path = observations.get("har_path")
+        evidence.append("HAR replay was expected but the HAR was not loaded")
+        if har_path:
+            evidence.append(f"HAR path: {har_path}")
+
+    if not subtype and observations.get("har_loaded") is True and observations.get("har_not_found_policy") == "fallback" and observations.get("live_network_request") is True:
+        subtype = "har_fallback_network_leak"
+        confidence = 0.9
+        evidence_level = "confirmed"
+        evidence.append("routeFromHAR used fallback and allowed a live network request")
+        if observations.get("har_miss_url"):
+            evidence.append(f"HAR miss URL: {observations.get('har_miss_url')}")
+
+    if not subtype and observations.get("mock_response_shape_mismatch") is True:
+        subtype = "mock_response_shape_mismatch"
+        confidence = 0.87
+        evidence_level = "confirmed"
+        expected = observations.get("expected_response_fields")
+        actual = observations.get("actual_response_fields")
+        evidence.append("mock response was fulfilled but response shape did not match expected fields")
+        if isinstance(expected, list):
+            evidence.append(f"expected response fields: {', '.join(map(str, expected[:5]))}")
+        if isinstance(actual, list):
+            evidence.append(f"actual response fields: {', '.join(map(str, actual[:5]))}")
+
+    if not subtype and observations.get("route_registered") is True and observations.get("route_matched") is False:
+        subtype = "route_pattern_mismatch"
+        confidence = 0.87
+        evidence_level = "confirmed"
+        pattern = observations.get("route_pattern")
+        request_url = observations.get("request_url")
+        evidence.append("route pattern did not match request URL")
+        if pattern:
+            evidence.append(f"registered route pattern: {pattern}")
+        if request_url:
+            evidence.append(f"request URL: {request_url}")
+
+    if not subtype:
+        return None
+
+    if observations.get("live_network_request") is True:
+        evidence.append("request leaked to live network instead of being served by mock/HAR")
+    if observations.get("har_error"):
+        evidence.append(f"HAR error: {observations.get('har_error')}")
+
+    return _result(
+        "playwright_route_mock_har",
+        confidence,
+        evidence,
+        _route_mock_har_fix_suggestions(subtype),
+        subtype=subtype,
+        evidence_level=evidence_level,
+    )
+
+
+def _route_mock_har_fix_suggestions(subtype: str) -> list[str]:
+    common = [
+        "register route or routeFromHAR before page.goto and before the request can start",
+        "fail closed during debugging so unexpected requests do not silently hit live network",
+        """Playwright route repair sketch:
+```ts
+await page.route('**/api/products/**', async route => {
+  await route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify({ items: [] }),
+  });
+});
+```""",
+        """Playwright HAR repair sketch:
+```ts
+await page.routeFromHAR('fixtures/api.har', {
+  url: '**/api/**',
+  notFound: 'abort',
+});
+```""",
+    ]
+    specific = {
+        "route_pattern_mismatch": "align the route glob/regex with the actual request URL and query shape",
+        "route_registered_too_late": "move page.route or routeFromHAR setup before navigation and before agent actions",
+        "har_not_found_or_not_loaded": "verify the HAR path exists relative to the test working directory and is loaded before navigation",
+        "har_fallback_network_leak": "replace HAR fallback with abort while debugging, then update the HAR fixture for missing requests",
+        "mock_response_shape_mismatch": "update the mocked JSON contract to match the parser/test expectations",
+    }
+    return [specific.get(subtype, "review route/mock/HAR setup")] + common
 
 
 def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
@@ -527,6 +646,7 @@ CLASSIFIERS = (
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,
     _classify_playwright_storage_state_context,
+    _classify_playwright_route_mock_har,
     _classify_auth_expiry,
     _classify_rate_limit_or_soft_block,
     _classify_network_http_error,

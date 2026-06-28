@@ -1,0 +1,41 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_route_pattern_mismatch",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A Playwright route mock was registered, but the pattern did not match the actual request URL.",
+  "error": {
+    "message": "Route mock did not intercept request and live network was used",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "route_registered": true,
+    "route_pattern": "**/api/products",
+    "request_url": "https://example.test/v2/products",
+    "route_matched": false,
+    "live_network_request": true
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_route_mock_har",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "URLs use synthetic domains. No live network replay is required."
+  }
+}
+

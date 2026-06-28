@@ -46,6 +46,11 @@ class WarbCliTests(unittest.TestCase):
         self.assertIn("playwright_context_recreated_without_state", result.stdout)
         self.assertIn("playwright_storage_local_storage_missing", result.stdout)
         self.assertIn("playwright_storage_base_url_origin_mismatch", result.stdout)
+        self.assertIn("playwright_route_pattern_mismatch", result.stdout)
+        self.assertIn("playwright_route_registered_too_late", result.stdout)
+        self.assertIn("playwright_har_not_loaded", result.stdout)
+        self.assertIn("playwright_har_fallback_network_leak", result.stdout)
+        self.assertIn("playwright_mock_response_shape_mismatch", result.stdout)
 
     def test_template_copy_creates_editable_pack_from_builtin_template(self):
         with tempfile.TemporaryDirectory() as tmp:

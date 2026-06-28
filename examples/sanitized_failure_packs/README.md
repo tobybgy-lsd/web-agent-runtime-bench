@@ -35,6 +35,7 @@ Current templates cover:
 - `playwright_popup`: popup/new-page flow was not awaited or wrong page used
 - `playwright_service_worker_cache`: stale cached response from service worker/cache storage
 - `playwright_storage_state_context`: storageState/browser context mismatch, including cookie domain, missing state, recreated context, missing localStorage, and baseURL/origin mismatch
+- `playwright_route_mock_har`: route/mock/HAR interception failures, including pattern mismatch, late registration, missing HAR, fallback network leaks, and mock response shape mismatch
 
 List available templates:
 

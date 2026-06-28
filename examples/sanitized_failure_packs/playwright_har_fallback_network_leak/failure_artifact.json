@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_har_fallback_network_leak",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "routeFromHAR missed a request and fallback allowed live network access.",
+  "error": {
+    "message": "HAR miss fell back to live network",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "har_loaded": true,
+    "har_not_found_policy": "fallback",
+    "har_miss_url": "https://example.test/api/search?q=demo",
+    "live_network_request": true
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_route_mock_har",
+    "confidence": 0.9
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "URL is synthetic and documents a local failure mode, not a live replay requirement."
+  }
+}
+

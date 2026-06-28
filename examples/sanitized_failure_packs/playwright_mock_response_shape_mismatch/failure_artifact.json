@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_mock_response_shape_mismatch",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The route mock fulfilled a response, but the JSON shape did not match the scraper/test expectation.",
+  "error": {
+    "message": "Mock response shape mismatch after route.fulfill",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "mock_response_fulfilled": true,
+    "mock_status": 200,
+    "expected_response_fields": ["items", "price"],
+    "actual_response_fields": ["data"],
+    "mock_response_shape_mismatch": true
+  },
+  "expected": {
+    "required_fields": ["items", "price"]
+  },
+  "actual": {
+    "fields": {"data": []},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_route_mock_har",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Mock body is reduced to field names only."
+  }
+}

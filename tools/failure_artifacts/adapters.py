@@ -66,6 +66,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     action_events, failed_action, action_stack = _extract_action_observations(records)
     exception_details = _extract_exception_details(records)
     storage_context = _extract_storage_context_observations(records)
+    route_mock_har = _extract_route_mock_har_observations(records)
     error_stack = action_stack or _first_exception_stack(exception_details)
     missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
     snapshot_excerpts = _link_snapshot_excerpts(snapshot_refs, text_resources)
@@ -94,6 +95,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             "dom_hints": dom_hints,
             "html_excerpt": html_snapshot[:1000],
             **storage_context,
+            **route_mock_har,
         },
     )
 
@@ -404,6 +406,47 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
         "storageStateOrigin": "storage_state_origin",
         "finalUrl": "final_url",
         "redirectedToLogin": "redirected_to_login",
+    }
+    for record in records:
+        candidates = [record]
+        params = record.get("params")
+        if isinstance(params, dict):
+            candidates.append(params)
+        metadata = record.get("metadata")
+        if isinstance(metadata, dict):
+            candidates.append(metadata)
+        for source in candidates:
+            for raw_key, normalized_key in field_map.items():
+                if raw_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[raw_key]
+                elif normalized_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[normalized_key]
+    return observations
+
+
+def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    observations: dict[str, Any] = {}
+    field_map = {
+        "routeRegistered": "route_registered",
+        "routePattern": "route_pattern",
+        "requestUrl": "request_url",
+        "routeMatched": "route_matched",
+        "liveNetworkRequest": "live_network_request",
+        "routeRegisteredAfterRequest": "route_registered_after_request",
+        "firstRequestUrl": "first_request_url",
+        "routeRegisteredAtMs": "route_registered_at_ms",
+        "firstRequestAtMs": "first_request_at_ms",
+        "harExpected": "har_expected",
+        "harLoaded": "har_loaded",
+        "harPath": "har_path",
+        "harError": "har_error",
+        "harNotFoundPolicy": "har_not_found_policy",
+        "harMissUrl": "har_miss_url",
+        "mockResponseFulfilled": "mock_response_fulfilled",
+        "mockStatus": "mock_status",
+        "expectedResponseFields": "expected_response_fields",
+        "actualResponseFields": "actual_response_fields",
+        "mockResponseShapeMismatch": "mock_response_shape_mismatch",
     }
     for record in records:
         candidates = [record]

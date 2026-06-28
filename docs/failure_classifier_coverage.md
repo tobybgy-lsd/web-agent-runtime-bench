@@ -33,6 +33,7 @@ web automation categories above:
 | `playwright_popup` | popup/new-page event markers | Wait for the popup and continue extraction on the new page |
 | `playwright_service_worker_cache` | service-worker/cache-source markers such as `fromServiceWorker` | Separate stale cache/state from parser or selector bugs |
 | `playwright_storage_state_context` | storageState/context markers, missing cookies/storage, login redirects after state reuse | Align storageState, baseURL, cookies, and browser context lifecycle |
+| `playwright_route_mock_har` | route/mock/HAR markers, route misses, fallback network leaks, mock schema mismatch | Fix route patterns, registration timing, HAR loading, and mock contracts |
 
 ## Adapters
 

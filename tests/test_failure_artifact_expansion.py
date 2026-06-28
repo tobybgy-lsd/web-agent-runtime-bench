@@ -500,6 +500,49 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             self.assertEqual(artifact["observations"]["storage_state_expected"], True)
             self.assertEqual(artifact["observations"]["storage_state_loaded"], False)
 
+    def test_playwright_trace_adapter_extracts_route_mock_har_markers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "route_trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "route",
+                                    "routeRegistered": True,
+                                    "routePattern": "**/api/products",
+                                    "requestUrl": "https://example.test/v2/products",
+                                    "routeMatched": False,
+                                    "liveNetworkRequest": True,
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "event",
+                                    "method": "Network.requestWillBeSent",
+                                    "params": {
+                                        "request": {
+                                            "url": "https://example.test/v2/products",
+                                            "method": "GET",
+                                        }
+                                    },
+                                }
+                            ),
+                        ]
+                    ),
+                )
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_route_trace")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(diagnosis["failure_type"], "playwright_route_mock_har")
+            self.assertEqual(diagnosis["subtype"], "route_pattern_mismatch")
+            self.assertEqual(artifact["observations"]["route_registered"], True)
+            self.assertEqual(artifact["observations"]["route_matched"], False)
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -32,6 +32,11 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "playwright_context_recreated_without_state": "playwright_storage_state_context",
             "playwright_storage_local_storage_missing": "playwright_storage_state_context",
             "playwright_storage_base_url_origin_mismatch": "playwright_storage_state_context",
+            "playwright_route_pattern_mismatch": "playwright_route_mock_har",
+            "playwright_route_registered_too_late": "playwright_route_mock_har",
+            "playwright_har_not_loaded": "playwright_route_mock_har",
+            "playwright_har_fallback_network_leak": "playwright_route_mock_har",
+            "playwright_mock_response_shape_mismatch": "playwright_route_mock_har",
         }
         expected_subtypes = {
             "playwright_storage_cookie_domain_mismatch": "cookie_domain_mismatch",
@@ -39,6 +44,11 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "playwright_context_recreated_without_state": "context_recreated_without_state",
             "playwright_storage_local_storage_missing": "local_storage_missing",
             "playwright_storage_base_url_origin_mismatch": "base_url_state_origin_mismatch",
+            "playwright_route_pattern_mismatch": "route_pattern_mismatch",
+            "playwright_route_registered_too_late": "route_registered_too_late",
+            "playwright_har_not_loaded": "har_not_found_or_not_loaded",
+            "playwright_har_fallback_network_leak": "har_fallback_network_leak",
+            "playwright_mock_response_shape_mismatch": "mock_response_shape_mismatch",
         }
 
         for case_name, expected_type in expected_types.items():

@@ -63,6 +63,7 @@ def render_issue_draft(artifact: Mapping[str, Any], diagnosis: Mapping[str, Any]
 ## Initial Diagnosis
 - Failure type: `{failure_type}`
 - Subtype: `{diagnosis.get("subtype", "n/a")}`
+- Evidence level: `{diagnosis.get("evidence_level", "n/a")}`
 - Confidence: `{confidence:.0%}`
 - Tool: `{artifact.get("tool", "unknown")}`
 
