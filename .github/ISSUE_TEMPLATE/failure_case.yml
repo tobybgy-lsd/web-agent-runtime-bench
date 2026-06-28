@@ -1,15 +1,16 @@
-name: Failure case
-description: Submit a sanitized automation failure for diagnosis or corpus review.
-title: "[Failure case]: "
+name: Submit a sanitized failure case
+description: Share a sanitized failure artifact, log, trace, or description.
+title: "[Failure Case]: "
 labels:
   - failure-case
+  - needs-triage
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for sharing a failure case. Please remove secrets before posting.
         Do not include passwords, API keys, cookies, tokens, authorization headers,
-        private screenshots, or personal data.
+        private screenshots, customer data, personal data, or private URLs.
   - type: textarea
     id: what-failed
     attributes:
@@ -21,11 +22,13 @@ body:
   - type: dropdown
     id: tool
     attributes:
-      label: What tool?
-      description: Playwright / browser-use / Codex / RPA / other
+      label: Tool
+      description: Playwright / browser-use / Scrapy / requests / Codex / RPA / other
       options:
         - Playwright
         - browser-use
+        - Scrapy
+        - requests
         - Codex
         - RPA
         - other
@@ -35,11 +38,12 @@ body:
     id: input-type
     attributes:
       label: Input type
-      description: log / trace / network / screenshot / description
+      description: trace.zip / error.log / console.txt / network.json / screenshot / description
       options:
-        - label: log
-        - label: trace
-        - label: network
+        - label: trace.zip
+        - label: error.log
+        - label: console.txt
+        - label: network.json
         - label: screenshot
         - label: description
   - type: textarea
@@ -57,9 +61,9 @@ body:
     validations:
       required: true
   - type: textarea
-    id: sanitized-log
+    id: sanitized-error-excerpt
     attributes:
-      label: Sanitized log
+      label: Sanitized error excerpt
       description: Paste only sanitized excerpts. Remove secrets and private data.
       render: text
   - type: dropdown
@@ -72,3 +76,10 @@ body:
         - "not sure"
     validations:
       required: true
+  - type: checkboxes
+    id: sanitized-confirmation
+    attributes:
+      label: Sanitization confirmation
+      options:
+        - label: I confirm this report contains no credentials/cookies/tokens/private data.
+          required: true

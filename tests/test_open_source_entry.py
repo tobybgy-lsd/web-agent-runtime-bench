@@ -33,15 +33,15 @@ class OpenSourceEntryTests(unittest.TestCase):
         text = template.read_text(encoding="utf-8")
 
         for phrase in (
-            "name: Failure case",
+            "name: Submit a sanitized failure case",
             "What failed?",
-            "What tool?",
-            "Playwright / browser-use / Codex / RPA / other",
+            "Tool",
+            "Playwright / browser-use / Scrapy / requests / Codex / RPA / other",
             "Input type",
-            "log / trace / network / screenshot / description",
+            "trace.zip / error.log / console.txt / network.json / screenshot / description",
             "Expected result",
             "Actual result",
-            "Sanitized log",
+            "Sanitized error excerpt",
             "Can this become a public test case?",
         ):
             self.assertIn(phrase, text)

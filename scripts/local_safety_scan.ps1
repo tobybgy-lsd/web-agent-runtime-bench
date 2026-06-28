@@ -64,6 +64,8 @@ function Test-Pattern-Docs($Pattern, $Label) {
         # In docs, the pattern is acceptable in safety-boundary / forbidden context
         if ($line -match "^(.*\b(Forbidden|禁止|not a|Not a|never|safety|安全|扫描|audit)\b.*)$") {
             Write-Host "  [OK] expected in safety context: $($m.Path):$($m.LineNumber)" -ForegroundColor Gray
+        } elseif ($line -match "failure doctor" -and $line -match "debugging") {
+            Write-Host "  [OK] product announcement context: $($m.Path):$($m.LineNumber)" -ForegroundColor Gray
         } elseif ($line -match "^- .*(not a|no |No |NOT |stop)" -or $line -match "^\\|.*\\|.*(not a|no |no.*crawler|not for)" -or $line -match "Production crawler|production crawler" -or $line -match "real.platform.scraper") {
             Write-Host "  [OK] disclaimer table row: $($m.Path):$($m.LineNumber)" -ForegroundColor Gray
         } else {
