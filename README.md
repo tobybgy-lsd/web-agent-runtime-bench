@@ -146,6 +146,8 @@ python tools/warb.py diagnose sample_run/from_trace/failure_artifact.json
 The smoke script writes `failure_artifact.json`, `diagnosis.json`, `diagnosis.md`,
 `diagnosis_report.html`, and `repair_prompt.md` under
 `outputs/adapt_playwright_trace/`.
+The included fixture demonstrates action-level evidence such as failed
+`locator.waitFor`, exception details, and snapshot references.
 
 Generate a synthetic regression fixture from a sanitized pack:
 

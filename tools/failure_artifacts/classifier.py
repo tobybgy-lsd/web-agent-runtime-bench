@@ -225,6 +225,28 @@ def _classify_selector_drift(artifact: Mapping[str, Any], text: str) -> dict[str
     evidence = [f"selector marker found: {marker}" for marker in found[:2]]
     if missing_selectors:
         evidence.append(f"missing selectors: {', '.join(map(str, missing_selectors[:5]))}")
+    failed_action = observations.get("failed_action") if isinstance(observations, Mapping) else None
+    if isinstance(failed_action, Mapping):
+        api_name = failed_action.get("api_name")
+        selector = failed_action.get("selector")
+        snapshot = failed_action.get("after_snapshot") or failed_action.get("before_snapshot")
+        action_bits = []
+        if api_name:
+            action_bits.append(str(api_name))
+        if selector:
+            action_bits.append(f"selector {selector}")
+        if snapshot:
+            action_bits.append(f"snapshot {snapshot}")
+        if action_bits:
+            evidence.append(f"failed action: {', '.join(action_bits)}")
+    snapshot_refs = observations.get("snapshot_refs") if isinstance(observations, Mapping) else None
+    if isinstance(snapshot_refs, list) and snapshot_refs:
+        names = []
+        for ref in snapshot_refs[:3]:
+            if isinstance(ref, Mapping):
+                names.append(str(ref.get("name") or ref.get("sha1") or "snapshot"))
+        if names:
+            evidence.append(f"snapshot refs available: {', '.join(names)}")
     if missing_fields:
         evidence.append(f"extraction fields missing after selector lookup: {', '.join(missing_fields)}")
     return _result(

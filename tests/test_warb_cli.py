@@ -55,6 +55,9 @@ class WarbCliTests(unittest.TestCase):
             self.assertEqual(artifact["labels"]["failure_type"], "selector_drift")
             self.assertGreaterEqual(artifact["labels"]["confidence"], 0.7)
             self.assertEqual(artifact["observations"]["url"], "https://example.test/products")
+            self.assertEqual(artifact["observations"]["failed_action"]["api_name"], "locator.waitFor")
+            self.assertEqual(artifact["observations"]["failed_action"]["after_snapshot"], "after@7")
+            self.assertEqual(artifact["observations"]["snapshot_refs"][0]["name"], "after@7")
             self.assertEqual(
                 artifact["observations"]["network_events"],
                 [{"method": "GET", "url": "https://example.test/products", "status": 200}],

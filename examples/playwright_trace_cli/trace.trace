@@ -1,2 +1,6 @@
+{"type":"before","callId":"call@7","apiName":"locator.waitFor","params":{"selector":".price"},"beforeSnapshot":"before@7"}
+{"type":"after","callId":"call@7","afterSnapshot":"after@7","error":{"message":"Timeout 30000ms waiting for selector .price","stack":"TimeoutError: locator.waitFor .price failed"}}
+{"type":"event","method":"Runtime.exceptionThrown","params":{"exceptionDetails":{"text":"TimeoutError","exception":{"description":"locator.waitFor .price failed"},"stackTrace":{"callFrames":[{"url":"app.js","lineNumber":42}]}}}}
+{"type":"snapshot","snapshotName":"after@7","sha1":"resources/page.html","title":"Synthetic product page after timeout"}
 {"type":"console","message":{"type":"error","text":"Timeout 30000ms waiting for selector .price"}}
 {"type":"event","method":"Network.responseReceived","params":{"response":{"url":"https://example.test/products","status":200,"request":{"method":"GET"}}}}

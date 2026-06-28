@@ -24,13 +24,17 @@ starts changing scraper code.
 `warb adapt` converts captured evidence into `failure_artifact.json`:
 
 ```bash
-python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace
+python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace --diagnose
 python tools/warb.py adapt scrapy scrapy.log --response response.html --out sample_run/from_scrapy
 python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
 ```
 
 Adapters do not replay network traffic. They only normalize local, already
 captured evidence.
+
+The Playwright trace adapter extracts bounded action-level evidence from
+synthetic/local trace records, including failed action metadata, exception
+details, network summaries, snapshot references, and DOM excerpts.
 
 ## Regression Fixtures
 

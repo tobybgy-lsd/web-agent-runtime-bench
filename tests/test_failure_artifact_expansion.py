@@ -196,6 +196,126 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             self.assertIn("password", artifact["observations"]["html_excerpt"])
             self.assertEqual(artifact["observations"]["network_events"], [])
 
+    def test_playwright_trace_adapter_extracts_actions_exceptions_and_snapshots(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "before",
+                                    "callId": "call@7",
+                                    "apiName": "locator.waitFor",
+                                    "params": {"selector": ".price"},
+                                    "beforeSnapshot": "before@7",
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "after",
+                                    "callId": "call@7",
+                                    "afterSnapshot": "after@7",
+                                    "error": {
+                                        "message": "Timeout 30000ms waiting for selector .price",
+                                        "stack": "TimeoutError: locator.waitFor .price failed",
+                                    },
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "event",
+                                    "method": "Runtime.exceptionThrown",
+                                    "params": {
+                                        "exceptionDetails": {
+                                            "text": "TimeoutError",
+                                            "exception": {"description": "locator.waitFor .price failed"},
+                                            "stackTrace": {"callFrames": [{"url": "app.js", "lineNumber": 42}]},
+                                        }
+                                    },
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "snapshot",
+                                    "snapshotName": "after@7",
+                                    "sha1": "resources/after.html",
+                                    "title": "Product page after timeout",
+                                }
+                            ),
+                        ]
+                    ),
+                )
+                archive.writestr("resources/after.html", "<html><span class='amount'>$12.00</span></html>")
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_v2")
+            observations = artifact["observations"]
+
+            self.assertEqual(artifact["error"]["stack"], "TimeoutError: locator.waitFor .price failed")
+            self.assertEqual(
+                observations["failed_action"],
+                {
+                    "call_id": "call@7",
+                    "api_name": "locator.waitFor",
+                    "selector": ".price",
+                    "error": "Timeout 30000ms waiting for selector .price",
+                    "before_snapshot": "before@7",
+                    "after_snapshot": "after@7",
+                },
+            )
+            self.assertEqual(observations["action_events"][0]["api_name"], "locator.waitFor")
+            self.assertIn("locator.waitFor .price failed", observations["exception_details"][0]["message"])
+            self.assertEqual(
+                observations["snapshot_refs"],
+                [{"name": "after@7", "sha1": "resources/after.html", "title": "Product page after timeout"}],
+            )
+            self.assertIn("class='amount'", observations["html_excerpt"])
+
+    def test_classifier_mentions_failed_action_and_snapshot_refs(self):
+        artifact = {
+            "schema_version": "failure-artifact/v1",
+            "run_id": "selector_action_001",
+            "tool": "playwright",
+            "target_type": "sanitized_real_failure",
+            "summary": "Selector timeout during action",
+            "error": {
+                "message": "Timeout 30000ms waiting for selector .price",
+                "stack": "TimeoutError: locator.waitFor .price failed",
+                "status_code": 200,
+            },
+            "artifacts": {"trace": "trace.zip"},
+            "observations": {
+                "failed_action": {
+                    "call_id": "call@7",
+                    "api_name": "locator.waitFor",
+                    "selector": ".price",
+                    "error": "Timeout 30000ms waiting for selector .price",
+                    "after_snapshot": "after@7",
+                },
+                "missing_selectors": [".price"],
+                "snapshot_refs": [{"name": "after@7", "sha1": "resources/after.html"}],
+            },
+            "expected": {"required_fields": []},
+            "actual": {"fields": {}, "array_length": None},
+            "labels": {"failure_type": "unknown", "confidence": 0.0},
+            "safety": {
+                "sanitized": True,
+                "contains_credentials": False,
+                "external_network_required": False,
+                "user_authorized_or_synthetic": True,
+            },
+        }
+
+        diagnosis = classify_failure_artifact(artifact)
+        evidence_text = "\n".join(diagnosis["evidence"]).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "selector_drift")
+        self.assertIn("failed action: locator.waitfor", evidence_text)
+        self.assertIn("after@7", evidence_text)
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

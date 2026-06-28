@@ -20,6 +20,8 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     path = Path(trace_zip)
     console_messages: list[str] = []
     network_events: list[dict[str, Any]] = []
+    records: list[dict[str, Any]] = []
+    snapshot_refs: list[dict[str, str]] = []
     html_snapshot = ""
     status_code: int | None = None
     url = ""
@@ -33,6 +35,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             text = data.decode("utf-8", errors="replace")
             status_code = _extract_status(text) or status_code
             for record in _parse_json_records(text):
+                records.append(record)
                 for message in _extract_record_messages(record):
                     _append_unique(console_messages, message, limit=20)
                 event = _extract_network_event(record)
@@ -41,6 +44,9 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
                         network_events.append(event)
                     status_code = _as_int(event.get("status")) or status_code
                     url = str(event.get("url") or url)
+                snapshot_ref = _extract_snapshot_ref(record)
+                if snapshot_ref and snapshot_ref not in snapshot_refs:
+                    snapshot_refs.append(snapshot_ref)
 
             if "console" in lower or lower.endswith(".log"):
                 _append_unique(console_messages, text, limit=20)
@@ -54,18 +60,29 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
                 else:
                     status_code = _extract_status(text) or status_code
 
+    action_events, failed_action, action_stack = _extract_action_observations(records)
+    exception_details = _extract_exception_details(records)
+    error_stack = action_stack or _first_exception_stack(exception_details)
+    missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
+
     return _base_artifact(
         run_id=run_id,
         tool="playwright",
         summary="Collected from Playwright trace.zip",
         status_code=status_code,
         error_message=" ".join(console_messages)[:500],
+        error_stack=error_stack,
         artifacts={"trace": path.name, "html_snapshot": "snapshot.html"} if html_snapshot else {"trace": path.name},
         observations={
             "source_adapter": "playwright_trace",
             "url": url,
             "console_messages": console_messages,
             "network_events": network_events[:20],
+            "action_events": action_events[:20],
+            "failed_action": failed_action,
+            "exception_details": exception_details[:20],
+            "snapshot_refs": snapshot_refs[:20],
+            "missing_selectors": missing_selectors,
             "html_excerpt": html_snapshot[:1000],
         },
     )
@@ -139,6 +156,7 @@ def _base_artifact(
     error_message: str,
     artifacts: dict[str, str],
     observations: dict[str, Any],
+    error_stack: str = "",
 ) -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
@@ -146,7 +164,7 @@ def _base_artifact(
         "tool": tool,
         "target_type": "sanitized_real_failure",
         "summary": summary,
-        "error": {"message": error_message, "stack": "", "status_code": status_code},
+        "error": {"message": error_message, "stack": error_stack, "status_code": status_code},
         "artifacts": artifacts,
         "observations": observations,
         "expected": {"required_fields": []},
@@ -265,6 +283,115 @@ def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
     if status is not None:
         event["status"] = status
     return event if event else None
+
+
+def _extract_action_observations(records: list[dict[str, Any]]) -> tuple[list[dict[str, str]], dict[str, str], str]:
+    actions_by_call_id: dict[str, dict[str, str]] = {}
+    action_events: list[dict[str, str]] = []
+    failed_action: dict[str, str] = {}
+    error_stack = ""
+
+    for record in records:
+        record_type = str(record.get("type") or "").lower()
+        call_id = str(record.get("callId") or record.get("call_id") or "")
+        if record_type == "before" and call_id:
+            params = record.get("params") if isinstance(record.get("params"), dict) else {}
+            action = {
+                "call_id": call_id,
+                "api_name": str(record.get("apiName") or record.get("api_name") or ""),
+            }
+            selector = params.get("selector") or record.get("selector")
+            if selector:
+                action["selector"] = str(selector)
+            before_snapshot = record.get("beforeSnapshot") or record.get("snapshot") or record.get("snapshotName")
+            if before_snapshot:
+                action["before_snapshot"] = str(before_snapshot)
+            actions_by_call_id[call_id] = action
+            action_events.append(dict(action))
+        elif record_type == "after" and call_id:
+            action = dict(actions_by_call_id.get(call_id, {"call_id": call_id}))
+            after_snapshot = record.get("afterSnapshot") or record.get("snapshot") or record.get("snapshotName")
+            if after_snapshot:
+                action["after_snapshot"] = str(after_snapshot)
+            error = record.get("error")
+            error_message = _coerce_message_text(error)
+            if error_message:
+                action["error"] = error_message
+                failed_action = action
+            if isinstance(error, dict):
+                error_stack = _coerce_stack_text(error.get("stack")) or error_stack
+            if action not in action_events:
+                action_events.append(action)
+
+    return action_events, failed_action, error_stack
+
+
+def _extract_exception_details(records: list[dict[str, Any]]) -> list[dict[str, str]]:
+    details: list[dict[str, str]] = []
+    for record in records:
+        params = record.get("params") if isinstance(record.get("params"), dict) else {}
+        raw_detail = params.get("exceptionDetails") or record.get("exceptionDetails")
+        if not isinstance(raw_detail, dict):
+            continue
+        exception = raw_detail.get("exception") if isinstance(raw_detail.get("exception"), dict) else {}
+        message = (
+            _coerce_message_text(exception.get("description"))
+            or _coerce_message_text(raw_detail.get("text"))
+            or _coerce_message_text(raw_detail)
+        )
+        stack = _coerce_stack_text(raw_detail.get("stackTrace")) or _coerce_stack_text(raw_detail.get("stack"))
+        detail: dict[str, str] = {}
+        if message:
+            detail["message"] = message
+        if stack:
+            detail["stack"] = stack
+        if detail and detail not in details:
+            details.append(detail)
+    return details
+
+
+def _extract_snapshot_ref(record: dict[str, Any]) -> dict[str, str] | None:
+    name = record.get("snapshotName") or record.get("snapshot") or record.get("name")
+    sha1 = record.get("sha1") or record.get("resourceSha1")
+    record_type = str(record.get("type") or "").lower()
+    if record_type != "snapshot" and not (name and sha1):
+        return None
+    ref: dict[str, str] = {}
+    if name:
+        ref["name"] = str(name)
+    if sha1:
+        ref["sha1"] = str(sha1)
+    title = record.get("title")
+    if title:
+        ref["title"] = str(title)
+    return ref if ref else None
+
+
+def _coerce_stack_text(value: Any) -> str:
+    if isinstance(value, str):
+        return value[:1000]
+    if isinstance(value, dict):
+        frames = value.get("callFrames")
+        if isinstance(frames, list):
+            rendered: list[str] = []
+            for frame in frames[:5]:
+                if not isinstance(frame, dict):
+                    continue
+                url = frame.get("url") or "<anonymous>"
+                line = frame.get("lineNumber")
+                if line is not None:
+                    rendered.append(f"{url}:{line}")
+                else:
+                    rendered.append(str(url))
+            return "\n".join(rendered)
+    return ""
+
+
+def _first_exception_stack(exception_details: list[dict[str, str]]) -> str:
+    for detail in exception_details:
+        if detail.get("stack"):
+            return detail["stack"]
+    return ""
 
 
 def _first_dict(*values: Any) -> dict[str, Any]:
