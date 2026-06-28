@@ -60,7 +60,7 @@ class OpenSourceEntryTests(unittest.TestCase):
             self.assertIn(phrase, text)
 
     def test_community_post_drafts_request_failure_samples_not_stars(self):
-        text = (ROOT / "docs" / "COMMUNITY_POST_DRAFTS.md").read_text(encoding="utf-8")
+        text = (ROOT / "docs" / "internal" / "COMMUNITY_POST_DRAFTS.md").read_text(encoding="utf-8")
 
         for phrase in (
             "I built a local-first failure doctor for AI browser automation, Playwright, and browser workflow debugging",

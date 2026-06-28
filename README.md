@@ -113,7 +113,7 @@ Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 
 ## Validation Status
 
-Current public release: Agent Failure Doctor v0.4.0.
+Current public release: Agent Failure Doctor v0.6.0.
 
 - 150 public-inspired / sanitized validation records with traceable public URLs
 - 100 public failure corpus cases

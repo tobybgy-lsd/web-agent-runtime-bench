@@ -34,7 +34,7 @@ Repository: `D:\WebAgentRuntimeBench-GitHub`
 - `docs/ANTI_BOT_RISK_BOUNDARY.md`
 - `docs/DISCUSSIONS_GUIDE.md`
 - `docs/RELEASE_TEMPLATE.md`
-- `docs/ANNOUNCEMENT_DRAFT.md`
+- `docs/internal/ANNOUNCEMENT_DRAFT.md`
 
 ## 4. Internal Files Moved
 
@@ -58,7 +58,7 @@ Moved root-level internal process reports into `docs/internal/`:
 - `.github/pull_request_template.md`
 - `docs/DISCUSSIONS_GUIDE.md`
 - `docs/RELEASE_TEMPLATE.md`
-- `docs/ANNOUNCEMENT_DRAFT.md`
+- `docs/internal/ANNOUNCEMENT_DRAFT.md`
 
 ## 6. Installation Support
 
@@ -71,7 +71,7 @@ python -m pip install -e .
 Installed package:
 
 ```text
-agent-failure-doctor==0.4.0
+agent-failure-doctor==0.6.0
 ```
 
 Console scripts:

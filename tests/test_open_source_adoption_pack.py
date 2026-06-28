@@ -42,7 +42,7 @@ class OpenSourceAdoptionPackTests(unittest.TestCase):
         for rel in (
             "docs/DISCUSSIONS_GUIDE.md",
             "docs/RELEASE_TEMPLATE.md",
-            "docs/ANNOUNCEMENT_DRAFT.md",
+            "docs/internal/ANNOUNCEMENT_DRAFT.md",
         ):
             self.assertTrue((ROOT / rel).exists(), rel)
 
@@ -50,7 +50,7 @@ class OpenSourceAdoptionPackTests(unittest.TestCase):
         for phrase in ("Failure Cases", "Ideas", "Show and Tell"):
             self.assertIn(phrase, discussions)
 
-        announcement = (ROOT / "docs" / "ANNOUNCEMENT_DRAFT.md").read_text(encoding="utf-8")
+        announcement = (ROOT / "docs" / "internal" / "ANNOUNCEMENT_DRAFT.md").read_text(encoding="utf-8")
         self.assertIn("I built a local-first failure doctor for AI browser automation, Playwright, and crawler debugging", announcement)
         self.assertIn("欢迎提交脱敏后的失败日志", announcement)
         self.assertIn("not asking for stars", announcement.lower())
