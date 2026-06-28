@@ -1,45 +1,40 @@
-# WebAgentRuntimeBench
+# Playwright Trace Failure Doctor
 
-**Your web scraper failed. You don't know why. This tool tells you.**
+**Local-first diagnostic tool for Playwright `trace.zip` and AI browser-agent failures.**
 
-WebAgentRuntimeBench classifies web automation failures, generates evidence-backed
-reports, and converts real failures into regression tests — so you never debug the
-same problem twice.
+Drop in a local, sanitized Playwright `trace.zip`. Get failure classification,
+evidence extraction, repair suggestions, a GitHub issue draft, and a zipped
+diagnostic artifact.
 
-```bash
-python tools/warb.py diagnose examples/failures/seed_004_auth_expiry/failure_artifact.json
+```powershell
+python -m trace_doctor diagnose .\trace.zip --out .\report
 ```
 
 ```
-Failure type:  auth_expiry
-Confidence:    0.84
-
-Evidence:
-  - HTTP 200 but page contains <input type="password">
-  - URL redirected from /products to /login
-  - Expected fields title/price missing from output
-
-Suggested fix:
-  - Refresh authenticated session before scraping
-  - Add preflight login-state check
-  - Re-run with valid storage_state
-
-Regression case saved: failure_corpus/sanitized/auth_001/
+report/
+├── failure_artifact.json
+├── diagnosis.json
+├── diagnosis.md
+├── evidence.json
+├── issue_draft.md
+├── repair_suggestions.md
+└── trace_doctor_report.zip
 ```
 
-No network required. No API keys. No credentials captured.
+Not a CAPTCHA bypass tool. Not a real-platform scraper. Not a credential
+extractor. Not a bot evasion tool. Local sanitized traces only.
 
 ---
 
 ## What it does
 
-| Problem | What warb does |
+| Problem | What Trace Doctor does |
 |---|---|
-| Playwright script crashes | Classifies the root cause in seconds |
-| Scrapy spider returns empty | Detects response shape change or auth expiry |
-| Node.js chokes on `window` | Identifies missing browser API, suggests shim |
-| Fixed a bug, broke something else | Regression suite catches it in CI |
-| Same bug keeps coming back | Every real failure becomes a test case |
+| Playwright test or browser agent fails | Classifies the likely root cause from trace evidence |
+| Trace Viewer shows many clues but no diagnosis | Names the failure type and extracts supporting evidence |
+| A repair needs to be handed to a coding assistant | Writes `repair_suggestions.md` and `issue_draft.md` |
+| Debug evidence must be shared safely | Produces a local zipped diagnostic artifact |
+| Same failure pattern keeps coming back | Converts sanitized failures into regression fixtures |
 
 ---
 
@@ -51,10 +46,13 @@ No network required. No API keys. No credentials captured.
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench
 cd web-agent-runtime-bench
 
-# Diagnose a failure
-python tools/warb.py diagnose examples/failures/seed_004_auth_expiry/failure_artifact.json
+# Diagnose a local sanitized Playwright trace
+python -m trace_doctor diagnose .\trace.zip --out .\report
 
-# Run full benchmark suite
+# Run the legacy artifact CLI directly
+python tools/warb.py adapt playwright-trace .\trace.zip --out sample_run\from_trace --diagnose
+
+# Run the verification benchmark suite
 python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
 ```
 
