@@ -36,6 +36,7 @@ class FailureDoctorCliTests(unittest.TestCase):
                 [sys.executable, "-m", "failure_doctor", "diagnose", str(input_dir), "--out", str(out_dir)],
                 cwd=ROOT,
                 text=True,
+                encoding="utf-8",
                 capture_output=True,
             )
 
@@ -83,6 +84,7 @@ class FailureDoctorCliTests(unittest.TestCase):
                 [sys.executable, "-m", "failure_doctor", "diagnose", str(trace_zip), "--out", str(out_dir)],
                 cwd=ROOT,
                 text=True,
+                encoding="utf-8",
                 capture_output=True,
             )
 
@@ -108,6 +110,7 @@ class FailureDoctorCliTests(unittest.TestCase):
                 [sys.executable, "-m", "failure_doctor", "diagnose", str(log), "--out", str(out_dir)],
                 cwd=ROOT,
                 text=True,
+                encoding="utf-8",
                 capture_output=True,
             )
 
