@@ -22,6 +22,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     network_events: list[dict[str, Any]] = []
     records: list[dict[str, Any]] = []
     snapshot_refs: list[dict[str, str]] = []
+    text_resources: dict[str, str] = {}
     html_snapshot = ""
     status_code: int | None = None
     url = ""
@@ -33,6 +34,8 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             lower = name.lower()
             data = archive.read(name)
             text = data.decode("utf-8", errors="replace")
+            if _is_text_resource(lower):
+                text_resources[name] = text[:5000]
             status_code = _extract_status(text) or status_code
             for record in _parse_json_records(text):
                 records.append(record)
@@ -64,6 +67,9 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     exception_details = _extract_exception_details(records)
     error_stack = action_stack or _first_exception_stack(exception_details)
     missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
+    snapshot_excerpts = _link_snapshot_excerpts(snapshot_refs, text_resources)
+    dom_hint_source = " ".join(item.get("excerpt", "") for item in snapshot_excerpts) or html_snapshot
+    dom_hints = _extract_dom_hints(dom_hint_source, missing_selectors)
 
     return _base_artifact(
         run_id=run_id,
@@ -82,7 +88,9 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             "failed_action": failed_action,
             "exception_details": exception_details[:20],
             "snapshot_refs": snapshot_refs[:20],
+            "snapshot_excerpts": snapshot_excerpts[:20],
             "missing_selectors": missing_selectors,
+            "dom_hints": dom_hints,
             "html_excerpt": html_snapshot[:1000],
         },
     )
@@ -365,6 +373,50 @@ def _extract_snapshot_ref(record: dict[str, Any]) -> dict[str, str] | None:
     if title:
         ref["title"] = str(title)
     return ref if ref else None
+
+
+def _link_snapshot_excerpts(snapshot_refs: list[dict[str, str]], text_resources: dict[str, str]) -> list[dict[str, str]]:
+    excerpts: list[dict[str, str]] = []
+    for ref in snapshot_refs:
+        sha1 = ref.get("sha1", "")
+        text = text_resources.get(sha1) or text_resources.get(sha1.lstrip("/"))
+        if not text:
+            continue
+        excerpt = {
+            "name": ref.get("name", ""),
+            "sha1": sha1,
+            "excerpt": text[:1000],
+        }
+        if excerpt not in excerpts:
+            excerpts.append(excerpt)
+    return excerpts
+
+
+def _extract_dom_hints(html: str, missing_selectors: list[str]) -> dict[str, list[str]]:
+    classes = []
+    for match in re.finditer(r"\bclass\s*=\s*['\"]([^'\"]+)['\"]", html, re.IGNORECASE):
+        for class_name in match.group(1).split():
+            selector = f".{class_name}"
+            if selector not in classes:
+                classes.append(selector)
+
+    text_candidates = []
+    for text in re.findall(r">([^<>]+)<", html):
+        text = re.sub(r"\s+", " ", text).strip()
+        if text and text not in text_candidates:
+            text_candidates.append(text)
+
+    present_missing = [selector for selector in missing_selectors if selector and selector in html]
+    missing = [selector for selector in missing_selectors if selector and selector not in present_missing]
+    return {
+        "missing_selectors": missing[:10],
+        "candidate_selectors": [selector for selector in classes if selector not in missing][:10],
+        "candidate_text": text_candidates[:10],
+    }
+
+
+def _is_text_resource(lower_name: str) -> bool:
+    return lower_name.endswith((".html", ".dom", ".txt", ".json", ".trace", ".log"))
 
 
 def _coerce_stack_text(value: Any) -> str:

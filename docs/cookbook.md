@@ -113,6 +113,6 @@ cat ..\..\sample_run\a3\signed_api_trace.jsonl
 
 **Expected output**: `=== ADAPTER SMOKE TEST: PASS ===`
 
-**What it proves**: The `warb adapt playwright-trace --diagnose` CLI can read a sanitized local trace archive, extract status, URL, console error, failed action, exception details, snapshot reference, DOM excerpt, produce an initial `selector_drift` diagnosis, and write `diagnosis.json`, `diagnosis.md`, `diagnosis_report.html`, and `repair_prompt.md`.
+**What it proves**: The `warb adapt playwright-trace --diagnose` CLI can read a sanitized local trace archive, extract status, URL, console error, failed action, exception details, snapshot reference, linked DOM excerpt, selector hints, produce an initial `selector_drift` diagnosis, and write `diagnosis.json`, `diagnosis.md`, `diagnosis_report.html`, and `repair_prompt.md`.
 
 **Safety**: The fixture is synthetic and local. It does not launch a browser, replay network traffic, or include credentials.

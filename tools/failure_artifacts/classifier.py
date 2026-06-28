@@ -247,6 +247,11 @@ def _classify_selector_drift(artifact: Mapping[str, Any], text: str) -> dict[str
                 names.append(str(ref.get("name") or ref.get("sha1") or "snapshot"))
         if names:
             evidence.append(f"snapshot refs available: {', '.join(names)}")
+    dom_hints = observations.get("dom_hints") if isinstance(observations, Mapping) else None
+    if isinstance(dom_hints, Mapping):
+        candidates = dom_hints.get("candidate_selectors")
+        if isinstance(candidates, list) and candidates:
+            evidence.append(f"DOM candidates: {', '.join(map(str, candidates[:5]))}")
     if missing_fields:
         evidence.append(f"extraction fields missing after selector lookup: {', '.join(missing_fields)}")
     return _result(

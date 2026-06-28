@@ -297,6 +297,11 @@ class FailureArtifactExpansionTests(unittest.TestCase):
                 },
                 "missing_selectors": [".price"],
                 "snapshot_refs": [{"name": "after@7", "sha1": "resources/after.html"}],
+                "dom_hints": {
+                    "missing_selectors": [".price"],
+                    "candidate_selectors": [".amount"],
+                    "candidate_text": ["$12"],
+                },
             },
             "expected": {"required_fields": []},
             "actual": {"fields": {}, "array_length": None},
@@ -315,6 +320,70 @@ class FailureArtifactExpansionTests(unittest.TestCase):
         self.assertEqual(diagnosis["failure_type"], "selector_drift")
         self.assertIn("failed action: locator.waitfor", evidence_text)
         self.assertIn("after@7", evidence_text)
+        self.assertIn("dom candidates: .amount", evidence_text)
+
+    def test_playwright_trace_adapter_links_snapshot_resources_and_dom_hints(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "before",
+                                    "callId": "call@8",
+                                    "apiName": "locator.waitFor",
+                                    "params": {"selector": ".price"},
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "after",
+                                    "callId": "call@8",
+                                    "afterSnapshot": "after@8",
+                                    "error": {"message": "Timeout 30000ms waiting for selector .price"},
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "snapshot",
+                                    "snapshotName": "after@8",
+                                    "sha1": "resources/product_after.html",
+                                    "title": "After selector timeout",
+                                }
+                            ),
+                        ]
+                    ),
+                )
+                archive.writestr(
+                    "resources/product_after.html",
+                    "<html><body><h2 class='title'>Demo</h2><span class='amount'>$12</span></body></html>",
+                )
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_snapshot_link")
+            observations = artifact["observations"]
+
+            self.assertEqual(
+                observations["snapshot_excerpts"],
+                [
+                    {
+                        "name": "after@8",
+                        "sha1": "resources/product_after.html",
+                        "excerpt": "<html><body><h2 class='title'>Demo</h2><span class='amount'>$12</span></body></html>",
+                    }
+                ],
+            )
+            self.assertEqual(
+                observations["dom_hints"],
+                {
+                    "missing_selectors": [".price"],
+                    "candidate_selectors": [".title", ".amount"],
+                    "candidate_text": ["Demo", "$12"],
+                },
+            )
 
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:

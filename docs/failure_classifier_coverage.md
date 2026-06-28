@@ -34,7 +34,8 @@ captured evidence.
 
 The Playwright trace adapter extracts bounded action-level evidence from
 synthetic/local trace records, including failed action metadata, exception
-details, network summaries, snapshot references, and DOM excerpts.
+details, network summaries, snapshot references, linked DOM excerpts, and
+selector hints such as missing selectors plus nearby candidate classes/text.
 
 ## Regression Fixtures
 

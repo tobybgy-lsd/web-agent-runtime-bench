@@ -148,6 +148,8 @@ The smoke script writes `failure_artifact.json`, `diagnosis.json`, `diagnosis.md
 `outputs/adapt_playwright_trace/`.
 The included fixture demonstrates action-level evidence such as failed
 `locator.waitFor`, exception details, and snapshot references.
+It also links snapshot references back to local HTML resources and surfaces DOM
+selector hints such as `.amount` being present while `.price` is missing.
 
 Generate a synthetic regression fixture from a sanitized pack:
 
