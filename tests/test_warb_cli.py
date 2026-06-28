@@ -95,6 +95,102 @@ class WarbCliTests(unittest.TestCase):
             self.assertIn("already exists", result.stdout + result.stderr)
             self.assertEqual((out_dir / "keep.txt").read_text(encoding="utf-8"), "do not overwrite")
 
+    def test_doctor_reports_ready_for_complete_template_pack(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "doctor",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("Pack health: ready", result.stdout)
+            self.assertIn("Diagnosis: selector_drift", result.stdout)
+            self.assertIn("Next:", result.stdout)
+
+    def test_doctor_reports_missing_failure_artifact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pack_dir = Path(tmp) / "empty_pack"
+            pack_dir.mkdir()
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "doctor",
+                    str(pack_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("missing failure_artifact.json", result.stdout + result.stderr)
+
+    def test_doctor_reports_missing_referenced_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+            (out_dir / "snapshot.html").unlink()
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "doctor",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("missing referenced file: snapshot.html", result.stdout + result.stderr)
+
     def test_adapt_playwright_trace_fixture_writes_diagnosable_artifact(self):
         fixture_dir = ROOT / "examples" / "playwright_trace_cli"
         trace_source = fixture_dir / "trace.trace"

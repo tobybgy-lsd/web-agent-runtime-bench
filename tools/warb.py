@@ -6,6 +6,7 @@ Commands:
   collect   --tool <tool> --input <dir> --out <dir>   Create a basic artifact
   pack      --tool <tool> --input <dir> --out <dir>   Sanitize, diagnose, and zip a pack
   template  list|copy                  List or copy sanitized failure pack templates
+  doctor    <pack_dir>                 Check whether a failure pack is ready to diagnose or share
   adapt     <tool> ...                 Convert tool output into failure_artifact.json
   report    <diagnosis.json>          Generate HTML report
   regression add|generate <dir>        Add pack or generate synthetic fixture
@@ -25,6 +26,7 @@ sys.path.insert(0, str(ROOT))
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace, artifact_from_requests_run, artifact_from_scrapy_run
 from tools.failure_artifacts.classifier import classify_failure_artifact
 from tools.failure_artifacts.collector import collect_from_dir
+from tools.failure_artifacts.doctor import inspect_failure_pack
 from tools.failure_artifacts.packager import package_failure_dir
 from tools.failure_artifacts.regression import add_to_corpus, generate_synthetic_fixture
 from tools.failure_artifacts.reporter import render_html_report, render_markdown_report
@@ -233,6 +235,44 @@ def cmd_template(args: argparse.Namespace) -> int:
     return 1
 
 
+def cmd_doctor(args: argparse.Namespace) -> int:
+    pack_dir = Path(args.pack_dir)
+    report = inspect_failure_pack(pack_dir)
+    ready = bool(report.get("ready"))
+    print()
+    print(BOLD("  WebAgentRuntimeBench - Failure Pack Doctor"))
+    print(f"  Pack: {pack_dir}")
+    print(f"  Pack health: {'ready' if ready else 'needs attention'}")
+    print()
+
+    for check in report.get("checks", []):
+        status = check.get("status", "info")
+        label = {"pass": "[OK]", "warn": "[WARN]", "fail": "[FAIL]"}.get(status, "[INFO]")
+        print(f"  {label} {check.get('name')}: {check.get('detail')}")
+
+    diagnosis = report.get("diagnosis", {})
+    if diagnosis:
+        confidence = float(diagnosis.get("confidence", 0))
+        print()
+        print(f"  Diagnosis: {diagnosis.get('failure_type', 'unknown')} ({confidence:.0%})")
+
+    errors = report.get("errors", [])
+    if errors:
+        print()
+        print("  Issues:")
+        for error in errors:
+            print(f"    - {error}")
+
+    next_steps = report.get("next_steps", [])
+    if next_steps:
+        print()
+        print("  Next:")
+        for step in next_steps:
+            print(f"    - {step}")
+
+    return 0 if ready else 1
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     diag_path = Path(args.diagnosis)
     if not diag_path.exists():
@@ -355,6 +395,9 @@ def build_parser() -> argparse.ArgumentParser:
     template_copy.add_argument("--out", required=True, help="Output directory for the copied template")
     template_copy.add_argument("--force", action="store_true", help="Overwrite the output directory if it already exists")
 
+    doctor = sub.add_parser("doctor", help="Check whether a failure pack is ready to diagnose or share")
+    doctor.add_argument("pack_dir", help="Directory containing failure_artifact.json")
+
     adapt = sub.add_parser("adapt", help="Convert captured tool output into a failure artifact")
     adapt_sub = adapt.add_subparsers(dest="adapter_command")
     adapt_pw = adapt_sub.add_parser("playwright-trace", help="Convert a sanitized Playwright trace.zip")
@@ -406,6 +449,7 @@ def main() -> int:
         "report": cmd_report,
         "validate": cmd_validate,
         "template": cmd_template,
+        "doctor": cmd_doctor,
         "regression": cmd_regression,
     }
     return dispatch[args.command](args)

@@ -17,6 +17,12 @@ python tools\warb.py template list
 python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
 ```
 
+After editing the copied files, check whether the pack is ready:
+
+```powershell
+python tools\warb.py doctor sample_run\my_failure_pack
+```
+
 Create a local directory with any of these files:
 
 ```text
@@ -67,6 +73,7 @@ files before sharing them.
 Validate it:
 
 ```powershell
+python tools\warb.py doctor sample_run\failure_pack_001
 python tools\warb.py validate sample_run\failure_pack_001\failure_artifact.json
 ```
 

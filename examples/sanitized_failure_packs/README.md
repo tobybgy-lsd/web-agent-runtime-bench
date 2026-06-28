@@ -29,4 +29,10 @@ Copy one to an editable working directory:
 python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
 ```
 
-Then edit the copied files, validate the artifact, and generate a diagnosis report.
+Then edit the copied files and run the pack doctor:
+
+```powershell
+python tools\warb.py doctor sample_run\my_failure_pack
+```
+
+If the doctor reports `Pack health: ready`, validate the artifact and generate a diagnosis report.
