@@ -22,12 +22,16 @@ if (Test-Path $TempDir) { Remove-Item -Recurse -Force $TempDir }
 New-Item -ItemType Directory -Force -Path $TempDir | Out-Null
 if (Test-Path $OutDir) { Remove-Item -Recurse -Force $OutDir }
 
-Compress-Archive -Path (Join-Path $FixtureDir "trace.trace"), (Join-Path $FixtureDir "page.html") -DestinationPath $TraceZip -Force
+$TraceSource = Join-Path $TempDir "trace.trace"
+$PageSource = Join-Path $TempDir "page.html"
+Copy-Item -LiteralPath (Join-Path $FixtureDir "trace.trace") -Destination $TraceSource -Force
+Copy-Item -LiteralPath (Join-Path $FixtureDir "page.html") -Destination $PageSource -Force
+Compress-Archive -Path $TraceSource, $PageSource -DestinationPath $TraceZip -Force
 
 Write-Host ""
 Write-Host "--- Playwright trace adapter ---" -ForegroundColor Yellow
 Push-Location $RepoRoot
-$result = & "$Python" tools\warb.py adapt playwright-trace $TraceZip --out $OutDir --run-id pw_cli_fixture 2>&1
+$result = & "$Python" tools\warb.py adapt playwright-trace $TraceZip --out $OutDir --run-id pw_cli_fixture --diagnose 2>&1
 $ok = ($LASTEXITCODE -eq 0 -and ($result -join "`n") -match "Initial diagnosis: selector_drift")
 Pop-Location
 if (-not $ok) { Write-Host "[FAIL] playwright-trace adapter" -ForegroundColor Red; exit 1 }
@@ -44,12 +48,6 @@ Write-Host "[OK] playwright-trace adapter PASS" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "--- Diagnosis + repair prompt ---" -ForegroundColor Yellow
-Push-Location $RepoRoot
-$diagResult = & "$Python" tools\warb.py diagnose $Artifact --out-dir $DiagnosisDir 2>&1
-$diagOk = ($LASTEXITCODE -eq 0 -and ($diagResult -join "`n") -match "Failure type:\s+selector_drift")
-Pop-Location
-if (-not $diagOk) { Write-Host "[FAIL] diagnose adapted artifact" -ForegroundColor Red; exit 1 }
-
 $ExpectedDiagnosisFiles = @(
     (Join-Path $DiagnosisDir "diagnosis.json"),
     (Join-Path $DiagnosisDir "diagnosis.md"),

@@ -98,6 +98,49 @@ class WarbCliTests(unittest.TestCase):
         self.assertEqual(diagnosis["failure_type"], "selector_drift")
         self.assertIn("selector", (diagnosis_dir / "repair_prompt.md").read_text(encoding="utf-8").lower())
 
+    def test_adapt_diagnose_option_writes_repair_outputs(self):
+        fixture_dir = ROOT / "examples" / "playwright_trace_cli"
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            trace_zip = tmp_path / "trace.zip"
+            out_dir = tmp_path / "out"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.write(fixture_dir / "trace.trace", "trace.trace")
+                archive.write(fixture_dir / "page.html", "resources/page.html")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "adapt",
+                    "playwright-trace",
+                    str(trace_zip),
+                    "--out",
+                    str(out_dir),
+                    "--run-id",
+                    "pw_cli_diagnose",
+                    "--diagnose",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("Initial diagnosis: selector_drift", result.stdout)
+            self.assertIn("diagnosis.json", result.stdout)
+            artifact_path = out_dir / "failure_artifact.json"
+            diagnosis_dir = out_dir / "diagnosis"
+            self.assertTrue(artifact_path.exists())
+            for name in ("diagnosis.json", "diagnosis.md", "diagnosis_report.html", "repair_prompt.md"):
+                self.assertTrue((diagnosis_dir / name).exists(), f"{name} missing")
+
+            artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+            diagnosis = json.loads((diagnosis_dir / "diagnosis.json").read_text(encoding="utf-8"))
+            self.assertEqual(artifact["labels"]["failure_type"], "selector_drift")
+            self.assertEqual(diagnosis["failure_type"], "selector_drift")
+
 
 if __name__ == "__main__":
     unittest.main()

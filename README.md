@@ -126,7 +126,7 @@ and a repair prompt template.
 Convert captured tool output into the unified artifact format:
 
 ```bash
-python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace
+python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace --diagnose
 python tools/warb.py adapt scrapy scrapy.log --response response.html --out sample_run/from_scrapy
 python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
 ```
@@ -137,7 +137,7 @@ Try the full Playwright trace-to-repair-prompt chain with the included synthetic
 powershell -ExecutionPolicy Bypass -File scripts\adapt_smoke_test.ps1
 ```
 
-Then diagnose it:
+Diagnose an existing artifact separately when needed:
 
 ```bash
 python tools/warb.py diagnose sample_run/from_trace/failure_artifact.json

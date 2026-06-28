@@ -67,24 +67,33 @@ def cmd_diagnose(args: argparse.Namespace) -> int:
 
     default_out_dir = ROOT / "sample_run" / "diagnosis" / str(artifact.get("run_id", artifact_path.stem))
     out_dir = Path(args.out_dir) if args.out_dir else default_out_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    diag_json = out_dir / "diagnosis.json"
-    diag_md = out_dir / "diagnosis.md"
-    diag_html = out_dir / "diagnosis_report.html"
-    repair_md = out_dir / "repair_prompt.md"
-
-    diag_json.write_text(json.dumps(diagnosis, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    diag_md.write_text(render_markdown_report(diagnosis, artifact), encoding="utf-8")
-    diag_html.write_text(render_html_report(diagnosis, artifact), encoding="utf-8")
-    repair_md.write_text(_render_repair_prompt(diagnosis, artifact), encoding="utf-8")
+    outputs = _write_diagnosis_outputs(diagnosis, artifact, out_dir)
 
     print()
-    print(DIM(f"  diagnosis.json  -> {diag_json}"))
-    print(DIM(f"  diagnosis.md    -> {diag_md}"))
-    print(DIM(f"  diagnosis.html  -> {diag_html}"))
-    print(DIM(f"  repair_prompt   -> {repair_md}"))
+    _print_diagnosis_outputs(outputs)
     return 0
+
+
+def _write_diagnosis_outputs(diagnosis: dict, artifact: dict, out_dir: Path) -> dict[str, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    outputs = {
+        "diagnosis.json": out_dir / "diagnosis.json",
+        "diagnosis.md": out_dir / "diagnosis.md",
+        "diagnosis_report.html": out_dir / "diagnosis_report.html",
+        "repair_prompt.md": out_dir / "repair_prompt.md",
+    }
+    outputs["diagnosis.json"].write_text(json.dumps(diagnosis, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    outputs["diagnosis.md"].write_text(render_markdown_report(diagnosis, artifact), encoding="utf-8")
+    outputs["diagnosis_report.html"].write_text(render_html_report(diagnosis, artifact), encoding="utf-8")
+    outputs["repair_prompt.md"].write_text(_render_repair_prompt(diagnosis, artifact), encoding="utf-8")
+    return outputs
+
+
+def _print_diagnosis_outputs(outputs: dict[str, Path]) -> None:
+    print(DIM(f"  diagnosis.json  -> {outputs['diagnosis.json']}"))
+    print(DIM(f"  diagnosis.md    -> {outputs['diagnosis.md']}"))
+    print(DIM(f"  diagnosis.html  -> {outputs['diagnosis_report.html']}"))
+    print(DIM(f"  repair_prompt   -> {outputs['repair_prompt.md']}"))
 
 
 def _print_diagnosis(diagnosis: dict, artifact: dict) -> None:
@@ -235,6 +244,12 @@ def cmd_adapt(args: argparse.Namespace) -> int:
     out_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(GREEN(f"Artifact written: {out_path}"))
     print(f"Initial diagnosis: {diagnosis.get('failure_type')} ({float(diagnosis.get('confidence', 0)):.0%})")
+    if args.diagnose:
+        diagnosis_out_dir = out_dir / "diagnosis"
+        outputs = _write_diagnosis_outputs(diagnosis, artifact, diagnosis_out_dir)
+        print()
+        print(GREEN(f"Diagnosis written: {diagnosis_out_dir}"))
+        _print_diagnosis_outputs(outputs)
     return 0
 
 
@@ -309,15 +324,18 @@ def build_parser() -> argparse.ArgumentParser:
     adapt_pw.add_argument("trace_zip", help="Path to trace.zip")
     adapt_pw.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
     adapt_pw.add_argument("--run-id", default=None, help="Stable run identifier")
+    adapt_pw.add_argument("--diagnose", action="store_true", help="Also write diagnosis reports under <out>/diagnosis")
     adapt_scrapy = adapt_sub.add_parser("scrapy", help="Convert a Scrapy log and optional response snapshot")
     adapt_scrapy.add_argument("log", help="Path to scrapy.log")
     adapt_scrapy.add_argument("--response", default=None, help="Optional response HTML/text snapshot")
     adapt_scrapy.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
     adapt_scrapy.add_argument("--run-id", default=None, help="Stable run identifier")
+    adapt_scrapy.add_argument("--diagnose", action="store_true", help="Also write diagnosis reports under <out>/diagnosis")
     adapt_requests = adapt_sub.add_parser("requests", help="Convert a requests JSON/text capture")
     adapt_requests.add_argument("capture", help="Path to JSON/text capture")
     adapt_requests.add_argument("--out", required=True, help="Output directory for failure_artifact.json")
     adapt_requests.add_argument("--run-id", default=None, help="Stable run identifier")
+    adapt_requests.add_argument("--diagnose", action="store_true", help="Also write diagnosis reports under <out>/diagnosis")
 
     report = sub.add_parser("report", help="Generate HTML report from diagnosis.json")
     report.add_argument("diagnosis", help="Path to diagnosis.json")
