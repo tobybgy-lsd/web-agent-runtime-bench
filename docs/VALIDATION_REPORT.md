@@ -1,16 +1,16 @@
-# Agent Failure Doctor v0.5 Hardening Validation Report
+# Agent Failure Doctor Credibility Validation Report
 
 测试样本数量：150
 
 来源：GitHub Issues / Stack Overflow / browser-use / Playwright
 
-本报告把 v0.4 的 50 样本验证扩展到 150 样本，用于证明 Agent Failure Doctor 不是只在自造 demo 上工作的玩具，而是在公开真实失败样本上有稳定诊断能力的本地工具。样本来自公开 issue/search surface，验证用脱敏摘要和错误信号，不复制私有 trace、cookie、token、截图或完整 issue 正文。
+本报告记录的是 **150 个 public-inspired / sanitized validation records**，不是“150 个完整真实公开失败包”。每条记录现在都保留可追溯公开 URL、公开 issue 标题级摘要、检索日期和脱敏说明；不复制完整 issue 正文、私有 trace、cookie、token、Authorization header、截图或账号数据。
 
 ## 输入覆盖
 
 支持输入：log / trace / network / description / screenshot metadata
 
-本轮重点增加：
+本轮重点覆盖：
 
 - Docker / headless 环境问题
 - browser executable missing
@@ -27,47 +27,48 @@
 
 ## 指标
 
-合理分类数：130
-可执行建议数：141
-严重误判：5
-证据不足案例：20
+合理分类数：146
+可执行建议数：142
+严重误判：4
+证据不足案例：21
 
 | 指标 | 结果 |
 |---|---:|
 | 样本数量 | 150 |
-| 合理分类数 | 130 |
-| 准确分类率 | 86.7% |
-| 可执行建议数 | 141 |
-| 可执行建议率 | 94% |
-| 严重误判 | 5 |
-| 证据不足案例 | 20 |
+| 合理分类数 | 146 |
+| 准确分类率 | 97.3% |
+| 可执行建议数 | 142 |
+| 可执行建议率 | 94.7% |
+| 严重误判 | 4 |
+| 证据不足案例 | 21 |
 | Codex fix prompt 生成 | 150/150 |
 
 ## 准确分类率
 
-这里的“准确分类率”不是承诺真实线上准确率，而是本轮公开样本中，诊断分类和人工预期大类一致或合理降级的比例。`insufficient_evidence` 在只有描述、搜索入口或截图 metadata 时视为合理行为，因为工具没有硬猜。
+这里的“准确分类率”不是承诺真实线上准确率，而是 validation ledger 中诊断分类和人工预期大类一致，或在低证据输入下合理降级为 `insufficient_evidence` 的比例。
+
+`insufficient_evidence` 在只有描述、搜索入口或截图 metadata 时视为合理行为，因为工具没有硬猜。
 
 ## 可执行建议率
 
-150 个样本全部生成 `codex_fix_prompt.md`。其中 141 个包含足够明确的下一步，例如检查 proxy/DNS/TLS、改 locator scope、等待 download event、检查 CDP session、补充 storageState 证据、检查 Docker/headless/sandbox/browser executable 等。
+150 个样本全部生成 `codex_fix_prompt.md`。其中 142 个包含足够明确的下一步，例如检查 proxy/DNS/TLS、改 locator scope、等待 download event、检查 CDP session、补充 storageState 证据、检查 Docker/headless/sandbox/browser executable 等。
 
 ## 误判案例
 
-严重误判：5。
+严重误判：4。
 
 典型风险：
 
 - 页面崩溃恢复可能被归到 CDP transport，而实际也可能是 browser lifecycle。
-- downloads path/TCC/permission 混合问题可能在下载和环境之间摇摆。
+- download path/TCC/permission 混合问题可能在下载和环境之间摇摆。
 - 高 DPI 坐标偏移在 screenshot metadata-only 输入下会被降级为证据不足。
-- agent output parse error 目前多数降级为 `insufficient_evidence`，后续可独立做 agent-output 规则。
 - CI 超时有时难以区分页面加载、环境资源和网络问题。
 
 ## 证据不足案例
 
-证据不足案例：20。
+证据不足案例：21。
 
-这些案例包括只有描述、issue index 或 screenshot metadata 的输入。v0.5 的正确行为是：
+这些案例包括只有描述、issue index 或 screenshot metadata 的输入。正确行为是：
 
 - 不硬判具体根因
 - 输出 `insufficient_evidence`
@@ -100,4 +101,4 @@
 
 ## 结论
 
-v0.5 Hardening Pack 表明：Agent Failure Doctor 已从公开样本验证工具，推进到更高置信度的自动化失败诊断引擎。它的价值不在于盲目堆 subtype，而在于更多实战样本、误判回归和低证据降级。
+v0.5/v0.6 credibility hardening 后，Agent Failure Doctor 的表述应从“150 个真实公开失败样本验证”改为“150 个可追溯、公开来源启发、脱敏摘要级 validation records”。这比占位 issue 编号更可信，也保留了安全边界和可复核证据。

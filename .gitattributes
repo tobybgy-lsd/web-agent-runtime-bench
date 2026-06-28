@@ -1,0 +1,9 @@
+.gitignore export-ignore
+.gitattributes export-ignore
+.github/ export-ignore
+.codex/ export-ignore
+.agents/ export-ignore
+outputs/ export-ignore
+sample_run/ export-ignore
+**/__pycache__/ export-ignore
+*.pyc export-ignore

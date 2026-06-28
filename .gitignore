@@ -1,6 +1,7 @@
 .env
 *.pyc
 __pycache__/
+*.egg-info/
 sample_run/
 outputs/
 .DS_Store

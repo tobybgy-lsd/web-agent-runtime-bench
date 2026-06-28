@@ -29,6 +29,10 @@ class HardeningPackTests(unittest.TestCase):
         required = {
             "case_id",
             "source_url",
+            "source_title",
+            "source_type",
+            "retrieved_at",
+            "raw_error_excerpt",
             "input_type",
             "expected_category",
             "actual_category",
@@ -37,6 +41,7 @@ class HardeningPackTests(unittest.TestCase):
             "has_codex_fix_prompt",
             "is_misclassified",
             "evidence_level",
+            "sanitization_note",
         }
         for case in cases:
             self.assertTrue(required.issubset(case), case.get("case_id"))
@@ -51,9 +56,9 @@ class HardeningPackTests(unittest.TestCase):
         text = "\n".join(path.read_text(encoding="utf-8") for path in snapshots)
 
         for phrase in (
-            "Docker / headless 环境问题",
+            "Docker / headless",
             "browser executable missing",
-            "Chromium sandbox 权限问题",
+            "Chromium sandbox",
             "download path / permission",
             "iframe / frame detached",
             "worker / service worker cache",
@@ -62,14 +67,15 @@ class HardeningPackTests(unittest.TestCase):
         ):
             self.assertIn(phrase, text)
 
-    def test_validation_report_is_updated_to_150_samples(self):
+    def test_validation_report_is_updated_to_150_traceable_records(self):
         text = VALIDATION_REPORT.read_text(encoding="utf-8")
 
         self.assertIn("测试样本数量：150", text)
-        self.assertIn("合理分类数：130", text)
-        self.assertIn("可执行建议数：141", text)
-        self.assertIn("严重误判：5", text)
-        self.assertIn("证据不足案例：20", text)
+        self.assertIn("public-inspired / sanitized validation records", text)
+        self.assertIn("合理分类数：146", text)
+        self.assertIn("可执行建议数：142", text)
+        self.assertIn("严重误判：4", text)
+        self.assertIn("证据不足案例：21", text)
 
 
 def _make_validation_case_test(index: int):

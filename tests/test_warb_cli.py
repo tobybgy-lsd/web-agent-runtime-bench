@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -490,9 +491,13 @@ class WarbCliTests(unittest.TestCase):
             self.assertFalse(artifact["safety"]["external_network_required"])
 
     def test_adapt_smoke_script_generates_repair_outputs(self):
+        shell = shutil.which("pwsh") or shutil.which("powershell")
+        if shell is None:
+            self.skipTest("PowerShell is not available on this platform")
+
         result = subprocess.run(
             [
-                "powershell",
+                shell,
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",

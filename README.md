@@ -104,10 +104,10 @@ Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 
 Current public release: Agent Failure Doctor v0.4.0.
 
-- 150 public-inspired sanitized validation records
+- 150 public-inspired / sanitized validation records with traceable public URLs
 - 100 public failure corpus cases
-- 86.7% reasonable classification in the validation ledger
-- 94% actionable `next_action`
+- 97.3% reasonable classification in the validation ledger
+- 94.7% actionable `next_action`
 - 160 tests
 - smoke test and local safety scan passing
 
