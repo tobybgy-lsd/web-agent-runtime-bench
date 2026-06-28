@@ -11,6 +11,90 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 class WarbCliTests(unittest.TestCase):
+    def test_template_list_prints_builtin_failure_pack_templates(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "tools" / "warb.py"),
+                "template",
+                "list",
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("playwright_selector_drift_product_card", result.stdout)
+        self.assertIn("playwright_auth_expired_login_page", result.stdout)
+        self.assertIn("scrapy_rate_limit_soft_block", result.stdout)
+
+    def test_template_copy_creates_editable_pack_from_builtin_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertTrue((out_dir / "failure_artifact.json").exists())
+            self.assertTrue((out_dir / "snapshot.html").exists())
+            self.assertIn("Template copied", result.stdout)
+
+            validate_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "validate",
+                    str(out_dir / "failure_artifact.json"),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(validate_result.returncode, 0, validate_result.stdout + validate_result.stderr)
+
+    def test_template_copy_refuses_to_overwrite_existing_directory_by_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            out_dir.mkdir()
+            (out_dir / "keep.txt").write_text("do not overwrite", encoding="utf-8")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "scrapy_rate_limit_soft_block",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("already exists", result.stdout + result.stderr)
+            self.assertEqual((out_dir / "keep.txt").read_text(encoding="utf-8"), "do not overwrite")
+
     def test_adapt_playwright_trace_fixture_writes_diagnosable_artifact(self):
         fixture_dir = ROOT / "examples" / "playwright_trace_cli"
         trace_source = fixture_dir / "trace.trace"

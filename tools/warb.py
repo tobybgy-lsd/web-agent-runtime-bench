@@ -5,6 +5,7 @@ Commands:
   diagnose  <failure_artifact.json>   Classify failure and generate report
   collect   --tool <tool> --input <dir> --out <dir>   Create a basic artifact
   pack      --tool <tool> --input <dir> --out <dir>   Sanitize, diagnose, and zip a pack
+  template  list|copy                  List or copy sanitized failure pack templates
   adapt     <tool> ...                 Convert tool output into failure_artifact.json
   report    <diagnosis.json>          Generate HTML report
   regression add|generate <dir>        Add pack or generate synthetic fixture
@@ -28,6 +29,7 @@ from tools.failure_artifacts.packager import package_failure_dir
 from tools.failure_artifacts.regression import add_to_corpus, generate_synthetic_fixture
 from tools.failure_artifacts.reporter import render_html_report, render_markdown_report
 from tools.failure_artifacts.schema import load_artifact, validate_artifact
+from tools.failure_artifacts.templates import copy_template, list_templates
 
 
 def _c(code: str, text: str) -> str:
@@ -204,6 +206,33 @@ def cmd_pack(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_template(args: argparse.Namespace) -> int:
+    if args.template_command == "list":
+        templates = list_templates()
+        if not templates:
+            print(YELLOW("No built-in templates found"))
+            return 1
+        print(BOLD("Built-in sanitized failure pack templates:"))
+        for item in templates:
+            summary = f" - {item['summary']}" if item.get("summary") else ""
+            print(f"  {item['name']}{summary}")
+        return 0
+
+    if args.template_command == "copy":
+        try:
+            out_dir = copy_template(args.name, Path(args.out), force=args.force)
+        except (FileExistsError, FileNotFoundError) as exc:
+            print(RED(str(exc)))
+            return 1
+        print(GREEN(f"Template copied: {out_dir}"))
+        print(f"Artifact: {out_dir / 'failure_artifact.json'}")
+        print("Next: edit the copied files, then run `warb validate <out>\\failure_artifact.json`")
+        return 0
+
+    print("Unknown template command")
+    return 1
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     diag_path = Path(args.diagnosis)
     if not diag_path.exists():
@@ -318,6 +347,14 @@ def build_parser() -> argparse.ArgumentParser:
     pack.add_argument("--status-code", type=int, default=None, help="HTTP status code observed at failure time")
     pack.add_argument("--required-field", action="append", default=[], help="Expected output field; repeat for multiple fields")
 
+    template = sub.add_parser("template", help="List or copy sanitized failure pack templates")
+    template_sub = template.add_subparsers(dest="template_command")
+    template_sub.add_parser("list", help="List built-in sanitized templates")
+    template_copy = template_sub.add_parser("copy", help="Copy a built-in template to an editable directory")
+    template_copy.add_argument("name", help="Template name from `warb template list`")
+    template_copy.add_argument("--out", required=True, help="Output directory for the copied template")
+    template_copy.add_argument("--force", action="store_true", help="Overwrite the output directory if it already exists")
+
     adapt = sub.add_parser("adapt", help="Convert captured tool output into a failure artifact")
     adapt_sub = adapt.add_subparsers(dest="adapter_command")
     adapt_pw = adapt_sub.add_parser("playwright-trace", help="Convert a sanitized Playwright trace.zip")
@@ -368,6 +405,7 @@ def main() -> int:
         "adapt": cmd_adapt,
         "report": cmd_report,
         "validate": cmd_validate,
+        "template": cmd_template,
         "regression": cmd_regression,
     }
     return dispatch[args.command](args)

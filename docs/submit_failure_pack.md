@@ -10,6 +10,13 @@ Start from one of the templates in `examples/sanitized_failure_packs/` when poss
 - `playwright_auth_expired_login_page/`
 - `scrapy_rate_limit_soft_block/`
 
+List and copy templates with the CLI:
+
+```powershell
+python tools\warb.py template list
+python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
+```
+
 Create a local directory with any of these files:
 
 ```text

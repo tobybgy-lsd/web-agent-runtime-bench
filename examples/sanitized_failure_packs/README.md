@@ -17,3 +17,16 @@ Each directory contains:
 
 Use these as starting points when preparing a real failure pack for maintainers.
 
+List available templates:
+
+```powershell
+python tools\warb.py template list
+```
+
+Copy one to an editable working directory:
+
+```powershell
+python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
+```
+
+Then edit the copied files, validate the artifact, and generate a diagnosis report.
