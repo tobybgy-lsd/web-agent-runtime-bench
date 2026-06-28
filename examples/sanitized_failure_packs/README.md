@@ -36,6 +36,7 @@ Current templates cover:
 - `playwright_service_worker_cache`: stale cached response from service worker/cache storage
 - `playwright_storage_state_context`: storageState/browser context mismatch, including cookie domain, missing state, recreated context, missing localStorage, and baseURL/origin mismatch
 - `playwright_route_mock_har`: route/mock/HAR interception failures, including pattern mismatch, late registration, missing HAR, fallback network leaks, and mock response shape mismatch
+- `playwright_shadow_dom_locator`: shadow DOM/custom element locator failures, including closed roots, upgrade timing, host-vs-inner targeting, and missing test-id strategy
 
 List available templates:
 

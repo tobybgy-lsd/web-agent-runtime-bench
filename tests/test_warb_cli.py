@@ -51,6 +51,11 @@ class WarbCliTests(unittest.TestCase):
         self.assertIn("playwright_har_not_loaded", result.stdout)
         self.assertIn("playwright_har_fallback_network_leak", result.stdout)
         self.assertIn("playwright_mock_response_shape_mismatch", result.stdout)
+        self.assertIn("playwright_shadow_root_boundary", result.stdout)
+        self.assertIn("playwright_closed_shadow_root_unreachable", result.stdout)
+        self.assertIn("playwright_custom_element_not_upgraded", result.stdout)
+        self.assertIn("playwright_shadow_host_not_inner_node", result.stdout)
+        self.assertIn("playwright_testid_inside_shadow_dom_missing_strategy", result.stdout)
 
     def test_template_copy_creates_editable_pack_from_builtin_template(self):
         with tempfile.TemporaryDirectory() as tmp:

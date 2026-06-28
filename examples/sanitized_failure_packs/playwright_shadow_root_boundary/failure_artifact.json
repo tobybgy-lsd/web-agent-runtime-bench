@@ -1,0 +1,41 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_shadow_root_boundary",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The target element existed inside an open shadow root, but the ordinary locator path was unreachable.",
+  "error": {
+    "message": "Timeout waiting for selector button.submit inside shadow DOM",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "shadow_host": "my-component",
+    "shadow_root_mode": "open",
+    "inner_selector": "button.submit",
+    "element_exists_in_shadow_dom": true,
+    "ordinary_locator_failed": true
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_shadow_dom_locator",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Component and selector names are synthetic."
+  }
+}
+

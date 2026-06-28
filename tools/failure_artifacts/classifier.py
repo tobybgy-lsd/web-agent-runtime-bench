@@ -342,6 +342,106 @@ await page.routeFromHAR('fixtures/api.har', {
     return [specific.get(subtype, "review route/mock/HAR setup")] + common
 
 
+def _classify_playwright_shadow_dom_locator(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        observations = {}
+    if artifact.get("tool") != "playwright" and "playwright" not in text:
+        return None
+
+    markers = ("shadow", "custom_element", "custom element", "shadowroot", "shadow_root", "testid_inside_shadow")
+    if not any(marker in text for marker in markers):
+        return None
+
+    evidence: list[str] = []
+    subtype = ""
+    confidence = 0.84
+    evidence_level = "inferred"
+
+    shadow_mode = observations.get("shadow_root_mode")
+    if shadow_mode == "closed":
+        subtype = "closed_shadow_root_unreachable"
+        confidence = 0.9
+        evidence_level = "confirmed"
+        evidence.append("closed shadow root cannot be directly queried by Playwright locator")
+
+    if not subtype and observations.get("custom_element_upgraded") is False:
+        subtype = "custom_element_not_upgraded"
+        confidence = 0.87
+        evidence_level = "confirmed"
+        evidence.append("custom element was not upgraded before locator action")
+
+    if not subtype and observations.get("inner_node_not_targeted") is True:
+        subtype = "locator_targets_host_not_inner_node"
+        confidence = 0.86
+        evidence_level = "confirmed"
+        evidence.append("locator targeted the custom-element host instead of the intended inner node")
+
+    if not subtype and observations.get("testid_inside_shadow_dom") is True and observations.get("missing_shadow_strategy") is True:
+        subtype = "testid_inside_shadow_dom_missing_strategy"
+        confidence = 0.86
+        evidence_level = "confirmed"
+        evidence.append("test id exists inside shadow DOM but no shadow-aware locator strategy was used")
+
+    if not subtype and observations.get("element_exists_in_shadow_dom") is True and observations.get("ordinary_locator_failed") is True:
+        subtype = "shadow_root_boundary"
+        confidence = 0.88
+        evidence_level = "confirmed"
+        evidence.append("element exists inside shadow DOM, but the ordinary locator path was unreachable")
+
+    if not subtype:
+        return None
+
+    host = observations.get("shadow_host")
+    inner = observations.get("inner_selector") or observations.get("intended_inner_selector")
+    if host:
+        evidence.append(f"shadow host: {host}")
+    if inner:
+        evidence.append(f"intended inner selector: {inner}")
+    testid = observations.get("testid")
+    if testid:
+        evidence.append(f"test id marker: {testid}")
+
+    return _result(
+        "playwright_shadow_dom_locator",
+        confidence,
+        evidence,
+        _shadow_dom_fix_suggestions(subtype, observations),
+        subtype=subtype,
+        evidence_level=evidence_level,
+    )
+
+
+def _shadow_dom_fix_suggestions(subtype: str, observations: Mapping[str, Any]) -> list[str]:
+    if subtype == "closed_shadow_root_unreachable":
+        return [
+            "Closed shadow root cannot be directly queried by Playwright locator.",
+            "Expose a test hook, use public UI behavior, or ask the component owner to add test ids/accessibility roles.",
+        ]
+
+    host = str(observations.get("shadow_host") or observations.get("locator_target") or "my-component")
+    inner = str(observations.get("inner_selector") or observations.get("intended_inner_selector") or "button")
+    testid = str(observations.get("testid") or "submit-button")
+    specific = {
+        "shadow_root_boundary": "use a locator path that starts at the shadow host and then targets the inner control",
+        "custom_element_not_upgraded": "wait for the custom element to be defined/upgraded before locating inside it",
+        "locator_targets_host_not_inner_node": "target the actionable inner control instead of clicking the custom-element host",
+        "testid_inside_shadow_dom_missing_strategy": "prefer a stable test id or accessible role exposed by the component contract",
+    }
+    return [
+        specific.get(subtype, "review shadow DOM locator strategy"),
+        """Playwright shadow DOM locator sketch:
+```ts
+await page.locator('""" + host + """').locator('""" + inner + """').click();
+```""",
+        """Test id strategy sketch:
+```ts
+await page.getByTestId('""" + testid + """').click();
+```""",
+        "add a regression fixture that records the host element and the intended inner control separately",
+    ]
+
+
 def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     status = artifact.get("error", {}).get("status_code") or artifact.get("observations", {}).get("status_code")
     markers = (
@@ -658,6 +758,7 @@ CLASSIFIERS = (
     _classify_playwright_download,
     _classify_playwright_popup,
     _classify_playwright_service_worker_cache,
+    _classify_playwright_shadow_dom_locator,
     _classify_selector_drift,
     _classify_response_shape_change,
 )

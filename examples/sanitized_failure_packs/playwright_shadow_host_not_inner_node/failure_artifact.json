@@ -1,0 +1,41 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_shadow_host_not_inner_node",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The locator targeted a custom-element host rather than the intended inner control.",
+  "error": {
+    "message": "Clicked custom element host but inner button did not receive action",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "locator_target": "my-component",
+    "intended_inner_selector": "button.buy",
+    "host_locator_clicked": true,
+    "inner_node_not_targeted": true,
+    "shadow_host": "my-component"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_shadow_dom_locator",
+    "confidence": 0.86
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Selectors are synthetic and reduced to the relevant locator relationship."
+  }
+}
+

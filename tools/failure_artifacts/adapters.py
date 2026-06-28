@@ -67,6 +67,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     exception_details = _extract_exception_details(records)
     storage_context = _extract_storage_context_observations(records)
     route_mock_har = _extract_route_mock_har_observations(records)
+    shadow_dom = _extract_shadow_dom_observations(records)
     error_stack = action_stack or _first_exception_stack(exception_details)
     missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
     snapshot_excerpts = _link_snapshot_excerpts(snapshot_refs, text_resources)
@@ -96,6 +97,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             "html_excerpt": html_snapshot[:1000],
             **storage_context,
             **route_mock_har,
+            **shadow_dom,
         },
     )
 
@@ -447,6 +449,44 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
         "expectedResponseFields": "expected_response_fields",
         "actualResponseFields": "actual_response_fields",
         "mockResponseShapeMismatch": "mock_response_shape_mismatch",
+    }
+    for record in records:
+        candidates = [record]
+        params = record.get("params")
+        if isinstance(params, dict):
+            candidates.append(params)
+        metadata = record.get("metadata")
+        if isinstance(metadata, dict):
+            candidates.append(metadata)
+        for source in candidates:
+            for raw_key, normalized_key in field_map.items():
+                if raw_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[raw_key]
+                elif normalized_key in source and normalized_key not in observations:
+                    observations[normalized_key] = source[normalized_key]
+    return observations
+
+
+def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    observations: dict[str, Any] = {}
+    field_map = {
+        "shadowHost": "shadow_host",
+        "shadowRootMode": "shadow_root_mode",
+        "innerSelector": "inner_selector",
+        "elementExistsInShadowDom": "element_exists_in_shadow_dom",
+        "ordinaryLocatorFailed": "ordinary_locator_failed",
+        "customElementTag": "custom_element_tag",
+        "customElementDefined": "custom_element_defined",
+        "customElementUpgraded": "custom_element_upgraded",
+        "locatorTarget": "locator_target",
+        "intendedInnerSelector": "intended_inner_selector",
+        "hostLocatorClicked": "host_locator_clicked",
+        "innerNodeNotTargeted": "inner_node_not_targeted",
+        "testId": "testid",
+        "testid": "testid",
+        "testIdInsideShadowDom": "testid_inside_shadow_dom",
+        "testidInsideShadowDom": "testid_inside_shadow_dom",
+        "missingShadowStrategy": "missing_shadow_strategy",
     }
     for record in records:
         candidates = [record]

@@ -182,6 +182,58 @@ class TraceDoctorCliTests(unittest.TestCase):
             self.assertIn("page.route('**/api/products/**'", repair)
             self.assertIn("route_pattern_mismatch", issue)
 
+    def test_trace_doctor_diagnoses_shadow_dom_from_trace(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "shadow_trace.zip"
+            with zipfile.ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "shadow-dom",
+                                    "shadowHost": "my-component",
+                                    "shadowRootMode": "open",
+                                    "innerSelector": "button.submit",
+                                    "elementExistsInShadowDom": True,
+                                    "ordinaryLocatorFailed": True,
+                                }
+                            )
+                        ]
+                    ),
+                )
+            out_dir = root / "report"
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "trace_doctor",
+                    "diagnose",
+                    str(trace_zip),
+                    "--out",
+                    str(out_dir),
+                    "--run-id",
+                    "trace_doctor_shadow_test",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("playwright_shadow_dom_locator", result.stdout)
+            diagnosis = json.loads((out_dir / "diagnosis.json").read_text(encoding="utf-8"))
+            repair = (out_dir / "repair_suggestions.md").read_text(encoding="utf-8")
+            issue = (out_dir / "issue_draft.md").read_text(encoding="utf-8")
+
+            self.assertEqual(diagnosis["subtype"], "shadow_root_boundary")
+            self.assertEqual(diagnosis["evidence_level"], "confirmed")
+            self.assertIn("page.locator('my-component').locator('button.submit')", repair)
+            self.assertIn("shadow_root_boundary", issue)
+
 
 if __name__ == "__main__":
     unittest.main()

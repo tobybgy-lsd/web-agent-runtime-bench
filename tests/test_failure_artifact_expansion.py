@@ -543,6 +543,37 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             self.assertEqual(artifact["observations"]["route_registered"], True)
             self.assertEqual(artifact["observations"]["route_matched"], False)
 
+    def test_playwright_trace_adapter_extracts_shadow_dom_markers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "shadow_trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "shadow-dom",
+                                    "shadowHost": "my-component",
+                                    "shadowRootMode": "open",
+                                    "innerSelector": "button.submit",
+                                    "elementExistsInShadowDom": True,
+                                    "ordinaryLocatorFailed": True,
+                                }
+                            )
+                        ]
+                    ),
+                )
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_shadow_trace")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(diagnosis["failure_type"], "playwright_shadow_dom_locator")
+            self.assertEqual(diagnosis["subtype"], "shadow_root_boundary")
+            self.assertEqual(artifact["observations"]["shadow_host"], "my-component")
+            self.assertEqual(artifact["observations"]["inner_selector"], "button.submit")
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

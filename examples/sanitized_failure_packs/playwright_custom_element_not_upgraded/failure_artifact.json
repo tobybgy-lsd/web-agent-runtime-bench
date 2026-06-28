@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_custom_element_not_upgraded",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The custom element had not upgraded before Playwright attempted to locate or click its inner control.",
+  "error": {
+    "message": "Custom element checkout-button not upgraded before locator action",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "custom_element_tag": "checkout-button",
+    "custom_element_defined": false,
+    "custom_element_upgraded": false,
+    "shadow_host": "checkout-button"
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_shadow_dom_locator",
+    "confidence": 0.87
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Custom element names are synthetic."
+  }
+}
+

@@ -37,6 +37,11 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "playwright_har_not_loaded": "playwright_route_mock_har",
             "playwright_har_fallback_network_leak": "playwright_route_mock_har",
             "playwright_mock_response_shape_mismatch": "playwright_route_mock_har",
+            "playwright_shadow_root_boundary": "playwright_shadow_dom_locator",
+            "playwright_closed_shadow_root_unreachable": "playwright_shadow_dom_locator",
+            "playwright_custom_element_not_upgraded": "playwright_shadow_dom_locator",
+            "playwright_shadow_host_not_inner_node": "playwright_shadow_dom_locator",
+            "playwright_testid_inside_shadow_dom_missing_strategy": "playwright_shadow_dom_locator",
         }
         expected_subtypes = {
             "playwright_storage_cookie_domain_mismatch": "cookie_domain_mismatch",
@@ -49,6 +54,11 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
             "playwright_har_not_loaded": "har_not_found_or_not_loaded",
             "playwright_har_fallback_network_leak": "har_fallback_network_leak",
             "playwright_mock_response_shape_mismatch": "mock_response_shape_mismatch",
+            "playwright_shadow_root_boundary": "shadow_root_boundary",
+            "playwright_closed_shadow_root_unreachable": "closed_shadow_root_unreachable",
+            "playwright_custom_element_not_upgraded": "custom_element_not_upgraded",
+            "playwright_shadow_host_not_inner_node": "locator_targets_host_not_inner_node",
+            "playwright_testid_inside_shadow_dom_missing_strategy": "testid_inside_shadow_dom_missing_strategy",
         }
 
         for case_name, expected_type in expected_types.items():

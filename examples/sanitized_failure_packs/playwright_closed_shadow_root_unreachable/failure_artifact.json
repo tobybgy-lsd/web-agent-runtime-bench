@@ -1,0 +1,40 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_closed_shadow_root_unreachable",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The target control was inside a closed shadow root, so direct locator access was not possible.",
+  "error": {
+    "message": "Timeout waiting for selector button inside closed shadow root",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "shadow_host": "secure-widget",
+    "shadow_root_mode": "closed",
+    "inner_selector": "button",
+    "ordinary_locator_failed": true
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_shadow_dom_locator",
+    "confidence": 0.9
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Component names are synthetic and no private DOM dump is included."
+  }
+}
+

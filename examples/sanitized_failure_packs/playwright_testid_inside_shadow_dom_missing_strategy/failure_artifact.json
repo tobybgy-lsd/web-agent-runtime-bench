@@ -1,0 +1,39 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_testid_inside_shadow_dom_missing_strategy",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A test id existed inside shadow DOM, but the test did not use an appropriate strategy to reach the component control.",
+  "error": {
+    "message": "getByTestId submit-button timed out while target was inside shadow DOM",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "notes": "notes.md"
+  },
+  "observations": {
+    "testid": "submit-button",
+    "testid_inside_shadow_dom": true,
+    "missing_shadow_strategy": true,
+    "ordinary_locator_failed": true
+  },
+  "expected": {
+    "required_fields": []
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "playwright_shadow_dom_locator",
+    "confidence": 0.86
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Test id is synthetic."
+  }
+}
