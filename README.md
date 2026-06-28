@@ -1,24 +1,45 @@
-# Playwright Trace Failure Doctor
+# Agent Failure Doctor
 
-**Local-first diagnostic tool for Playwright `trace.zip` and AI browser-agent failures.**
+**Local-first diagnostic tool for AI automation, browser agents, RPA, and Playwright failures.**
 
-Drop in a local, sanitized Playwright `trace.zip`. Get failure classification,
-evidence extraction, repair suggestions, a GitHub issue draft, and a zipped
-diagnostic artifact.
+Drop local, sanitized failure materials into a folder. Get failure classification,
+evidence extraction, missing-evidence guidance, repair suggestions, a Codex fix
+prompt, a GitHub issue draft, and a zipped diagnostic artifact.
 
 ```powershell
-python -m trace_doctor diagnose .\trace.zip --out .\report
+python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
+```
+
+## 3 Minimal Demos
+
+案例 1：代理失败 log → 网络/代理问题 → 修复指令
+
+```powershell
+python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report_proxy
+```
+
+案例 2：strict mode violation → 元素定位冲突 → 修复指令
+
+```powershell
+python -m failure_doctor diagnose .\examples\failed_runs\strict_mode_locator --out .\report_locator
+```
+
+案例 3：trace.zip 登录失效 → storage_state 问题 → 修复指令
+
+```powershell
+python -m trace_doctor diagnose .\trace.zip --out .\report_trace
 ```
 
 ```
 report/
-├── failure_artifact.json
 ├── diagnosis.json
 ├── diagnosis.md
 ├── evidence.json
+├── input_summary.json
 ├── issue_draft.md
 ├── repair_suggestions.md
-└── trace_doctor_report.zip
+├── codex_fix_prompt.md
+└── failure_doctor_report.zip
 ```
 
 Not a CAPTCHA bypass tool. Not a real-platform scraper. Not a credential
