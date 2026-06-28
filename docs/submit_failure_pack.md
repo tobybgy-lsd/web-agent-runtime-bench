@@ -17,11 +17,10 @@ python tools\warb.py template list
 python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
 ```
 
-After editing the copied files, check whether the pack is ready:
+After editing the copied files, run the full pre-submit flow:
 
 ```powershell
-python tools\warb.py doctor sample_run\my_failure_pack
-python tools\warb.py issue sample_run\my_failure_pack
+python tools\warb.py flow sample_run\my_failure_pack
 ```
 
 Create a local directory with any of these files:
@@ -74,13 +73,14 @@ files before sharing them.
 Validate it:
 
 ```powershell
-python tools\warb.py doctor sample_run\failure_pack_001
-python tools\warb.py validate sample_run\failure_pack_001\failure_artifact.json
+python tools\warb.py flow sample_run\failure_pack_001
 ```
 
-Generate a diagnosis report:
+If you need to run each step manually:
 
 ```powershell
+python tools\warb.py doctor sample_run\failure_pack_001
+python tools\warb.py validate sample_run\failure_pack_001\failure_artifact.json
 python tools\warb.py diagnose sample_run\failure_pack_001\failure_artifact.json --out-dir sample_run\failure_pack_001\diagnosis
 python tools\warb.py issue sample_run\failure_pack_001
 ```

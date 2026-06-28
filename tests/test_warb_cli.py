@@ -273,6 +273,88 @@ class WarbCliTests(unittest.TestCase):
             self.assertIn("Pack is not ready", result.stdout + result.stderr)
             self.assertFalse((out_dir / "github_issue.md").exists())
 
+    def test_flow_runs_doctor_diagnose_and_issue_for_ready_pack(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "flow",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("Flow status: ready", result.stdout)
+            self.assertIn("Diagnosis: selector_drift", result.stdout)
+            self.assertTrue((out_dir / "diagnosis" / "diagnosis.json").exists())
+            self.assertTrue((out_dir / "diagnosis" / "diagnosis.md").exists())
+            self.assertTrue((out_dir / "diagnosis" / "diagnosis_report.html").exists())
+            self.assertTrue((out_dir / "diagnosis" / "repair_prompt.md").exists())
+            self.assertTrue((out_dir / "github_issue.md").exists())
+
+    def test_flow_stops_before_outputs_when_pack_is_not_ready(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+            (out_dir / "snapshot.html").unlink()
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "flow",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Flow status: blocked", result.stdout + result.stderr)
+            self.assertIn("missing referenced file: snapshot.html", result.stdout + result.stderr)
+            self.assertFalse((out_dir / "diagnosis").exists())
+            self.assertFalse((out_dir / "github_issue.md").exists())
+
     def test_adapt_playwright_trace_fixture_writes_diagnosable_artifact(self):
         fixture_dir = ROOT / "examples" / "playwright_trace_cli"
         trace_source = fixture_dir / "trace.trace"

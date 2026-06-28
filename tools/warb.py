@@ -8,6 +8,7 @@ Commands:
   template  list|copy                  List or copy sanitized failure pack templates
   doctor    <pack_dir>                 Check whether a failure pack is ready to diagnose or share
   issue     <pack_dir>                 Generate a GitHub issue draft for a ready failure pack
+  flow      <pack_dir>                 Run doctor, diagnosis outputs, and issue draft
   adapt     <tool> ...                 Convert tool output into failure_artifact.json
   report    <diagnosis.json>          Generate HTML report
   regression add|generate <dir>        Add pack or generate synthetic fixture
@@ -287,6 +288,52 @@ def cmd_issue(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_flow(args: argparse.Namespace) -> int:
+    pack_dir = Path(args.pack_dir)
+    artifact_path = pack_dir / "failure_artifact.json"
+    doctor_report = inspect_failure_pack(pack_dir)
+    ready = bool(doctor_report.get("ready"))
+
+    print()
+    print(BOLD("  WebAgentRuntimeBench - Failure Pack Flow"))
+    print(f"  Pack: {pack_dir}")
+    print(f"  Flow status: {'ready' if ready else 'blocked'}")
+
+    for check in doctor_report.get("checks", []):
+        status = check.get("status", "info")
+        label = {"pass": "[OK]", "warn": "[WARN]", "fail": "[FAIL]"}.get(status, "[INFO]")
+        print(f"  {label} {check.get('name')}: {check.get('detail')}")
+
+    if not ready:
+        errors = doctor_report.get("errors", [])
+        if errors:
+            print()
+            print("  Issues:")
+            for error in errors:
+                print(f"    - {error}")
+        print()
+        print("  Next: run `warb doctor <pack_dir>` after fixing the reported issues")
+        return 1
+
+    artifact = load_artifact(artifact_path)
+    diagnosis = doctor_report.get("diagnosis") or classify_failure_artifact(artifact)
+    outputs = _write_diagnosis_outputs(diagnosis, artifact, pack_dir / "diagnosis")
+    issue_result = write_issue_draft(pack_dir, args.issue_out, allow_incomplete=False)
+    if not issue_result.get("ok"):
+        print(RED(str(issue_result.get("error", "failed to write issue draft"))))
+        return 1
+
+    print()
+    print(f"  Diagnosis: {diagnosis.get('failure_type', 'unknown')} ({float(diagnosis.get('confidence', 0)):.0%})")
+    print()
+    print("  Outputs:")
+    _print_diagnosis_outputs(outputs)
+    print(DIM(f"  github_issue   -> {issue_result['issue_path']}"))
+    print()
+    print("  Next: review the generated files before sharing")
+    return 0
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     diag_path = Path(args.diagnosis)
     if not diag_path.exists():
@@ -417,6 +464,10 @@ def build_parser() -> argparse.ArgumentParser:
     issue.add_argument("--out", default=None, help="Issue markdown output path; defaults to <pack_dir>/github_issue.md")
     issue.add_argument("--allow-incomplete", action="store_true", help="Write an issue draft even when doctor reports issues")
 
+    flow = sub.add_parser("flow", help="Run doctor, diagnosis outputs, and issue draft for a failure pack")
+    flow.add_argument("pack_dir", help="Directory containing failure_artifact.json")
+    flow.add_argument("--issue-out", default=None, help="Issue markdown output path; defaults to <pack_dir>/github_issue.md")
+
     adapt = sub.add_parser("adapt", help="Convert captured tool output into a failure artifact")
     adapt_sub = adapt.add_subparsers(dest="adapter_command")
     adapt_pw = adapt_sub.add_parser("playwright-trace", help="Convert a sanitized Playwright trace.zip")
@@ -470,6 +521,7 @@ def main() -> int:
         "template": cmd_template,
         "doctor": cmd_doctor,
         "issue": cmd_issue,
+        "flow": cmd_flow,
         "regression": cmd_regression,
     }
     return dispatch[args.command](args)

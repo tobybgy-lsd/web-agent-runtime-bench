@@ -29,16 +29,18 @@ Copy one to an editable working directory:
 python tools\warb.py template copy playwright_selector_drift_product_card --out sample_run\my_failure_pack
 ```
 
-Then edit the copied files and run the pack doctor:
+Then edit the copied files and run the full pre-submit flow:
+
+```powershell
+python tools\warb.py flow sample_run\my_failure_pack
+```
+
+If the flow reports `Flow status: ready`, it writes diagnosis outputs and a GitHub issue draft.
+
+For step-by-step debugging, run the pieces individually:
 
 ```powershell
 python tools\warb.py doctor sample_run\my_failure_pack
-```
-
-If the doctor reports `Pack health: ready`, validate the artifact and generate a diagnosis report.
-
-Generate a GitHub issue draft:
-
-```powershell
+python tools\warb.py diagnose sample_run\my_failure_pack\failure_artifact.json --out-dir sample_run\my_failure_pack\diagnosis
 python tools\warb.py issue sample_run\my_failure_pack
 ```
