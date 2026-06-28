@@ -57,6 +57,8 @@ class FailureDoctorInputTests(unittest.TestCase):
         self.assertEqual(public["user_facing_category"], "请求被限流")
         self.assertEqual(public["technical_category"], "rate_limit_or_soft_block")
         self.assertIn("codex_fix_prompt.md", public["next_action"])
+        self.assertIn(public["estimated_fix_difficulty"], {"easy", "medium", "hard"})
+        self.assertTrue(public["confidence_reason"])
 
 
 if __name__ == "__main__":

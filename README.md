@@ -117,6 +117,29 @@ Please generate a fix for the Playwright script.
 The report includes: failure type, confidence, evidence, suggested fix direction,
 and a repair prompt template.
 
+### Before / After Report
+
+Before v0.2, a report mainly said:
+
+```text
+failure_type: selector_drift
+confidence: 0.86
+evidence: missing selector button.submit
+```
+
+After v0.2, `failure_doctor` reports are shaped for action:
+
+```text
+结论 / 证据 / 为什么 / 下一步 / 给 Codex 的修复指令
+
+结论：按钮/元素找不到
+为什么：日志命中 locator/strict-mode 证据，而不是网络或登录状态
+下一步：把 codex_fix_prompt.md 交给 Codex/Claude 修改代码
+```
+
+`codex_fix_prompt.md` now separates conservative repair, recommended repair,
+verification commands, and forbidden modification scope.
+
 --- 
 
 ## Tool adapters

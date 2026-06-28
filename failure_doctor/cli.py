@@ -65,6 +65,7 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print("Agent Failure Doctor")
     print(f"Category: {public.get('user_facing_category')} ({confidence:.0%})")
     print(f"Technical: {public.get('technical_category')} / {public.get('subtype', 'n/a')}")
+    print(f"Difficulty: {public.get('estimated_fix_difficulty')}")
     print(f"Next: {public.get('next_action')}")
     print(f"Report: {out_dir}")
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
@@ -154,6 +155,8 @@ def enrich_for_users(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
         "technical_category": technical,
         "subtype": diagnosis.get("subtype"),
         "confidence": diagnosis.get("confidence", 0.0),
+        "confidence_reason": confidence_reason_for(diagnosis),
+        "estimated_fix_difficulty": estimated_fix_difficulty_for(technical, subtype),
         "evidence_level": diagnosis.get("evidence_level", "inferred"),
         "evidence": diagnosis.get("evidence", []),
         "suggested_fix": diagnosis.get("suggested_fix", []),
@@ -181,6 +184,42 @@ def user_category_for(technical: str, subtype: str = "") -> str:
     if technical in {"playwright_file_chooser", "playwright_download"}:
         return "文件上传下载失败"
     return "代码等待逻辑错误"
+
+
+def estimated_fix_difficulty_for(technical: str, subtype: str = "") -> str:
+    easy = {
+        "selector_drift",
+        "playwright_strict_mode_violation",
+        "playwright_frame_locator",
+        "playwright_file_chooser",
+        "playwright_download",
+    }
+    hard = {
+        "cdp_websocket_disconnected",
+        "toolchain_environment",
+        "runtime_api_missing",
+        "agent_repetition_loop",
+        "playwright_browser_context_closed",
+    }
+    if technical in easy:
+        return "easy"
+    if technical in hard:
+        return "hard"
+    return "medium"
+
+
+def confidence_reason_for(diagnosis: Mapping[str, Any]) -> str:
+    technical = diagnosis.get("failure_type", "unknown")
+    subtype = diagnosis.get("subtype", "n/a")
+    confidence = diagnosis.get("confidence", 0.0)
+    evidence_level = diagnosis.get("evidence_level", "inferred")
+    evidence = diagnosis.get("evidence", [])
+    first_evidence = str(evidence[0]) if isinstance(evidence, list) and evidence else "no direct evidence item"
+    return (
+        f"confidence={confidence}, evidence_level={evidence_level}; "
+        f"classified as {technical}/{subtype} because evidence includes: {first_evidence}. "
+        "为什么不是其他分类：当前证据首先命中该类别的专属日志或 trace 标记，其他类别只作为备选。"
+    )
 
 
 def write_failure_doctor_report(
@@ -234,6 +273,106 @@ def _diagnosis_hint_from_text(log_text: str, description_text: str, network_even
     return hints
 
 
+def _render_public_markdown(public: Mapping[str, Any], diagnosis: Mapping[str, Any], artifact: Mapping[str, Any]) -> str:
+    evidence = "\n".join(f"- {item}" for item in public.get("evidence", [])) or "- 暂无明确证据，需要补充 trace、log 或 network.json。"
+    fixes = "\n".join(f"- {item}" for item in public.get("suggested_fix", [])) or "- 先补充失败日志和最小复现。"
+    return "\n".join(
+        [
+            "# Agent Failure Diagnosis",
+            "",
+            "## 结论",
+            "",
+            f"这个失败更像是 **{public.get('user_facing_category')}**。",
+            f"- 技术分类：`{public.get('technical_category')}`",
+            f"- 子类型：`{public.get('subtype', 'n/a')}`",
+            f"- 置信度：`{public.get('confidence', 0)}`",
+            f"- 修复难度：`{public.get('estimated_fix_difficulty')}`",
+            "",
+            "## 证据",
+            "",
+            evidence,
+            "",
+            "## 为什么",
+            "",
+            str(public.get("confidence_reason")),
+            "",
+            "## 下一步",
+            "",
+            fixes,
+            f"- {public.get('next_action')}",
+            "",
+            "## 给 Codex 的修复指令",
+            "",
+            "把 `codex_fix_prompt.md` 交给 Codex/Claude。它已经包含保守修复、推荐修复、验证命令和禁止修改范围。",
+            "",
+            "## Technical Details",
+            "",
+            render_markdown_report(diagnosis, artifact),
+        ]
+    )
+
+
+def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
+    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- 证据不足，需要先补充日志或 trace。"
+    fixes = list(diagnosis.get("suggested_fix", [])) if isinstance(diagnosis.get("suggested_fix", []), list) else []
+    conservative = fixes[0] if fixes else "先补充失败日志、trace、network.json 或最小复现，不要猜测根因。"
+    recommended = "\n".join(f"- {item}" for item in fixes[1:]) or "- 做最小代码修复，并为该失败增加回归测试。"
+    verification_commands = "\n".join(
+        [
+            "- 运行相关单测或最小复现。",
+            "- 如果是本仓库，运行：`python -m unittest discover -s tests -p \"test_*.py\"`。",
+            "- 失败时保留 trace/screenshot/log，并重新生成诊断报告。",
+        ]
+    )
+    return f"""# Codex Fix Prompt
+
+请修复这个 AI 自动化失败。
+
+## 诊断结果
+
+- 大类：{public.get("user_facing_category")}
+- 技术原因：{public.get("technical_category")}
+- 子类型：{public.get("subtype", "n/a")}
+- 置信度：{public.get("confidence", 0)}
+- 修复难度：{public.get("estimated_fix_difficulty")}
+- 置信原因：{public.get("confidence_reason")}
+
+## 证据
+
+{evidence}
+
+## 保守修复
+
+- {conservative}
+
+## 推荐修复
+
+{recommended}
+
+## 验证命令
+
+{verification_commands}
+
+## 禁止修改范围
+
+1. 不要改业务逻辑。
+2. 不要加入 Cookie、Token、Authorization 或密码。
+3. 不要加入 CAPTCHA 绕过或反爬规避逻辑。
+4. 不要把截图、trace 或日志里的敏感信息写入仓库。
+5. 不要把网络/代理/环境问题误修成 selector 改动。
+"""
+
+
+def _doctor_summary(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "ready": True,
+        "checks": [{"name": "failure_doctor", "status": "pass", "detail": "local multi-input diagnosis generated"}],
+        "errors": [],
+        "next_steps": ["review codex_fix_prompt.md before giving it to a coding assistant"],
+        "diagnosis": dict(diagnosis),
+    }
+
+
 def _read_network_events(path: Path) -> list[dict[str, Any]]:
     try:
         parsed = json.loads(path.read_text(encoding="utf-8"))
@@ -264,81 +403,6 @@ def _extract_status_from_text(text: str) -> int | None:
         if str(status) in text:
             return status
     return None
-
-
-def _render_public_markdown(public: Mapping[str, Any], diagnosis: Mapping[str, Any], artifact: Mapping[str, Any]) -> str:
-    evidence = "\n".join(f"- {item}" for item in public.get("evidence", [])) or "- No evidence generated."
-    return "\n".join(
-        [
-            "# Agent Failure Diagnosis",
-            "",
-            f"- User-facing category: `{public.get('user_facing_category')}`",
-            f"- Technical category: `{public.get('technical_category')}`",
-            f"- Subtype: `{public.get('subtype', 'n/a')}`",
-            f"- Confidence: `{public.get('confidence', 0)}`",
-            f"- Next action: {public.get('next_action')}",
-            "",
-            "## Plain-English Summary",
-            "",
-            _plain_summary(public),
-            "",
-            "## Evidence",
-            "",
-            evidence,
-            "",
-            "## Technical Details",
-            "",
-            render_markdown_report(diagnosis, artifact),
-        ]
-    )
-
-
-def _plain_summary(public: Mapping[str, Any]) -> str:
-    category = public.get("user_facing_category")
-    technical = public.get("technical_category")
-    return f"这个失败更像是“{category}”，不是单纯的代码语法错误。技术分类是 `{technical}`。"
-
-
-def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
-    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- 证据不足，需要先补充日志或 trace。"
-    fixes = "\n".join(f"- {item}" for item in diagnosis.get("suggested_fix", [])) or "- 根据诊断结果做最小修复。"
-    return f"""# Codex Fix Prompt
-
-请修复这个 AI 自动化失败。
-
-## 诊断结果
-
-- 大类：{public.get("user_facing_category")}
-- 技术原因：{public.get("technical_category")}
-- 子类型：{public.get("subtype", "n/a")}
-- 置信度：{public.get("confidence", 0)}
-
-## 证据
-
-{evidence}
-
-## 修改要求
-
-{fixes}
-
-## 约束
-
-1. 不要改业务逻辑。
-2. 不要加入 Cookie、Token、Authorization 或密码。
-3. 不要加入 CAPTCHA 绕过或反爬规避逻辑。
-4. 添加失败时 trace/screenshot/log 保存。
-5. 修改后运行相关测试或 smoke test。
-"""
-
-
-def _doctor_summary(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
-    return {
-        "ready": True,
-        "checks": [{"name": "failure_doctor", "status": "pass", "detail": "local multi-input diagnosis generated"}],
-        "errors": [],
-        "next_steps": ["review codex_fix_prompt.md before giving it to a coding assistant"],
-        "diagnosis": dict(diagnosis),
-    }
 
 
 def _input_summary(evidence: Mapping[str, Any]) -> dict[str, Any]:

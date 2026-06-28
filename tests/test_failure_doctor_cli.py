@@ -61,6 +61,8 @@ class FailureDoctorCliTests(unittest.TestCase):
             self.assertEqual(diagnosis["user_facing_category"], "按钮/元素找不到")
             self.assertEqual(diagnosis["technical_category"], "selector_drift")
             self.assertEqual(diagnosis["next_action"], "把 codex_fix_prompt.md 交给 Codex/Claude 修改代码")
+            self.assertIn(diagnosis["estimated_fix_difficulty"], {"easy", "medium", "hard"})
+            self.assertTrue(diagnosis["confidence_reason"])
             self.assertIn("screenshot.png", evidence["inputs"]["screenshot_metadata"][0]["name"])
             self.assertIn("请修复这个 AI 自动化失败", codex_prompt)
             self.assertIn("不要改业务逻辑", codex_prompt)
