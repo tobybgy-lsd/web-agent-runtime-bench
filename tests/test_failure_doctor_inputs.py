@@ -17,6 +17,8 @@ class FailureDoctorInputTests(unittest.TestCase):
         self.assertEqual(user_category_for("rate_limit_or_soft_block"), "请求被限流")
         self.assertEqual(user_category_for("network_http_error"), "网络/代理问题")
         self.assertEqual(user_category_for("runtime_api_missing"), "浏览器环境不一致")
+        self.assertEqual(user_category_for("website_change"), "网站结构变化")
+        self.assertEqual(user_category_for("anti_bot_risk"), "疑似风控/访问限制")
 
     def test_collect_inputs_detects_network_json_description_and_screenshot_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -54,8 +56,9 @@ class FailureDoctorInputTests(unittest.TestCase):
         diagnosis = classify_failure_artifact(artifact)
         public = enrich_for_users(diagnosis)
 
-        self.assertEqual(public["user_facing_category"], "请求被限流")
-        self.assertEqual(public["technical_category"], "rate_limit_or_soft_block")
+        self.assertEqual(public["user_facing_category"], "疑似风控/访问限制")
+        self.assertEqual(public["technical_category"], "anti_bot_risk")
+        self.assertEqual(public["failure_layer"], "anti_bot_risk")
         self.assertIn("codex_fix_prompt.md", public["next_action"])
         self.assertIn(public["estimated_fix_difficulty"], {"easy", "medium", "hard"})
         self.assertTrue(public["confidence_reason"])

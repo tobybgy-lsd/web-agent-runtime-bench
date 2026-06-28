@@ -34,7 +34,7 @@ class FailureArtifactTests(unittest.TestCase):
             "network_http_error",
             "response_shape_change",
             "auth_expiry",
-            "captcha_or_bot_wall",
+            "anti_bot_risk",
         }
         actual = set()
         for path in discover_seed_artifacts(ROOT / "examples" / "failures"):

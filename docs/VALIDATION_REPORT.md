@@ -1,5 +1,16 @@
 # Agent Failure Doctor Credibility Validation Report
 
+## v0.6 Website Change + Anti-Bot Risk Addendum
+
+v0.6 adds two routing layers:
+
+- `website_change`: repair-oriented diagnosis for selector, DOM, endpoint, response-shape, GraphQL, pagination, login-flow, and download-flow changes.
+- `anti_bot_risk`: identification and compliant routing for rate limits, challenge pages, fingerprint-risk signals, dynamic request validation, network reputation, behavioral risk, and authorization or permission blocks.
+
+The public failure corpus now includes 50 additional public-inspired sanitized records for these two layers. These records are not presented as full real-world failure packages; they are sanitized validation examples designed to exercise safe routing and report generation.
+
+Anti-bot risk output is intentionally limited to confirming authorization, reducing request volume where appropriate, using official APIs or authorized exports, manual review, contacting the platform owner, or stopping unclear runs. It must not produce challenge-defeat, access-control defeat, credential abuse, or unauthorized collection guidance.
+
 测试样本数量：150
 
 来源：GitHub Issues / Stack Overflow / browser-use / Playwright

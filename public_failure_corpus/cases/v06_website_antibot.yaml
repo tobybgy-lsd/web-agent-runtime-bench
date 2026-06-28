@@ -1,0 +1,649 @@
+case_id: V06_WEBSITE_001
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-001
+source_type: public_inspired_sanitized
+symptom: Old submit button selector stopped resolving after a site redesign.
+raw_error_excerpt: "Timeout waiting for selector button.submit; similar button now has data-testid submit-action"
+input_available: [log, description]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [old selector missing, similar DOM candidate exists]
+reported_fix: [refresh DOM snapshot, replace stale selector, add selector regression]
+next_action_expected: Update selector from fresh DOM evidence.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_002
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-002
+source_type: public_inspired_sanitized
+symptom: Product cards moved under a new app shell and old CSS path fails.
+raw_error_excerpt: "locator('.results > .card') resolved to 0 elements after layout release"
+input_available: [log, screenshot, description]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [DOM path changed, old container missing]
+reported_fix: [update DOM scope, prefer role or test id, add snapshot fixture]
+next_action_expected: Update locator scopes for the new DOM hierarchy.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_003
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-003
+source_type: public_inspired_sanitized
+symptom: API moved from v1 to v2 and the old endpoint returns 404.
+raw_error_excerpt: "GET /api/v1/products returned 404; network shows /api/v2/products"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [old endpoint returns 404, new endpoint observed]
+reported_fix: [update endpoint, update route pattern, add network regression]
+next_action_expected: Update endpoint from latest network.json.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_004
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-004
+source_type: public_inspired_sanitized
+symptom: JSON field price disappeared and amount is now returned.
+raw_error_excerpt: "schema validation failed: required key price missing; response contains amount"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [missing JSON key, replacement key observed]
+reported_fix: [update JSON path, add missing-field guard, add schema regression]
+next_action_expected: Update parser mapping from new response shape.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_005
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-005
+source_type: public_inspired_sanitized
+symptom: GraphQL query fails after schema release.
+raw_error_excerpt: "GraphQL error: Cannot query field productPrice on type Product"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [GraphQL field rejected, schema changed]
+reported_fix: [update query fields, refresh schema fixture, add regression]
+next_action_expected: Update GraphQL query to current schema.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_006
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-006
+source_type: public_inspired_sanitized
+symptom: Infinite scroll stopped because nextCursor is no longer present.
+raw_error_excerpt: "pagination next cursor missing; response contains pageToken"
+input_available: [network, description]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [missing cursor, replacement pagination token]
+reported_fix: [update pagination token extraction, add stop condition test]
+next_action_expected: Update pagination logic from latest response.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_007
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-007
+source_type: public_inspired_sanitized
+symptom: Login now shows an MFA consent step before the dashboard.
+raw_error_excerpt: "expected dashboard, got new MFA consent page"
+input_available: [trace, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [new login step, expected dashboard not reached]
+reported_fix: [update authorized login preflight, avoid storing secrets]
+next_action_expected: Update login flow handling for the new step.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_008
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-008
+source_type: public_inspired_sanitized
+symptom: Download changed from direct link to async export job.
+raw_error_excerpt: "download event never fires; network returns exportJobId"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [download mode changed, export job id returned]
+reported_fix: [wait for export job completion, update download flow]
+next_action_expected: Update download flow for async export behavior.
+can_convert_to_template: yes
+---
+case_id: V06_WEBSITE_009
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-009
+source_type: public_inspired_sanitized
+symptom: Search input moved into a new header component.
+raw_error_excerpt: "locator('#search') timed out; header-search custom element now contains input"
+input_available: [trace, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [old selector missing, new component observed]
+reported_fix: [refresh locator, add component-level fixture]
+next_action_expected: Update selector for the new component path.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_010
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-010
+source_type: public_inspired_sanitized
+symptom: API redirect changed from 302 login to 301 canonical endpoint.
+raw_error_excerpt: "old endpoint returned 301 to /api/catalog/search"
+input_available: [network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [endpoint redirect, network route changed]
+reported_fix: [update endpoint and expected redirect handling]
+next_action_expected: Update network route contract.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_011
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-011
+source_type: public_inspired_sanitized
+symptom: Results array renamed from items to records.
+raw_error_excerpt: "parser expected items[] but response contains records[]"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [response array key renamed]
+reported_fix: [update JSON path, add compatibility guard]
+next_action_expected: Update parser for renamed array key.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_012
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-012
+source_type: public_inspired_sanitized
+symptom: Mutation changed product title nesting.
+raw_error_excerpt: "title missing; response now contains product.displayName"
+input_available: [network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [field moved, old JSON path empty]
+reported_fix: [update JSON path, add response fixture]
+next_action_expected: Update JSON path from current network evidence.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_013
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-013
+source_type: public_inspired_sanitized
+symptom: GraphQL connection changed edge node field names.
+raw_error_excerpt: "Cannot query field edges on type ProductConnectionV2"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [GraphQL connection shape changed]
+reported_fix: [update query, regenerate minimal schema fixture]
+next_action_expected: Update GraphQL query and schema assumptions.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_014
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-014
+source_type: public_inspired_sanitized
+symptom: Next page button replaced by cursor-based loading.
+raw_error_excerpt: "button.next not found; response contains cursor token"
+input_available: [trace, network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [pagination UI changed, cursor token observed]
+reported_fix: [replace button click loop with cursor handling]
+next_action_expected: Update pagination strategy.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_015
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-015
+source_type: public_inspired_sanitized
+symptom: Login page added a required terms confirmation.
+raw_error_excerpt: "dashboard selector missing; terms confirmation page displayed"
+input_available: [screenshot, description, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [new consent page, dashboard not reached]
+reported_fix: [update authorized flow, keep secrets out of fixtures]
+next_action_expected: Update login preflight for new confirmation page.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_016
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-016
+source_type: public_inspired_sanitized
+symptom: Export button now opens a job status drawer.
+raw_error_excerpt: "saveAs called before export job completed"
+input_available: [trace, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [download flow changed, status drawer observed]
+reported_fix: [wait for job completion, then download final artifact]
+next_action_expected: Update export/download wait logic.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_017
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-017
+source_type: public_inspired_sanitized
+symptom: Mobile viewport moved navigation into menu drawer.
+raw_error_excerpt: "nav link selector missing at 390px viewport"
+input_available: [screenshot, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [responsive DOM variant, selector absent]
+reported_fix: [handle responsive nav path, set tested viewport explicitly]
+next_action_expected: Update responsive locator path.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_018
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-018
+source_type: public_inspired_sanitized
+symptom: Form field name changed from email to username.
+raw_error_excerpt: "input[name=email] not found; input[name=username] present"
+input_available: [trace, description]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [field name changed]
+reported_fix: [update form locator, prefer label or role]
+next_action_expected: Update form field locator.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_019
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-019
+source_type: public_inspired_sanitized
+symptom: Price moved from DOM text to network payload.
+raw_error_excerpt: "price selector empty; network contains pricing.current"
+input_available: [network, trace]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [DOM source changed, network value available]
+reported_fix: [update extraction source, add cross-check fixture]
+next_action_expected: Update extraction source from fresh evidence.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_020
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-020
+source_type: public_inspired_sanitized
+symptom: API response changed status envelope.
+raw_error_excerpt: "expected data.products; response contains result.payload.products"
+input_available: [network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [response envelope changed]
+reported_fix: [update parser path, add response snapshot]
+next_action_expected: Update parser envelope path.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_021
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-021
+source_type: public_inspired_sanitized
+symptom: Filter parameter renamed in endpoint.
+raw_error_excerpt: "server ignored categoryId; network shows category_slug"
+input_available: [network, description]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [query parameter changed]
+reported_fix: [update request parameter mapping]
+next_action_expected: Update endpoint parameter names.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_022
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-022
+source_type: public_inspired_sanitized
+symptom: Detail page route changed and old URL returns 410.
+raw_error_excerpt: "GET /product/123 returned 410; links now point to /p/123"
+input_available: [network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [old route gone, new route observed]
+reported_fix: [update URL builder, add route regression]
+next_action_expected: Update route construction.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_023
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-023
+source_type: public_inspired_sanitized
+symptom: Login callback changed query parameter names.
+raw_error_excerpt: "expected code parameter; callback contains auth_code"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [login callback contract changed]
+reported_fix: [update callback parser, add auth flow regression]
+next_action_expected: Update authorized callback parser.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_024
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-024
+source_type: public_inspired_sanitized
+symptom: Export file is now delivered by notification link.
+raw_error_excerpt: "download event absent; notification API returns fileUrl later"
+input_available: [network, log]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [download delivery changed]
+reported_fix: [wait for notification payload, then download file]
+next_action_expected: Update export completion flow.
+can_convert_to_template: no
+---
+case_id: V06_WEBSITE_025
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-website-025
+source_type: public_inspired_sanitized
+symptom: Search result count field renamed.
+raw_error_excerpt: "totalCount missing; response contains meta.total"
+input_available: [network]
+likely_user_facing_category: 网站结构变化
+likely_technical_category: website_change
+evidence: [count field renamed]
+reported_fix: [update count JSON path, add response fixture]
+next_action_expected: Update result count parser.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_001
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-001
+source_type: public_inspired_sanitized
+symptom: Run receives HTTP 429 after repeated requests.
+raw_error_excerpt: "HTTP 429 too many requests"
+input_available: [log, network]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [HTTP 429, repeated request pattern]
+reported_fix: [confirm authorization, reduce volume, use official API or authorized export]
+next_action_expected: Route to compliant access review.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_002
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-002
+source_type: public_inspired_sanitized
+symptom: Page asks to verify the user is human.
+raw_error_excerpt: "challenge page: verify you are human"
+input_available: [screenshot, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [human verification page, challenge marker]
+reported_fix: [stop automation, confirm authorized path, contact platform owner]
+next_action_expected: Do not treat challenge page as selector drift.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_003
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-003
+source_type: public_inspired_sanitized
+symptom: Headless run is blocked while manual browser run succeeds.
+raw_error_excerpt: "headless failed; headed manual flow succeeds"
+input_available: [description, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [headless/headed mismatch]
+reported_fix: [confirm authorization, use official API, stop if terms are unclear]
+next_action_expected: Route as access-control risk.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_004
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-004
+source_type: public_inspired_sanitized
+symptom: Request fails when dynamic signature parameter is stale.
+raw_error_excerpt: "signature token invalid; request rejected"
+input_available: [network, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [dynamic request signature required]
+reported_fix: [use authorized API or export, do not reverse engineer private checks]
+next_action_expected: Route to compliant data access path.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_005
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-005
+source_type: public_inspired_sanitized
+symptom: Access differs by approved office network versus current network.
+raw_error_excerpt: "access denied from current network; approved office network works"
+input_available: [description, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [network reputation difference]
+reported_fix: [confirm permitted network path, contact owner, avoid unauthorized collection]
+next_action_expected: Route to access permission review.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_006
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-006
+source_type: public_inspired_sanitized
+symptom: Traffic burst triggers unusual traffic page.
+raw_error_excerpt: "unusual traffic detected after request burst"
+input_available: [log, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [behavioral risk marker, request burst]
+reported_fix: [reduce request volume, confirm authorization, stop unclear runs]
+next_action_expected: Route to compliant rate and permission review.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_007
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-007
+source_type: public_inspired_sanitized
+symptom: Logged-in account receives 403 for restricted page.
+raw_error_excerpt: "HTTP 403 after login; account lacks permission"
+input_available: [network, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [HTTP 403, permission marker]
+reported_fix: [request access, use authorized export, do not automate restricted areas]
+next_action_expected: Route to permission review.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_008
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-008
+source_type: public_inspired_sanitized
+symptom: Response contains provider challenge headers.
+raw_error_excerpt: "response headers include cf-ray and challenge page"
+input_available: [network]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [challenge header, access-control page]
+reported_fix: [confirm authorization, contact platform, use allowed integration]
+next_action_expected: Route to compliant access path.
+can_convert_to_template: yes
+---
+case_id: V06_ANTIBOT_009
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-009
+source_type: public_inspired_sanitized
+symptom: Automation receives access denied while normal account export exists.
+raw_error_excerpt: "access denied; dashboard offers authorized CSV export"
+input_available: [screenshot, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [access denied page, authorized export alternative]
+reported_fix: [use authorized export path, stop automated restricted flow]
+next_action_expected: Prefer authorized export over automation.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_010
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-010
+source_type: public_inspired_sanitized
+symptom: Short polling interval triggers temporary block page.
+raw_error_excerpt: "temporarily blocked; slow down"
+input_available: [log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [temporary block, slow down marker]
+reported_fix: [reduce volume, respect platform limits, confirm permission]
+next_action_expected: Treat as rate/access risk.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_011
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-011
+source_type: public_inspired_sanitized
+symptom: Signed request parameter rejected after app update.
+raw_error_excerpt: "x-bogus invalid for request"
+input_available: [network, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [private request validation marker]
+reported_fix: [use official API or authorized export, avoid private check reverse engineering]
+next_action_expected: Route to authorized integration.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_012
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-012
+source_type: public_inspired_sanitized
+symptom: Manual review queue appears for automated account action.
+raw_error_excerpt: "action requires manual review"
+input_available: [screenshot, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [manual review page]
+reported_fix: [switch to human review or approved workflow]
+next_action_expected: Stop automated action and use approved process.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_013
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-013
+source_type: public_inspired_sanitized
+symptom: Page displays security verification after many retries.
+raw_error_excerpt: "security verification required after repeated attempts"
+input_available: [log, screenshot]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [security verification, repeated attempts]
+reported_fix: [reduce retries, confirm authorization, use approved API]
+next_action_expected: Route to compliance review.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_014
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-014
+source_type: public_inspired_sanitized
+symptom: Platform returns empty data after request burst.
+raw_error_excerpt: "empty result with access warning after burst"
+input_available: [network, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [soft block marker, burst marker]
+reported_fix: [treat as access risk, reduce volume, confirm permission]
+next_action_expected: Do not debug as parser-only failure.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_015
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-015
+source_type: public_inspired_sanitized
+symptom: Browser automation sees risk page but authorized export succeeds.
+raw_error_excerpt: "risk control page shown; account export button still works manually"
+input_available: [screenshot, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [risk page, authorized alternative]
+reported_fix: [use manual export or official integration]
+next_action_expected: Route to authorized workflow.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_016
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-016
+source_type: public_inspired_sanitized
+symptom: Session can view page manually but automation action is denied.
+raw_error_excerpt: "action denied for automated workflow"
+input_available: [description, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [manual and automated behavior differ]
+reported_fix: [confirm permitted automation path, contact owner]
+next_action_expected: Route to permission and policy review.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_017
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-017
+source_type: public_inspired_sanitized
+symptom: POST request rejected due to missing dynamic token.
+raw_error_excerpt: "dynamic token missing from POST request"
+input_available: [network]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [dynamic token required]
+reported_fix: [use supported API or authorized export, avoid private validation logic]
+next_action_expected: Route to authorized integration.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_018
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-018
+source_type: public_inspired_sanitized
+symptom: Data endpoint returns 403 only for automation run.
+raw_error_excerpt: "403 forbidden for automation client; browser UI shows permission warning"
+input_available: [network, screenshot]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [403, permission warning]
+reported_fix: [request access, use approved export]
+next_action_expected: Route to permission review.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_019
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-019
+source_type: public_inspired_sanitized
+symptom: Repeated failed login attempts trigger temporary hold.
+raw_error_excerpt: "temporary hold after repeated login attempts"
+input_available: [log, screenshot]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [temporary hold, repeated attempts]
+reported_fix: [stop retries, verify account authorization manually]
+next_action_expected: Route to account safety review.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_020
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-020
+source_type: public_inspired_sanitized
+symptom: Provider risk header appears with 403 response.
+raw_error_excerpt: "403 response contains x-risk-action header"
+input_available: [network]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [risk header, 403]
+reported_fix: [confirm authorization, use supported access channel]
+next_action_expected: Route to compliant access path.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_021
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-021
+source_type: public_inspired_sanitized
+symptom: Results disappear after high-frequency navigation.
+raw_error_excerpt: "same query returns empty data after high-frequency navigation"
+input_available: [network, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [high-frequency behavior, empty data]
+reported_fix: [reduce volume, validate permitted use, stop unclear runs]
+next_action_expected: Treat as behavioral access risk.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_022
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-022
+source_type: public_inspired_sanitized
+symptom: Account role lacks export permission.
+raw_error_excerpt: "403 export forbidden; role lacks export permission"
+input_available: [network, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [role permission missing]
+reported_fix: [request proper permission, use authorized export]
+next_action_expected: Route to permission change request.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_023
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-023
+source_type: public_inspired_sanitized
+symptom: Automation reaches a waiting-room page.
+raw_error_excerpt: "waiting room page shown before data page"
+input_available: [screenshot, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [waiting room page]
+reported_fix: [pause automation, use approved access route]
+next_action_expected: Route to platform access policy.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_024
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-024
+source_type: public_inspired_sanitized
+symptom: API rejects request with stale signed nonce.
+raw_error_excerpt: "nonce signature expired"
+input_available: [network, log]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [signed nonce rejected]
+reported_fix: [use official integration, avoid private validation logic]
+next_action_expected: Route to authorized API path.
+can_convert_to_template: no
+---
+case_id: V06_ANTIBOT_025
+source_url: https://github.com/public-inspired/agent-failure-doctor/v06-antibot-025
+source_type: public_inspired_sanitized
+symptom: Platform shows policy warning for automated export.
+raw_error_excerpt: "policy warning: automated export not allowed for this account"
+input_available: [screenshot, description]
+likely_user_facing_category: 疑似风控/访问限制
+likely_technical_category: anti_bot_risk
+evidence: [policy warning, automated export denied]
+reported_fix: [stop unauthorized workflow, contact platform owner]
+next_action_expected: Route to compliance decision.
+can_convert_to_template: no

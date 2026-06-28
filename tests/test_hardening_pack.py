@@ -47,8 +47,11 @@ class HardeningPackTests(unittest.TestCase):
             self.assertTrue(required.issubset(case), case.get("case_id"))
             self.assertTrue(case["source_url"].startswith("https://"), case["case_id"])
 
-    def test_public_failure_corpus_has_100_cases(self):
-        self.assertEqual(len(list(CORPUS_CASES.glob("*.yaml"))), 100)
+    def test_public_failure_corpus_has_150_cases(self):
+        case_count = 0
+        for path in CORPUS_CASES.glob("*.yaml"):
+            case_count += path.read_text(encoding="utf-8").count("case_id:")
+        self.assertGreaterEqual(case_count, 150)
 
     def test_regression_snapshots_lock_typical_misclassifications(self):
         snapshots = sorted(REGRESSION_SNAPSHOTS.glob("*.md"))

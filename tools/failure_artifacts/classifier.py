@@ -96,6 +96,198 @@ def _classify_js_bundle_obfuscation(artifact: Mapping[str, Any], text: str) -> d
     )
 
 
+def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        observations = {}
+
+    evidence: list[str] = []
+    subtype = ""
+
+    if observations.get("old_selector_missing") is True or (
+        "old selector" in text and ("not found" in text or "missing" in text)
+    ):
+        subtype = "selector_drift"
+        evidence.append("old selector is missing after a site change")
+        if observations.get("similar_dom_candidate"):
+            evidence.append(f"similar DOM candidate: {observations.get('similar_dom_candidate')}")
+
+    if not subtype and (observations.get("dom_structure_changed") is True or "dom structure changed" in text):
+        subtype = "dom_structure_changed"
+        evidence.append("DOM structure changed compared with the previous script assumptions")
+        if observations.get("old_dom_path") and observations.get("new_dom_path"):
+            evidence.append(f"DOM path changed: {observations.get('old_dom_path')} -> {observations.get('new_dom_path')}")
+
+    if not subtype and (
+        observations.get("api_endpoint_changed") is True
+        or "endpoint changed" in text
+        or ("old endpoint" in text and "new endpoint" in text)
+    ):
+        subtype = "api_endpoint_changed"
+        evidence.append("network endpoint appears to have changed")
+        if observations.get("old_endpoint") or observations.get("new_endpoint"):
+            evidence.append(f"endpoint: {observations.get('old_endpoint')} -> {observations.get('new_endpoint')}")
+
+    if not subtype and (
+        observations.get("response_shape_changed") is True
+        or "json key" in text
+        or "schema validation failed" in text
+    ):
+        subtype = "response_shape_changed"
+        evidence.append("response JSON/schema shape changed")
+        missing = observations.get("missing_json_keys")
+        if isinstance(missing, list) and missing:
+            evidence.append(f"missing JSON keys: {', '.join(map(str, missing[:5]))}")
+
+    if not subtype and ("cannot query field" in text or observations.get("graphql_error")):
+        subtype = "graphql_schema_changed"
+        evidence.append("GraphQL schema rejected a previously valid field")
+        if observations.get("graphql_error"):
+            evidence.append(f"GraphQL error: {observations.get('graphql_error')}")
+
+    if not subtype and (
+        observations.get("pagination_changed") is True
+        or "next cursor missing" in text
+        or "pagination" in text and "cursor" in text
+    ):
+        subtype = "pagination_changed"
+        evidence.append("pagination contract changed or the next cursor is missing")
+        if observations.get("missing_cursor"):
+            evidence.append(f"missing cursor: {observations.get('missing_cursor')}")
+
+    if not subtype and (
+        observations.get("login_flow_changed") is True
+        or "login flow changed" in text
+        or "new mfa" in text
+        or "consent page" in text
+    ):
+        subtype = "login_flow_changed"
+        evidence.append("login flow gained a new step or page")
+        if observations.get("new_step"):
+            evidence.append(f"new login step: {observations.get('new_step')}")
+
+    if not subtype and (
+        observations.get("download_behavior_changed") is True
+        or "download changed" in text
+        or ("direct link" in text and "async" in text)
+    ):
+        subtype = "download_behavior_changed"
+        evidence.append("download behavior changed from the previous automation contract")
+        if observations.get("old_download_mode") or observations.get("new_download_mode"):
+            evidence.append(
+                f"download mode: {observations.get('old_download_mode')} -> {observations.get('new_download_mode')}"
+            )
+
+    if not subtype:
+        return None
+
+    return _result(
+        "website_change",
+        0.9,
+        evidence,
+        _website_change_fix_suggestions(subtype),
+        subtype=subtype,
+        evidence_level="confirmed" if observations else "inferred",
+    )
+
+
+def _website_change_fix_suggestions(subtype: str) -> list[str]:
+    specific = {
+        "selector_drift": "re-record or inspect the new DOM and replace the stale selector with a stable role/test id/structural locator",
+        "dom_structure_changed": "update selector scopes to match the new DOM hierarchy and add a snapshot regression",
+        "api_endpoint_changed": "update the endpoint URL, method, or route pattern from the latest network evidence",
+        "response_shape_changed": "update JSON paths/schema mapping and add guards for missing or renamed fields",
+        "graphql_schema_changed": "update the GraphQL query to match the current schema and add a schema regression fixture",
+        "pagination_changed": "update cursor/next-page extraction and stop conditions from the latest response",
+        "login_flow_changed": "update the authorized login preflight for the new MFA/consent step without collecting secrets",
+        "download_behavior_changed": "update the script for the new export/download flow and wait for the final file event",
+    }
+    return [
+        specific.get(subtype, "update the automation contract from new DOM/network evidence"),
+        "capture a fresh sanitized trace, DOM snapshot, and network.json before editing the script",
+        "ask Codex to update selectors, endpoints, JSON paths, or flow steps from the new evidence",
+        "add a regression test that locks the new site contract",
+    ]
+
+
+def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        observations = {}
+    status = artifact.get("error", {}).get("status_code") or observations.get("status_code")
+
+    evidence: list[str] = []
+    subtype = ""
+
+    if status == 429 or "too many requests" in text or "rate limit" in text:
+        subtype = "rate_limited"
+        evidence.append("rate-limit marker found")
+        if status:
+            evidence.append(f"HTTP status code observed: {status}")
+
+    challenge_markers = ("captcha", "challenge", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
+    found_challenge = [marker for marker in challenge_markers if marker in text]
+    if not subtype and found_challenge:
+        subtype = "captcha_or_challenge_page"
+        evidence.extend(f"challenge marker found: {marker}" for marker in found_challenge[:4])
+
+    if not subtype and (
+        observations.get("headless_headed_mismatch") is True
+        or ("headless" in text and "headed" in text and ("blocked" in text or "succeeds" in text))
+    ):
+        subtype = "fingerprint_risk"
+        evidence.append("headless/headed behavior differs, which suggests environment fingerprint risk")
+
+    signature_markers = ("signature", "x-bogus", "x-s", "x-sign", "dynamic token")
+    found_signature = [marker for marker in signature_markers if marker in text]
+    if not subtype and found_signature:
+        subtype = "dynamic_signature_required"
+        evidence.extend(f"dynamic request signature marker found: {marker}" for marker in found_signature[:3])
+
+    if not subtype and (
+        observations.get("ip_reputation_block") is True
+        or "ip reputation" in text
+        or ("current network" in text and "approved" in text)
+    ):
+        subtype = "ip_reputation_block"
+        evidence.append("access differs by network or source reputation")
+
+    if not subtype and (
+        observations.get("behavioral_risk") is True
+        or "unusual traffic" in text
+        or ("request burst" in text and "triggered" in text)
+    ):
+        subtype = "behavioral_risk"
+        evidence.append("behavioral risk marker found in request pattern or page text")
+
+    if not subtype and (status == 403 or "lacks permission" in text or "permission block" in text):
+        subtype = "auth_or_permission_block"
+        evidence.append("authorization or permission block marker found")
+        if status:
+            evidence.append(f"HTTP status code observed: {status}")
+
+    if not subtype:
+        return None
+
+    return _result(
+        "anti_bot_risk",
+        0.91 if subtype in {"rate_limited", "captcha_or_challenge_page", "auth_or_permission_block"} else 0.84,
+        evidence,
+        _anti_bot_risk_safe_suggestions(subtype),
+        subtype=subtype,
+        evidence_level="confirmed",
+    )
+
+
+def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
+    return [
+        f"treat this as possible access-control or anti-abuse risk ({subtype}), not a selector/storage/proxy bug",
+        "confirm authorization and data-access permission before continuing automation",
+        "prefer official API, authorized export, manual review, or contacting the platform owner",
+        "reduce request volume and stop the run if authorization or platform terms are unclear",
+    ]
+
+
 def _classify_auth_expiry(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     markers = ("password", "login", "signin", "sign in", "session expired", "redirected_to_login")
     found = [marker for marker in markers if marker in text]
@@ -853,8 +1045,10 @@ def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> d
 
 CLASSIFIERS = (
     _classify_runtime_api_missing,
+    _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,
+    _classify_website_change,
     _classify_playwright_storage_state_context,
     _classify_playwright_route_mock_har,
     _classify_auth_expiry,

@@ -203,6 +203,8 @@ def enrich_for_users(diagnosis: Mapping[str, Any], input_summary: Mapping[str, A
         "user_facing_category": category,
         "technical_category": technical,
         "subtype": diagnosis.get("subtype"),
+        "failure_layer": failure_layer_for(technical),
+        "safe_next_action": True,
         "confidence": diagnosis.get("confidence", 0.0),
         "confidence_reason": confidence_reason_for(diagnosis),
         "estimated_fix_difficulty": estimated_fix_difficulty_for(technical, subtype),
@@ -216,6 +218,10 @@ def enrich_for_users(diagnosis: Mapping[str, Any], input_summary: Mapping[str, A
 
 
 def user_category_for(technical: str, subtype: str = "") -> str:
+    if technical == "website_change":
+        return "网站结构变化"
+    if technical == "anti_bot_risk":
+        return "疑似风控/访问限制"
     if technical in {"auth_expiry", "playwright_storage_state_context"}:
         return "登录状态失效"
     if technical in {"selector_drift", "playwright_shadow_dom_locator", "playwright_strict_mode_violation", "playwright_frame_locator"}:
@@ -239,7 +245,29 @@ def user_category_for(technical: str, subtype: str = "") -> str:
     return "代码等待逻辑错误"
 
 
+def failure_layer_for(technical: str) -> str:
+    if technical == "website_change":
+        return "website_change"
+    if technical == "anti_bot_risk":
+        return "anti_bot_risk"
+    if technical == "insufficient_evidence":
+        return "insufficient_evidence"
+    if technical in {
+        "network_http_error",
+        "toolchain_environment",
+        "runtime_api_missing",
+        "playwright_browser_context_closed",
+        "cdp_websocket_disconnected",
+    }:
+        return "environment"
+    return "automation_engineering"
+
+
 def estimated_fix_difficulty_for(technical: str, subtype: str = "") -> str:
+    if technical == "anti_bot_risk":
+        return "hard"
+    if technical == "website_change":
+        return "medium"
     easy = {
         "selector_drift",
         "playwright_strict_mode_violation",
@@ -384,6 +412,11 @@ def _render_public_markdown(
 
 
 def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
+    if public.get("technical_category") == "anti_bot_risk":
+        return _render_anti_bot_codex_fix_prompt(public, diagnosis)
+    if public.get("technical_category") == "website_change":
+        return _render_website_change_codex_fix_prompt(public, diagnosis)
+
     evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- 证据不足，需要先补充日志或 trace。"
     fixes = list(diagnosis.get("suggested_fix", [])) if isinstance(diagnosis.get("suggested_fix", []), list) else []
     conservative = fixes[0] if fixes else "先补充失败日志、trace、network.json 或最小复现，不要猜测根因。"
@@ -436,6 +469,70 @@ def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, 
 3. 不要加入 CAPTCHA 绕过或反爬规避逻辑。
 4. 不要把截图、trace 或日志里的敏感信息写入仓库。
 5. 不要把网络/代理/环境问题误修成 selector 改动。
+"""
+
+
+def _render_website_change_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
+    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- Need fresh DOM/network evidence."
+    fixes = "\n".join(f"- {item}" for item in diagnosis.get("suggested_fix", [])) or "- Update the automation contract from fresh evidence."
+    return f"""# Codex Fix Prompt
+
+Please fix this browser automation failure.
+
+Diagnosis:
+- Layer: website_change
+- Category: {public.get("user_facing_category")}
+- Technical reason: {public.get("technical_category")}
+- Subtype: {public.get("subtype")}
+- Confidence: {public.get("confidence")}
+
+Evidence:
+{evidence}
+
+Required changes:
+{fixes}
+- Use the new DOM snapshot or network.json to update selectors, endpoints, JSON paths, pagination, login flow, or download flow.
+- Add a regression test for the new site contract.
+
+Verification:
+- Run the affected automation test or minimal reproduction.
+- Re-run Agent Failure Doctor with fresh sanitized evidence if it still fails.
+
+Do not change:
+- Do not add challenge-defeat, access-control defeat, credential collection, or sensitive artifact storage.
+- Do not treat suspected access-control risk as a normal selector update.
+"""
+
+
+def _render_anti_bot_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
+    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- Access-control risk evidence is thin."
+    return f"""# Codex Fix Prompt
+
+Please triage this automation failure conservatively.
+
+Diagnosis:
+- Layer: anti_bot_risk
+- Category: {public.get("user_facing_category")}
+- Technical reason: {public.get("technical_category")}
+- Subtype: {public.get("subtype")}
+- Confidence: {public.get("confidence")}
+
+Evidence:
+{evidence}
+
+Safe next action:
+- Do not keep blindly changing selectors.
+- Confirm authorization before continuing.
+- Check whether an official API, authorized export, manual review, or platform-owner contact path exists.
+- Reduce request volume where appropriate.
+- Stop the automation if authorization or platform terms are unclear.
+
+Verification:
+- Save a sanitized trace/log/network summary.
+- Confirm whether the same failure appears with an authorized/manual flow.
+
+Forbidden scope:
+- Do not implement challenge defeat, access-control defeat, credential extraction, account rotation, network rotation, or automated challenge solving.
 """
 
 

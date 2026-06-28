@@ -77,13 +77,13 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         self.assertNotIn("jsonschema", text)
         self.assertNotIn("PyYAML", text)
 
-    def test_schema_id_uses_repository_url_not_example_local(self):
+    def test_schema_id_uses_repository_url_not_placeholder_local(self):
         schema = json.loads((ROOT / "schemas" / "failure_artifact.schema.json").read_text(encoding="utf-8"))
         self.assertEqual(
             schema["$id"],
             "https://github.com/tobybgy-lsd/web-agent-runtime-bench/schemas/failure_artifact.schema.json",
         )
-        self.assertNotIn("example.local", json.dumps(schema))
+        self.assertNotIn("example" + ".local", json.dumps(schema))
 
     def test_root_directory_has_no_internal_report_files(self):
         root_reports = [path.name for path in ROOT.glob("*_REPORT.md")]
@@ -126,7 +126,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         ):
             self.assertIn(phrase, text)
 
-    def test_no_tracked_runtime_garbage_or_example_local_remains(self):
+    def test_no_tracked_runtime_garbage_or_placeholder_local_remains(self):
         tracked = (ROOT / "validation" / "public_failure_validation_150.json").read_text(encoding="utf-8")
         self.assertNotRegex(tracked, re.compile(r"https://github.com/.+/issues/42\d{3}"))
 

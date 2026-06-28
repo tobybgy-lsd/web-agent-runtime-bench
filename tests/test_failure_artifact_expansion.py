@@ -95,7 +95,7 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             "observations": {"bundle_markers": ["eval(", "_0x4f2a", "webpackJsonp"]},
         }
 
-        self.assertEqual(classify_failure_artifact(soft_block)["failure_type"], "rate_limit_or_soft_block")
+        self.assertEqual(classify_failure_artifact(soft_block)["failure_type"], "anti_bot_risk")
         self.assertEqual(classify_failure_artifact(obfuscated)["failure_type"], "js_bundle_obfuscation")
 
     def test_adapters_create_artifacts_from_playwright_scrapy_and_requests(self):
