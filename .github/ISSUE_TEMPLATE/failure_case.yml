@@ -1,0 +1,74 @@
+name: Failure case
+description: Submit a sanitized automation failure for diagnosis or corpus review.
+title: "[Failure case]: "
+labels:
+  - failure-case
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing a failure case. Please remove secrets before posting.
+        Do not include passwords, API keys, cookies, tokens, authorization headers,
+        private screenshots, or personal data.
+  - type: textarea
+    id: what-failed
+    attributes:
+      label: What failed?
+      description: Briefly describe the automation, agent, crawler, or RPA run that failed.
+      placeholder: The browser agent timed out after clicking Export.
+    validations:
+      required: true
+  - type: dropdown
+    id: tool
+    attributes:
+      label: What tool?
+      description: Playwright / browser-use / Codex / RPA / other
+      options:
+        - Playwright
+        - browser-use
+        - Codex
+        - RPA
+        - other
+    validations:
+      required: true
+  - type: checkboxes
+    id: input-type
+    attributes:
+      label: Input type
+      description: log / trace / network / screenshot / description
+      options:
+        - label: log
+        - label: trace
+        - label: network
+        - label: screenshot
+        - label: description
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      placeholder: The script should download the report file.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      placeholder: The script clicked the button, but no file was saved.
+    validations:
+      required: true
+  - type: textarea
+    id: sanitized-log
+    attributes:
+      label: Sanitized log
+      description: Paste only sanitized excerpts. Remove secrets and private data.
+      render: text
+  - type: dropdown
+    id: public-test-case
+    attributes:
+      label: Can this become a public test case?
+      options:
+        - "yes"
+        - "no"
+        - "not sure"
+    validations:
+      required: true

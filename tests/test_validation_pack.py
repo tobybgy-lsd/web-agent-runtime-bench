@@ -72,12 +72,12 @@ class ValidationPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
         for phrase in (
-            "案例 1：代理失败 log",
-            "案例 2：strict mode violation",
-            "案例 3：trace.zip 登录失效",
+            "Proxy/network failure",
+            "Strict mode locator conflict",
+            "Low-evidence screenshot-only run",
         ):
             self.assertIn(phrase, readme)
-        for marker in ("鈹", "鈫", "鎶", "璇", "涓", "鐧", "缃"):
+        for marker in ("閳", "閹", "鐠", "娑", "閻", "缂"):
             self.assertNotIn(marker, readme)
 
 

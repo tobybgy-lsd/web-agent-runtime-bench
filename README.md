@@ -1,36 +1,27 @@
 # Agent Failure Doctor
 
-**Local-first diagnostic tool for AI automation, browser agents, RPA, and Playwright failures.**
+Diagnose why AI-generated browser automation / crawler / RPA runs failed.
 
-Drop local, sanitized failure materials into a folder. Get failure classification,
-evidence extraction, missing-evidence guidance, repair suggestions, a Codex fix
-prompt, a GitHub issue draft, and a zipped diagnostic artifact.
+Input:
+trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
-```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
-```
-
-## 3 Minimal Demos
-
-案例 1：代理失败 log → 网络/代理问题 → 修复指令
+Output:
+diagnosis, evidence, next action, repair suggestions, Codex fix prompt.
 
 ```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report_proxy
+git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
+cd web-agent-runtime-bench
+python -m failure_doctor diagnose .\examples\failed_runs\proxy_failed --out .\report
 ```
 
-案例 2：strict mode violation → 元素定位冲突 → 修复指令
+Agent Failure Doctor is local-first. It turns sanitized automation failure
+materials into a report that explains what likely failed, what evidence supports
+the diagnosis, what evidence is missing, and what to ask Codex or another coding
+assistant to change next.
 
-```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\strict_mode_locator --out .\report_locator
-```
+## What You Get
 
-案例 3：trace.zip 登录失效 → storage_state 问题 → 修复指令
-
-```powershell
-python -m trace_doctor diagnose .\trace.zip --out .\report_trace
-```
-
-```
+```text
 report/
 ├── diagnosis.json
 ├── diagnosis.md
@@ -42,44 +33,9 @@ report/
 └── failure_doctor_report.zip
 ```
 
-Not a CAPTCHA bypass tool. Not a real-platform scraper. Not a credential
-extractor. Not a bot evasion tool. Local sanitized traces only.
+## One-Minute Start
 
----
-
-## What it does
-
-| Problem | What Trace Doctor does |
-|---|---|
-| Playwright test or browser agent fails | Classifies the likely root cause from trace evidence |
-| Trace Viewer shows many clues but no diagnosis | Names the failure type and extracts supporting evidence |
-| A repair needs to be handed to a coding assistant | Writes `repair_suggestions.md` and `issue_draft.md` |
-| Debug evidence must be shared safely | Produces a local zipped diagnostic artifact |
-| Same failure pattern keeps coming back | Converts sanitized failures into regression fixtures |
-
----
-
-## Quickstart
-
-**Requirements:** Python 3.10+, Node.js 18+
-
-```bash
-git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench
-cd web-agent-runtime-bench
-
-# Diagnose a local sanitized Playwright trace
-python -m trace_doctor diagnose .\trace.zip --out .\report
-
-# Run the legacy artifact CLI directly
-python tools/warb.py adapt playwright-trace .\trace.zip --out sample_run\from_trace --diagnose
-
-# Run the verification benchmark suite
-python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
-```
-
-### 一分钟上手
-
-把一次失败运行的材料随手放进一个文件夹，例如：
+Put a failed run in a folder:
 
 ```text
 my_failed_run/
@@ -90,196 +46,125 @@ my_failed_run/
 └── screenshot.png
 ```
 
-然后运行：
+Then run:
 
 ```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
+python -m failure_doctor diagnose .\my_failed_run --out .\report
 ```
 
-输出会包含 `input_summary.json`，告诉你它看到了哪些证据、缺哪些证据，以及本次诊断按什么优先级使用材料：
+The tool automatically inventories inputs and uses this evidence priority:
 
 ```text
 trace.zip > log > network.json > user description > screenshot metadata
 ```
 
-如果只有截图或描述，工具会降级为低证据报告，并明确提示需要补充 `trace.zip`、`error.log` 或 `network.json`。
+When evidence is too thin, it should downgrade to `insufficient_evidence`
+instead of guessing.
 
----
+## Minimal Demos
 
-## Failure types detected
-
-| Type | Example | Detected from |
-|---|---|---|
-| `runtime_api_missing` | `window is not defined` | stderr, console log |
-| `network_http_error` | 403, 429, 503 | status code, response |
-| `rate_limit_or_soft_block` | 200 page says "too many requests" | response body, empty output |
-| `response_shape_change` | expected field `price` missing | schema diff |
-| `selector_drift` | `.price` no longer matches | selector errors, DOM snapshot |
-| `async_hydration_timing` | extraction ran before hydration | console, network, DOM mutation hints |
-| `auth_expiry` | 200 but got login page | HTML snapshot, URL |
-| `captcha_or_bot_wall` | Cloudflare challenge page | HTML markers |
-| `js_bundle_obfuscation` | bundle export disappears behind eval/webpack chunks | bundle markers, runtime error |
-| `toolchain_environment` | Node/Python/PowerShell missing | local stderr, process output |
-
----
-
-## Submit a failure, get a diagnosis
-
-Have a failed Playwright/Scrapy/requests run? Send it, get back a free diagnosis report.
-
-Package a sanitized failure pack:
-
-```bash
-python tools/warb.py pack \
-  --tool playwright \
-  --input path/to/failed_run \
-  --out sample_run/failure_pack_001 \
-  --summary "Expected product page returned login form" \
-  --status-code 200 \
-  --required-field title \
-  --required-field price
-```
-
-**What to send** (no credentials, no tokens needed):
-
-```
-failure_pack.zip   # generated by warb pack
-github_issue.md    # generated issue body
-```
-
-→ [Open a GitHub issue](https://github.com/tobybgy-lsd/web-agent-runtime-bench/issues/new?template=failure-artifact.yml)
-
----
-
-## For AI-assisted debugging
-
-The failure artifacts and diagnosis reports are structured for direct use with
-Codex, Claude, or any coding assistant. Instead of pasting raw error logs,
-pass the diagnosis report:
-
-```
-Here is a structured failure diagnosis: [diagnosis.md]
-Please generate a fix for the Playwright script.
-```
-
-The report includes: failure type, confidence, evidence, suggested fix direction,
-and a repair prompt template.
-
-### Before / After Report
-
-Before v0.2, a report mainly said:
-
-```text
-failure_type: selector_drift
-confidence: 0.86
-evidence: missing selector button.submit
-```
-
-After v0.2, `failure_doctor` reports are shaped for action:
-
-```text
-结论 / 证据 / 为什么 / 下一步 / 给 Codex 的修复指令
-
-结论：按钮/元素找不到
-为什么：日志命中 locator/strict-mode 证据，而不是网络或登录状态
-下一步：把 codex_fix_prompt.md 交给 Codex/Claude 修改代码
-```
-
-`codex_fix_prompt.md` now separates conservative repair, recommended repair,
-verification commands, and forbidden modification scope.
-
---- 
-
-## Tool adapters
-
-Convert captured tool output into the unified artifact format:
-
-```bash
-python tools/warb.py adapt playwright-trace trace.zip --out sample_run/from_trace --diagnose
-python tools/warb.py adapt scrapy scrapy.log --response response.html --out sample_run/from_scrapy
-python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
-```
-
-Try the full Playwright trace-to-repair-prompt chain with the included synthetic fixture:
+Proxy/network failure:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\adapt_smoke_test.ps1
+python -m failure_doctor diagnose .\examples\failed_runs\proxy_failed --out .\report_proxy
 ```
 
-Diagnose an existing artifact separately when needed:
+Strict mode locator conflict:
 
-```bash
-python tools/warb.py diagnose sample_run/from_trace/failure_artifact.json
+```powershell
+python -m failure_doctor diagnose .\examples\failed_runs\strict_mode_locator --out .\report_locator
 ```
 
-The smoke script writes `failure_artifact.json`, `diagnosis.json`, `diagnosis.md`,
-`diagnosis_report.html`, and `repair_prompt.md` under
-`outputs/adapt_playwright_trace/`.
-The included fixture demonstrates action-level evidence such as failed
-`locator.waitFor`, exception details, and snapshot references.
-It also links snapshot references back to local HTML resources and surfaces DOM
-selector hints such as `.amount` being present while `.price` is missing.
+Low-evidence screenshot-only run:
 
-Generate a synthetic regression fixture from a sanitized pack:
-
-```bash
-python tools/warb.py regression generate sample_run/failure_pack_001 --out failure_corpus/synthetic
+```powershell
+python -m failure_doctor diagnose .\examples\failed_runs\low_evidence_screenshot_only --out .\report_low_evidence
 ```
 
----
+## Before / After Report
 
-## Architecture
+Report structure: 结论 / 证据 / 为什么 / 下一步 / 给 Codex 的修复指令
 
-```
-Your failed run (Playwright / Scrapy / requests)
-        ↓
-warb collect    →  failure_artifact.json  (unified schema)
-        ↓
-warb diagnose   →  diagnosis.json + diagnosis.md + repair_prompt.md
-        ↓
-warb report     →  diagnosis_report.html  (shareable)
-        ↓
-warb regression →  sanitized synthetic test case added to corpus
-        ↓
-CI benchmark    →  regression never recurs
+Before:
+
+```text
+page.goto: net::ERR_PROXY_CONNECTION_FAILED while opening https://example.test
 ```
 
----
+After:
 
-## Safety boundary
-
-✅ Allowed:
-- Your own failure logs and HTML snapshots
-- Sanitized local artifacts (no credentials)
-- Synthetic local mock cases
-- Local Node.js subprocess execution
-
-❌ Never:
-- Real platform signatures or tokens
-- Network requests to real sites
-- Credentials, cookies, Authorization headers
-- CAPTCHA bypass or anti-bot evasion
-
----
-
-## Standard benchmark
-
-The repo includes a synthetic benchmark suite for testing runtime diagnosis
-capabilities without any real-world targets.
-
-```bash
-python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
+```text
+Conclusion: network/proxy setup failed before the page loaded.
+Evidence: Playwright reported net::ERR_PROXY_CONNECTION_FAILED.
+Next action: check proxy settings, DNS, VPN, and CI network configuration.
+Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 ```
 
-See [docs/benchmark_tasks.md](docs/benchmark_tasks.md) for task definitions and
-[sample_reports/benchmark_ci_report_sample.md](sample_reports/benchmark_ci_report_sample.md)
-for a sample CI report.
+## Validation Status
 
----
+Current public release: Agent Failure Doctor v0.4.0.
 
-## Contributing
+- 150 public-inspired sanitized validation records
+- 100 public failure corpus cases
+- 86.7% reasonable classification in the validation ledger
+- 94% actionable `next_action`
+- 160 tests
+- smoke test and local safety scan passing
 
-See [docs/submit_failure_pack.md](docs/submit_failure_pack.md) to submit a
-sanitized failure artifact.
+See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for the validation
+ledger, limits, and current boundaries.
 
-MIT License
+## Safety Boundary
+
+This project is for local, sanitized failure diagnosis.
+
+It is not:
+
+- a CAPTCHA bypass tool
+- a bot evasion tool
+- a credential extractor
+- a real-platform scraper
+- a tool for unauthorized collection
+
+For suspected anti-bot or platform risk cases, the intended output is
+identification, routing, and compliance-oriented next steps such as reducing
+request volume, using an official API, confirming authorization, contacting the
+platform, or stopping unauthorized collection.
+
+## Contributing Failure Cases
+
+You do not need to write code. The most useful contribution is a sanitized
+failure case: log snippets, trace metadata, network summaries, screenshots
+metadata, and a short description of what happened.
+
+Open a Failure case issue and remove secrets before posting:
+
+- passwords
+- API keys
+- cookies
+- tokens
+- authorization headers
+- private screenshots
+- personal data
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the minimal contribution format.
+
+## Commands
+
+Run all tests:
+
+```powershell
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+Run smoke test:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\smoke_test.ps1
+```
+
+Run local safety scan:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1
+```
