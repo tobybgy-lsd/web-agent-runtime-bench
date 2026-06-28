@@ -385,6 +385,78 @@ class FailureArtifactExpansionTests(unittest.TestCase):
                 },
             )
 
+    def test_playwright_trace_adapter_exposes_specialty_failure_markers(self):
+        cases = [
+            (
+                "filechooser",
+                [
+                    {
+                        "type": "before",
+                        "callId": "call@file",
+                        "apiName": "page.waitForEvent",
+                        "params": {"event": "filechooser"},
+                    },
+                    {"type": "after", "callId": "call@file", "error": {"message": "Timeout 30000ms exceeded"}},
+                ],
+                "playwright_file_chooser",
+            ),
+            (
+                "download",
+                [
+                    {
+                        "type": "before",
+                        "callId": "call@download",
+                        "apiName": "page.waitForEvent",
+                        "params": {"event": "download"},
+                    },
+                    {"type": "after", "callId": "call@download", "error": {"message": "Timeout 30000ms exceeded"}},
+                ],
+                "playwright_download",
+            ),
+            (
+                "popup",
+                [
+                    {
+                        "type": "before",
+                        "callId": "call@popup",
+                        "apiName": "page.waitForEvent",
+                        "params": {"event": "popup"},
+                    },
+                    {"type": "after", "callId": "call@popup", "error": {"message": "Timeout 30000ms exceeded"}},
+                ],
+                "playwright_popup",
+            ),
+            (
+                "service_worker",
+                [
+                    {
+                        "type": "event",
+                        "method": "Network.responseReceived",
+                        "params": {
+                            "response": {
+                                "url": "https://example.test/api/products",
+                                "status": 200,
+                                "fromServiceWorker": True,
+                                "request": {"method": "GET"},
+                            }
+                        },
+                    }
+                ],
+                "playwright_service_worker_cache",
+            ),
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for index, (name, records, expected_type) in enumerate(cases, start=1):
+                trace_zip = root / f"trace_{index}.zip"
+                with ZipFile(trace_zip, "w") as archive:
+                    archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
+
+                artifact = artifact_from_playwright_trace(trace_zip, run_id=f"pw_case_{index}")
+                diagnosis = classify_failure_artifact(artifact)
+
+                self.assertEqual(diagnosis["failure_type"], expected_type, name)
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -272,6 +272,18 @@ def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
         or ""
     )
     method = str((request or {}).get("method") or record.get("requestMethod") or params.get("requestMethod") or "")
+    from_service_worker = bool(
+        record.get("fromServiceWorker")
+        or params.get("fromServiceWorker")
+        or (response or {}).get("fromServiceWorker")
+        or (request or {}).get("fromServiceWorker")
+    )
+    from_cache = bool(
+        record.get("fromCache")
+        or params.get("fromCache")
+        or (response or {}).get("fromCache")
+        or (request or {}).get("fromCache")
+    )
 
     looks_network_like = bool(status or url) and (
         "network" in record_type
@@ -290,6 +302,12 @@ def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
         event["url"] = url
     if status is not None:
         event["status"] = status
+    if from_service_worker:
+        event["from_service_worker"] = True
+        event["source"] = "service worker"
+    if from_cache:
+        event["from_cache"] = True
+        event["cache"] = "cached response"
     return event if event else None
 
 
@@ -311,6 +329,15 @@ def _extract_action_observations(records: list[dict[str, Any]]) -> tuple[list[di
             selector = params.get("selector") or record.get("selector")
             if selector:
                 action["selector"] = str(selector)
+            event_name = params.get("event") or record.get("event")
+            if event_name:
+                action["event"] = str(event_name)
+            url = params.get("url") or record.get("url")
+            if url:
+                action["url"] = str(url)
+            locator = params.get("locator") or params.get("selectorOrLocator") or record.get("locator")
+            if locator:
+                action["locator"] = str(locator)
             before_snapshot = record.get("beforeSnapshot") or record.get("snapshot") or record.get("snapshotName")
             if before_snapshot:
                 action["before_snapshot"] = str(before_snapshot)

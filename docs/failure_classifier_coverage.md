@@ -19,6 +19,20 @@ starts changing scraper code.
 | `js_bundle_obfuscation` | eval/webpack/dynamic-function markers plus missing exports | Treat as bundle contract change, not selector drift |
 | `toolchain_environment` | Missing local runtime, permission, path, module errors | Fix local environment and rerun smoke tests |
 
+## Covered Playwright Fine Types
+
+These are narrower Playwright failure modes recognized in addition to the broad
+web automation categories above:
+
+| Failure type | MVP evidence | Fix direction |
+|---|---|---|
+| `playwright_strict_mode_violation` | strict-mode or multiple-match locator errors | Narrow locator scope to one intended element |
+| `playwright_frame_locator` | `frameLocator`, iframe, detached frame, or missing-frame markers | Wait for and scope into the correct frame |
+| `playwright_file_chooser` | file chooser, upload, or `setInputFiles` markers | Await the chooser and verify local file path/input state |
+| `playwright_download` | download event, `acceptDownloads`, `saveAs`, or suggested filename markers | Wait for the download and persist before context close |
+| `playwright_popup` | popup/new-page event markers | Wait for the popup and continue extraction on the new page |
+| `playwright_service_worker_cache` | service-worker/cache-source markers such as `fromServiceWorker` | Separate stale cache/state from parser or selector bugs |
+
 ## Adapters
 
 `warb adapt` converts captured evidence into `failure_artifact.json`:
@@ -35,7 +49,10 @@ captured evidence.
 The Playwright trace adapter extracts bounded action-level evidence from
 synthetic/local trace records, including failed action metadata, exception
 details, network summaries, snapshot references, linked DOM excerpts, and
-selector hints such as missing selectors plus nearby candidate classes/text.
+selector hints such as missing selectors plus nearby candidate classes/text. It
+also preserves Playwright-specific action events and response source metadata
+used by the fine-type classifiers, such as `filechooser`, `download`, `popup`,
+and `fromServiceWorker`.
 
 ## Regression Fixtures
 
