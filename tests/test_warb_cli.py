@@ -315,6 +315,54 @@ class WarbCliTests(unittest.TestCase):
             self.assertTrue((out_dir / "diagnosis" / "repair_prompt.md").exists())
             self.assertTrue((out_dir / "github_issue.md").exists())
 
+    def test_flow_zip_writes_shareable_failure_pack_archive(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "flow",
+                    str(out_dir),
+                    "--zip",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            zip_path = out_dir / "failure_pack.zip"
+            self.assertTrue(zip_path.exists())
+            self.assertIn("failure_pack.zip", result.stdout)
+            with ZipFile(zip_path) as archive:
+                names = set(archive.namelist())
+
+            self.assertIn("failure_artifact.json", names)
+            self.assertIn("github_issue.md", names)
+            self.assertIn("diagnosis/diagnosis.json", names)
+            self.assertIn("diagnosis/repair_prompt.md", names)
+            self.assertIn("snapshot.html", names)
+            self.assertNotIn("failure_pack.zip", names)
+
     def test_flow_stops_before_outputs_when_pack_is_not_ready(self):
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp) / "copied_pack"

@@ -21,6 +21,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -101,6 +102,15 @@ def _print_diagnosis_outputs(outputs: dict[str, Path]) -> None:
     print(DIM(f"  diagnosis.md    -> {outputs['diagnosis.md']}"))
     print(DIM(f"  diagnosis.html  -> {outputs['diagnosis_report.html']}"))
     print(DIM(f"  repair_prompt   -> {outputs['repair_prompt.md']}"))
+
+
+def _write_failure_pack_zip(root: Path, zip_path: Path) -> Path:
+    with ZipFile(zip_path, "w", ZIP_DEFLATED) as archive:
+        for path in sorted(root.rglob("*")):
+            if not path.is_file() or path == zip_path:
+                continue
+            archive.write(path, path.relative_to(root).as_posix())
+    return zip_path
 
 
 def _print_diagnosis(diagnosis: dict, artifact: dict) -> None:
@@ -322,6 +332,7 @@ def cmd_flow(args: argparse.Namespace) -> int:
     if not issue_result.get("ok"):
         print(RED(str(issue_result.get("error", "failed to write issue draft"))))
         return 1
+    zip_path = _write_failure_pack_zip(pack_dir, pack_dir / "failure_pack.zip") if args.zip else None
 
     print()
     print(f"  Diagnosis: {diagnosis.get('failure_type', 'unknown')} ({float(diagnosis.get('confidence', 0)):.0%})")
@@ -329,6 +340,8 @@ def cmd_flow(args: argparse.Namespace) -> int:
     print("  Outputs:")
     _print_diagnosis_outputs(outputs)
     print(DIM(f"  github_issue   -> {issue_result['issue_path']}"))
+    if zip_path:
+        print(DIM(f"  failure_pack   -> {zip_path}"))
     print()
     print("  Next: review the generated files before sharing")
     return 0
@@ -467,6 +480,7 @@ def build_parser() -> argparse.ArgumentParser:
     flow = sub.add_parser("flow", help="Run doctor, diagnosis outputs, and issue draft for a failure pack")
     flow.add_argument("pack_dir", help="Directory containing failure_artifact.json")
     flow.add_argument("--issue-out", default=None, help="Issue markdown output path; defaults to <pack_dir>/github_issue.md")
+    flow.add_argument("--zip", action="store_true", help="Also write <pack_dir>/failure_pack.zip for upload")
 
     adapt = sub.add_parser("adapt", help="Convert captured tool output into a failure artifact")
     adapt_sub = adapt.add_subparsers(dest="adapter_command")

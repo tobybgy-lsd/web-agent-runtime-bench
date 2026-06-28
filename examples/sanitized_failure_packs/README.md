@@ -32,10 +32,10 @@ python tools\warb.py template copy playwright_selector_drift_product_card --out 
 Then edit the copied files and run the full pre-submit flow:
 
 ```powershell
-python tools\warb.py flow sample_run\my_failure_pack
+python tools\warb.py flow sample_run\my_failure_pack --zip
 ```
 
-If the flow reports `Flow status: ready`, it writes diagnosis outputs and a GitHub issue draft.
+If the flow reports `Flow status: ready`, it writes diagnosis outputs, a GitHub issue draft, and `failure_pack.zip`.
 
 For step-by-step debugging, run the pieces individually:
 
