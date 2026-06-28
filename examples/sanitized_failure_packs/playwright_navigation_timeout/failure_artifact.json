@@ -1,0 +1,43 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_navigation_timeout",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "Navigation timed out before the product page returned a usable response.",
+  "error": {
+    "message": "Timeout waiting for response during page.goto('https://example.invalid/products/slow-item')",
+    "stack": "TimeoutError: page.goto timed out while waiting for response\n    at ProductPage.open",
+    "status_code": null
+  },
+  "artifacts": {
+    "network_log": "network.json",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "final_url": "https://example.invalid/products/slow-item",
+    "network_error": "timeout waiting for response",
+    "timeout_ms": 30000
+  },
+  "expected": {
+    "required_fields": ["title", "price"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "network_http_error",
+    "confidence": 0.86
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Host, path, timing, and headers are placeholders. No replayable endpoint is included."
+  }
+}
+

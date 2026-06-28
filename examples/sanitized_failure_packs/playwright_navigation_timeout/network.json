@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://example.invalid/products/slow-item"
+  },
+  "response": null,
+  "error": "timeout waiting for response"
+}
+

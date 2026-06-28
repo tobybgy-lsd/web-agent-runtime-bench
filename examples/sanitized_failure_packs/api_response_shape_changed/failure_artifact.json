@@ -1,0 +1,47 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_api_response_shape_changed",
+  "tool": "requests",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The response payload changed shape: required fields are missing and a field type changed compared with expected schema.",
+  "error": {
+    "message": "schema validation failed: type changed for price",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "network_log": "network.json",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "status_code": 200,
+    "schema_validation": "failed",
+    "shape_change": "type changed"
+  },
+  "expected": {
+    "required_fields": ["title", "price", "currency"]
+  },
+  "actual": {
+    "fields": {
+      "title": "Sample Widget",
+      "price": {
+        "amount": "19.99"
+      }
+    },
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "response_shape_change",
+    "confidence": 0.82
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Payload values and endpoint are synthetic placeholders."
+  }
+}
+

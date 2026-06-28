@@ -10,11 +10,17 @@ TEMPLATE_ROOT = ROOT / "examples" / "sanitized_failure_packs"
 
 
 class SanitizedFailurePackTemplateTests(unittest.TestCase):
-    def test_three_realistic_sanitized_templates_are_valid_and_diagnosable(self):
+    def test_realistic_sanitized_templates_are_valid_and_diagnosable(self):
         expected_types = {
             "playwright_selector_drift_product_card": "selector_drift",
             "playwright_auth_expired_login_page": "auth_expiry",
             "scrapy_rate_limit_soft_block": "rate_limit_or_soft_block",
+            "playwright_navigation_timeout": "network_http_error",
+            "playwright_async_hydration_product_grid": "async_hydration_timing",
+            "playwright_captcha_challenge_wall": "captcha_or_bot_wall",
+            "node_runtime_document_missing": "runtime_api_missing",
+            "api_response_shape_changed": "response_shape_change",
+            "playwright_js_bundle_obfuscation": "js_bundle_obfuscation",
         }
 
         for case_name, expected_type in expected_types.items():

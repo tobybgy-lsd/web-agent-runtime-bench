@@ -1,0 +1,42 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_js_bundle_obfuscation",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "A client JS bundle changed and obfuscated internal parser exports, causing extraction code that depended on bundle internals to fail.",
+  "error": {
+    "message": "Cannot find exported parser after bundle changed; obfuscated _0x symbols and eval( markers observed",
+    "stack": "Error: cannot find exported parser\n    at evaluateBundleParser",
+    "status_code": 200
+  },
+  "artifacts": {
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "bundle_markers": ["_0x", "eval(", "bundle changed", "obfuscated"],
+    "parser_export_found": false,
+    "html_excerpt": "<script src=\"/assets/app.bundle.js\"></script>"
+  },
+  "expected": {
+    "required_fields": ["title", "price"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "js_bundle_obfuscation",
+    "confidence": 0.82
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Bundle content is represented only by generic markers. No proprietary script is included."
+  }
+}
+

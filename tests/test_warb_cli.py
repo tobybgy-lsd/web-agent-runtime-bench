@@ -29,6 +29,12 @@ class WarbCliTests(unittest.TestCase):
         self.assertIn("playwright_selector_drift_product_card", result.stdout)
         self.assertIn("playwright_auth_expired_login_page", result.stdout)
         self.assertIn("scrapy_rate_limit_soft_block", result.stdout)
+        self.assertIn("playwright_navigation_timeout", result.stdout)
+        self.assertIn("playwright_async_hydration_product_grid", result.stdout)
+        self.assertIn("playwright_captcha_challenge_wall", result.stdout)
+        self.assertIn("node_runtime_document_missing", result.stdout)
+        self.assertIn("api_response_shape_changed", result.stdout)
+        self.assertIn("playwright_js_bundle_obfuscation", result.stdout)
 
     def test_template_copy_creates_editable_pack_from_builtin_template(self):
         with tempfile.TemporaryDirectory() as tmp:

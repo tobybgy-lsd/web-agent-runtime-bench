@@ -1,0 +1,4 @@
+[info] network idle window was short: 120ms
+[warn] resolved to 0 elements before hydration
+[info] DOM mutation after failure: product-card appended
+

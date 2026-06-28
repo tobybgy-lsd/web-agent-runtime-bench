@@ -1,0 +1,42 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_node_runtime_document_missing",
+  "tool": "node",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "Browser-targeted extraction code failed in Node because document was not defined.",
+  "error": {
+    "message": "ReferenceError: document is not defined",
+    "stack": "ReferenceError: document is not defined\n    at extractProductList",
+    "status_code": null
+  },
+  "artifacts": {
+    "error_log": "error.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "runtime": "node",
+    "missing_api": "document",
+    "failure_stage": "before extraction completed"
+  },
+  "expected": {
+    "required_fields": ["items"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "runtime_api_missing",
+    "confidence": 0.9
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Stack and function names are synthetic placeholders."
+  }
+}
+

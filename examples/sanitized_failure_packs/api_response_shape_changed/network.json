@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://example.invalid/api/product/123"
+  },
+  "response": {
+    "status": 200,
+    "body_shape": {
+      "title": "string",
+      "price": "object"
+    }
+  }
+}
+

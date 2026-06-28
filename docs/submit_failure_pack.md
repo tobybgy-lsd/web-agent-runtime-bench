@@ -6,8 +6,14 @@ WebAgentRuntimeBench improves by turning real failures into sanitized synthetic 
 
 Start from one of the templates in `examples/sanitized_failure_packs/` when possible:
 
-- `playwright_selector_drift_product_card/`
 - `playwright_auth_expired_login_page/`
+- `playwright_async_hydration_product_grid/`
+- `playwright_captcha_challenge_wall/`
+- `playwright_js_bundle_obfuscation/`
+- `playwright_navigation_timeout/`
+- `playwright_selector_drift_product_card/`
+- `node_runtime_document_missing/`
+- `api_response_shape_changed/`
 - `scrapy_rate_limit_soft_block/`
 
 List and copy templates with the CLI:

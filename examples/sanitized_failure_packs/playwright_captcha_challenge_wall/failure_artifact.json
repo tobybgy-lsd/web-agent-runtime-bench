@@ -1,0 +1,43 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_captcha_challenge_wall",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The browser reached a generic human verification challenge instead of the expected product page.",
+  "error": {
+    "message": "Expected product content, found verify you are human challenge page",
+    "stack": "",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "final_url": "https://example.invalid/challenge",
+    "html_excerpt": "Verify you are human. CAPTCHA challenge. Just a moment.",
+    "challenge_markers": ["captcha", "verify you are human", "just a moment"]
+  },
+  "expected": {
+    "required_fields": ["title", "price"]
+  },
+  "actual": {
+    "fields": {},
+    "array_length": null
+  },
+  "labels": {
+    "failure_type": "captcha_or_bot_wall",
+    "confidence": 0.88
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Challenge page is generic and contains no bypass instructions or provider-specific secrets."
+  }
+}
+

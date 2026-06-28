@@ -1,0 +1,5 @@
+[warn] bundle changed since last run
+[warn] obfuscated _0x symbols detected
+[error] cannot find exported parser
+[debug] eval( marker observed in sanitized bundle metadata
+

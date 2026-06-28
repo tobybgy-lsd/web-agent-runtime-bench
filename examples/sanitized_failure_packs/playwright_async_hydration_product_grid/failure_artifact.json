@@ -1,0 +1,47 @@
+{
+  "schema_version": "failure-artifact/v1",
+  "run_id": "template_playwright_async_hydration_product_grid",
+  "tool": "playwright",
+  "target_type": "sanitized_real_failure_template",
+  "summary": "The product grid resolved to zero items before hydration, then DOM mutations added cards after the extraction timeout.",
+  "error": {
+    "message": "resolved to 0 elements before hydration; element appeared after timeout",
+    "stack": "TimeoutError: wait_until condition was too early\n    at ProductGrid.extract",
+    "status_code": 200
+  },
+  "artifacts": {
+    "html_snapshot": "snapshot.html",
+    "console_log": "console.log",
+    "expected_schema": "expected_schema.json",
+    "actual_output": "actual_output.json",
+    "notes": "notes.md"
+  },
+  "observations": {
+    "final_url": "https://example.invalid/search?q=sample",
+    "network_idle_ms": 120,
+    "dom_mutations_after_failure": 18,
+    "html_excerpt": "<div id=\"grid\" data-hydration=\"pending\"></div>",
+    "timing_notes": "product cards appeared after failure"
+  },
+  "expected": {
+    "required_fields": ["items"]
+  },
+  "actual": {
+    "fields": {
+      "items": []
+    },
+    "array_length": 0
+  },
+  "labels": {
+    "failure_type": "async_hydration_timing",
+    "confidence": 0.84
+  },
+  "safety": {
+    "sanitized": true,
+    "contains_credentials": false,
+    "external_network_required": false,
+    "user_authorized_or_synthetic": true,
+    "redaction_notes": "Search query, product names, and timing values are synthetic placeholders."
+  }
+}
+

@@ -17,6 +17,18 @@ Each directory contains:
 
 Use these as starting points when preparing a real failure pack for maintainers.
 
+Current templates cover:
+
+- `selector_drift`: stale product-card selector after page redesign
+- `auth_expiry`: HTTP 200 login page after session expiry
+- `rate_limit_or_soft_block`: HTTP 429 / soft-block response
+- `network_http_error`: navigation timeout before usable response
+- `async_hydration_timing`: extraction before client-side hydration
+- `captcha_or_bot_wall`: human-verification challenge page
+- `runtime_api_missing`: browser runtime API missing in Node
+- `response_shape_change`: required fields missing or typed differently
+- `js_bundle_obfuscation`: parser coupled to changed obfuscated bundle internals
+
 List available templates:
 
 ```powershell
