@@ -64,13 +64,28 @@ class FailureDoctorActionableReportTests(unittest.TestCase):
         diagnosis, report, prompt = run_failure_doctor("Error: Execution context was destroyed, most likely because of a navigation")
         combined = json.dumps(diagnosis, ensure_ascii=False) + report + prompt
 
-        for marker in ("鎸", "璇", "鈥", "涓", "鐧", "缃"):
+        for marker in ("閹", "鐠", "閳", "娑", "閻", "缂"):
             self.assertNotIn(marker, combined)
 
     def test_estimated_fix_difficulty_easy_medium_hard_mapping(self):
-        self.assertEqual(enrich_for_users({"failure_type": "playwright_strict_mode_violation", "confidence": 0.87})["estimated_fix_difficulty"], "easy")
-        self.assertEqual(enrich_for_users({"failure_type": "network_http_error", "subtype": "proxy_connection_failed", "confidence": 0.88})["estimated_fix_difficulty"], "medium")
-        self.assertEqual(enrich_for_users({"failure_type": "cdp_websocket_disconnected", "confidence": 0.87})["estimated_fix_difficulty"], "hard")
+        self.assertEqual(
+            enrich_for_users({"failure_type": "playwright_strict_mode_violation", "confidence": 0.87})[
+                "estimated_fix_difficulty"
+            ],
+            "easy",
+        )
+        self.assertEqual(
+            enrich_for_users({"failure_type": "network_http_error", "subtype": "proxy_connection_failed", "confidence": 0.88})[
+                "estimated_fix_difficulty"
+            ],
+            "medium",
+        )
+        self.assertEqual(
+            enrich_for_users({"failure_type": "cdp_websocket_disconnected", "confidence": 0.87})[
+                "estimated_fix_difficulty"
+            ],
+            "hard",
+        )
 
     def test_confidence_reason_mentions_evidence_level_when_available(self):
         public = enrich_for_users(
@@ -95,13 +110,13 @@ class FailureDoctorActionableReportTests(unittest.TestCase):
             text = snapshot.read_text(encoding="utf-8")
             for heading in ("## 结论", "## 证据", "## 为什么", "## 下一步", "## 给 Codex 的修复指令"):
                 self.assertIn(heading, text, snapshot.name)
-            self.assertNotIn("鎸", text, snapshot.name)
+            self.assertNotIn("閹", text, snapshot.name)
 
     def test_readme_contains_before_after_report_example(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
         self.assertIn("Before / After Report", readme)
-        self.assertIn("结论 / 证据 / 为什么 / 下一步 / 给 Codex 的修复指令", readme)
+        self.assertIn("conclusion / evidence / why / next action / Codex fix prompt", readme)
 
 
 if __name__ == "__main__":

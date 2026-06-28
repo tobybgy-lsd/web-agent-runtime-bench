@@ -187,7 +187,7 @@ class FailureDoctorRealUserInputPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
         self.assertIn("One-Minute Start", readme)
-        self.assertIn("python -m failure_doctor diagnose .\\examples\\failed_runs", readme)
+        self.assertIn("failure-doctor diagnose .\\my_failed_run --out .\\report", readme)
 
 
 if __name__ == "__main__":

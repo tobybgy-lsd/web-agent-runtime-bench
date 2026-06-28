@@ -1,18 +1,29 @@
 # Agent Failure Doctor
 
+[中文文档](README.zh-CN.md)
+
+![CI](https://github.com/tobybgy-lsd/web-agent-runtime-bench/actions/workflows/benchmark.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+
 Diagnose why AI-generated browser automation / crawler / RPA runs failed.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
-diagnosis, evidence, next action, repair suggestions, Codex fix prompt.
+diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+
+Quickstart:
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
 cd web-agent-runtime-bench
-python -m failure_doctor diagnose .\examples\failed_runs\proxy_failed --out .\report
+python -m pip install -e .
+failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
+
+See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics.
 
 Agent Failure Doctor is local-first. It turns sanitized automation failure
 materials into a report that explains what likely failed, what evidence supports
@@ -49,7 +60,7 @@ my_failed_run/
 Then run:
 
 ```powershell
-python -m failure_doctor diagnose .\my_failed_run --out .\report
+failure-doctor diagnose .\my_failed_run --out .\report
 ```
 
 The tool automatically inventories inputs and uses this evidence priority:
@@ -66,24 +77,24 @@ instead of guessing.
 Proxy/network failure:
 
 ```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\proxy_failed --out .\report_proxy
+failure-doctor diagnose .\examples\failed_runs\proxy_failed --out .\report_proxy
 ```
 
 Strict mode locator conflict:
 
 ```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\strict_mode_locator --out .\report_locator
+failure-doctor diagnose .\examples\failed_runs\strict_mode_locator --out .\report_locator
 ```
 
 Low-evidence screenshot-only run:
 
 ```powershell
-python -m failure_doctor diagnose .\examples\failed_runs\low_evidence_screenshot_only --out .\report_low_evidence
+failure-doctor diagnose .\examples\failed_runs\low_evidence_screenshot_only --out .\report_low_evidence
 ```
 
 ## Before / After Report
 
-Report structure: 结论 / 证据 / 为什么 / 下一步 / 给 Codex 的修复指令
+Report structure: conclusion / evidence / why / next action / Codex fix prompt
 
 Before:
 
@@ -108,7 +119,7 @@ Current public release: Agent Failure Doctor v0.4.0.
 - 100 public failure corpus cases
 - 97.3% reasonable classification in the validation ledger
 - 94.7% actionable `next_action`
-- 160 tests
+- 170 tests
 - smoke test and local safety scan passing
 
 See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for the validation
@@ -147,6 +158,9 @@ Open a Failure case issue and remove secrets before posting:
 - private screenshots
 - personal data
 
+If Discussions are enabled, please submit non-sensitive failure cases under
+Failure Cases.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the minimal contribution format.
 
 ## Commands
@@ -157,14 +171,14 @@ Run all tests:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
-Run smoke test:
+Run Windows smoke test:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\smoke_test.ps1
+scripts\smoke_test.ps1
 ```
 
 Run local safety scan:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1
+scripts\local_safety_scan.ps1
 ```

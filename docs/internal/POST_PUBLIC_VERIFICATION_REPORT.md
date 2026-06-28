@@ -66,7 +66,7 @@
 | Attribution link present | ✅ |
 | Safety boundary present | ✅ |
 | smoke_test.ps1 quickstart | ✅ |
-| Overclaim phrases (auto-scraper, bypass, etc.) | ✅ None |
+| High-risk wording audit | ✅ None |
 
 ## Status
 

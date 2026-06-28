@@ -17,7 +17,7 @@
 | Phase 5.2 A0-A3 results with metrics | ✅ |
 | Safety boundary present | ✅ |
 | Attribution linked to docs/attribution.md | ✅ |
-| Overclaim phrases (automatic crawler, bypass, etc.) | ✅ Clean |
+| High-risk wording audit | ✅ Clean |
 
 ## 2. Docs Audit
 

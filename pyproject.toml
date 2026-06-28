@@ -1,23 +1,25 @@
 [build-system]
-requires = ["setuptools>=69"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-failure-doctor"
-version = "0.4.1"
-description = "Local-first diagnostics for AI browser automation, Playwright, and RPA failures."
+version = "0.4.0"
+description = "Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-  { name = "Agent Failure Doctor maintainers" }
+  { name = "sida lin" }
 ]
 keywords = [
   "playwright",
-  "browser-automation",
+  "browser automation",
+  "ai agent",
+  "crawler",
   "rpa",
-  "diagnostics",
-  "agent-debugging"
+  "debugging",
+  "failure diagnosis"
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -35,6 +37,11 @@ classifiers = [
 failure-doctor = "failure_doctor.cli:main"
 trace-doctor = "trace_doctor.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"
+Repository = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"
+Issues = "https://github.com/tobybgy-lsd/web-agent-runtime-bench/issues"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = [
@@ -42,3 +49,11 @@ include = [
   "trace_doctor*",
   "tools*",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]

@@ -1,8 +1,31 @@
-.env
-*.pyc
+# Python
 __pycache__/
+*.py[cod]
 *.egg-info/
-sample_run/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Runtime outputs
 outputs/
-.DS_Store
+sample_run/
+report/
+reports/
+tmp/
+*.tmp
+
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# Node
 node_modules/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/

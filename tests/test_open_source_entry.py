@@ -14,10 +14,11 @@ class OpenSourceEntryTests(unittest.TestCase):
             "# Agent Failure Doctor",
             "Diagnose why AI-generated browser automation / crawler / RPA runs failed.",
             "trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt",
-            "diagnosis, evidence, next action, repair suggestions, Codex fix prompt.",
+            "diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.",
             "git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git",
             "cd web-agent-runtime-bench",
-            "python -m failure_doctor diagnose .\\examples\\failed_runs\\proxy_failed --out .\\report",
+            "python -m pip install -e .",
+            "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
         ):
             self.assertIn(phrase, opening)
 
@@ -50,9 +51,11 @@ class OpenSourceEntryTests(unittest.TestCase):
 
         for phrase in (
             "You do not need to write code.",
-            "Submit a sanitized failure case",
-            "Do not include passwords, API keys, cookies, tokens, authorization headers, or private screenshots.",
-            "Can this become a public test case?",
+            "The most useful contribution is a sanitized failure case.",
+            "credentials",
+            "cookies",
+            "tokens",
+            "whether this can become a public test case",
         ):
             self.assertIn(phrase, text)
 

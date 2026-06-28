@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/web-agent-runtime-bench/failure_artifact.schema.json",
+  "$id": "https://github.com/tobybgy-lsd/web-agent-runtime-bench/schemas/failure_artifact.schema.json",
   "title": "WebAgentRuntimeBench Failure Artifact",
   "type": "object",
   "required": [

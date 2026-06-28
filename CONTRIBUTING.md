@@ -2,58 +2,48 @@
 
 You do not need to write code.
 
-The most useful contribution is to submit a sanitized failure case that helps
-Agent Failure Doctor learn where real AI browser automation, crawler, RPA, or
-Playwright runs fail.
+The most useful contribution is a sanitized failure case.
 
-## Submit a sanitized failure case
+## Submit a Failure Case
 
-Open a Failure case issue and include:
+Please include:
 
-- What failed?
-- What tool? Playwright / browser-use / Codex / RPA / other
-- Input type: log / trace / network / screenshot / description
-- Expected result
-- Actual result
-- Sanitized log
-- Can this become a public test case?
+- tool: Playwright / browser-use / Scrapy / requests / Codex / RPA / other
+- input type: trace.zip / error.log / console.txt / network.json / screenshot / description
+- what failed
+- expected behavior
+- actual behavior
+- sanitized error excerpt
+- whether this can become a public test case
 
-Do not include passwords, API keys, cookies, tokens, authorization headers, or private screenshots.
+## Do Not Include
 
-Also remove:
-
-- personal data
-- account IDs
-- customer names
+- credentials
+- cookies
+- tokens
+- authorization headers
 - private URLs
-- proprietary request payloads
-- full trace files that contain private DOM or network data
+- personal data
+- customer data
 
-## What Makes a Good Case
+## Run Tests
 
-A useful case has enough evidence to explain the failure without exposing the
-real account, platform, or user data.
-
-Good:
-
-```text
-page.goto: net::ERR_PROXY_CONNECTION_FAILED while opening https://example.test
-Tool: Playwright
-Expected: open dashboard
-Actual: navigation failed before page load
-Can this become a public test case? yes
+```powershell
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
-Avoid:
+Windows smoke test:
 
-```text
-Here is my full trace.zip with cookies and screenshots.
+```powershell
+scripts\smoke_test.ps1
+scripts\local_safety_scan.ps1
 ```
 
-## Safety Boundary
+## Pull Request Checklist
 
-This project does not help bypass CAPTCHA, bot defenses, credential checks, or
-platform restrictions. Anti-bot risk reports should only identify risk and
-suggest compliant next actions such as using an official API, confirming
-authorization, reducing request volume, contacting the platform, or stopping
-unauthorized collection.
+- Add or update tests for behavior changes.
+- Run unit tests before opening a pull request.
+- Run the safety scan for changes touching docs, reports, prompts, or diagnosis output.
+- Do not include sensitive data in fixtures, screenshots, traces, logs, or examples.
+
+If Discussions are enabled, please submit non-sensitive failure cases under Failure Cases.
