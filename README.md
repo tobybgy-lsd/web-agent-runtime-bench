@@ -56,6 +56,33 @@ python tools/warb.py adapt playwright-trace .\trace.zip --out sample_run\from_tr
 python tools/benchmark/run_benchmark.py --out-dir sample_run/benchmark --node node
 ```
 
+### 一分钟上手
+
+把一次失败运行的材料随手放进一个文件夹，例如：
+
+```text
+my_failed_run/
+├── error.log
+├── console.txt
+├── network.json
+├── README.txt
+└── screenshot.png
+```
+
+然后运行：
+
+```powershell
+python -m failure_doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
+```
+
+输出会包含 `input_summary.json`，告诉你它看到了哪些证据、缺哪些证据，以及本次诊断按什么优先级使用材料：
+
+```text
+trace.zip > log > network.json > user description > screenshot metadata
+```
+
+如果只有截图或描述，工具会降级为低证据报告，并明确提示需要补充 `trace.zip`、`error.log` 或 `network.json`。
+
 ---
 
 ## Failure types detected

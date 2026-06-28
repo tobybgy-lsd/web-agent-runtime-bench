@@ -1,0 +1,1 @@
+Before failure: two visible Submit buttons were rendered by the checkout component.

@@ -1,0 +1,1 @@
+locator.click: Error: strict mode violation: locator('button') resolved to 2 elements

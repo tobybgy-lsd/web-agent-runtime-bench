@@ -47,6 +47,7 @@ class FailureDoctorCliTests(unittest.TestCase):
                 "diagnosis.json",
                 "diagnosis.md",
                 "evidence.json",
+                "input_summary.json",
                 "repair_suggestions.md",
                 "issue_draft.md",
                 "codex_fix_prompt.md",
