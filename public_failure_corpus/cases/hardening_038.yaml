@@ -1,0 +1,18 @@
+case_id: hardening_038
+source_url: https://github.com/browser-use/browser-use/issues/5038
+source_type: public_hardening_sample
+symptom: viewport / responsive layout mismatch
+raw_error_excerpt: "viewport / responsive layout mismatch marker"
+input_available:
+  - log
+  - description
+likely_user_facing_category: 自动化失败诊断
+likely_technical_category: selector_drift
+evidence:
+  - public issue or search surface mentions viewport / responsive layout mismatch
+  - sanitized summary only
+reported_fix:
+  - classify conservatively from logs before changing automation code
+  - collect trace/log/network evidence when available
+next_action_expected: Generate a Codex prompt that fixes or asks for the missing evidence without unsafe behavior.
+can_convert_to_template: yes

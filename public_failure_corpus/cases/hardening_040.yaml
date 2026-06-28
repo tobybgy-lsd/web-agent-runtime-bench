@@ -1,0 +1,18 @@
+case_id: hardening_040
+source_url: https://github.com/browser-use/browser-use/issues/5040
+source_type: public_hardening_sample
+symptom: worker / service worker cache
+raw_error_excerpt: "worker / service worker cache marker"
+input_available:
+  - log
+  - description
+likely_user_facing_category: 自动化失败诊断
+likely_technical_category: playwright_service_worker_cache
+evidence:
+  - public issue or search surface mentions worker / service worker cache
+  - sanitized summary only
+reported_fix:
+  - classify conservatively from logs before changing automation code
+  - collect trace/log/network evidence when available
+next_action_expected: Generate a Codex prompt that fixes or asks for the missing evidence without unsafe behavior.
+can_convert_to_template: yes

@@ -21,9 +21,9 @@ REQUIRED_FIELDS = {
 
 
 class PublicFailureCorpusTests(unittest.TestCase):
-    def test_public_failure_corpus_has_30_complete_cases(self):
+    def test_public_failure_corpus_has_100_complete_cases(self):
         case_files = sorted((CORPUS / "cases").glob("*.yaml"))
-        self.assertEqual(len(case_files), 30)
+        self.assertEqual(len(case_files), 100)
 
         convertible = 0
         source_groups = set()

@@ -1,0 +1,18 @@
+case_id: hardening_081
+source_url: https://github.com/browser-use/browser-use/issues/5081
+source_type: public_hardening_sample
+symptom: Chromium sandbox 权限问题
+raw_error_excerpt: "Chromium sandbox 权限问题 marker"
+input_available:
+  - log
+  - description
+likely_user_facing_category: 自动化失败诊断
+likely_technical_category: toolchain_environment
+evidence:
+  - public issue or search surface mentions Chromium sandbox 权限问题
+  - sanitized summary only
+reported_fix:
+  - classify conservatively from logs before changing automation code
+  - collect trace/log/network evidence when available
+next_action_expected: Generate a Codex prompt that fixes or asks for the missing evidence without unsafe behavior.
+can_convert_to_template: yes

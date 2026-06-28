@@ -44,7 +44,7 @@ class ValidationPackTests(unittest.TestCase):
         text = VALIDATION_REPORT.read_text(encoding="utf-8")
 
         for phrase in (
-            "测试样本数量：50",
+            "测试样本数量：150",
             "GitHub Issues / Stack Overflow / browser-use / Playwright",
             "准确分类率",
             "可执行建议率",
