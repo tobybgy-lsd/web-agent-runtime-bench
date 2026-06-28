@@ -10,8 +10,9 @@ $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent $RepoRoot
 $FixtureDir = Join-Path $RepoRoot "examples\playwright_trace_cli"
 $OutDir = Join-Path $RepoRoot "outputs\adapt_playwright_trace"
-$TempDir = Join-Path $RepoRoot "outputs\adapt_playwright_trace_tmp"
+$TempDir = Join-Path $RepoRoot ("outputs\adapt_playwright_trace_tmp_{0}" -f $PID)
 $TraceZip = Join-Path $TempDir "trace.zip"
+$DiagnosisDir = Join-Path $OutDir "diagnosis"
 
 Write-Host "=== Adapter CLI Smoke Test ===" -ForegroundColor Cyan
 
@@ -40,5 +41,28 @@ if ($json.error.status_code -ne 200) { Write-Host "[FAIL] expected status_code=2
 if ($json.safety.external_network_required -ne $false) { Write-Host "[FAIL] expected local-only artifact" -ForegroundColor Red; exit 1 }
 
 Write-Host "[OK] playwright-trace adapter PASS" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "--- Diagnosis + repair prompt ---" -ForegroundColor Yellow
+Push-Location $RepoRoot
+$diagResult = & "$Python" tools\warb.py diagnose $Artifact --out-dir $DiagnosisDir 2>&1
+$diagOk = ($LASTEXITCODE -eq 0 -and ($diagResult -join "`n") -match "Failure type:\s+selector_drift")
+Pop-Location
+if (-not $diagOk) { Write-Host "[FAIL] diagnose adapted artifact" -ForegroundColor Red; exit 1 }
+
+$ExpectedDiagnosisFiles = @(
+    (Join-Path $DiagnosisDir "diagnosis.json"),
+    (Join-Path $DiagnosisDir "diagnosis.md"),
+    (Join-Path $DiagnosisDir "diagnosis_report.html"),
+    (Join-Path $DiagnosisDir "repair_prompt.md")
+)
+foreach ($file in $ExpectedDiagnosisFiles) {
+    if (-not (Test-Path $file)) { Write-Host "[FAIL] missing $file" -ForegroundColor Red; exit 1 }
+}
+
+$diagJson = Get-Content (Join-Path $DiagnosisDir "diagnosis.json") -Raw | ConvertFrom-Json
+if ($diagJson.failure_type -ne "selector_drift") { Write-Host "[FAIL] expected diagnosis selector_drift" -ForegroundColor Red; exit 1 }
+
+Write-Host "[OK] diagnosis + repair prompt PASS" -ForegroundColor Green
 Write-Host ""
 Write-Host "=== ADAPTER SMOKE TEST: PASS ===" -ForegroundColor Green

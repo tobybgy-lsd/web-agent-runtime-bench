@@ -131,7 +131,7 @@ python tools/warb.py adapt scrapy scrapy.log --response response.html --out samp
 python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
 ```
 
-Try the Playwright trace adapter with the included synthetic fixture:
+Try the full Playwright trace-to-repair-prompt chain with the included synthetic fixture:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\adapt_smoke_test.ps1
@@ -142,6 +142,10 @@ Then diagnose it:
 ```bash
 python tools/warb.py diagnose sample_run/from_trace/failure_artifact.json
 ```
+
+The smoke script writes `failure_artifact.json`, `diagnosis.json`, `diagnosis.md`,
+`diagnosis_report.html`, and `repair_prompt.md` under
+`outputs/adapt_playwright_trace/`.
 
 Generate a synthetic regression fixture from a sanitized pack:
 

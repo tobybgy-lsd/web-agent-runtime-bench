@@ -65,6 +65,39 @@ class WarbCliTests(unittest.TestCase):
             self.assertFalse(artifact["safety"]["contains_credentials"])
             self.assertFalse(artifact["safety"]["external_network_required"])
 
+    def test_adapt_smoke_script_generates_repair_outputs(self):
+        result = subprocess.run(
+            [
+                "powershell",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                str(ROOT / "scripts" / "adapt_smoke_test.ps1"),
+                "-Python",
+                sys.executable,
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("ADAPTER SMOKE TEST: PASS", result.stdout)
+        diagnosis_dir = ROOT / "outputs" / "adapt_playwright_trace" / "diagnosis"
+        expected_files = [
+            diagnosis_dir / "diagnosis.json",
+            diagnosis_dir / "diagnosis.md",
+            diagnosis_dir / "diagnosis_report.html",
+            diagnosis_dir / "repair_prompt.md",
+        ]
+        for path in expected_files:
+            self.assertTrue(path.exists(), f"{path} missing")
+
+        diagnosis = json.loads((diagnosis_dir / "diagnosis.json").read_text(encoding="utf-8"))
+        self.assertEqual(diagnosis["failure_type"], "selector_drift")
+        self.assertIn("selector", (diagnosis_dir / "repair_prompt.md").read_text(encoding="utf-8").lower())
+
 
 if __name__ == "__main__":
     unittest.main()
