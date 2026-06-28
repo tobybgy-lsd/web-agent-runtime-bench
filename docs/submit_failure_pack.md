@@ -21,6 +21,7 @@ After editing the copied files, check whether the pack is ready:
 
 ```powershell
 python tools\warb.py doctor sample_run\my_failure_pack
+python tools\warb.py issue sample_run\my_failure_pack
 ```
 
 Create a local directory with any of these files:
@@ -81,6 +82,7 @@ Generate a diagnosis report:
 
 ```powershell
 python tools\warb.py diagnose sample_run\failure_pack_001\failure_artifact.json --out-dir sample_run\failure_pack_001\diagnosis
+python tools\warb.py issue sample_run\failure_pack_001
 ```
 
 ## What You Get Back

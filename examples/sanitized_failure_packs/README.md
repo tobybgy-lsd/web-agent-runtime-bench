@@ -36,3 +36,9 @@ python tools\warb.py doctor sample_run\my_failure_pack
 ```
 
 If the doctor reports `Pack health: ready`, validate the artifact and generate a diagnosis report.
+
+Generate a GitHub issue draft:
+
+```powershell
+python tools\warb.py issue sample_run\my_failure_pack
+```

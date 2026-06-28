@@ -191,6 +191,88 @@ class WarbCliTests(unittest.TestCase):
             self.assertEqual(result.returncode, 1)
             self.assertIn("missing referenced file: snapshot.html", result.stdout + result.stderr)
 
+    def test_issue_writes_github_issue_draft_for_ready_pack(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            issue_path = out_dir / "github_issue.md"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "issue",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertTrue(issue_path.exists())
+            issue_text = issue_path.read_text(encoding="utf-8")
+            self.assertIn("# Failure Pack:", issue_text)
+            self.assertIn("## Doctor Check", issue_text)
+            self.assertIn("## Initial Diagnosis", issue_text)
+            self.assertIn("selector_drift", issue_text)
+            self.assertIn("snapshot.html", issue_text)
+            self.assertIn("Safety Checklist", issue_text)
+
+    def test_issue_refuses_incomplete_pack_by_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "copied_pack"
+            copy_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "template",
+                    "copy",
+                    "playwright_selector_drift_product_card",
+                    "--out",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(copy_result.returncode, 0, copy_result.stdout + copy_result.stderr)
+            (out_dir / "snapshot.html").unlink()
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "issue",
+                    str(out_dir),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Pack is not ready", result.stdout + result.stderr)
+            self.assertFalse((out_dir / "github_issue.md").exists())
+
     def test_adapt_playwright_trace_fixture_writes_diagnosable_artifact(self):
         fixture_dir = ROOT / "examples" / "playwright_trace_cli"
         trace_source = fixture_dir / "trace.trace"
