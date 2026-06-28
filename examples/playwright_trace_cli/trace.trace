@@ -1,0 +1,2 @@
+{"type":"console","message":{"type":"error","text":"Timeout 30000ms waiting for selector .price"}}
+{"type":"event","method":"Network.responseReceived","params":{"response":{"url":"https://example.test/products","status":200,"request":{"method":"GET"}}}}

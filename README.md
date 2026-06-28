@@ -131,6 +131,12 @@ python tools/warb.py adapt scrapy scrapy.log --response response.html --out samp
 python tools/warb.py adapt requests requests_capture.json --out sample_run/from_requests
 ```
 
+Try the Playwright trace adapter with the included synthetic fixture:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\adapt_smoke_test.ps1
+```
+
 Then diagnose it:
 
 ```bash

@@ -97,3 +97,22 @@ cat ..\..\sample_run\a3\signed_api_trace.jsonl
 **What it proves**: The verification system correctly rejects modified payloads. Without negative cases, a system that always returns "accepted" would appear to pass.
 
 **Safety**: All verification is local mock. No real platform logic.
+
+---
+
+## Recipe 6: Adapt a Synthetic Playwright Trace
+
+**Goal**: Convert a local Playwright-style `trace.zip` into `failure_artifact.json`.
+
+**When to use**: Before asking a coding assistant to repair a failed Playwright run.
+
+**Command**:
+```powershell
+.\scripts\adapt_smoke_test.ps1
+```
+
+**Expected output**: `=== ADAPTER SMOKE TEST: PASS ===`
+
+**What it proves**: The `warb adapt playwright-trace` CLI can read a sanitized local trace archive, extract status, URL, console error, DOM excerpt, and produce an initial `selector_drift` diagnosis.
+
+**Safety**: The fixture is synthetic and local. It does not launch a browser, replay network traffic, or include credentials.

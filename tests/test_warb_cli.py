@@ -1,0 +1,70 @@
+import json
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from zipfile import ZipFile
+
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+class WarbCliTests(unittest.TestCase):
+    def test_adapt_playwright_trace_fixture_writes_diagnosable_artifact(self):
+        fixture_dir = ROOT / "examples" / "playwright_trace_cli"
+        trace_source = fixture_dir / "trace.trace"
+        html_source = fixture_dir / "page.html"
+        self.assertTrue(trace_source.exists(), "synthetic trace source fixture is missing")
+        self.assertTrue(html_source.exists(), "synthetic HTML source fixture is missing")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            trace_zip = tmp_path / "trace.zip"
+            out_dir = tmp_path / "out"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.write(trace_source, "trace.trace")
+                archive.write(html_source, "resources/page.html")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "warb.py"),
+                    "adapt",
+                    "playwright-trace",
+                    str(trace_zip),
+                    "--out",
+                    str(out_dir),
+                    "--run-id",
+                    "pw_cli_fixture",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            artifact_path = out_dir / "failure_artifact.json"
+            self.assertTrue(artifact_path.exists())
+            artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+
+            self.assertEqual(artifact["run_id"], "pw_cli_fixture")
+            self.assertEqual(artifact["tool"], "playwright")
+            self.assertEqual(artifact["error"]["status_code"], 200)
+            self.assertEqual(artifact["labels"]["failure_type"], "selector_drift")
+            self.assertGreaterEqual(artifact["labels"]["confidence"], 0.7)
+            self.assertEqual(artifact["observations"]["url"], "https://example.test/products")
+            self.assertEqual(
+                artifact["observations"]["network_events"],
+                [{"method": "GET", "url": "https://example.test/products", "status": 200}],
+            )
+            self.assertIn("Timeout 30000ms waiting for selector .price", artifact["error"]["message"])
+            self.assertIn("class='title'", artifact["observations"]["html_excerpt"])
+            self.assertTrue(artifact["safety"]["sanitized"])
+            self.assertFalse(artifact["safety"]["contains_credentials"])
+            self.assertFalse(artifact["safety"]["external_network_required"])
+
+
+if __name__ == "__main__":
+    unittest.main()

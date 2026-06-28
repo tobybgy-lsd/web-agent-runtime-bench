@@ -80,5 +80,14 @@ Pop-Location
 if (-not $diagOk) { Write-Host "[FAIL] Diagnosis CLI" -ForegroundColor Red; exit 1 }
 Write-Host "[OK] Diagnosis CLI PASS" -ForegroundColor Green
 
+# Adapter CLI
+Write-Host ""
+Write-Host "--- Adapter CLI ---" -ForegroundColor Yellow
+Push-Location $RepoRoot
+$adaptResult = & (Join-Path $RepoRoot "scripts\adapt_smoke_test.ps1") -Python "$Python" 2>&1; $adaptOk = ($LASTEXITCODE -eq 0)
+Pop-Location
+if (-not $adaptOk) { Write-Host "[FAIL] Adapter CLI" -ForegroundColor Red; exit 1 }
+Write-Host "[OK] Adapter CLI PASS" -ForegroundColor Green
+
 Write-Host ""
 Write-Host "=== SMOKE TEST: PASS ===" -ForegroundColor Green
