@@ -130,6 +130,72 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             self.assertEqual(requests_artifact["tool"], "requests")
             self.assertEqual(requests_artifact["error"]["status_code"], 429)
 
+    def test_playwright_trace_adapter_extracts_jsonl_events(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr(
+                    "trace.trace",
+                    "\n".join(
+                        [
+                            json.dumps(
+                                {
+                                    "type": "console",
+                                    "message": {
+                                        "type": "error",
+                                        "text": "Timeout 30000ms waiting for selector .price",
+                                    },
+                                }
+                            ),
+                            json.dumps(
+                                {
+                                    "type": "event",
+                                    "method": "Network.responseReceived",
+                                    "params": {
+                                        "response": {
+                                            "url": "https://example.test/products",
+                                            "status": 503,
+                                            "request": {"method": "GET"},
+                                        }
+                                    },
+                                }
+                            ),
+                        ]
+                    ),
+                )
+                archive.writestr("resources/page.html", "<html><body>Service unavailable</body></html>")
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_jsonl")
+
+            self.assertEqual(artifact["run_id"], "pw_jsonl")
+            self.assertEqual(artifact["error"]["status_code"], 503)
+            self.assertEqual(artifact["observations"]["url"], "https://example.test/products")
+            self.assertIn("Timeout 30000ms waiting for selector .price", artifact["error"]["message"])
+            self.assertIn("Timeout 30000ms waiting for selector .price", artifact["observations"]["console_messages"])
+            self.assertEqual(
+                artifact["observations"]["network_events"],
+                [{"method": "GET", "url": "https://example.test/products", "status": 503}],
+            )
+            self.assertIn("Service unavailable", artifact["observations"]["html_excerpt"])
+
+    def test_playwright_trace_adapter_handles_malformed_mixed_entries(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            trace_zip = root / "trace.zip"
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr("trace.trace", '{"type":"console","message":{"text":"first line ok"}}\n{bad json')
+                archive.writestr("errors.log", "request failed with HTTP 429 after retry")
+                archive.writestr("snapshot.dom", "<html><form><input type='password'></form></html>")
+
+            artifact = artifact_from_playwright_trace(trace_zip, run_id="pw_malformed")
+
+            self.assertEqual(artifact["run_id"], "pw_malformed")
+            self.assertEqual(artifact["error"]["status_code"], 429)
+            self.assertIn("first line ok", artifact["observations"]["console_messages"])
+            self.assertIn("password", artifact["observations"]["html_excerpt"])
+            self.assertEqual(artifact["observations"]["network_events"], [])
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

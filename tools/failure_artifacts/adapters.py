@@ -19,6 +19,7 @@ SCHEMA_VERSION = "failure-artifact/v1"
 def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None = None) -> dict[str, Any]:
     path = Path(trace_zip)
     console_messages: list[str] = []
+    network_events: list[dict[str, Any]] = []
     html_snapshot = ""
     status_code: int | None = None
     url = ""
@@ -29,12 +30,23 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
         for name in archive.namelist():
             lower = name.lower()
             data = archive.read(name)
+            text = data.decode("utf-8", errors="replace")
+            status_code = _extract_status(text) or status_code
+            for record in _parse_json_records(text):
+                for message in _extract_record_messages(record):
+                    _append_unique(console_messages, message, limit=20)
+                event = _extract_network_event(record)
+                if event:
+                    if event not in network_events:
+                        network_events.append(event)
+                    status_code = _as_int(event.get("status")) or status_code
+                    url = str(event.get("url") or url)
+
             if "console" in lower or lower.endswith(".log"):
-                console_messages.append(data.decode("utf-8", errors="replace"))
+                _append_unique(console_messages, text, limit=20)
             elif lower.endswith((".html", ".dom")) or "dom" in lower:
-                html_snapshot += data.decode("utf-8", errors="replace")[:5000]
+                html_snapshot += text[:5000]
             elif "network" in lower or lower.endswith(".json"):
-                text = data.decode("utf-8", errors="replace")
                 parsed = _loads_json_or_none(text)
                 if isinstance(parsed, dict):
                     status_code = _as_int(parsed.get("status") or parsed.get("status_code")) or status_code
@@ -53,6 +65,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             "source_adapter": "playwright_trace",
             "url": url,
             "console_messages": console_messages,
+            "network_events": network_events[:20],
             "html_excerpt": html_snapshot[:1000],
         },
     )
@@ -154,6 +167,118 @@ def _loads_json_or_none(text: str) -> Any:
         return json.loads(text)
     except json.JSONDecodeError:
         return None
+
+
+def _parse_json_records(text: str) -> list[dict[str, Any]]:
+    parsed = _loads_json_or_none(text)
+    if isinstance(parsed, dict):
+        return [parsed]
+    if isinstance(parsed, list):
+        return [item for item in parsed if isinstance(item, dict)]
+
+    records: list[dict[str, Any]] = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or not line.startswith(("{", "[")):
+            continue
+        parsed_line = _loads_json_or_none(line)
+        if isinstance(parsed_line, dict):
+            records.append(parsed_line)
+        elif isinstance(parsed_line, list):
+            records.extend(item for item in parsed_line if isinstance(item, dict))
+    return records
+
+
+def _extract_record_messages(record: dict[str, Any]) -> list[str]:
+    record_type = str(record.get("type") or record.get("method") or "").lower()
+    params = record.get("params") if isinstance(record.get("params"), dict) else {}
+    candidates: list[Any] = []
+
+    if any(marker in record_type for marker in ("console", "error", "exception")):
+        candidates.extend([record.get("message"), record.get("text"), record.get("error"), record.get("stack")])
+        candidates.extend([params.get("message"), params.get("text"), params.get("error"), params.get("stack")])
+
+    if "message" in record and isinstance(record.get("message"), dict):
+        candidates.append(record["message"].get("text"))
+    if "error" in record:
+        candidates.append(record.get("error"))
+    if "exceptionDetails" in params:
+        candidates.append(params.get("exceptionDetails"))
+
+    messages: list[str] = []
+    for candidate in candidates:
+        message = _coerce_message_text(candidate)
+        if message:
+            messages.append(message)
+    return messages
+
+
+def _coerce_message_text(value: Any) -> str:
+    if isinstance(value, str):
+        return value[:500]
+    if isinstance(value, dict):
+        for key in ("text", "message", "description", "stack", "value"):
+            message = _coerce_message_text(value.get(key))
+            if message:
+                return message
+    return ""
+
+
+def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
+    record_type = str(record.get("type") or record.get("method") or "").lower()
+    params = record.get("params") if isinstance(record.get("params"), dict) else {}
+    response = _first_dict(record.get("response"), params.get("response"))
+    request = _first_dict(record.get("request"), params.get("request"), response.get("request") if response else None)
+
+    status = _as_int(
+        record.get("status")
+        or record.get("status_code")
+        or record.get("statusCode")
+        or (response or {}).get("status")
+        or (response or {}).get("status_code")
+        or (response or {}).get("statusCode")
+    )
+    url = str(
+        record.get("url")
+        or params.get("url")
+        or (response or {}).get("url")
+        or (request or {}).get("url")
+        or ""
+    )
+    method = str((request or {}).get("method") or record.get("requestMethod") or params.get("requestMethod") or "")
+
+    looks_network_like = bool(status or url) and (
+        "network" in record_type
+        or "request" in record
+        or "response" in record
+        or "request" in params
+        or "response" in params
+    )
+    if not looks_network_like:
+        return None
+
+    event: dict[str, Any] = {}
+    if method:
+        event["method"] = method
+    if url:
+        event["url"] = url
+    if status is not None:
+        event["status"] = status
+    return event if event else None
+
+
+def _first_dict(*values: Any) -> dict[str, Any]:
+    for value in values:
+        if isinstance(value, dict):
+            return value
+    return {}
+
+
+def _append_unique(values: list[str], value: str, *, limit: int) -> None:
+    value = value.strip()
+    if not value or value in values or len(values) >= limit:
+        return
+    values.append(value[:500])
 
 
 def _extract_status(text: str) -> int | None:
