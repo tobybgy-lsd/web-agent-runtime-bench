@@ -33,6 +33,22 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
 failure-doctor agent-bootstrap --target all --project .
 ```
 
+## 分发与真实反馈
+
+v3.2.0 是当前稳定技术基线。下一阶段重点是分发和真实用户反馈，
+不是继续堆 synthetic 功能。
+
+- PyPI 发布手册：[docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
+- 2 分钟演示脚本：[docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
+- 技术文章草稿：[docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
+- 真实用户反馈闭环：[docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)
+
+PyPI 发布后的目标安装命令：
+
+```powershell
+pip install agent-failure-doctor
+```
+
 ## 一键本地采集与诊断
 
 ```powershell

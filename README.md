@@ -55,6 +55,22 @@ Advanced commands include `failure-doctor handoff`,
 trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 -> master gate`
 
+## Distribution & Feedback
+
+v3.2.0 is the current stable technical baseline. The next phase is distribution
+and real user feedback, not more synthetic feature expansion.
+
+- PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
+- 2-minute demo script: [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
+- Technical article draft: [docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
+- Real user feedback loop: [docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)
+
+After PyPI publication, the target install command is:
+
+```powershell
+pip install agent-failure-doctor
+```
+
 For non-technical Windows users, double-click
 `scripts/windows/Start-FailureDoctor-Diagnosis.bat` or drag a failed project
 folder onto it.
