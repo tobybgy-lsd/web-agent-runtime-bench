@@ -4,14 +4,14 @@
 |---|---:|---:|---:|---:|---:|---:|
 | Template/synthetic validation | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
 | Public-inspired independent validation | 50 | 78% | 90% | 4 | 7 | n/a |
-| Real Playwright trace semantic fixtures | 3 | n/a | n/a | n/a | n/a | 197 |
-| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 197 |
+| Real Playwright trace semantic fixtures | 20 | 100% | n/a | 0 | 0 | 198 |
+| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 198 |
 
 ## Notes
 
 - Template/synthetic validation records are sanitized fixtures, not full real-world failure packages.
 - Public-inspired independent validation is tracked as a separate stricter track and must not be averaged with template fixture metrics.
-- Real Playwright trace semantic fixtures use native trace records such as `Network.requestWillBeSent`, `Network.responseReceived`, `Page.frameNavigated`, and Playwright action records without custom classifier fields.
+- Real Playwright trace semantic fixtures use native trace records such as `before`, `after`, `event`, `Network.requestWillBeSent`, `Network.responseReceived`, `Page.frameNavigated`, `Runtime.consoleAPICalled`, and `Runtime.exceptionThrown` without custom classifier fields.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.

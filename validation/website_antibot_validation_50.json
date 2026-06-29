@@ -222,7 +222,7 @@
       ],
       "expected_category": "website_change",
       "actual_category": "website_change",
-      "subtype": "selector_drift",
+      "subtype": "response_shape_changed",
       "failure_layer": "website_change",
       "confidence": 0.9,
       "reasonable_classification": true,

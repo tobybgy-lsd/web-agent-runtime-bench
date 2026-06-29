@@ -224,7 +224,7 @@ def _parse_json_records(text: str) -> list[dict[str, Any]]:
 
 
 def _extract_record_messages(record: dict[str, Any]) -> list[str]:
-    record_type = str(record.get("type") or record.get("method") or "").lower()
+    record_type = " ".join(str(record.get(key) or "") for key in ("type", "method")).lower()
     params = record.get("params") if isinstance(record.get("params"), dict) else {}
     candidates: list[Any] = []
 
@@ -234,6 +234,11 @@ def _extract_record_messages(record: dict[str, Any]) -> list[str]:
 
     if "message" in record and isinstance(record.get("message"), dict):
         candidates.append(record["message"].get("text"))
+    args = params.get("args")
+    if isinstance(args, list):
+        for arg in args:
+            if isinstance(arg, dict):
+                candidates.extend([arg.get("value"), arg.get("description"), arg.get("text")])
     if "error" in record:
         candidates.append(record.get("error"))
     if "exceptionDetails" in params:
@@ -529,6 +534,7 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
     first_request_index: int | None = None
     live_network_urls: list[str] = []
     har_load_failed = False
+    har_not_found_policy = ""
 
     route_api_markers = ("page.route", "browsercontext.route")
     har_api_markers = ("page.routefromhar", "browsercontext.routefromhar")
@@ -558,7 +564,8 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
             observations["har_loaded"] = True
             if har_path:
                 observations["har_path"] = har_path
-            observations["har_not_found_policy"] = str(params.get("notFound") or "abort")
+            har_not_found_policy = str(params.get("notFound") or "abort")
+            observations["har_not_found_policy"] = har_not_found_policy
             if route_registered_index is None:
                 route_registered_index = index
 
@@ -613,6 +620,9 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
 
     if har_load_failed:
         observations["har_loaded"] = False
+    if observations.get("har_loaded") is True and har_not_found_policy == "fallback" and live_network_urls:
+        observations["live_network_request"] = True
+        observations.setdefault("har_miss_url", live_network_urls[0])
 
     return observations
 
@@ -653,9 +663,11 @@ def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str,
     failed_selector = ""
     failed_error_message = ""
     failed_error_stack = ""
+    combined_text_parts: list[str] = []
     for record in records:
         record_type = str(record.get("type") or "").lower()
         params = record.get("params") if isinstance(record.get("params"), dict) else {}
+        combined_text_parts.extend(_extract_record_messages(record))
         if record_type == "before":
             selector = str(params.get("selector") or params.get("locator") or "")
             if selector:
@@ -668,6 +680,7 @@ def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str,
                 failed_error_message = message
                 failed_error_stack = stack
 
+    combined_text = " ".join(combined_text_parts + [failed_selector, failed_error_message, failed_error_stack]).lower()
     selector_lower = failed_selector.lower()
     has_shadow_selector = any(marker in selector_lower for marker in ("pierce", ">>", "shadow-root", "#shadow"))
     has_shadow_error = any(
@@ -679,6 +692,24 @@ def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str,
         observations["shadow_root_mode"] = "closed"
         observations["ordinary_locator_failed"] = True
         observations["shadow_evidence_level"] = "confirmed"
+    elif "custom element not upgraded" in combined_text or "customelements.get" in combined_text and "undefined" in combined_text:
+        observations["custom_element_upgraded"] = False
+        observations["ordinary_locator_failed"] = True
+        observations["shadow_inferred_from_html"] = True
+        observations["shadow_evidence_level"] = "inferred"
+        parts = [part.strip() for part in failed_selector.split(">>")]
+        if parts and parts[0]:
+            observations["custom_element_tag"] = parts[0]
+            observations["shadow_host"] = parts[0]
+        if len(parts) >= 2:
+            observations["inner_selector"] = parts[-1]
+    elif "custom element host" in combined_text and "inner" in combined_text and "not targeted" in combined_text:
+        observations["inner_node_not_targeted"] = True
+        observations["shadow_inferred_from_html"] = True
+        observations["shadow_evidence_level"] = "inferred"
+        if failed_selector:
+            observations["locator_target"] = failed_selector
+            observations["shadow_host"] = failed_selector
     elif has_shadow_selector and (has_zero_elements_error or failed_error_message or "shadow" in failed_error_stack):
         observations["element_exists_in_shadow_dom"] = True
         observations["ordinary_locator_failed"] = True

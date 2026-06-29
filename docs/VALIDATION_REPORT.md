@@ -52,6 +52,29 @@ Reproduce the v0.6 addendum:
 python scripts/validate_website_antibot.py
 ```
 
+## v0.7.1 Real Playwright Trace Semantic Validation
+
+The real trace semantic validation track is implemented in `tests/test_real_trace_semantic_validation.py`. These fixtures use native Playwright-style trace records such as `before`, `after`, `event`, `Network.requestWillBeSent`, `Network.responseReceived`, `Page.frameNavigated`, `Runtime.consoleAPICalled`, and `Runtime.exceptionThrown`.
+
+They intentionally do not include custom classifier fields such as `storageStateExpected`, `routeRegistered`, `shadowHost`, or `elementExistsInShadowDom`.
+
+| Metric | Result |
+|---|---:|
+| Fixture count | 20 |
+| Diagnosable fixtures | 20 |
+| Severe misclassifications | 0 |
+| Custom classifier fields in raw traces | 0 |
+
+Covered paths:
+
+- login redirect / 401 / session expired
+- route timing / route pattern / HAR missing / HAR fallback
+- shadow DOM boundary / custom element not upgraded / host-vs-inner target
+- strict mode / popup / download / service-worker cache
+- execution-context navigation race / navigation timeout
+- proxy / DNS
+- response shape changed / selector drift
+
 ## Combined v0.6 Dashboard View
 
 | Metric | Result |
@@ -88,4 +111,3 @@ The tool must not provide:
 - Public-inspired records are sanitized summaries, not full private evidence bundles.
 - Low-evidence inputs should downgrade to `insufficient_evidence` instead of forcing a specific diagnosis.
 - The validation corpus should keep growing from externally submitted sanitized cases.
-

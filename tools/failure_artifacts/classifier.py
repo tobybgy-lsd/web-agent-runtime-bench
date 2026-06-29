@@ -30,6 +30,12 @@ def _error_focused_text(artifact: Mapping[str, Any], *, include_user_description
             for event in network_events[:10]:
                 if isinstance(event, Mapping):
                     parts.append(json.dumps(event, ensure_ascii=False))
+        exception_details = observations.get("exception_details")
+        if isinstance(exception_details, list):
+            for detail in exception_details[:5]:
+                if isinstance(detail, Mapping):
+                    parts.append(str(detail.get("message") or ""))
+                    parts.append(str(detail.get("stack") or ""))
         parts.append(str(observations.get("body_text") or ""))
     return " ".join(parts).lower()
 
@@ -127,6 +133,27 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
     subtype = ""
 
     if (
+        observations.get("response_shape_changed") is True
+        or "json key" in text
+        or "schema validation failed" in text
+        or "parser expected" in text
+        or "response contains" in text
+        or "response now contains" in text
+        or "field renamed" in text
+        or "key renamed" in text
+        or "array renamed" in text
+        or "field moved" in text
+        or "json path" in text
+        or "totalcount missing" in text
+        or "price selector empty" in text
+    ):
+        subtype = "response_shape_changed"
+        evidence.append("response JSON/schema shape changed")
+        missing = observations.get("missing_json_keys")
+        if isinstance(missing, list) and missing:
+            evidence.append(f"missing JSON keys: {', '.join(map(str, missing[:5]))}")
+
+    if not subtype and (
         observations.get("old_selector_missing") is True
         or ("old selector" in text and ("not found" in text or "missing" in text))
         or (
@@ -173,27 +200,6 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
         evidence.append("network endpoint appears to have changed")
         if observations.get("old_endpoint") or observations.get("new_endpoint"):
             evidence.append(f"endpoint: {observations.get('old_endpoint')} -> {observations.get('new_endpoint')}")
-
-    if not subtype and (
-        observations.get("response_shape_changed") is True
-        or "json key" in text
-        or "schema validation failed" in text
-        or "parser expected" in text
-        or "response contains" in text
-        or "response now contains" in text
-        or "field renamed" in text
-        or "key renamed" in text
-        or "array renamed" in text
-        or "field moved" in text
-        or "json path" in text
-        or "totalcount missing" in text
-        or "price selector empty" in text
-    ):
-        subtype = "response_shape_changed"
-        evidence.append("response JSON/schema shape changed")
-        missing = observations.get("missing_json_keys")
-        if isinstance(missing, list) and missing:
-            evidence.append(f"missing JSON keys: {', '.join(map(str, missing[:5]))}")
 
     if not subtype and ("cannot query field" in text or observations.get("graphql_error")):
         subtype = "graphql_schema_changed"
@@ -457,7 +463,7 @@ def _classify_playwright_storage_state_context(artifact: Mapping[str, Any], text
 
     if not subtype and observations.get("auth_redirect_detected") is True:
         subtype = "login_redirect_after_authenticated_action"
-        confidence = 0.86
+        confidence = 0.91 if observations.get("auth_status_code") == 401 else 0.86
         evidence_level = str(observations.get("storage_context_evidence_level") or "inferred")
         evidence.append("authenticated flow ended in a login/auth redirect in the trace")
         auth_status = observations.get("auth_status_code")
