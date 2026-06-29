@@ -1,0 +1,82 @@
+{
+  "schema_version": "composite_diagnosis/v1",
+  "diagnosis_mode": "composite",
+  "technical_category": "anti_bot_risk",
+  "failure_type": "anti_bot_risk",
+  "subtype": "captcha_or_challenge_page",
+  "confidence": 0.9,
+  "primary_failure": {
+    "technical_category": "anti_bot_risk",
+    "subtype": "captcha_or_challenge_page",
+    "confidence": 0.9,
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "secondary_failures": [
+    {
+      "technical_category": "selector_drift",
+      "subtype": "timeout_waiting_for_selector",
+      "relationship_to_primary": "blocked_by_primary",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "blocking_failure": {
+    "technical_category": "anti_bot_risk",
+    "subtype": "captcha_or_challenge_page",
+    "reason": "access-control boundary blocks downstream page selectors",
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "downstream_failures": [
+    {
+      "technical_category": "selector_drift",
+      "subtype": "timeout_waiting_for_selector",
+      "caused_by": "anti_bot_risk",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "evidence_graph": {
+    "schema_version": "evidence_graph/v1",
+    "nodes": [
+      {
+        "id": "E1",
+        "type": "primary_signal",
+        "label": "anti_bot_risk",
+        "severity": "high",
+        "supports": [
+          "anti_bot_risk"
+        ]
+      },
+      {
+        "id": "E2",
+        "type": "downstream_signal",
+        "label": "selector_drift",
+        "severity": "medium",
+        "supports": [
+          "selector_drift"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "E1",
+        "to": "E2",
+        "relation": "blocks",
+        "confidence": 0.88,
+        "reason": "access-control boundary blocks downstream page selectors"
+      }
+    ]
+  },
+  "repair_order": [
+    "Confirm authorization and use an official API, authorized export, manual review, or stop automation if access is unclear.",
+    "Only after the compliant path is confirmed, re-run selectors."
+  ],
+  "why_this_order": "access-control boundary blocks downstream page selectors",
+  "safe_next_action": true
+}

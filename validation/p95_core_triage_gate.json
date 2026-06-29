@@ -1,0 +1,65 @@
+{
+  "version": "v2.4.1",
+  "track": "p95_core_triage_gate",
+  "overall_status": "pass",
+  "pillars": {
+    "playwright_trace_doctor": {
+      "status": "pass",
+      "metrics": {
+        "native_playwright_trace_fixtures": 100,
+        "reasonable": 100,
+        "exact_subtype": 100,
+        "actionable": 100,
+        "forbidden_output_count": 0
+      }
+    },
+    "cross_framework_adapters": {
+      "status": "pass",
+      "metrics": {
+        "total_cases": 100,
+        "reasonable": 100,
+        "actionable": 100,
+        "fix_plan_valid": 100,
+        "forbidden_output_count": 0
+      }
+    },
+    "training_challenge_sedimentation": {
+      "status": "pass",
+      "metrics": {
+        "total_cases": 40,
+        "diagnosis_reasonable": 40,
+        "fix_plan_valid": 40,
+        "verification_correct": 40,
+        "private_solution_leak_count": 0,
+        "forbidden_output_count": 0
+      }
+    },
+    "composite_diagnosis": {
+      "status": "pass",
+      "metrics": {
+        "total_cases": 160,
+        "primary_failure_correct": 160,
+        "repair_order_correct": 160,
+        "evidence_graph_valid": 160,
+        "forbidden_output_count": 0,
+        "sample_reports": 3
+      }
+    },
+    "safety_boundary": {
+      "status": "pass",
+      "metrics": {
+        "forbidden_output_count": 0,
+        "captcha_bypass_guidance": 0,
+        "bot_evasion_guidance": 0,
+        "private_solution_leak_count": 0
+      }
+    }
+  },
+  "inputs": {
+    "playwright_trace_p95": "validation/playwright_trace_p95_validation.json",
+    "cross_framework_p95": "validation/cross_framework_p95_validation.json",
+    "training_challenge_p95": "validation/training_challenge_p95_validation.json",
+    "composite_diagnosis_p95_strict": "validation/composite_diagnosis_p95_strict_validation.json",
+    "composite_showcase": "sample_reports/composite_showcase"
+  }
+}

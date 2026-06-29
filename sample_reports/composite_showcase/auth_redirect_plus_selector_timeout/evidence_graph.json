@@ -1,0 +1,32 @@
+{
+  "schema_version": "evidence_graph/v1",
+  "nodes": [
+    {
+      "id": "E1",
+      "type": "primary_signal",
+      "label": "playwright_storage_state_context",
+      "severity": "high",
+      "supports": [
+        "playwright_storage_state_context"
+      ]
+    },
+    {
+      "id": "E2",
+      "type": "downstream_signal",
+      "label": "selector_drift",
+      "severity": "medium",
+      "supports": [
+        "selector_drift"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "E1",
+      "to": "E2",
+      "relation": "blocks",
+      "confidence": 0.88,
+      "reason": "auth redirect/login evidence blocks downstream selector diagnosis"
+    }
+  ]
+}

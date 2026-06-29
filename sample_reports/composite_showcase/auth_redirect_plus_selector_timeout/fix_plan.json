@@ -1,0 +1,34 @@
+{
+  "schema_version": "fix_plan/v1",
+  "failure_type": "playwright_storage_state_context",
+  "subtype": "login_redirect_after_authenticated_action",
+  "repair_order": [
+    "Restore authenticated context or session state first.",
+    "Re-run and inspect selector symptoms only after auth succeeds."
+  ],
+  "blocking_failure": {
+    "technical_category": "playwright_storage_state_context",
+    "subtype": "login_redirect_after_authenticated_action",
+    "reason": "auth redirect/login evidence blocks downstream selector diagnosis",
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "secondary_failures": [
+    {
+      "technical_category": "selector_drift",
+      "subtype": "timeout_waiting_for_selector",
+      "relationship_to_primary": "blocked_by_primary",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "safe_next_action": true,
+  "forbidden_actions": [
+    "access-control defeat",
+    "challenge automation",
+    "credential extraction",
+    "unauthorized collection"
+  ]
+}

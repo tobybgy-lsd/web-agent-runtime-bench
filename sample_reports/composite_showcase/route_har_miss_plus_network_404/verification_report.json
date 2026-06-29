@@ -1,0 +1,9 @@
+{
+  "schema_version": "verification_report/v1",
+  "status": "resolved",
+  "confidence": 0.82,
+  "safe_next_action": true,
+  "notes": [
+    "Showcase verification report for composite repair-order behavior."
+  ]
+}

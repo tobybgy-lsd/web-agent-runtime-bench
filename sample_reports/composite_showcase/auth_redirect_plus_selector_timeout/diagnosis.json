@@ -1,0 +1,82 @@
+{
+  "schema_version": "composite_diagnosis/v1",
+  "diagnosis_mode": "composite",
+  "technical_category": "playwright_storage_state_context",
+  "failure_type": "playwright_storage_state_context",
+  "subtype": "login_redirect_after_authenticated_action",
+  "confidence": 0.9,
+  "primary_failure": {
+    "technical_category": "playwright_storage_state_context",
+    "subtype": "login_redirect_after_authenticated_action",
+    "confidence": 0.9,
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "secondary_failures": [
+    {
+      "technical_category": "selector_drift",
+      "subtype": "timeout_waiting_for_selector",
+      "relationship_to_primary": "blocked_by_primary",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "blocking_failure": {
+    "technical_category": "playwright_storage_state_context",
+    "subtype": "login_redirect_after_authenticated_action",
+    "reason": "auth redirect/login evidence blocks downstream selector diagnosis",
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "downstream_failures": [
+    {
+      "technical_category": "selector_drift",
+      "subtype": "timeout_waiting_for_selector",
+      "caused_by": "playwright_storage_state_context",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "evidence_graph": {
+    "schema_version": "evidence_graph/v1",
+    "nodes": [
+      {
+        "id": "E1",
+        "type": "primary_signal",
+        "label": "playwright_storage_state_context",
+        "severity": "high",
+        "supports": [
+          "playwright_storage_state_context"
+        ]
+      },
+      {
+        "id": "E2",
+        "type": "downstream_signal",
+        "label": "selector_drift",
+        "severity": "medium",
+        "supports": [
+          "selector_drift"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "E1",
+        "to": "E2",
+        "relation": "blocks",
+        "confidence": 0.88,
+        "reason": "auth redirect/login evidence blocks downstream selector diagnosis"
+      }
+    ]
+  },
+  "repair_order": [
+    "Restore authenticated context or session state first.",
+    "Re-run and inspect selector symptoms only after auth succeeds."
+  ],
+  "why_this_order": "auth redirect/login evidence blocks downstream selector diagnosis",
+  "safe_next_action": true
+}

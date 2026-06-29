@@ -66,7 +66,7 @@ FAMILIES: dict[str, dict[str, str]] = {
 }
 
 
-def main() -> int:
+def run_validation() -> dict[str, Any]:
     _ensure_fixtures()
     cases = _load_cases()
     results = [_evaluate_case(case) for case in cases]
@@ -74,9 +74,13 @@ def main() -> int:
     global_metrics = _global_metrics(results)
     gate = _gate(global_metrics, family_metrics)
     payload = {
-        "version": "v2.3",
+        "version": "v2.4.1",
         "track": "composite_diagnosis_p95_strict_validation",
         "overall_status": "pass" if all(gate.values()) else "fail",
+        "summary": {
+            "status": "pass" if all(gate.values()) else "fail",
+            **global_metrics,
+        },
         "global_metrics": global_metrics,
         "family_metrics": family_metrics,
         "gate": gate,
@@ -84,6 +88,12 @@ def main() -> int:
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return payload
+
+
+def main() -> int:
+    payload = run_validation()
+    global_metrics = payload["global_metrics"]
     print(
         "composite diagnosis P95 strict: "
         f"{global_metrics['primary_failure_correct']}/{global_metrics['total_cases']} primary, "

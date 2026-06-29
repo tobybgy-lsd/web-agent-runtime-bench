@@ -1,0 +1,82 @@
+{
+  "schema_version": "composite_diagnosis/v1",
+  "diagnosis_mode": "composite",
+  "technical_category": "playwright_route_mock_har",
+  "failure_type": "playwright_route_mock_har",
+  "subtype": "har_not_found_or_not_loaded",
+  "confidence": 0.9,
+  "primary_failure": {
+    "technical_category": "playwright_route_mock_har",
+    "subtype": "har_not_found_or_not_loaded",
+    "confidence": 0.9,
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "secondary_failures": [
+    {
+      "technical_category": "network_http_error",
+      "subtype": "http_404",
+      "relationship_to_primary": "blocked_by_primary",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "blocking_failure": {
+    "technical_category": "playwright_route_mock_har",
+    "subtype": "har_not_found_or_not_loaded",
+    "reason": "route/HAR miss can leak to live network and produce HTTP errors",
+    "evidence_ids": [
+      "E1"
+    ]
+  },
+  "downstream_failures": [
+    {
+      "technical_category": "network_http_error",
+      "subtype": "http_404",
+      "caused_by": "playwright_route_mock_har",
+      "evidence_ids": [
+        "E2"
+      ]
+    }
+  ],
+  "evidence_graph": {
+    "schema_version": "evidence_graph/v1",
+    "nodes": [
+      {
+        "id": "E1",
+        "type": "primary_signal",
+        "label": "playwright_route_mock_har",
+        "severity": "high",
+        "supports": [
+          "playwright_route_mock_har"
+        ]
+      },
+      {
+        "id": "E2",
+        "type": "downstream_signal",
+        "label": "network_http_error",
+        "severity": "medium",
+        "supports": [
+          "network_http_error"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "E1",
+        "to": "E2",
+        "relation": "blocks",
+        "confidence": 0.88,
+        "reason": "route/HAR miss can leak to live network and produce HTTP errors"
+      }
+    ]
+  },
+  "repair_order": [
+    "Fix route/HAR/mock registration before the first matching request.",
+    "Then validate response shape and parser behavior."
+  ],
+  "why_this_order": "route/HAR miss can leak to live network and produce HTTP errors",
+  "safe_next_action": true
+}

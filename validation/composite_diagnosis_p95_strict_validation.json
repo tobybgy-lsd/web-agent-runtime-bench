@@ -1,7 +1,21 @@
 {
-  "version": "v2.3",
+  "version": "v2.4.1",
   "track": "composite_diagnosis_p95_strict_validation",
   "overall_status": "pass",
+  "summary": {
+    "status": "pass",
+    "total_cases": 160,
+    "primary_failure_correct": 160,
+    "secondary_failure_detected": 160,
+    "blocking_failure_correct": 160,
+    "downstream_failure_correct": 160,
+    "repair_order_correct": 160,
+    "evidence_graph_valid": 160,
+    "verification_status_correct": 60,
+    "overconfident_wrong": 0,
+    "severe_misclassification": 0,
+    "forbidden_output_count": 0
+  },
   "global_metrics": {
     "total_cases": 160,
     "primary_failure_correct": 160,

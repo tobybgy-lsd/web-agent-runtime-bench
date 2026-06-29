@@ -11,6 +11,7 @@ Agent Failure Doctor is validated with three evidence tiers:
 5. Local-only applied scenario demos for business automation style failure diagnosis.
 6. Local workflow integration adapters that produce diagnosable failure packs.
 7. Composite diagnosis fixtures that validate primary, secondary, blocking, downstream, evidence graph, and repair-order behavior.
+8. P95 alignment ledgers that collect Playwright trace, cross-framework, training challenge, composite diagnosis, and safety boundary gates.
 
 The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
 
@@ -25,6 +26,28 @@ Supported input families:
 - screenshot metadata
 
 ## Source Ledger
+
+## v2.4.1 P95 Core Triad Gate
+
+`validation/p95_core_triage_gate.json` is the machine-readable public entry point for the current P95 alignment pack.
+
+| Pillar | Status | Key Metric |
+|---|---|---:|
+| Playwright Trace Doctor P95 | pass | 100/100 reasonable, 100/100 exact |
+| Cross-Framework Adapters P95 | pass | 100/100 reasonable, 100/100 fix plans |
+| Training Challenge P95 | pass | 40/40 reasonable, 0 private solution leaks |
+| Composite Diagnosis P95 Strict | pass | 160/160 primary, 160/160 repair order |
+| Safety Boundary | pass | 0 forbidden outputs |
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_playwright_trace_p95_validation
+python -m tools.validation.run_cross_framework_p95_validation
+python -m tools.validation.run_training_challenge_validation
+python -m tools.validation.run_composite_diagnosis_p95_strict_validation
+python -m tools.validation.run_p95_core_triage_gate
+```
 
 ## Composite Diagnosis P95 Strict Validation
 

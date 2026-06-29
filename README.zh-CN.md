@@ -1,6 +1,6 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack
+Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 Core lifecycle:
 `failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor verify` -> `failure-doctor sanitize`

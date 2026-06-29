@@ -1,0 +1,32 @@
+{
+  "schema_version": "evidence_graph/v1",
+  "nodes": [
+    {
+      "id": "E1",
+      "type": "primary_signal",
+      "label": "playwright_route_mock_har",
+      "severity": "high",
+      "supports": [
+        "playwright_route_mock_har"
+      ]
+    },
+    {
+      "id": "E2",
+      "type": "downstream_signal",
+      "label": "network_http_error",
+      "severity": "medium",
+      "supports": [
+        "network_http_error"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "E1",
+      "to": "E2",
+      "relation": "blocks",
+      "confidence": 0.88,
+      "reason": "route/HAR miss can leak to live network and produce HTTP errors"
+    }
+  ]
+}

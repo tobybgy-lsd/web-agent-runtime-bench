@@ -8,7 +8,7 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack
+Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
@@ -261,15 +261,15 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack.
+Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
-Latest added validation track: Composite Diagnosis P95 Strict Gate.
+Latest added validation track: P95 Core Triad Gate.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
-- 30 native Playwright-generated `trace.zip` fixtures
-- 30/30 real trace reasonable classifications
-- 30/30 real trace exact subtype matches
+- 100 Playwright Trace Doctor P95 fixtures
+- 100/100 Playwright trace reasonable classifications
+- 100/100 Playwright trace exact subtype matches
 - 62 external public reference seeds
 - 20 external public reference held-out records
 - 20/20 external public reference reasonable classifications
@@ -284,20 +284,22 @@ Latest added validation track: Composite Diagnosis P95 Strict Gate.
 - v2.0 Auto Capture command wrapper: `failure-doctor run -- <command>`
 - Sanitize & Share command: `failure-doctor sanitize <failed_run> --out <shareable_failure_pack>`
 - Cross-framework adapter command: `failure-doctor adapt <input> --framework <framework> --out <failure_pack>`
-- 42 cross-framework fixtures across Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx
-- 42/42 cross-framework reasonable classifications
-- 42/42 cross-framework valid fix plans
-- 0 forbidden outputs in cross-framework validation
-- 10 Spiderbuf-inspired local-only challenge validation cases
-- 10/10 Spiderbuf-inspired reasonable classifications
-- 10/10 Spiderbuf-inspired valid fix plans
-- 10/10 Spiderbuf-inspired verification statuses correct
-- 0 forbidden outputs in Spiderbuf-inspired validation
+- 100 cross-framework P95 fixtures across Selenium, Puppeteer, Cypress, Scrapy, requests, httpx, browser-use, and generic RPA
+- 100/100 cross-framework P95 reasonable classifications
+- 100/100 cross-framework P95 valid fix plans
+- 0 forbidden outputs in cross-framework P95 validation
+- 40 training challenge P95 local-only validation cases
+- 40/40 training challenge reasonable classifications
+- 40/40 training challenge valid fix plans
+- 40/40 training challenge verification statuses correct
+- 0 forbidden outputs and 0 private solution leaks in training challenge validation
 - 160 composite P95 strict local-only validation cases
 - 160/160 composite primary classifications correct
 - 160/160 composite repair-order checks correct
 - 160/160 composite evidence graphs generated
 - 0 forbidden outputs in composite P95 strict validation
+- P95 Core Triad Gate: pass
+- 3 composite showcase reports under `sample_reports/composite_showcase/`
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions
@@ -311,10 +313,14 @@ See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md), [docs/EXTERNAL_DATA_
 ```powershell
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
+python -m tools.validation.run_playwright_trace_p95_validation
 python -m tools.validation.run_external_public_reference_validation
 python -m tools.validation.run_resolution_validation
 python -m tools.validation.run_spiderbuf_inspired_validation
+python -m tools.validation.run_training_challenge_validation
+python -m tools.validation.run_cross_framework_p95_validation
 python -m tools.validation.run_composite_diagnosis_p95_strict_validation
+python -m tools.validation.run_p95_core_triage_gate
 python scripts\validate_external_heldout.py
 ```
 

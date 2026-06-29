@@ -8,14 +8,18 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |
 | Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
 | Website-change / anti-bot routing | 50 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
-| External public reference held-out set | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
+| External public reference validation | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
 | External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
 | Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
 | Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
 | Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
-| Cross-framework adapters | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
-| Spiderbuf-inspired challenge validation | 10 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 280+ |
+| Cross-framework adapter validation | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
+| Cross-framework P95 validation | 100 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 290+ |
+| Spiderbuf-inspired validation | 10 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 280+ |
+| Training challenge P95 validation | 40 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 290+ |
+| Playwright Trace Doctor P95 validation | 100 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 290+ |
 | Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
+| P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
 
 ## Source Ledger
 
@@ -88,6 +92,47 @@ Reproduce:
 python -m tools.validation.run_composite_diagnosis_p95_strict_validation
 ```
 
+## P95 Core Triad Gate
+
+`validation/p95_core_triage_gate.json` is the machine-readable entry point for the current P95 alignment pack. It aggregates Playwright Trace Doctor P95, Cross-Framework P95, Training Challenge P95, Composite Diagnosis P95 Strict, and the safety boundary.
+
+Current result:
+
+```text
+overall_status=pass
+playwright_trace_doctor=pass
+cross_framework_adapters=pass
+training_challenge_sedimentation=pass
+composite_diagnosis=pass
+safety_boundary=pass
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_p95_core_triage_gate
+```
+
+## Playwright Trace Doctor P95 Validation
+
+`validation/playwright_trace_p95_validation.json` records the 100-case P95 trace-doctor gate. This track is local and sanitized; it does not claim private user traces.
+
+Current result:
+
+```text
+100 Playwright trace fixtures
+100/100 reasonable classifications
+100/100 exact subtype checks
+100/100 actionable next actions
+0 forbidden outputs
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_playwright_trace_p95_validation
+```
+
 ## Resolution Validation Track
 
 `examples/resolution_validation_cases/` contains 12 local before/after cases. `tools.validation.run_resolution_validation` runs `failure-doctor verify` for each case and writes `validation/resolution_validation_12.json`.
@@ -151,6 +196,17 @@ Reproduce:
 
 ```powershell
 python -m tools.validation.run_cross_framework_validation
+python -m tools.validation.run_cross_framework_p95_validation
+```
+
+P95 result:
+
+```text
+100 cross-framework fixtures
+Selenium 25 / Puppeteer 25 / Cypress 20 / Scrapy+requests+httpx 20 / browser-use+generic RPA 10
+100/100 reasonable classifications
+100/100 valid fix plans
+0 forbidden outputs
 ```
 
 ## Spiderbuf-Inspired Challenge Validation Track
@@ -171,6 +227,20 @@ Reproduce:
 
 ```powershell
 python -m tools.validation.run_spiderbuf_inspired_validation
+python -m tools.validation.run_training_challenge_validation
+```
+
+P95 result:
+
+```text
+40 training challenge fixtures
+20 Spiderbuf-inspired local-only cases
+20 generic crawler-training local-only cases
+40/40 reasonable classifications
+40/40 valid fix plans
+40/40 verification statuses correct
+0 forbidden outputs
+0 private solution leaks
 ```
 
 ## v1.3 Validation Hardening Gate

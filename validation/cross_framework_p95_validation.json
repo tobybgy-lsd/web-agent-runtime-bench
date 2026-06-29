@@ -1,0 +1,1723 @@
+{
+  "version": "v2.4.1",
+  "track": "cross_framework_p95_validation",
+  "status": "pass",
+  "total_cases": 100,
+  "framework_counts": {
+    "selenium": 25,
+    "puppeteer": 25,
+    "cypress": 20,
+    "scrapy": 8,
+    "requests": 6,
+    "httpx": 6,
+    "browser_use": 5,
+    "generic_rpa": 5
+  },
+  "reasonable": 100,
+  "actionable": 100,
+  "fix_plan_valid": 100,
+  "forbidden_output_count": 0,
+  "severe_misclassification": 0,
+  "cases": [
+    {
+      "case_id": "selenium_p95_001",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_002",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_003",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_004",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_005",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_006",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_007",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_008",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_009",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_010",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_011",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_012",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_013",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_014",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_015",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_016",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_017",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_018",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_019",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_020",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_021",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_022",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_023",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_024",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "selenium_p95_025",
+      "framework": "selenium",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "selector_drift",
+      "actual_technical_category": "selector_drift",
+      "subtype": "selenium_no_such_element",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_001",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_002",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_003",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_004",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_005",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_006",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_007",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_008",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_009",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_010",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_011",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_012",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_013",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_014",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_015",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_016",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_017",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_018",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_019",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_020",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_021",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_022",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_023",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_024",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "puppeteer_p95_025",
+      "framework": "puppeteer",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "dns_name_not_resolved",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_001",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_002",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_003",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_004",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_005",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_006",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_007",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_008",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_009",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_010",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_011",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_012",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_013",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_014",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_015",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_016",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_017",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_018",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_019",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "cypress_p95_020",
+      "framework": "cypress",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "playwright_route_mock_har",
+      "actual_technical_category": "playwright_route_mock_har",
+      "subtype": "cypress_intercept_not_matched",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_001",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_002",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_003",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_004",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_005",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_006",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_007",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "scrapy_p95_008",
+      "framework": "scrapy",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "anti_bot_risk",
+      "actual_technical_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_001",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_002",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_003",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_004",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_005",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "requests_p95_006",
+      "framework": "requests",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "network_http_error",
+      "actual_technical_category": "network_http_error",
+      "subtype": "request_timeout",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_001",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_002",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_003",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_004",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_005",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "httpx_p95_006",
+      "framework": "httpx",
+      "input_type": [
+        "error.log",
+        "network.json"
+      ],
+      "expected_technical_category": "website_change",
+      "actual_technical_category": "website_change",
+      "subtype": "response_shape_changed",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "browser_use_p95_001",
+      "framework": "browser_use",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "agent_repetition_loop",
+      "actual_technical_category": "agent_repetition_loop",
+      "subtype": "repeated_action_loop",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "browser_use_p95_002",
+      "framework": "browser_use",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "agent_repetition_loop",
+      "actual_technical_category": "agent_repetition_loop",
+      "subtype": "repeated_action_loop",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "browser_use_p95_003",
+      "framework": "browser_use",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "agent_repetition_loop",
+      "actual_technical_category": "agent_repetition_loop",
+      "subtype": "repeated_action_loop",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "browser_use_p95_004",
+      "framework": "browser_use",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "agent_repetition_loop",
+      "actual_technical_category": "agent_repetition_loop",
+      "subtype": "repeated_action_loop",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "browser_use_p95_005",
+      "framework": "browser_use",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "agent_repetition_loop",
+      "actual_technical_category": "agent_repetition_loop",
+      "subtype": "repeated_action_loop",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "generic_rpa_p95_001",
+      "framework": "generic_rpa",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "popup_or_overlay_blocking",
+      "actual_technical_category": "popup_or_overlay_blocking",
+      "subtype": "click_intercepted_by_overlay",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "generic_rpa_p95_002",
+      "framework": "generic_rpa",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "popup_or_overlay_blocking",
+      "actual_technical_category": "popup_or_overlay_blocking",
+      "subtype": "click_intercepted_by_overlay",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "generic_rpa_p95_003",
+      "framework": "generic_rpa",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "popup_or_overlay_blocking",
+      "actual_technical_category": "popup_or_overlay_blocking",
+      "subtype": "click_intercepted_by_overlay",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "generic_rpa_p95_004",
+      "framework": "generic_rpa",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "popup_or_overlay_blocking",
+      "actual_technical_category": "popup_or_overlay_blocking",
+      "subtype": "click_intercepted_by_overlay",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    },
+    {
+      "case_id": "generic_rpa_p95_005",
+      "framework": "generic_rpa",
+      "input_type": [
+        "error.log",
+        "console.txt"
+      ],
+      "expected_technical_category": "popup_or_overlay_blocking",
+      "actual_technical_category": "popup_or_overlay_blocking",
+      "subtype": "click_intercepted_by_overlay",
+      "reasonable_category_match": true,
+      "actionable_next_action": true,
+      "fix_plan_valid": true,
+      "forbidden_output_count": 0,
+      "severe_misclassification": false,
+      "source_type": "local_sanitized_framework_log_fixture"
+    }
+  ]
+}

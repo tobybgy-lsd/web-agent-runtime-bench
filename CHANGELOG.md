@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.4.1
+
+- Aligned package, README, dashboard, release notes, and machine-readable validation status around the P95 gate.
+- Added Playwright Trace Doctor P95 validation ledger with 100 local native-trace/semantic fixture records and 0 forbidden outputs.
+- Added Cross-Framework P95 validation ledger with 100 local sanitized framework log fixtures across Selenium, Puppeteer, Cypress, Scrapy, requests, httpx, browser-use, and generic RPA.
+- Added Training Challenge P95 validation ledger with 40 local-only challenge-inspired fixtures, 0 forbidden outputs, and 0 private solution leaks.
+- Added `validation/p95_core_triage_gate.json` and `tools.validation.run_p95_core_triage_gate` as the machine-readable P95 summary gate.
+- Added three composite showcase sample reports under `sample_reports/composite_showcase/`.
+
 ## v2.4.0
 
 - Added Composite Diagnosis P95 Strict Gate Pack.
