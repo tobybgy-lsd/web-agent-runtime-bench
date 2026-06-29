@@ -22,9 +22,9 @@ Codex 修复 Prompt、脱敏报告包。
 ## 快速开始
 
 ```powershell
+python -m pip install agent-failure-doctor
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
 cd web-agent-runtime-bench
-python -m pip install -e .
 
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 failure-doctor plan .\report --out .\fix_plan

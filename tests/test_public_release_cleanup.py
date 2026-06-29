@@ -108,7 +108,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "![License: MIT]",
             "![Python 3.10+]",
             "Local-first failure diagnosis",
-            "python -m pip install -e .",
+            "python -m pip install agent-failure-doctor",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
             "GitHub issue draft",
             "See [validation/dashboard.md](validation/dashboard.md)",

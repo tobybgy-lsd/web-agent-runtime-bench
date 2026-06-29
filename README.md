@@ -22,9 +22,9 @@ GitHub issue draft, Codex fix prompt.
 ## Quickstart
 
 ```powershell
+python -m pip install agent-failure-doctor
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
 cd web-agent-runtime-bench
-python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 failure-doctor plan .\report --out .\fix_plan
 failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report `
