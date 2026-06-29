@@ -46,3 +46,4 @@ shareable_failure_pack/
 - `python -m tools.validation.run_validation_hardening`: 9/9 tracks pass, overall gate pass.
 - `scripts\smoke_test.ps1`: PASS.
 - `scripts\local_safety_scan.ps1`: PASS.
+- GitHub Actions `benchmark` run `28347909289`: PASS across Ubuntu, macOS, Windows unit tests, plus Windows benchmark/smoke/safety.
