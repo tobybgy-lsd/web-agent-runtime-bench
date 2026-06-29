@@ -6,7 +6,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 
-Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
+Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.
 
 Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
@@ -17,22 +17,27 @@ trace.zip / error.log / console.txt / network.json / screenshot metadata / user_
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-Additional outputs include AI handoff task packs and batch/fleet reports.
 
 Core commands:
 `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt`
 
-Lifecycle:
-`capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
+Quickstart:
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
 cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
+failure-doctor plan .\report --out .\fix_plan
+failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
 ```
 
-See [validation/dashboard.md](validation/dashboard.md) for stable/P95/P98 validation tracks, [docs/safety_boundary.md](docs/safety_boundary.md) for safety boundaries, and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+Validation: P95 gate passed. See [validation/dashboard.md](validation/dashboard.md) and [docs/safety_boundary.md](docs/safety_boundary.md).
+
+Lifecycle:
+`capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
+
+Advanced outputs include AI handoff task packs and batch/fleet reports.
 
 Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 

@@ -12,13 +12,14 @@ class OpenSourceEntryTests(unittest.TestCase):
 
         for phrase in (
             "# Agent Failure Doctor",
-            "Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.",
+            "Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.",
             "trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt",
             "diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.",
             "git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git",
             "cd web-agent-runtime-bench",
             "python -m pip install -e .",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
+            "failure-doctor plan .\\report --out .\\fix_plan",
         ):
             self.assertIn(phrase, opening)
 
