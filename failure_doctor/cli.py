@@ -332,7 +332,8 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
             observations["failure_doctor_inputs"] = _input_summary(evidence)
         return artifact
 
-    log_text = "\n".join(str(item.get("text", "")) for item in evidence.get("logs", []) if isinstance(item, Mapping))
+    log_entries = [item for item in evidence.get("logs", []) if isinstance(item, Mapping)]
+    log_text = "\n".join(str(item.get("text", "")) for item in _prioritized_log_entries(log_entries))
     description_text = "\n".join(str(item.get("text", "")) for item in evidence.get("descriptions", []) if isinstance(item, Mapping))
     network_events = evidence.get("network_events", [])
     status_code = _first_status(network_events) or _extract_status_from_text(log_text)
@@ -365,6 +366,22 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
             "redaction_notes": "Generated from local user-provided failure inputs; review before sharing.",
         },
     }
+
+
+def _prioritized_log_entries(entries: list[Mapping[str, Any]]) -> list[Mapping[str, Any]]:
+    def priority(entry: Mapping[str, Any]) -> tuple[int, str]:
+        name = str(entry.get("name") or "").lower()
+        if name in {"error.log", "stderr.log"}:
+            return (0, name)
+        if "error" in name or "stderr" in name:
+            return (1, name)
+        if name.endswith(".log"):
+            return (2, name)
+        if "console" in name or "stdout" in name:
+            return (4, name)
+        return (3, name)
+
+    return sorted(entries, key=priority)
 
 
 def enrich_for_users(diagnosis: Mapping[str, Any], input_summary: Mapping[str, Any] | None = None) -> dict[str, Any]:

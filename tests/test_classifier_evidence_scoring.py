@@ -100,6 +100,36 @@ class ClassifierEvidenceScoringTests(unittest.TestCase):
         structured_result = classify_failure_artifact(structured)
         self.assertEqual(structured_result["failure_type"], "anti_bot_risk")
 
+    def test_challenge_url_path_does_not_trigger_anti_bot_without_page_signal(self):
+        artifact = base_artifact(
+            "FileNotFoundError: [Errno 2] No such file or directory: './data/e03/e03_1.html'",
+            {
+                "network_events": [
+                    {
+                        "url": "https://spiderbuf.cn/challenge/scraping-random-pagination/2fe6286a4e5f",
+                        "status": 200,
+                    }
+                ],
+                "log_excerpt": "pagination links were present before local file write failed",
+            },
+        )
+        diagnosis = classify_failure_artifact(artifact)
+        self.assertEqual(diagnosis["failure_type"], "toolchain_environment")
+
+    def test_local_file_error_outranks_selector_like_html_noise(self):
+        artifact = base_artifact(
+            "FileNotFoundError: [Errno 2] No such file or directory: './data/e03/e03_1.html'",
+            {
+                "log_excerpt": (
+                    "FileNotFoundError: [Errno 2] No such file or directory: './data/e03/e03_1.html'\n"
+                    "<html><input[name=username]><script>selector not found</script></html>"
+                ),
+                "user_description": "The page HTML was printed before a local output file write failed.",
+            },
+        )
+        diagnosis = classify_failure_artifact(artifact)
+        self.assertEqual(diagnosis["failure_type"], "toolchain_environment")
+
     def test_forbidden_bypass_terms_never_appear_in_report_prompts(self):
         with tempfile.TemporaryDirectory() as tmp:
             case_dir = Path(tmp) / "case"
@@ -123,4 +153,3 @@ class ClassifierEvidenceScoringTests(unittest.TestCase):
                 "account pool",
             ):
                 self.assertNotIn(forbidden, combined)
-

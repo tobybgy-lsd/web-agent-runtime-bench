@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from failure_doctor.cli import collect_inputs, enrich_for_users, user_category_for
+from failure_doctor.cli import build_artifact, collect_inputs, enrich_for_users, user_category_for
 from tools.failure_artifacts.classifier import classify_failure_artifact
 
 
@@ -32,6 +32,27 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(evidence["network_events"][0]["status"], 429)
             self.assertIn("rate limited", evidence["descriptions"][0]["text"])
             self.assertEqual(evidence["screenshot_metadata"][0]["image_understanding"], "metadata_only")
+
+    def test_error_log_outranks_large_console_html_for_diagnosis(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            noisy_html = (
+                "<html><body><form><input name='username'></form>"
+                "<a href='/challenge/scraping-random-pagination/2fe6286a4e5f'>next</a>"
+                + ("<div>pagination content</div>" * 80)
+                + "</body></html>"
+            )
+            (root / "console.txt").write_text(noisy_html, encoding="utf-8")
+            (root / "error.log").write_text(
+                "FileNotFoundError: [Errno 2] No such file or directory: './data/e03/e03_1.html'",
+                encoding="utf-8",
+            )
+
+            artifact = build_artifact(collect_inputs(root), run_id="error_priority")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertIn("FileNotFoundError", artifact["error"]["message"])
+            self.assertEqual(diagnosis["failure_type"], "toolchain_environment")
 
     def test_enrich_for_users_preserves_raw_diagnosis_fields(self):
         artifact = {

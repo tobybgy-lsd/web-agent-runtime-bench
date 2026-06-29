@@ -192,6 +192,9 @@ def _classify_js_bundle_obfuscation(artifact: Mapping[str, Any], text: str) -> d
 
 
 def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    if _has_local_environment_error(artifact):
+        return None
+
     observations = artifact.get("observations", {})
     if not isinstance(observations, Mapping):
         observations = {}
@@ -350,6 +353,20 @@ def _website_change_fix_suggestions(subtype: str) -> list[str]:
     ]
 
 
+def _has_local_environment_error(artifact: Mapping[str, Any]) -> bool:
+    focused = _error_focused_text(artifact, include_user_description=False)
+    local_markers = (
+        "filenotfounderror",
+        "no such file or directory",
+        "enoent",
+        "permission denied",
+        "modulenotfounderror",
+        "browser executable missing",
+        "executable doesn't exist",
+    )
+    return any(marker in focused for marker in local_markers)
+
+
 def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     observations = artifact.get("observations", {})
     if not isinstance(observations, Mapping):
@@ -366,7 +383,7 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         if status:
             evidence.append(f"HTTP status code observed: {status}")
 
-    challenge_markers = ("captcha", "challenge", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
+    challenge_markers = ("captcha", "challenge page", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
     found_challenge = [marker for marker in challenge_markers if marker in focused]
     if not subtype and found_challenge:
         subtype = "captcha_or_challenge_page"
