@@ -93,6 +93,9 @@ def _public_failure(candidate: Mapping[str, Any]) -> dict[str, Any]:
 def _public_secondary(candidate: Mapping[str, Any]) -> dict[str, Any]:
     data = _public_failure(candidate)
     data["relationship_to_primary"] = str(candidate.get("relationship_to_primary") or "unresolved")
+    if candidate.get("suppressed_by_primary"):
+        data["suppressed_by_primary"] = True
+        data["suppression_reason"] = str(candidate.get("suppression_reason") or "")
     return data
 
 

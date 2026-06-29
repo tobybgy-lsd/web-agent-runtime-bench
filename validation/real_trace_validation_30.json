@@ -565,15 +565,15 @@
       "expected": {
         "failure_layer": "environment",
         "technical_category": "toolchain_environment",
-        "subtype": null,
-        "evidence_level": "inferred",
+        "subtype": "runtime_dependency_missing",
+        "evidence_level": "confirmed",
         "safe_next_action": true
       },
       "actual": {
         "failure_layer": "environment",
         "technical_category": "toolchain_environment",
-        "subtype": null,
-        "evidence_level": "inferred",
+        "subtype": "runtime_dependency_missing",
+        "evidence_level": "confirmed",
         "safe_next_action": true
       },
       "result": "exact_match",

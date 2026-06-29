@@ -5,6 +5,7 @@ import re
 from collections import Counter
 from typing import Any
 
+from tools.failure_artifacts.guardrails import forbidden_output_hits
 from tools.knowledge_base.load_patterns import load_patterns, pattern_text
 
 
@@ -23,12 +24,6 @@ REQUIRED_FIELDS = (
     "safety",
 )
 SECRET_RE = re.compile(r"(sk-[A-Za-z0-9]{12,}|authorization:\s*bearer|cookie:\s*[^,\s]+)", re.I)
-FORBIDDEN_RE = re.compile(
-    r"(captcha bypass|bot evasion|fingerprint spoofing|dynamic signature cracking|"
-    r"cloudflare bypass|akamai bypass|datadome bypass|perimeterx bypass|"
-    r"ip pool|account pool|ban evasion)",
-    re.I,
-)
 
 
 def validate_pattern(pattern: dict[str, Any]) -> list[str]:
@@ -44,8 +39,9 @@ def validate_pattern(pattern: dict[str, Any]) -> list[str]:
     text = pattern_text(pattern)
     if SECRET_RE.search(text):
         errors.append(f"{pattern.get('id')}: possible secret or credential")
-    if FORBIDDEN_RE.search(text):
-        errors.append(f"{pattern.get('id')}: forbidden bypass language")
+    forbidden_hits = forbidden_output_hits(text)
+    if forbidden_hits:
+        errors.append(f"{pattern.get('id')}: forbidden output language: {', '.join(forbidden_hits[:3])}")
     return errors
 
 

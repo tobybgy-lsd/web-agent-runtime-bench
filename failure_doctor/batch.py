@@ -6,16 +6,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Mapping
 
-
-FORBIDDEN_TERMS = (
-    "captcha bypass",
-    "bot evasion",
-    "fingerprint spoofing",
-    "dynamic signature cracking",
-    "ip pool",
-    "account pool",
-    "ban evasion",
-)
+from tools.failure_artifacts.guardrails import forbidden_output_count
 
 
 def discover_runs(runs_dir: Path) -> list[Path]:
@@ -76,7 +67,7 @@ def build_summary(run_summaries: list[Mapping[str, Any]]) -> dict[str, Any]:
         }
         run_rows.append(row)
         runs_by_signature[signature].append(row)
-        forbidden_output_count += _forbidden_count(json.dumps(item, ensure_ascii=False).lower())
+        forbidden_output_count += forbidden_output_count_for_item(item)
 
     repeated = [
         {"signature": signature, "count": len(rows), "runs": [row["run_id"] for row in rows]}
@@ -195,8 +186,8 @@ def _framework_from_diagnosis(diagnosis: Mapping[str, Any]) -> str:
     return "unknown"
 
 
-def _forbidden_count(text: str) -> int:
-    return sum(1 for term in FORBIDDEN_TERMS if term in text)
+def forbidden_output_count_for_item(item: Mapping[str, Any]) -> int:
+    return forbidden_output_count(json.dumps(item, ensure_ascii=False))
 
 
 def _difficulty_rank(value: str) -> int:

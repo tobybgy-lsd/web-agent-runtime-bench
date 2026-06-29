@@ -472,6 +472,13 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
 
 
 def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
+    if subtype == "dynamic_signature_required":
+        return [
+            "treat this as a protected request-integrity boundary, not a selector/storage/proxy bug",
+            "use an official API, authorized SDK, documented export, or platform-approved integration when available",
+            "verify local clock skew, nonce freshness, parameter ordering, canonical serialization, and URL encoding against authorized documentation",
+            "capture sanitized request metadata and stop the run if authorization or platform terms are unclear",
+        ]
     return [
         f"treat this as possible access-control or anti-abuse risk ({subtype}), not a selector/storage/proxy bug",
         "confirm authorization and data-access permission before continuing automation",
@@ -1249,28 +1256,62 @@ def _classify_response_shape_change(artifact: Mapping[str, Any], text: str) -> d
 
 
 def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
-    markers = (
+    observations = artifact.get("observations", {})
+    if isinstance(observations, Mapping) and (
+        observations.get("har_expected")
+        or observations.get("har_path")
+        or observations.get("har_error")
+        or observations.get("har_loaded") is False
+        or observations.get("route_registered") is not None
+    ):
+        return None
+    if any(marker in text for marker in ("download", "saveas", "acceptdownloads", "suggestedfilename")):
+        return None
+    local_path_markers = ("filenotfounderror", "no such file or directory", "enoent")
+    permission_markers = ("permission denied", "eacces")
+    runtime_markers = (
         "pwsh",
         "powershell",
         "node is not recognized",
         "modulenotfounderror",
-        "permission denied",
-        "no such file or directory",
         "browser executable missing",
         "executable doesn't exist",
         "playwright install",
         "missing browser",
         "docker headless environment",
     )
+    markers = local_path_markers + permission_markers + runtime_markers
     found = [marker for marker in markers if marker in text]
     if not found:
         return None
+    if any(marker in text for marker in local_path_markers):
+        subtype = "local_file_path_missing"
+        confidence = 0.94
+        fixes = [
+            "create the missing local output/input directory before changing selectors or website logic",
+            "resolve paths relative to the project root and add a preflight path check",
+            "re-run after the local file path exists, then inspect any remaining page symptoms",
+        ]
+    elif any(marker in text for marker in permission_markers):
+        subtype = "local_permission_denied"
+        confidence = 0.9
+        fixes = [
+            "fix local file permissions or working-directory ownership first",
+            "write outputs under an authorized project directory",
+            "re-run before changing selectors or parser logic",
+        ]
+    else:
+        subtype = "runtime_dependency_missing"
+        confidence = 0.82
+        fixes = ["verify local runtime versions", "check PATH and shell availability", "run the repo smoke test"]
     return _result(
         "toolchain_environment",
-        0.78,
+        confidence,
         [f"toolchain/environment marker found: {found[0]}"],
-        ["verify local runtime versions", "check PATH and shell availability", "run the repo smoke test"],
+        fixes,
         can_auto_fix=True,
+        subtype=subtype,
+        evidence_level="confirmed",
     )
 
 

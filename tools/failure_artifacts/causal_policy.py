@@ -25,6 +25,12 @@ def determine_secondary_failures(candidates: list[Mapping[str, Any]], graph: Map
             continue
         relationship = _relationship(candidate, graph)
         item = dict(candidate)
+        if _should_suppress_downstream(primary, item):
+            relationship = "suppressed_downstream"
+            item["suppressed_by_primary"] = True
+            item["suppression_reason"] = (
+                "anti_bot_risk is a blocking access layer; inspect this downstream symptom only after a compliant access path succeeds"
+            )
         item["relationship_to_primary"] = relationship
         secondary.append(item)
     return secondary
@@ -43,13 +49,14 @@ def determine_blocking_failure(primary: Mapping[str, Any], secondary: list[Mappi
 def identify_downstream_failures(primary: Mapping[str, Any], secondary: list[Mapping[str, Any]], graph: Mapping[str, Any]) -> list[dict[str, Any]]:
     downstream = []
     for item in secondary:
-        if item.get("relationship_to_primary") in {"downstream", "blocked_by_primary"} or item.get("downstream_likelihood", 0) >= 5:
+        if item.get("relationship_to_primary") in {"downstream", "blocked_by_primary", "suppressed_downstream"} or item.get("downstream_likelihood", 0) >= 5:
             downstream.append(
                 {
                     "technical_category": item.get("technical_category"),
                     "subtype": item.get("subtype"),
                     "caused_by": primary.get("technical_category"),
                     "evidence_ids": list(item.get("evidence_ids", [])),
+                    "suppressed_by_primary": bool(item.get("suppressed_by_primary")),
                 }
             )
     return downstream
@@ -83,6 +90,22 @@ def _relationship(candidate: Mapping[str, Any], graph: Mapping[str, Any]) -> str
         if edge.get("relation") == "competes_with" and (edge.get("from") in evidence_ids or edge.get("to") in evidence_ids):
             return "competing"
     return "sibling"
+
+
+def _should_suppress_downstream(primary: Mapping[str, Any], candidate: Mapping[str, Any]) -> bool:
+    if primary.get("technical_category") != "anti_bot_risk":
+        return False
+    technical = str(candidate.get("technical_category") or "")
+    if int(candidate.get("downstream_likelihood") or 0) >= 5:
+        return True
+    return technical in {
+        "selector_drift",
+        "website_change",
+        "response_shape_change",
+        "async_hydration_timing",
+        "playwright_shadow_dom_locator",
+        "playwright_frame_locator",
+    }
 
 
 def _blocking_reason(technical: str, graph: Mapping[str, Any]) -> str:
