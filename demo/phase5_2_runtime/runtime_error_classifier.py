@@ -70,3 +70,109 @@ def classify_runtime_error(stderr: str, stdout: str = "") -> dict:
     if "typeerror" in lowered:
         return _result("runtime_type_error", 0.75, combined, "inspect shim surface and bundle assumptions")
     return _result("unknown_runtime_error", 0.35, combined, "capture stderr/stdout and add a local classifier rule")
+
+
+def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dict:
+    """Extended classifier informed by local Spiderbuf-style training cases.
+
+    Adds: HTTP error codes, CSS anti-crawl, Selenium/captcha, crypto failures,
+    and HTML structure analysis. 35+ patterns with 80-95% confidence.
+
+    Still pure rule matching. No model calls. No network.
+    Public-safe validation covers diagnosis only. Private execution notes are not
+    part of this public demo.
+    """
+    combined = f"{stderr}\n{stdout}".strip()
+    lowered = combined.lower()
+    if not combined:
+        return _result("success", 1.0, "no error output", "no repair required")
+
+    # === Spiderbuf-validated patterns ===
+
+    # HTTP errors
+    http_patterns = [
+        ("http_403_forbidden", 0.92, ["403", "forbidden", "access denied"],
+         "Server rejected request after request metadata checks. Verify permission, request headers, and official API availability."),
+        ("http_429_rate_limit", 0.95, ["429", "too many requests", "rate limit"],
+         "Request rate exceeded. Add time.sleep(2) between requests."),
+        ("http_404_not_found", 0.95, ["404", "not found"],
+         "URL does not exist. Check the endpoint path."),
+    ]
+    for error_type, conf, keywords, repair in http_patterns:
+        if any(kw in lowered for kw in keywords):
+            return _result(error_type, conf, combined, repair)
+
+    # Selenium / browser automation
+    selenium_patterns = [
+        ("selenium_webdriver_detected", 0.92,
+         ["navigator.webdriver", "webdriver detected", "automation detected",
+          "chrome is being controlled by automated"],
+         "Browser automation fingerprint risk detected. Treat as anti_bot_risk_boundary; use authorized testing hooks, public APIs, or manual verification."),
+        ("anti_bot_risk_boundary", 0.90,
+         ["slider", "slide", "nosuchelement", "captcha"],
+         "Challenge/captcha/slider risk detected. Do not automate circumvention. Use manual verification, official API, approved workflow, or stop if not permitted."),
+        ("anti_bot_risk_boundary", 0.82,
+         ["mousemove", "behavior", "human verification", "are you a robot"],
+         "Human-verification or behavior-risk signal detected. Do not provide evasion steps; use manual verification, official API, or approved workflow changes."),
+    ]
+    for error_type, conf, keywords, repair in selenium_patterns:
+        if any(kw in lowered for kw in keywords):
+            return _result(error_type, conf, combined, repair)
+
+    # Crypto / signature errors
+    crypto_patterns = [
+        ("aes_decrypt_failed", 0.88,
+         ["aes", "cryptojs", "bad decrypt", "pad block corrupted", "invalid key size"],
+         "AES decryption failed. Check: mode (CBC/ECB), IV position (first 16 bytes?), PKCS7 padding."),
+        ("md5_signature_failed", 0.88,
+         ["md5", "hash mismatch", "invalid hash"],
+         "MD5 signature mismatch. Check parameter concatenation format and timestamp precision."),
+        ("hmac_signature_failed", 0.86,
+         ["hmac", "signature mismatch", "signature verification failed"],
+         "HMAC signature failed. Verify algorithm (SHA256), message order, and key source."),
+        ("base64_decode_failed", 0.92,
+         ["base64", "incorrect padding", "invalid base64"],
+         "Base64 decode failed. Check if data needs URL-decode or data: URI prefix removal first."),
+    ]
+    for error_type, conf, keywords, repair in crypto_patterns:
+        if any(kw in lowered for kw in keywords):
+            return _result(error_type, conf, combined, repair)
+
+    # CSS/lxml parsing errors
+    parsing_patterns = [
+        ("nested_text_failed", 0.85,
+         [".text", "nonetype", "has no attribute"],
+         "td.text returned None. Text is in child tags (<a>/<font>/<span>). Use xpath('string(.)') instead."),
+        ("css_pseudo_element", 0.80,
+         ["indexerror", "list index out of range"],
+         "CSS pseudo-element obfuscation suspected. Parse ::before/::after content from CSS stylesheet."),
+    ]
+    for error_type, conf, keywords, repair in parsing_patterns:
+        if any(kw in lowered for kw in keywords):
+            return _result(error_type, conf, combined, repair)
+
+    # HTML content analysis (when stderr is empty but extraction failed)
+    if html:
+        if "::before" in html or "::after" in html:
+            return _result("css_pseudo_element_detected", 0.90, "HTML contains ::before/::after rules",
+                          "Parse CSS stylesheet for class→content mapping, then decode by class order")
+        if "sprite" in html.lower() and "background" in html.lower():
+            return _result("css_sprite_detected", 0.88, "CSS sprite anti-crawl detected",
+                          "Extract sprite class→digit mapping from CSS background-position rules")
+        if "debugger" in html.lower():
+            return _result("anti_debug_detected", 0.90, "setInterval debugger detected",
+                          "Use Selenium with page_source extraction instead of requests")
+        if any(kw in html.lower() for kw in ["cryptojs", "aes.decrypt"]):
+            return _result("crypto_js_required", 0.85, "CryptoJS/AES encryption detected",
+                          "Client-side crypto/signature logic detected. Diagnose parameter mismatch and use authorized API docs or owner-provided test hooks.")
+        if "worker" in html.lower():
+            return _result("web_worker_detected", 0.82, "Web Worker detected",
+                          "Worker-based anti-debug or dynamic rendering detected. Capture more evidence and avoid bypass-oriented interception guidance.")
+
+    # Fallback to existing classifier for runtime errors
+    existing = classify_runtime_error(stderr, stdout)
+    if existing["error_type"] != "unknown_runtime_error":
+        return existing
+
+    return _result("unknown_scraper_error", 0.30, combined,
+                   "No pattern matched. Inspect error log and add new classifier rule.")

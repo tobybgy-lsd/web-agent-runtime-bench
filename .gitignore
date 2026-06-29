@@ -18,6 +18,9 @@ reports/
 tmp/
 *.tmp
 
+# Private challenge workbench - never publish
+tools/spiderbuf/
+
 # Environments
 .env
 .venv/
