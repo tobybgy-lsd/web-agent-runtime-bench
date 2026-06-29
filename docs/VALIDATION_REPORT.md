@@ -8,6 +8,7 @@ Agent Failure Doctor is validated with three evidence tiers:
 2. Traceable public-source ledger records for credibility and category grounding.
 3. Native Playwright-generated `trace.zip` fixtures for adapter semantics.
 4. External public reference seeds for post-release source grounding and held-out validation.
+5. Local-only applied scenario demos for business automation style failure diagnosis.
 
 The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
 
@@ -209,6 +210,43 @@ Current result:
 | Forbidden outputs | 0 |
 
 Anti-bot cases are not marked resolved through access-control defeat. They can only resolve through compliant path evidence such as official API use, authorized export, manual review, or stopping unclear automation.
+
+## v1.1 Applied Scenario Demo Pack Validation
+
+The v1.1 applied scenario track demonstrates how the same diagnosis, fix planning, and verification loop behaves on local-only mock business automation failures. These are not production business systems and do not connect to real commerce, live, content, GUI, or ERP platforms.
+
+Artifacts:
+
+- `examples/applied_scenarios/`
+- `validation/applied_scenario_validation.json`
+- `tools/validation/run_applied_scenario_validation.py`
+- `docs/APPLIED_SCENARIO_DEMOS.md`
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_applied_scenario_validation
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| Scenario families | 6 |
+| Before/after cases | 18 |
+| Reasonable classifications | 18 |
+| Valid fix plans | 18 |
+| Correct verification statuses | 18 |
+| Forbidden outputs | 0 |
+
+Covered scenario families:
+
+- hot product collection
+- live commerce monitoring
+- ecommerce listing automation
+- authorized content publishing workflow
+- GUI / RPA data bridge
+- ERP-to-ecommerce sync
 
 ## Website Change + Anti-Bot Risk Addendum
 

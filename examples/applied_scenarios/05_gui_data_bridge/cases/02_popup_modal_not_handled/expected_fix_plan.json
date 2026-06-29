@@ -1,0 +1,4 @@
+{
+  "expected_failure_type": "playwright_popup",
+  "safe_next_action": true
+}

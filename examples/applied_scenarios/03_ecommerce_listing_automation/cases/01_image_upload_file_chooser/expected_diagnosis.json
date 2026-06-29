@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "playwright_file_chooser"
+  ],
+  "accepted_subtypes": [
+    "upload"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

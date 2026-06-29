@@ -6,13 +6,18 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 
-Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs.
+Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+
+Core commands:
+`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
+
+Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -121,9 +126,26 @@ failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\ve
 
 `verify` compares before/after evidence and reports whether the original failure is resolved, unchanged, changed into another failure, or insufficiently evidenced.
 
+## Applied Scenario Demos
+
+Local-only mock demos show how Agent Failure Doctor can diagnose failures in:
+
+- hot product collection
+- live commerce monitoring
+- ecommerce listing automation
+- authorized content publishing workflow
+- GUI / RPA data bridge
+- ERP-to-ecommerce sync
+
+Run:
+
+```powershell
+python -m tools.validation.run_applied_scenario_validation
+```
+
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v1.0 Failure Resolution Loop.
+Current milestone: Agent Failure Doctor v1.1 Applied Scenario Demo Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -136,6 +158,10 @@ Current milestone: Agent Failure Doctor v1.0 Failure Resolution Loop.
 - 20/20 external public reference actionable next actions
 - 12 resolution validation cases
 - 12/12 resolution statuses correct
+- 18 applied scenario validation cases
+- 18/18 applied scenario reasonable classifications
+- 18/18 applied scenario valid fix plans
+- 18/18 applied scenario verification statuses correct
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions

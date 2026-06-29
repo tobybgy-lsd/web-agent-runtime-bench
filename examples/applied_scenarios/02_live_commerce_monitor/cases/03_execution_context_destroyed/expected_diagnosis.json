@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "playwright_execution_context_destroyed"
+  ],
+  "accepted_subtypes": [
+    "navigation_race"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

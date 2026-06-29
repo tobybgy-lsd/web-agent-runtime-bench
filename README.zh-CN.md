@@ -104,3 +104,15 @@ python scripts\validate_external_heldout.py
 欢迎提交脱敏后的 `error.log`、`trace.zip`、`console.txt`、`network.json`、截图 metadata 或 `user_description.txt`。如果你允许，案例会获得 `EXT-YYYY-NNNN` 编号，并在不先调规则的情况下用当前发布版本 first-run 一次，结果进入 [外部验证仪表盘](validation/external_validation_dashboard.md)。
 
 模板和作者自己生成的示例不计入外部验证指标。详细流程见 [docs/external_validation_protocol.md](docs/external_validation_protocol.md) 和 [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md)。
+
+## Applied Scenario Demos
+
+Local-only mock demos show how Agent Failure Doctor diagnoses failures in hot product collection, live commerce monitoring, ecommerce listing automation, authorized content publishing workflow, GUI/RPA data bridge, and ERP-to-ecommerce sync.
+
+```powershell
+python -m tools.validation.run_applied_scenario_validation
+```
+
+These demos are failure diagnosis packs, not production business systems.
+
+Current result: 18/18 reasonable classifications, 18/18 valid fix plans, 18/18 correct verification statuses, 0 forbidden outputs.

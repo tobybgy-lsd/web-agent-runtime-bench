@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.mock/api/sync",
+    "status": 429,
+    "method": "GET"
+  }
+]

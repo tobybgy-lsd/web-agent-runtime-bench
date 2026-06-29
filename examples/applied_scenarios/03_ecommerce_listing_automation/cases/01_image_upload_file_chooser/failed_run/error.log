@@ -1,0 +1,1 @@
+file chooser did not open for upload; setInputFiles was called before the input[type=file] control was available.

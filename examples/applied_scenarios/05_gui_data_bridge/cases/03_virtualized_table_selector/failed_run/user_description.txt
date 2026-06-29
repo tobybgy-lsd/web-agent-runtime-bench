@@ -1,0 +1,1 @@
+Local mock scenario: GUI Data Bridge RPA Failure Diagnosis; case: virtualized_table_selector. Diagnose the failure evidence only.

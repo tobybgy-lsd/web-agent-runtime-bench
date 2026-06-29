@@ -1,0 +1,1 @@
+Local mock scenario: Content Publishing Workflow Failure Diagnosis; case: rich_text_iframe_missing. Diagnose the failure evidence only.

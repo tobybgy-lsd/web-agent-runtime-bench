@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.1.0
+
+- Added Applied Scenario Demo Pack.
+- Added six local-only business automation failure demo families:
+  - hot product collection
+  - live commerce monitoring
+  - ecommerce listing automation
+  - authorized content publishing workflow
+  - GUI / RPA data bridge
+  - ERP-to-ecommerce sync
+- Added 18 before/after applied scenario cases.
+- Added `tools.validation.run_applied_scenario_validation`.
+- Added applied scenario validation dashboard output:
+  - 18/18 reasonable classifications
+  - 18/18 valid fix plans
+  - 18/18 correct verification statuses
+  - 0 forbidden outputs
+- Added resume/interview notes for positioning the project as a failure diagnosis and repair verification layer.
+- No real-platform scraping, no automated posting to real platforms, no anti-bot bypass.
+
 ## v1.0.0
 
 - Added Failure Resolution Loop:

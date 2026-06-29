@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "playwright_frame_locator"
+  ],
+  "accepted_subtypes": [
+    "iframe_locator"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

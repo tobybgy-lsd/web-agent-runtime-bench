@@ -1,0 +1,4 @@
+{
+  "expected_failure_type": "cdp_websocket_disconnected",
+  "safe_next_action": true
+}

@@ -11,6 +11,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | External public reference held-out set | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
 | External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
 | Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
+| Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
 
 ## Source Ledger
 
@@ -75,12 +76,26 @@ Current result:
 0 forbidden outputs
 ```
 
+## Applied Scenario Validation Track
+
+`examples/applied_scenarios/` contains six local-only mock scenario families with 18 before/after cases. `tools.validation.run_applied_scenario_validation` runs `failure-doctor diagnose`, `failure-doctor plan`, and `failure-doctor verify` for each case and writes `validation/applied_scenario_validation.json`.
+
+Current result:
+
+```text
+18/18 reasonable classifications
+18/18 valid fix plans
+18/18 correct verification statuses
+0 forbidden outputs
+```
+
 ## Notes
 
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.
 - Public-inspired independent validation remains separate from template metrics.
 - The external held-out set is intentionally small and conservative; it is a trust check, not a broad accuracy claim.
 - Real Playwright trace fixtures use native Playwright trace records and resource snapshots.
+- Applied scenario demos are local-only mock failure packs, not production business systems.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.

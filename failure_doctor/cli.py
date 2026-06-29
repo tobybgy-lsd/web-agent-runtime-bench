@@ -412,6 +412,10 @@ def _diagnosis_hint_from_text(log_text: str, description_text: str, network_even
         hints["navigation_timeout"] = True
     if "page stayed" in text or "never worked" in text:
         hints["wait_or_click_failed"] = True
+    if "storage_state expected" in text or "storagestate expected" in text or "storage state expected" in text:
+        hints["storage_state_expected"] = True
+        if "not loaded" in text or "missing_cookie" in text or "missing session cookie" in text:
+            hints["storage_state_loaded"] = False
     statuses = [item.get("status") for item in network_events if isinstance(item, Mapping)]
     if 429 in statuses or "429" in text:
         hints["rate_limit_marker"] = True

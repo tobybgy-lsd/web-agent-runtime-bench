@@ -1,0 +1,1 @@
+Local mock scenario: Live Commerce Monitor Failure Diagnosis; case: event_shape_changed. Diagnose the failure evidence only.

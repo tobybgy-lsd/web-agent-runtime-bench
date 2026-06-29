@@ -1,0 +1,1 @@
+Local mock scenario: Hot Product Collector Failure Diagnosis; case: selector_drift. Diagnose the failure evidence only.

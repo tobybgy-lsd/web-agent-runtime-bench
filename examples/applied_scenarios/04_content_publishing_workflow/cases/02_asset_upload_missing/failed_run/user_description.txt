@@ -1,0 +1,1 @@
+Local mock scenario: Content Publishing Workflow Failure Diagnosis; case: asset_upload_missing. Diagnose the failure evidence only.

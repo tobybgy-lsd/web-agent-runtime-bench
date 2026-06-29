@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "website_change"
+  ],
+  "accepted_subtypes": [
+    "response_shape_changed"
+  ],
+  "expected_failure_layer": "website_change"
+}

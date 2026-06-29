@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.mock/listing/submit",
+    "status": 302,
+    "location": "/login"
+  }
+]

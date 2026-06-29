@@ -1,0 +1,275 @@
+{
+  "version": "v1.1",
+  "total_scenarios": 6,
+  "total_cases": 18,
+  "diagnosis_reasonable": 18,
+  "fix_plan_valid": 18,
+  "verification_correct": 18,
+  "forbidden_output_count": 0,
+  "scenarios": [
+    {
+      "scenario_id": "01_hot_product_collector",
+      "cases": [
+        {
+          "case_id": "01_selector_drift",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "selector_drift",
+          "actual_subtype": "selector_drift",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "01_hot_product_collector/01_selector_drift"
+        },
+        {
+          "case_id": "02_response_shape_changed",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "response_shape_changed",
+          "actual_subtype": "response_shape_changed",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "01_hot_product_collector/02_response_shape_changed"
+        },
+        {
+          "case_id": "03_pagination_changed",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "pagination_changed",
+          "actual_subtype": "pagination_changed",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "01_hot_product_collector/03_pagination_changed"
+        }
+      ]
+    },
+    {
+      "scenario_id": "02_live_commerce_monitor",
+      "cases": [
+        {
+          "case_id": "01_websocket_disconnect",
+          "expected_category": "cdp_websocket_disconnected",
+          "actual_category": "cdp_websocket_disconnected",
+          "expected_subtype": "websocket_disconnect",
+          "actual_subtype": "websocket_disconnect",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "02_live_commerce_monitor/01_websocket_disconnect"
+        },
+        {
+          "case_id": "02_event_shape_changed",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "response_shape_changed",
+          "actual_subtype": "response_shape_changed",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "02_live_commerce_monitor/02_event_shape_changed"
+        },
+        {
+          "case_id": "03_execution_context_destroyed",
+          "expected_category": "playwright_execution_context_destroyed",
+          "actual_category": "playwright_execution_context_destroyed",
+          "expected_subtype": "navigation_race",
+          "actual_subtype": "navigation_race",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "02_live_commerce_monitor/03_execution_context_destroyed"
+        }
+      ]
+    },
+    {
+      "scenario_id": "03_ecommerce_listing_automation",
+      "cases": [
+        {
+          "case_id": "01_image_upload_file_chooser",
+          "expected_category": "playwright_file_chooser",
+          "actual_category": "playwright_file_chooser",
+          "expected_subtype": "upload",
+          "actual_subtype": "upload",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "03_ecommerce_listing_automation/01_image_upload_file_chooser"
+        },
+        {
+          "case_id": "02_sku_selector_drift",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "selector_drift",
+          "actual_subtype": "selector_drift",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "03_ecommerce_listing_automation/02_sku_selector_drift"
+        },
+        {
+          "case_id": "03_storage_state_login_redirect",
+          "expected_category": "playwright_storage_state_context",
+          "actual_category": "playwright_storage_state_context",
+          "expected_subtype": "storage_state_not_loaded",
+          "actual_subtype": "storage_state_not_loaded",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "03_ecommerce_listing_automation/03_storage_state_login_redirect"
+        }
+      ]
+    },
+    {
+      "scenario_id": "04_content_publishing_workflow",
+      "cases": [
+        {
+          "case_id": "01_rich_text_iframe_missing",
+          "expected_category": "playwright_frame_locator",
+          "actual_category": "playwright_frame_locator",
+          "expected_subtype": "iframe_locator",
+          "actual_subtype": "iframe_locator",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "04_content_publishing_workflow/01_rich_text_iframe_missing"
+        },
+        {
+          "case_id": "02_asset_upload_missing",
+          "expected_category": "playwright_file_chooser",
+          "actual_category": "playwright_file_chooser",
+          "expected_subtype": "upload",
+          "actual_subtype": "upload",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "04_content_publishing_workflow/02_asset_upload_missing"
+        },
+        {
+          "case_id": "03_manual_approval_required",
+          "expected_category": "anti_bot_risk",
+          "actual_category": "anti_bot_risk",
+          "expected_subtype": "auth_or_permission_block",
+          "actual_subtype": "auth_or_permission_block",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved_by_compliant_path",
+          "verification_status_actual": "resolved_by_compliant_path",
+          "forbidden_output": false,
+          "source": "04_content_publishing_workflow/03_manual_approval_required"
+        }
+      ]
+    },
+    {
+      "scenario_id": "05_gui_data_bridge",
+      "cases": [
+        {
+          "case_id": "01_download_not_saved",
+          "expected_category": "playwright_download",
+          "actual_category": "playwright_download",
+          "expected_subtype": "download_event",
+          "actual_subtype": "download_event",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "05_gui_data_bridge/01_download_not_saved"
+        },
+        {
+          "case_id": "02_popup_modal_not_handled",
+          "expected_category": "playwright_popup",
+          "actual_category": "playwright_popup",
+          "expected_subtype": "popup_page",
+          "actual_subtype": "popup_page",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "05_gui_data_bridge/02_popup_modal_not_handled"
+        },
+        {
+          "case_id": "03_virtualized_table_selector",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "selector_drift",
+          "actual_subtype": "selector_drift",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "05_gui_data_bridge/03_virtualized_table_selector"
+        }
+      ]
+    },
+    {
+      "scenario_id": "06_erp_ecommerce_sync",
+      "cases": [
+        {
+          "case_id": "01_field_mapping_changed",
+          "expected_category": "website_change",
+          "actual_category": "website_change",
+          "expected_subtype": "response_shape_changed",
+          "actual_subtype": "response_shape_changed",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved",
+          "verification_status_actual": "resolved",
+          "forbidden_output": false,
+          "source": "06_erp_ecommerce_sync/01_field_mapping_changed"
+        },
+        {
+          "case_id": "02_permission_denied",
+          "expected_category": "anti_bot_risk",
+          "actual_category": "anti_bot_risk",
+          "expected_subtype": "auth_or_permission_block",
+          "actual_subtype": "auth_or_permission_block",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved_by_compliant_path",
+          "verification_status_actual": "resolved_by_compliant_path",
+          "forbidden_output": false,
+          "source": "06_erp_ecommerce_sync/02_permission_denied"
+        },
+        {
+          "case_id": "03_rate_limited",
+          "expected_category": "anti_bot_risk",
+          "actual_category": "anti_bot_risk",
+          "expected_subtype": "rate_limited",
+          "actual_subtype": "rate_limited",
+          "diagnosis_result": "reasonable",
+          "fix_plan_valid": true,
+          "verification_status_expected": "resolved_by_compliant_path",
+          "verification_status_actual": "resolved_by_compliant_path",
+          "forbidden_output": false,
+          "source": "06_erp_ecommerce_sync/03_rate_limited"
+        }
+      ]
+    }
+  ]
+}

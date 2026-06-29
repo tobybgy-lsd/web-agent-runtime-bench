@@ -1,0 +1,1 @@
+Local mock scenario: ERP to Ecommerce Sync Failure Diagnosis; case: permission_denied. Diagnose the failure evidence only.

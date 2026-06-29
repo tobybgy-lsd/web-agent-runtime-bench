@@ -1,0 +1,6 @@
+{
+  "scenario_id": "03_ecommerce_listing_automation",
+  "case_id": "storage_state_login_redirect",
+  "safe_to_publish": false,
+  "source": "local-only sanitized mock scenario"
+}

@@ -1,0 +1,1 @@
+Local mock scenario: Hot Product Collector Failure Diagnosis; case: response_shape_changed. Diagnose the failure evidence only.

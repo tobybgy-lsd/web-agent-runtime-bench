@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "title": "mock item",
+      "priceInfo": {
+        "amount": 12.0
+      }
+    }
+  ]
+}

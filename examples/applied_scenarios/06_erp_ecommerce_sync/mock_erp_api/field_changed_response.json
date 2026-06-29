@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "name": "Mock SKU",
+      "price": {
+        "amount": 12.0
+      }
+    }
+  ]
+}

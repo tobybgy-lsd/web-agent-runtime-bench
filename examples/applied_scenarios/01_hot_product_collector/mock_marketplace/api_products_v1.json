@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "title": "mock item",
+      "price": 12.0
+    }
+  ],
+  "nextCursor": "page-2"
+}

@@ -1,0 +1,1 @@
+schema validation failed: parser expected price but response now contains priceInfo.amount; field renamed in local mock API.

@@ -1,0 +1,1 @@
+Local mock scenario: Ecommerce Listing Automation Failure Diagnosis; case: image_upload_file_chooser. Diagnose the failure evidence only.

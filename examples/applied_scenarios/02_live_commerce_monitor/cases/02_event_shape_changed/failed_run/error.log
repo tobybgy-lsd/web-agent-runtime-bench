@@ -1,0 +1,1 @@
+schema validation failed: parser expected viewer_count but response now contains viewerCount; field renamed in local event stream.

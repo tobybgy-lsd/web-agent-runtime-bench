@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "playwright_storage_state_context"
+  ],
+  "accepted_subtypes": [
+    "storage_state_not_loaded"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

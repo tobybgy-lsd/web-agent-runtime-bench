@@ -1,0 +1,6 @@
+{
+  "scenario_id": "06_erp_ecommerce_sync",
+  "case_id": "permission_denied",
+  "safe_to_publish": false,
+  "source": "local-only sanitized mock scenario"
+}

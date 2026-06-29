@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.mock/api/action",
+    "status": 403,
+    "method": "POST"
+  }
+]

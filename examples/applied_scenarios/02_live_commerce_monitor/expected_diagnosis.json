@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "cdp_websocket_disconnected"
+  ],
+  "accepted_subtypes": [
+    "websocket_disconnect"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

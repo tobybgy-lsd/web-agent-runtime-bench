@@ -1,0 +1,1 @@
+Local mock scenario: Content Publishing Workflow Failure Diagnosis; case: manual_approval_required. Diagnose the failure evidence only.

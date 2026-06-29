@@ -44,6 +44,9 @@ jobs:
       - name: Resolution validation
         run: python -m tools.validation.run_resolution_validation
 
+      - name: Applied scenario validation
+        run: python -m tools.validation.run_applied_scenario_validation
+
   benchmark-windows:
     runs-on: windows-latest
     needs: unit-tests

@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "playwright_download"
+  ],
+  "accepted_subtypes": [
+    "download_event"
+  ],
+  "expected_failure_layer": "automation_engineering"
+}

@@ -8,11 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 class OpenSourceEntryTests(unittest.TestCase):
     def test_readme_top_is_plain_product_entry(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        opening = readme[:900]
+        opening = readme[:1400]
 
         for phrase in (
             "# Agent Failure Doctor",
-            "Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs.",
+            "Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.",
             "trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt",
             "diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.",
             "git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git",

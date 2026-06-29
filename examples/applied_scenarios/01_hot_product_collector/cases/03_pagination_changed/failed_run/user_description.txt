@@ -1,0 +1,1 @@
+Local mock scenario: Hot Product Collector Failure Diagnosis; case: pagination_changed. Diagnose the failure evidence only.

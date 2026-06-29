@@ -1,0 +1,1 @@
+schema validation failed: parser expected FPrice but response now contains price.amount; field renamed in mock ERP response.

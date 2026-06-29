@@ -1,0 +1,1 @@
+Local mock scenario: ERP to Ecommerce Sync Failure Diagnosis; case: rate_limited. Diagnose the failure evidence only.

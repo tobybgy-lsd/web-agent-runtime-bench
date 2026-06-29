@@ -1,0 +1,4 @@
+{
+  "expected_failure_type": "playwright_execution_context_destroyed",
+  "safe_next_action": true
+}

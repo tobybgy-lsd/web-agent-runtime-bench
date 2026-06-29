@@ -1,0 +1,1 @@
+Local mock scenario: ERP to Ecommerce Sync Failure Diagnosis; case: field_mapping_changed. Diagnose the failure evidence only.

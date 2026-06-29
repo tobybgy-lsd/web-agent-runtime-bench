@@ -1,0 +1,6 @@
+{
+  "scenario_id": "03_ecommerce_listing_automation",
+  "case_id": "sku_selector_drift",
+  "safe_to_publish": false,
+  "source": "local-only sanitized mock scenario"
+}

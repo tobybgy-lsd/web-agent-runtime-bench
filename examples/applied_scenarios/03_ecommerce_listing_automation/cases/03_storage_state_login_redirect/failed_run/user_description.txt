@@ -1,0 +1,1 @@
+Local mock scenario: Ecommerce Listing Automation Failure Diagnosis; case: storage_state_login_redirect. Diagnose the failure evidence only.

@@ -1,0 +1,1 @@
+upload panel opened but file chooser did not open for cover image; input[type=file] was hidden until assets tab loaded.
