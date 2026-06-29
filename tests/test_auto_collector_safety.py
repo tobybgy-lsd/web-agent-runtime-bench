@@ -42,7 +42,7 @@ class AutoCollectorSafetyTests(unittest.TestCase):
                 capture_output=True,
                 text=True,
             )
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(result.returncode, 0, (result.stdout or "") + (result.stderr or ""))
             combined = "\n".join(
                 path.read_text(encoding="utf-8", errors="replace").lower()
                 for path in out.rglob("*")

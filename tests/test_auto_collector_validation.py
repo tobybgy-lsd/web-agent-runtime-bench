@@ -17,7 +17,7 @@ class AutoCollectorValidationTests(unittest.TestCase):
             text=True,
             timeout=120,
         )
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.returncode, 0, (result.stdout or "") + (result.stderr or ""))
         payload = json.loads((ROOT / "validation" / "auto_collector_validation.json").read_text(encoding="utf-8"))
         self.assertEqual(payload["status"], "pass")
         self.assertGreaterEqual(payload["total_cases"], 90)
