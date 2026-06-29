@@ -13,11 +13,13 @@ trace/log/network/description/screenshot metadata
 Primary flow:
 
 ```text
-capture or collect evidence
+failure-doctor run
+  -> failure pack
   -> diagnose
   -> plan
   -> verify
-  -> optional sanitize/share
+  -> sanitize/share
+  -> regression case
 ```
 
 Short form:

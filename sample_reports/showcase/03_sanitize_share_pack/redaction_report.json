@@ -1,0 +1,12 @@
+{
+  "schema_version": "failure-doctor-redaction-report/v2.1",
+  "total_redactions": 8,
+  "categories": {
+    "authorization": 1,
+    "cookie": 1,
+    "email": 2,
+    "phone": 1,
+    "internal_url": 2,
+    "customer_name": 1
+  }
+}

@@ -1,5 +1,10 @@
 # Agent Failure Doctor
 
+Current stable milestone: Agent Failure Doctor v2.1
+
+Core lifecycle:
+`failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor verify` -> `failure-doctor sanitize`
+
 [English documentation](README.md)
 
 Agent Failure Doctor 是一个本地优先的 AI 自动化失败诊断工具，面向 AI Browser Agent、Playwright、RPA、爬虫自动化和数据采集脚本调试。

@@ -8,6 +8,8 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
+Current stable milestone: Agent Failure Doctor v2.1
+
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
@@ -15,12 +17,10 @@ Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
 Core commands:
-`failure-doctor run` / `failure-doctor sanitize` / `failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
+`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize`
 
-Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
-
-Integration commands:
-`failure-doctor collect-playwright` / `failure-doctor pack-logs`
+Lifecycle:
+`diagnose -> plan -> verify -> sanitize`
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -29,9 +29,24 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
 
+See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+
+Show the v2.1 lifecycle:
+
+```powershell
+failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --out .\report
+failure-doctor plan .\report --out .\fix_plan
+failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
+failure-doctor sanitize .\report --out .\shareable_pack
+failure-doctor run -- python .\examples\mock_script_fails.py
+```
+
 Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It does not claim to solve arbitrary failures, but it provides explainable classification, evidence, fix plans, and before/after verification for known automation failure patterns.
 
-See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
+
+Integration commands:
+`failure-doctor collect-playwright` / `failure-doctor pack-logs`
 
 ## What You Get
 
@@ -203,7 +218,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v2.1 Sanitize & Share Pack.
+Current stable milestone: Agent Failure Doctor v2.1 Sanitize & Share Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

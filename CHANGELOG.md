@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.1.1
+
+- Release Alignment & Showcase Pack.
+- Updated README and README.zh-CN to present v2.1 as the current stable milestone.
+- Added project positioning, FAQ, and v2.1.0 release notes.
+- Added sanitized showcase sample reports for ecommerce listing, real trace login redirect, and sanitize/share pack flows.
+- Clarified the failure lifecycle: diagnose, plan, verify, run, and sanitize.
+- No new diagnosis categories or framework adapters were added in this patch.
+
 ## v2.1.0
 
 - Added Sanitize & Share Pack.
