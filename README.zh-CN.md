@@ -141,3 +141,17 @@ python -m tools.validation.run_validation_hardening
 It writes `validation/v1_3_validation_hardening.json`.
 
 The gate keeps template fixtures, public-inspired records, native Playwright traces, resolution validation, applied scenarios, external references, and integration smoke tests as separate evidence tiers. There is no single averaged accuracy score.
+
+## Auto Capture Pack
+
+Agent Failure Doctor v2.0 adds command auto capture:
+
+```powershell
+failure-doctor run -- python crawler.py
+failure-doctor run -- pytest tests/test_listing.py
+failure-doctor run -- playwright test
+```
+
+It writes `.failure-doctor/runs/<run_id>/` with command.txt, exit_code.txt, stdout.log, stderr.log, environment.json, detected_artifacts.json, input_summary.json, diagnosis/, fix_plan/, verification_hint.md, and shareable_failure_pack.zip.
+
+`safe_to_share.json` defaults to `safe_to_share=false`; review and sanitize before sharing.

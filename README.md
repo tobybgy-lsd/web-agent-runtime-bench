@@ -15,7 +15,7 @@ Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
 Core commands:
-`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
+`failure-doctor run` / `failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
 
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 
@@ -48,6 +48,33 @@ report/
 Agent Failure Doctor turns sanitized automation failure materials into a report that explains what likely failed, what evidence supports the diagnosis, what evidence is missing, and what to ask Codex or another coding assistant to change next.
 
 ## One-Minute Start
+
+Auto Capture:
+
+```powershell
+failure-doctor run -- python crawler.py
+failure-doctor run -- pytest tests/test_listing.py
+failure-doctor run -- playwright test
+```
+
+This writes a local run folder under `.failure-doctor/runs/<run_id>/`:
+
+```text
+.failure-doctor/runs/<run_id>/
+|-- command.txt
+|-- exit_code.txt
+|-- stdout.log
+|-- stderr.log
+|-- environment.json
+|-- detected_artifacts.json
+|-- input_summary.json
+|-- diagnosis/
+|-- fix_plan/
+|-- verification_hint.md
+`-- shareable_failure_pack.zip
+```
+
+The generated `safe_to_share.json` defaults to `safe_to_share=false`; review and sanitize before sending a pack to anyone else.
 
 Put a failed run in a folder:
 
@@ -166,7 +193,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v1.3 Validation Hardening Pack.
+Current milestone: Agent Failure Doctor v2.0 Auto Capture Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -184,6 +211,7 @@ Current milestone: Agent Failure Doctor v1.3 Validation Hardening Pack.
 - 18/18 applied scenario valid fix plans
 - 18/18 applied scenario verification statuses correct
 - Playwright collector, generic log packer, browser-use adapter, and GitHub Actions usage docs
+- Auto Capture command wrapper: `failure-doctor run -- <command>`
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions

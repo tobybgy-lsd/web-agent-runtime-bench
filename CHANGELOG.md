@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.0.0
+
+- Added Auto Capture Pack.
+- Added `failure-doctor run -- <command>` to execute a local command and capture stdout, stderr, exit code, environment, detected artifacts, and input summary.
+- Failed wrapped commands automatically generate `diagnosis/`, `fix_plan/`, `verification_hint.md`, and `shareable_failure_pack.zip`.
+- Added basic local redaction for bearer tokens, API keys, and common token/password query forms.
+- Shareable packs default to `safe_to_share=false` and require manual review before external submission.
+- No real-platform access, no automatic code modification, no CAPTCHA bypass, no bot evasion, no credential extraction.
+
 ## v1.3.0
 
 - Added Validation Hardening Pack.

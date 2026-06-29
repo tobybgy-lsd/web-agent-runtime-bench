@@ -129,6 +129,20 @@ Reproduce:
 python -m tools.validation.run_validation_hardening
 ```
 
+## v2.0 Auto Capture Smoke
+
+`failure-doctor run -- <command>` captures local command output into `.failure-doctor/runs/<run_id>/`.
+
+Current smoke behavior:
+
+```text
+failed command keeps original child exit code
+stdout.log and stderr.log are written
+diagnosis/ and fix_plan/ are generated for failed commands
+safe_to_share.json defaults to false
+basic bearer-token redaction is covered by tests
+```
+
 ## Notes
 
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.

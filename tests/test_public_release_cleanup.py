@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "1.3.0"',
+            'version = "2.0.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',

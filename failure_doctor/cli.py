@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 from zipfile import ZIP_DEFLATED, ZipFile
 
+from failure_doctor.run_capture import capture_run, write_shareable_zip
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace
@@ -42,6 +43,8 @@ def main(argv: list[str] | None = None) -> int:
         return collect_playwright_inputs(args)
     if args.command == "pack-logs":
         return pack_log_inputs(args)
+    if args.command == "run":
+        return run_command(args)
     parser.print_help()
     return 1
 
@@ -78,6 +81,11 @@ def build_parser() -> argparse.ArgumentParser:
     pack_logs = sub.add_parser("pack-logs", help="Normalize a raw log folder into a failure pack")
     pack_logs.add_argument("raw_logs", help="Path to a folder containing logs, network summaries, and screenshots")
     pack_logs.add_argument("--out", required=True, help="Output failure pack directory")
+    run = sub.add_parser("run", help="Run a command and auto-capture a local failure pack")
+    run.add_argument("--workspace", default=".failure-doctor", help="Workspace root for captured runs")
+    run.add_argument("--run-id", default=None, help="Stable run identifier")
+    run.add_argument("--cwd", default=None, help="Working directory for the wrapped command")
+    run.add_argument("cmd", nargs=argparse.REMAINDER, help="Command to run after --")
     return parser
 
 
@@ -163,6 +171,35 @@ def pack_log_inputs(args: argparse.Namespace) -> int:
     print(f"Output: {args.out}")
     print(f"Evidence priority: {', '.join(summary.get('evidence_priority', [])) or 'none'}")
     return 0
+
+
+def run_command(args: argparse.Namespace) -> int:
+    command = list(args.cmd)
+    if command and command[0] == "--":
+        command = command[1:]
+    try:
+        result = capture_run(
+            command,
+            workspace=Path(args.workspace),
+            run_id=args.run_id,
+            cwd=Path(args.cwd) if args.cwd else None,
+        )
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+
+    run_dir = Path(result["run_dir"])
+    exit_code = int(result["exit_code"])
+    if exit_code != 0:
+        diagnose_inputs(argparse.Namespace(input=str(run_dir), out=str(run_dir / "diagnosis"), run_id=result["run_id"]))
+        plan_from_report(argparse.Namespace(report=str(run_dir / "diagnosis"), out=str(run_dir / "fix_plan")))
+    zip_path = write_shareable_zip(run_dir)
+    print("Agent Failure Doctor Auto Capture")
+    print(f"Run: {result['run_id']}")
+    print(f"Exit code: {exit_code}")
+    print(f"Output: {run_dir}")
+    print(f"Shareable pack: {zip_path}")
+    return exit_code
 
 
 def collect_inputs(path: Path) -> dict[str, Any]:
