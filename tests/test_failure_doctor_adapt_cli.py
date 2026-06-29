@@ -8,6 +8,10 @@ import unittest
 from pathlib import Path
 
 
+def _process_output(result: subprocess.CompletedProcess[str]) -> str:
+    return (result.stderr or "") + (result.stdout or "")
+
+
 class FailureDoctorAdaptCliTests(unittest.TestCase):
     def test_adapt_pack_can_be_diagnosed_and_planned(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -38,7 +42,7 @@ class FailureDoctorAdaptCliTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
             )
-            self.assertEqual(adapt.returncode, 0, adapt.stderr + adapt.stdout)
+            self.assertEqual(adapt.returncode, 0, _process_output(adapt))
 
             diagnose = subprocess.run(
                 [sys.executable, "-m", "failure_doctor", "diagnose", str(pack), "--out", str(report)],
@@ -46,7 +50,7 @@ class FailureDoctorAdaptCliTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
             )
-            self.assertEqual(diagnose.returncode, 0, diagnose.stderr + diagnose.stdout)
+            self.assertEqual(diagnose.returncode, 0, _process_output(diagnose))
             diagnosis = json.loads((report / "diagnosis.json").read_text(encoding="utf-8"))
             self.assertEqual(diagnosis["technical_category"], "selector_drift")
             self.assertEqual(diagnosis["subtype"], "puppeteer_selector_timeout")
@@ -57,7 +61,7 @@ class FailureDoctorAdaptCliTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
             )
-            self.assertEqual(plan_run.returncode, 0, plan_run.stderr + plan_run.stdout)
+            self.assertEqual(plan_run.returncode, 0, _process_output(plan_run))
             self.assertTrue((plan / "codex_fix_prompt.md").exists())
 
 
