@@ -13,6 +13,8 @@ v2.5.0 adds the AI Handoff & Patch Proposal Pack. It turns existing diagnosis, f
 
 ```text
 ai_handoff/
+|-- ai_handoff.json
+|-- ai_handoff.md
 |-- codex_task.md
 |-- claude_code_task.md
 |-- cursor_task.md
@@ -42,6 +44,7 @@ This release does not automatically edit source files, apply patches, run tests,
 
 ```powershell
 python -m unittest tests.test_ai_handoff_patch_proposal
+python -m tools.validation.run_ai_handoff_validation
 ```
 
-Expected result: 2/2 tests pass.
+Expected result: 3/3 tests pass and `validation/ai_handoff_validation.json` reports 20 cases, 18 patch proposals, and 0 forbidden outputs.

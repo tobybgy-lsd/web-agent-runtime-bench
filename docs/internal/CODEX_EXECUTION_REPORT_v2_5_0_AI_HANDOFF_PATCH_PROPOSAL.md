@@ -10,6 +10,8 @@ Implemented the v2.5 AI Handoff & Patch Proposal Pack on top of the existing Age
 - `failure-doctor propose-patch --repo <repo> --report <report> --out <patch_plan>`
 - `failure_doctor.ai_handoff` for report loading, task rendering, affected-area hints, validation commands, token budget metadata, patch proposal generation, and proposal-only risk assessment.
 - `tests/test_ai_handoff_patch_proposal.py`
+- `tools/validation/run_ai_handoff_validation.py`
+- `validation/ai_handoff_validation.json`
 
 ## Safety
 
@@ -22,3 +24,9 @@ python -m unittest tests.test_ai_handoff_patch_proposal tests.test_release_trust
 ```
 
 Result: 21 tests passed.
+
+```powershell
+python -m tools.validation.run_ai_handoff_validation
+```
+
+Result: 20 handoff cases, 18 patch proposals, 20/20 required sections, 20/20 token budget checks, 0 forbidden outputs, status pass.

@@ -20,7 +20,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Playwright Trace Doctor P95 validation | 100 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 290+ |
 | Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
 | P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
-| AI Handoff & Patch Proposal | 2 commands | CLI tested | proposal only | validation commands generated | 0 | 0 | 0 | 290+ |
+| AI Handoff & Patch Proposal | 20 | 20/20 task packs | 18/20 patch proposals | 20/20 required sections + token budgets | 0 | 0 | 0 | 290+ |
 
 ## Source Ledger
 
@@ -118,11 +118,24 @@ python -m tools.validation.run_p95_core_triage_gate
 
 v2.5 adds a proposal-only repair handoff layer. It converts existing diagnosis, fix plan, repair order, and evidence graph outputs into AI coding assistant task packs and dry-run patch proposals.
 
+Current result:
+
+```text
+20/20 Codex task files generated
+20/20 Claude Code task files generated
+20/20 Cursor task files generated
+18/20 patch proposals generated
+20/20 required sections present
+20/20 concise token budget checks pass
+0 forbidden outputs
+```
+
 Reproduce:
 
 ```powershell
 failure-doctor handoff .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --target codex --out .\tmp\ai_handoff
 failure-doctor propose-patch --repo . --report .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --out .\tmp\patch_plan
+python -m tools.validation.run_ai_handoff_validation
 python -m unittest tests.test_ai_handoff_patch_proposal
 ```
 

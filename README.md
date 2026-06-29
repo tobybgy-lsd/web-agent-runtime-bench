@@ -204,6 +204,8 @@ This writes:
 
 ```text
 ai_handoff/
+|-- ai_handoff.json
+|-- ai_handoff.md
 |-- codex_task.md
 |-- claude_code_task.md
 |-- cursor_task.md
@@ -232,6 +234,18 @@ patch_plan/
 ```
 
 `propose-patch` is intentionally proposal-only. It does not edit files, apply patches, run tests, or open pull requests.
+
+v2.5 validation writes `validation/ai_handoff_validation.json`:
+
+```text
+20/20 Codex task files generated
+20/20 Claude Code task files generated
+20/20 Cursor task files generated
+18/20 patch proposals generated
+20/20 required sections present
+20/20 concise token budget checks pass
+0 forbidden outputs
+```
 
 ## Applied Scenario Demos
 

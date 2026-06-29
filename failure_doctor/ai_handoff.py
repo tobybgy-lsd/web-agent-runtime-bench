@@ -33,11 +33,14 @@ def write_ai_handoff_pack(report_dir: Path, out_dir: Path, *, target: str) -> di
     validation = validation_commands(context)
     forbidden = forbidden_actions_payload()
     token_budget = token_budget_payload(context, target)
+    handoff_summary = ai_handoff_summary(context, target, token_budget)
 
     write_json(out_dir / "affected_files.json", affected)
     (out_dir / "validation_commands.md").write_text(render_validation_commands(validation), encoding="utf-8")
     (out_dir / "forbidden_actions.md").write_text(render_forbidden_actions(forbidden), encoding="utf-8")
     write_json(out_dir / "token_budget_report.json", token_budget)
+    write_json(out_dir / "ai_handoff.json", handoff_summary)
+    (out_dir / "ai_handoff.md").write_text(render_ai_handoff_markdown(handoff_summary), encoding="utf-8")
     zip_path = out_dir / "ai_handoff_pack.zip"
     write_zip(out_dir, zip_path)
 
@@ -143,6 +146,74 @@ def render_task(context: Mapping[str, Any], target: str) -> str:
             "",
             forbidden,
             "- Do not store raw credentials, cookies, tokens, private traces, or sensitive screenshots in the repository.",
+        ]
+    )
+
+
+def ai_handoff_summary(
+    context: Mapping[str, Any],
+    target: str,
+    token_budget: Mapping[str, Any],
+) -> dict[str, Any]:
+    diagnosis = _diagnosis(context)
+    plan = _fix_plan(context)
+    repair_order = [str(item) for item in plan.get("repair_order", [])] if isinstance(plan.get("repair_order"), list) else []
+    required_sections = {
+        "diagnosis": bool(_technical_category(diagnosis)),
+        "evidence": bool(diagnosis.get("evidence") or context.get("evidence_graph")),
+        "fix_intent": bool(plan.get("fix_intent") or repair_order),
+        "repair_order": bool(repair_order or plan.get("recommended_change_area")),
+        "validation": True,
+        "forbidden_actions": True,
+    }
+    return {
+        "schema_version": "ai_handoff/v1",
+        "selected_target": target,
+        "source_report": str(context.get("report_dir", "")),
+        "technical_category": _technical_category(diagnosis),
+        "subtype": diagnosis.get("subtype", ""),
+        "failure_layer": diagnosis.get("failure_layer", plan.get("failure_layer", "unknown")),
+        "repair_order": repair_order,
+        "tasks": {
+            "codex": "codex_task.md",
+            "claude_code": "claude_code_task.md",
+            "cursor": "cursor_task.md",
+        },
+        "validation_commands": validation_commands(context)["commands"],
+        "forbidden_actions": list(FORBIDDEN_ACTIONS),
+        "token_budget": dict(token_budget),
+        "required_sections": required_sections,
+        "required_sections_present": all(required_sections.values()),
+        "proposal_only": True,
+    }
+
+
+def render_ai_handoff_markdown(summary: Mapping[str, Any]) -> str:
+    return "\n".join(
+        [
+            "# AI Handoff",
+            "",
+            f"- Selected target: `{summary.get('selected_target')}`",
+            f"- Technical category: `{summary.get('technical_category')}`",
+            f"- Subtype: `{summary.get('subtype')}`",
+            f"- Proposal only: `{summary.get('proposal_only')}`",
+            "",
+            "## Task Files",
+            "",
+            _bullets([f"{target}: {path}" for target, path in dict(summary.get("tasks", {})).items()]),
+            "",
+            "## Repair order",
+            "",
+            _bullets(summary.get("repair_order", [])) or "- See the target task file for recommended order.",
+            "",
+            "## Validation",
+            "",
+            _bullets(summary.get("validation_commands", [])),
+            "",
+            "## Forbidden actions",
+            "",
+            _bullets(summary.get("forbidden_actions", [])),
+            "",
         ]
     )
 

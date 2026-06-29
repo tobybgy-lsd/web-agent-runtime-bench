@@ -7,6 +7,7 @@
 - Added `failure-doctor propose-patch --repo <repo> --report <report> --out <patch_plan>`.
 - Handoff packs generate Codex, Claude Code, and Cursor task files plus affected-file hints, validation commands, forbidden actions, token budget metadata, and a zip bundle.
 - Patch proposals generate dry-run change steps, candidate affected areas, validation commands, and a risk assessment without editing source files.
+- Added `validation/ai_handoff_validation.json` with 20 handoff cases, 18 patch proposals, 20/20 required sections present, and 0 forbidden outputs.
 - The repair lifecycle is now `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`.
 - Safety boundary remains unchanged: no automatic source modification, no challenge automation, no access-control defeat, no credential extraction, no bot evasion, and no unauthorized collection.
 
