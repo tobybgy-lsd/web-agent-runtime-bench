@@ -129,3 +129,15 @@ failure-doctor diagnose .\tmp_log_pack --out .\tmp_log_report
 ```
 
 See docs/INTEGRATIONS.md and docs/GITHUB_ACTION_USAGE.md.
+
+## Validation Hardening Pack
+
+Agent Failure Doctor v1.3 adds a multi-track validation gate:
+
+```powershell
+python -m tools.validation.run_validation_hardening
+```
+
+It writes `validation/v1_3_validation_hardening.json`.
+
+The gate keeps template fixtures, public-inspired records, native Playwright traces, resolution validation, applied scenarios, external references, and integration smoke tests as separate evidence tiers. There is no single averaged accuracy score.

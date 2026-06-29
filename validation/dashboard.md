@@ -109,6 +109,26 @@ GitHub Actions docs include local-first diagnosis usage
 0 forbidden outputs in integration docs/adapters
 ```
 
+## v1.3 Validation Hardening Gate
+
+`tools.validation.run_validation_hardening` aggregates the validation tracks into `validation/v1_3_validation_hardening.json`.
+
+This gate is intentionally a multi-track summary with no single averaged accuracy score. Template fixtures, public-inspired records, native Playwright traces, resolution fixtures, applied scenarios, external public references, and workflow integration smoke tests keep separate evidence tiers and thresholds.
+
+Current result:
+
+```text
+9/9 validation tracks pass
+0 forbidden outputs across gated tracks
+regression backlog entries are marked safe_to_publish=false by default
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_validation_hardening
+```
+
 ## Notes
 
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.

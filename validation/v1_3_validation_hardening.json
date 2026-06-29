@@ -1,0 +1,564 @@
+{
+  "schema_version": "validation-hardening/v1.3",
+  "version": "v1.3",
+  "purpose": "Aggregate validation gates across evidence tiers without averaging synthetic, public-inspired, native-trace, resolution, scenario, and integration tracks.",
+  "overall_gate": "pass",
+  "tracks": [
+    {
+      "track_id": "template_fixtures",
+      "evidence_tier": "sanitized_template",
+      "source_file": "validation/public_failure_validation_150.json",
+      "sample_count": 150,
+      "reasonable_classification": 146,
+      "reasonable_rate": 0.9733,
+      "actionable_next_action": 142,
+      "actionable_rate": 0.9467,
+      "severe_misclassification": 4,
+      "insufficient_evidence": 21,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "evidence_tier": "public_inspired_sanitized",
+      "source_file": "validation/public_failure_validation_50.json",
+      "sample_count": 50,
+      "reasonable_classification": 39,
+      "reasonable_rate": 0.78,
+      "actionable_next_action": 45,
+      "actionable_rate": 0.9,
+      "severe_misclassification": 4,
+      "insufficient_evidence": 7,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "real_playwright_trace_semantic",
+      "evidence_tier": "native_trace",
+      "source_file": "validation/real_trace_validation_30.json",
+      "sample_count": 30,
+      "reasonable_classification": 30,
+      "reasonable_rate": 1.0,
+      "actionable_next_action": 30,
+      "actionable_rate": 1.0,
+      "severe_misclassification": 0,
+      "insufficient_evidence": 0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "exact_subtype_match": 30,
+      "gate_failures": []
+    },
+    {
+      "track_id": "website_change_antibot",
+      "evidence_tier": "public_inspired_sanitized",
+      "source_file": "validation/website_antibot_validation_50.json",
+      "sample_count": 50,
+      "reasonable_classification": 50,
+      "reasonable_rate": 1.0,
+      "actionable_next_action": 50,
+      "actionable_rate": 1.0,
+      "severe_misclassification": 0,
+      "insufficient_evidence": 0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "external_public_reference",
+      "evidence_tier": "traceable_public_reference",
+      "source_file": "validation/external_heldout_20.json",
+      "sample_count": 20,
+      "reasonable_classification": 20,
+      "reasonable_rate": 1.0,
+      "actionable_next_action": 20,
+      "actionable_rate": 1.0,
+      "severe_misclassification": 0,
+      "insufficient_evidence": 0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "exact_category_match": 20,
+      "gate_failures": []
+    },
+    {
+      "track_id": "external_heldout_public_source",
+      "evidence_tier": "traceable_public_source",
+      "source_file": "validation/external_heldout_10.json",
+      "sample_count": 10,
+      "reasonable_classification": 9,
+      "reasonable_rate": 0.9,
+      "actionable_next_action": 10,
+      "actionable_rate": 1.0,
+      "severe_misclassification": 0,
+      "insufficient_evidence": 2,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "resolution_validation",
+      "evidence_tier": "before_after_local_fixture",
+      "source_file": "validation/resolution_validation_12.json",
+      "sample_count": 12,
+      "status_correct": 12,
+      "status_correct_rate": 1.0,
+      "actionable_next_action": 12,
+      "actionable_rate": 1.0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "applied_scenario_validation",
+      "evidence_tier": "local_applied_scenario",
+      "source_file": "validation/applied_scenario_validation.json",
+      "sample_count": 18,
+      "reasonable_classification": 18,
+      "reasonable_rate": 1.0,
+      "fix_plan_valid": 18,
+      "fix_plan_rate": 1.0,
+      "verification_correct": 18,
+      "verification_correct_rate": 1.0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    },
+    {
+      "track_id": "integration_adapters",
+      "evidence_tier": "workflow_smoke",
+      "source_file": "docs/internal/CODEX_EXECUTION_REPORT_v1_2_INTEGRATION_PACK.md",
+      "sample_count": 4,
+      "reasonable_classification": 4,
+      "reasonable_rate": 1.0,
+      "actionable_next_action": 4,
+      "actionable_rate": 1.0,
+      "severe_misclassification": 0,
+      "insufficient_evidence": 0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
+    }
+  ],
+  "thresholds": [
+    {
+      "track_id": "template_fixtures",
+      "min_sample_count": 150,
+      "min_reasonable_rate": 0.85,
+      "min_actionable_rate": 0.9,
+      "max_severe_misclassifications": 5,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "min_sample_count": 50,
+      "min_reasonable_rate": 0.75,
+      "min_actionable_rate": 0.85,
+      "max_severe_misclassifications": 5,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "real_playwright_trace_semantic",
+      "min_sample_count": 30,
+      "min_reasonable_rate": 0.95,
+      "min_actionable_rate": 0.95,
+      "max_severe_misclassifications": 0,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "website_change_antibot",
+      "min_sample_count": 50,
+      "min_reasonable_rate": 0.95,
+      "min_actionable_rate": 0.95,
+      "max_severe_misclassifications": 0,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "external_public_reference",
+      "min_sample_count": 20,
+      "min_reasonable_rate": 0.9,
+      "min_actionable_rate": 0.9,
+      "max_severe_misclassifications": 1,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "external_heldout_public_source",
+      "min_sample_count": 10,
+      "min_reasonable_rate": 0.8,
+      "min_actionable_rate": 0.9,
+      "max_severe_misclassifications": 1,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "resolution_validation",
+      "min_sample_count": 12,
+      "min_status_correct_rate": 0.9,
+      "min_actionable_rate": 0.9,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "applied_scenario_validation",
+      "min_sample_count": 18,
+      "min_reasonable_rate": 0.9,
+      "min_fix_plan_rate": 0.95,
+      "min_verification_correct_rate": 0.9,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "integration_adapters",
+      "min_sample_count": 4,
+      "min_reasonable_rate": 1.0,
+      "min_actionable_rate": 1.0,
+      "max_forbidden_output_count": 0
+    }
+  ],
+  "regression_backlog": [
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_007",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/38741",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_014",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/38506",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_021",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/36205",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_028",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/36697",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_031",
+      "reason": "severe_misclassification",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "environment",
+      "source_url": "https://github.com/microsoft/playwright/issues/35596",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_035",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/35360",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_042",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/35173",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_049",
+      "reason": "insufficient_evidence",
+      "expected_category": "navigation_or_wait_timeout",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/21206",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_056",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/30363",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_062",
+      "reason": "severe_misclassification",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "environment",
+      "source_url": "https://github.com/microsoft/playwright/issues/30953",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_063",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/32852",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_070",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/29760",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_077",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/10611",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_084",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/21370",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_091",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/21330",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_093",
+      "reason": "severe_misclassification",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "environment",
+      "source_url": "https://github.com/microsoft/playwright/issues/21749",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_098",
+      "reason": "insufficient_evidence",
+      "expected_category": "element_locator_conflict",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/19315",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_105",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/26980",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_112",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/31358",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_119",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/35598",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_124",
+      "reason": "severe_misclassification",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "environment",
+      "source_url": "https://github.com/microsoft/playwright/issues/30296",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_126",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/36120",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_133",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/35112",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_140",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/34870",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "template_fixtures",
+      "case_id": "VAL150_147",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_route_mock_har",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/21405",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_004",
+      "reason": "insufficient_evidence",
+      "expected_category": "async_hydration_timing",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/31050",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_014",
+      "reason": "insufficient_evidence",
+      "expected_category": "toolchain_environment",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/35972",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_021",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_storage_state_context",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/playwright/issues/38682",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_027",
+      "reason": "severe_misclassification",
+      "expected_category": "playwright_browser_context_closed",
+      "actual_category": "cdp_websocket_disconnected",
+      "source_url": "https://github.com/browser-use/browser-use/issues/5067",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_030",
+      "reason": "insufficient_evidence",
+      "expected_category": "agent_output_parse_error",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4970",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_031",
+      "reason": "insufficient_evidence",
+      "expected_category": "agent_output_parse_error",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4769",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_032",
+      "reason": "insufficient_evidence",
+      "expected_category": "agent_output_parse_error",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4142",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_034",
+      "reason": "insufficient_evidence",
+      "expected_category": "agent_output_parse_error",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3656",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_037",
+      "reason": "severe_misclassification",
+      "expected_category": "playwright_download",
+      "actual_category": "toolchain_environment",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4548",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_047",
+      "reason": "insufficient_evidence",
+      "expected_category": "toolchain_environment",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/All-Hands-AI/OpenHands/issues",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_048",
+      "reason": "insufficient_evidence",
+      "expected_category": "agent_output_parse_error",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/microsoft/autogen/issues",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "public_inspired_independent",
+      "case_id": "VAL_050",
+      "reason": "severe_misclassification",
+      "expected_category": "toolchain_environment",
+      "actual_category": "insufficient_evidence",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4571",
+      "safe_to_publish": false
+    },
+    {
+      "track_id": "external_heldout_public_source",
+      "case_id": "HOLD_007",
+      "reason": "insufficient_evidence",
+      "expected_category": "playwright_route_mock_har",
+      "actual_category": "unknown",
+      "source_url": "https://github.com/microsoft/playwright/issues/41447",
+      "safe_to_publish": false
+    }
+  ],
+  "notes": [
+    "There is intentionally no single averaged accuracy score.",
+    "Each track keeps its own evidence tier, source file, metrics, and gate.",
+    "Backlog entries default safe_to_publish=false until manually reviewed."
+  ]
+}

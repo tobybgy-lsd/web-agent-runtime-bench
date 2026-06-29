@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.3.0
+
+- Added Validation Hardening Pack.
+- Added `tools.validation.run_validation_hardening`.
+- Added `validation/v1_3_validation_hardening.json` as a multi-track validation gate.
+- Kept validation lanes separate by evidence tier instead of averaging synthetic, public-inspired, native-trace, resolution, applied-scenario, and integration results into one score.
+- Added regression backlog extraction with `safe_to_publish=false` by default.
+- Safety boundary remains unchanged: no access-control circumvention, no CAPTCHA bypass, no bot evasion, no fingerprint spoofing, no signature cracking, no account/IP pool guidance.
+
 ## v1.2.0
 
 - Added Integration Pack:
