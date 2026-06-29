@@ -1,20 +1,23 @@
 # Validation Dashboard
 
-| Version | Samples | Reasonable Classification | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Tests |
+| Track | Samples | Reasonable Classification | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Tests |
 |---|---:|---:|---:|---:|---:|---:|
-| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 197 |
-| v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
-| v0.4.0 strict independent evaluation | 50 | 78% | 90% | 4 | 7 | n/a |
+| Template/synthetic validation | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
+| Public-inspired independent validation | 50 | 78% | 90% | 4 | 7 | n/a |
+| Real Playwright trace semantic fixtures | 3 | n/a | n/a | n/a | n/a | 197 |
+| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 197 |
 
 ## Notes
 
-- Samples are public-inspired sanitized validation records, not full real-world failure packages.
+- Template/synthetic validation records are sanitized fixtures, not full real-world failure packages.
+- Public-inspired independent validation is tracked as a separate stricter track and must not be averaged with template fixture metrics.
+- Real Playwright trace semantic fixtures use native trace records such as `Network.requestWillBeSent`, `Network.responseReceived`, `Page.frameNavigated`, and Playwright action records without custom classifier fields.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.
 - Insufficient Evidence means the tool avoids guessing and asks for more material.
 - Tests are the current local unit-test count at the time of the dashboard update.
-- The 150-record row uses a broad "reasonable classification" criterion. The 50-record strict independent evaluation uses a narrower correctness criterion, so it is the more conservative estimate for production-like precision.
+- The 150-record template track uses a broad "reasonable classification" criterion. The 50-record public-inspired independent validation uses a narrower correctness criterion, so it is the more conservative estimate for production-like precision.
 
 ## v0.6.0 Website Change / Anti-Bot Addendum
 

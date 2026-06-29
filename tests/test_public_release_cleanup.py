@@ -124,12 +124,13 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
         for phrase in (
             "# Validation Dashboard",
-            "| v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |",
-            "| v0.4.0 strict independent evaluation | 50 | 78% | 90% | 4 | 7 | n/a |",
-            "| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 197 |",
+            "| Template/synthetic validation | 150 | 97.3% | 94.7% | 4 | 21 | 170 |",
+            "| Public-inspired independent validation | 50 | 78% | 90% | 4 | 7 | n/a |",
+            "| Real Playwright trace semantic fixtures | 3 | n/a | n/a | n/a | n/a | 197 |",
+            "| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 197 |",
             "validation/website_antibot_validation_50.json",
-            "strict independent evaluation",
-            "public-inspired sanitized validation records",
+            "public-inspired independent validation",
+            "Template/synthetic validation records",
             "not full real-world failure packages",
         ):
             self.assertIn(phrase, text)

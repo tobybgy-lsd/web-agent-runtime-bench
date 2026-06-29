@@ -429,21 +429,15 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
         lowered = value.lower()
         return any(marker in lowered for marker in auth_path_markers)
 
-    new_page_seen = False
-    new_page_has_storage_state = False
     auth_redirect_url = ""
     auth_status_seen = False
+    auth_status_code: int | None = None
 
     for record in records:
         record_type = str(record.get("type") or "").lower()
         method = str(record.get("method") or "").lower()
         params = record.get("params") if isinstance(record.get("params"), dict) else {}
         api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
-
-        if record_type == "before" and "context.newpage" in api_name:
-            new_page_seen = True
-            if "storageState" in params or "storage_state" in params:
-                new_page_has_storage_state = True
 
         if record_type == "event" and "network.responsereceived" in method:
             response = params.get("response") if isinstance(params.get("response"), dict) else {}
@@ -454,8 +448,10 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
             if is_auth_url(response_url) or (status in (301, 302, 307, 308) and is_auth_url(location)):
                 auth_redirect_url = location or response_url
                 auth_status_seen = True
+                auth_status_code = status
             if status == 401:
                 auth_status_seen = True
+                auth_status_code = status
 
         if record_type == "event" and "page.framenavigated" in method:
             frame = params.get("frame") if isinstance(params.get("frame"), dict) else {}
@@ -480,13 +476,12 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
                 auth_status_seen = True
 
     if auth_status_seen:
-        if new_page_seen and not new_page_has_storage_state:
-            observations["storage_state_expected"] = True
-            observations["storage_state_loaded"] = False
-            observations.setdefault("final_url", auth_redirect_url)
-        else:
-            observations.setdefault("final_url", auth_redirect_url)
-            observations.setdefault("redirected_to_login", True)
+        observations["auth_redirect_detected"] = True
+        observations["redirected_to_login"] = True
+        observations["storage_context_evidence_level"] = "inferred"
+        if auth_status_code:
+            observations["auth_status_code"] = auth_status_code
+        observations.setdefault("final_url", auth_redirect_url)
     return observations
 
 
@@ -528,19 +523,25 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
 
     route_patterns: list[str] = []
     route_registered_at_ms: float | None = None
+    route_registered_index: int | None = None
     first_request_url = ""
     first_request_at_ms: float | None = None
+    first_request_index: int | None = None
     live_network_urls: list[str] = []
     har_load_failed = False
 
-    for record in records:
+    route_api_markers = ("page.route", "browsercontext.route")
+    har_api_markers = ("page.routefromhar", "browsercontext.routefromhar")
+
+    for index, record in enumerate(records):
         record_type = str(record.get("type") or "").lower()
         method = str(record.get("method") or "").lower()
         params = record.get("params") if isinstance(record.get("params"), dict) else {}
         api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
         start_time = _as_float(record.get("startTime") or record.get("start_time"))
 
-        if record_type == "before" and "page.route" in api_name and "fromhar" not in api_name:
+        is_route_registration = record_type == "before" and any(marker in api_name for marker in route_api_markers) and "fromhar" not in api_name
+        if is_route_registration:
             pattern = str(params.get("url") or params.get("pattern") or "")
             if pattern:
                 route_patterns.append(pattern)
@@ -548,14 +549,18 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
                 observations["route_pattern"] = pattern
                 if start_time is not None and route_registered_at_ms is None:
                     route_registered_at_ms = start_time
+                if route_registered_index is None:
+                    route_registered_index = index
 
-        if record_type == "before" and "routefromhar" in api_name:
+        if record_type == "before" and any(marker in api_name for marker in har_api_markers):
             har_path = str(params.get("har") or params.get("harPath") or "")
             observations["har_expected"] = True
             observations["har_loaded"] = True
             if har_path:
                 observations["har_path"] = har_path
             observations["har_not_found_policy"] = str(params.get("notFound") or "abort")
+            if route_registered_index is None:
+                route_registered_index = index
 
         if record_type == "event" and "network.requestwillbesent" in method:
             request = params.get("request") if isinstance(params.get("request"), dict) else {}
@@ -565,6 +570,7 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
                 if not first_request_url:
                     first_request_url = request_url
                     first_request_at_ms = request_time * 1000 if request_time is not None else None
+                    first_request_index = index
                 live_network_urls.append(request_url)
 
         if record_type == "event" and "network.loadingfailed" in method:
@@ -577,12 +583,23 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
         if record_type == "after" and "route.fulfill" in api_name and record.get("error"):
             observations.setdefault("har_miss_url", first_request_url)
 
-    if route_registered_at_ms is not None and first_request_at_ms is not None:
+    if route_registered_index is not None and first_request_index is not None and first_request_index < route_registered_index:
+        observations["route_registered_after_request"] = True
+        observations["route_registered"] = True
+        observations["first_request_url"] = first_request_url
+        observations["route_timing_basis"] = "trace_order"
+        if route_registered_at_ms is not None:
+            observations["route_registered_at_ms"] = route_registered_at_ms
+        if first_request_at_ms is not None:
+            observations["first_request_at_ms"] = first_request_at_ms
+    elif route_registered_at_ms is not None and first_request_at_ms is not None:
         if route_registered_at_ms > first_request_at_ms:
             observations["route_registered_after_request"] = True
+            observations["route_registered"] = True
             observations["first_request_url"] = first_request_url
             observations["route_registered_at_ms"] = route_registered_at_ms
             observations["first_request_at_ms"] = first_request_at_ms
+            observations["route_timing_basis"] = "timestamp"
         elif route_patterns and live_network_urls:
             for url in live_network_urls:
                 matched = any(fnmatch.fnmatch(url, pattern.replace("**", "*")) for pattern in route_patterns)
@@ -661,9 +678,12 @@ def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str,
     if has_shadow_error and "cannot query field" in failed_error_message:
         observations["shadow_root_mode"] = "closed"
         observations["ordinary_locator_failed"] = True
+        observations["shadow_evidence_level"] = "confirmed"
     elif has_shadow_selector and (has_zero_elements_error or failed_error_message or "shadow" in failed_error_stack):
         observations["element_exists_in_shadow_dom"] = True
         observations["ordinary_locator_failed"] = True
+        observations["shadow_inferred_from_html"] = True
+        observations["shadow_evidence_level"] = "inferred"
         parts = [part.strip() for part in failed_selector.split(">>")]
         if len(parts) >= 2:
             observations["shadow_host"] = parts[0]
@@ -692,6 +712,8 @@ def _enrich_shadow_dom_from_html(shadow_obs: dict[str, Any], html: str) -> dict[
         return shadow_obs
     enriched = dict(shadow_obs)
     enriched.setdefault("element_exists_in_shadow_dom", True)
+    enriched.setdefault("shadow_inferred_from_html", True)
+    enriched.setdefault("shadow_evidence_level", "inferred")
     custom_elements = re.findall(r"<([a-z][a-z0-9]*-[a-z0-9-]+)", html_lower)
     if custom_elements and "shadow_host" not in enriched:
         enriched["shadow_host"] = custom_elements[0]

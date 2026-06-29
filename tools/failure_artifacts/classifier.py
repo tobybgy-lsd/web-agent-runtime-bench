@@ -13,7 +13,7 @@ def _combined_text(artifact: Mapping[str, Any]) -> str:
     return json.dumps(artifact, ensure_ascii=False).lower()
 
 
-def _error_focused_text(artifact: Mapping[str, Any]) -> str:
+def _error_focused_text(artifact: Mapping[str, Any], *, include_user_description: bool = False) -> str:
     """Return a narrower text blob focused on direct failure signals."""
     parts: list[str] = []
     error = artifact.get("error")
@@ -23,7 +23,8 @@ def _error_focused_text(artifact: Mapping[str, Any]) -> str:
     observations = artifact.get("observations")
     if isinstance(observations, Mapping):
         parts.append(str(observations.get("log_excerpt") or ""))
-        parts.append(str(observations.get("user_description") or ""))
+        if include_user_description:
+            parts.append(str(observations.get("user_description") or ""))
         network_events = observations.get("network_events")
         if isinstance(network_events, list):
             for event in network_events[:10]:
@@ -83,7 +84,7 @@ def _classify_runtime_api_missing(artifact: Mapping[str, Any], text: str) -> dic
 
 
 def _classify_captcha_or_bot_wall(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
-    focused = _error_focused_text(artifact)
+    focused = _error_focused_text(artifact, include_user_description=True)
     markers = ("captcha", "verify you are human", "are you human", "turnstile", "recaptcha", "cloudflare challenge", "just a moment")
     found = [marker for marker in markers if marker in focused]
     if not found:
@@ -281,7 +282,7 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if not isinstance(observations, Mapping):
         observations = {}
     status = artifact.get("error", {}).get("status_code") or observations.get("status_code")
-    focused = _error_focused_text(artifact)
+    focused = _error_focused_text(artifact, include_user_description=True)
 
     evidence: list[str] = []
     subtype = ""
@@ -420,6 +421,7 @@ def _classify_playwright_storage_state_context(artifact: Mapping[str, Any], text
     evidence: list[str] = []
     subtype = ""
     confidence = 0.83
+    evidence_level = "confirmed"
 
     storage_state_expected = observations.get("storage_state_expected")
     storage_state_loaded = observations.get("storage_state_loaded")
@@ -453,6 +455,15 @@ def _classify_playwright_storage_state_context(artifact: Mapping[str, Any], text
         confidence = 0.87
         evidence.append(f"cookie domain does not match current host: {cookie_domain} vs {current_host}")
 
+    if not subtype and observations.get("auth_redirect_detected") is True:
+        subtype = "login_redirect_after_authenticated_action"
+        confidence = 0.86
+        evidence_level = str(observations.get("storage_context_evidence_level") or "inferred")
+        evidence.append("authenticated flow ended in a login/auth redirect in the trace")
+        auth_status = observations.get("auth_status_code")
+        if auth_status:
+            evidence.append(f"auth-related HTTP status observed: {auth_status}")
+
     if not subtype:
         return None
 
@@ -479,6 +490,7 @@ def _classify_playwright_storage_state_context(artifact: Mapping[str, Any], text
         evidence,
         _storage_state_fix_suggestions(subtype),
         subtype=subtype,
+        evidence_level=evidence_level,
     )
 
 
@@ -500,6 +512,10 @@ await expect(page).not.toHaveURL(/\\/login/);
         "context_recreated_without_state": "reuse the authenticated context or pass storageState each time a new context is created",
         "local_storage_missing": "verify localStorage/sessionStorage origins are present in the saved storageState JSON",
         "base_url_state_origin_mismatch": "align baseURL with the origin used to generate storageState, or maintain one state file per origin",
+        "login_redirect_after_authenticated_action": "treat the trace as an auth-state failure candidate: verify storageState freshness, origin, and context creation before debugging selectors",
+        "likely_storage_state_not_loaded": "confirm storageState is passed to browser.newContext or test.use before the failing action",
+        "likely_auth_state_expired": "regenerate the authorized storageState and add a preflight assertion that the page is not redirected to login",
+        "likely_context_lost_auth": "check whether a new browser context or page was created after login without carrying the authenticated state",
     }
     return [specific.get(subtype, "review storageState and browser context setup")] + common
 
@@ -535,9 +551,12 @@ def _classify_playwright_route_mock_har(artifact: Mapping[str, Any], text: str) 
     if observations.get("route_registered_after_request") is True:
         subtype = "route_registered_too_late"
         confidence = 0.89
-        evidence_level = "confirmed"
+        evidence_level = "inferred" if observations.get("route_timing_basis") == "trace_order" else "confirmed"
         first_request = observations.get("first_request_url")
-        evidence.append("route was registered after the first matching request had already started")
+        if observations.get("route_timing_basis") == "trace_order":
+            evidence.append("route registration appeared after the first network request in trace order")
+        else:
+            evidence.append("route was registered after the first matching request had already started")
         if first_request:
             evidence.append(f"first request was not intercepted: {first_request}")
 
@@ -675,8 +694,8 @@ def _classify_playwright_shadow_dom_locator(artifact: Mapping[str, Any], text: s
 
     if not subtype and observations.get("element_exists_in_shadow_dom") is True and observations.get("ordinary_locator_failed") is True:
         subtype = "shadow_root_boundary"
-        confidence = 0.93
-        evidence_level = "confirmed"
+        evidence_level = str(observations.get("shadow_evidence_level") or ("inferred" if observations.get("shadow_inferred_from_html") else "confirmed"))
+        confidence = 0.88 if evidence_level == "inferred" else 0.93
         evidence.append("element exists inside shadow DOM, but the ordinary locator path was unreachable")
 
     if not subtype:

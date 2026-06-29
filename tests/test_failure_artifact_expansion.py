@@ -616,12 +616,20 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             with ZipFile(trace_zip, "w") as archive:
                 archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
 
+            with ZipFile(trace_zip) as archive:
+                raw_trace = archive.read("trace.trace").decode("utf-8", errors="ignore")
+            self.assertNotIn("storageStateExpected", raw_trace)
             artifact = artifact_from_playwright_trace(trace_zip)
             observations = artifact["observations"]
-            self.assertTrue(observations.get("storage_state_expected"))
-            self.assertFalse(observations.get("storage_state_loaded"))
+            self.assertTrue(observations.get("auth_redirect_detected"))
+            self.assertTrue(observations.get("redirected_to_login"))
+            self.assertEqual(observations.get("storage_context_evidence_level"), "inferred")
+            self.assertNotIn("storage_state_expected", observations)
+            self.assertNotIn("storage_state_loaded", observations)
             diagnosis = classify_failure_artifact(artifact)
             self.assertEqual(diagnosis["failure_type"], "playwright_storage_state_context")
+            self.assertEqual(diagnosis["subtype"], "login_redirect_after_authenticated_action")
+            self.assertEqual(diagnosis["evidence_level"], "inferred")
 
     def test_real_trace_infers_route_registered_too_late(self):
         """Route registered after first network request is inferred from native timestamps."""
@@ -633,13 +641,13 @@ class FailureArtifactExpansionTests(unittest.TestCase):
                     "method": "Network.requestWillBeSent",
                     "params": {
                         "request": {"url": "https://api.example.test/products", "method": "GET"},
-                        "timestamp": 1.0,
+                        "timestamp": 9999.0,
                     },
                 },
                 {
                     "type": "before",
                     "callId": "call@5",
-                    "apiName": "page.route",
+                    "apiName": "browserContext.route",
                     "params": {"url": "**/api/products"},
                     "startTime": 2000.0,
                 },
@@ -648,13 +656,18 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             with ZipFile(trace_zip, "w") as archive:
                 archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
 
+            with ZipFile(trace_zip) as archive:
+                raw_trace = archive.read("trace.trace").decode("utf-8", errors="ignore")
+            self.assertNotIn("routeRegistered", raw_trace)
             artifact = artifact_from_playwright_trace(trace_zip)
             observations = artifact["observations"]
             self.assertTrue(observations.get("route_registered_after_request"))
             self.assertTrue(observations.get("route_registered"))
+            self.assertEqual(observations.get("route_timing_basis"), "trace_order")
             diagnosis = classify_failure_artifact(artifact)
             self.assertEqual(diagnosis["failure_type"], "playwright_route_mock_har")
             self.assertEqual(diagnosis["subtype"], "route_registered_too_late")
+            self.assertEqual(diagnosis["evidence_level"], "inferred")
 
     def test_real_trace_infers_shadow_dom_from_snapshot_html(self):
         """Shadow DOM boundary is inferred from selector syntax and snapshot HTML."""
@@ -686,6 +699,9 @@ class FailureArtifactExpansionTests(unittest.TestCase):
                 archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
                 archive.writestr("page.html", page_html)
 
+            with ZipFile(trace_zip) as archive:
+                raw_trace = archive.read("trace.trace").decode("utf-8", errors="ignore")
+            self.assertNotIn("shadowHost", raw_trace)
             artifact = artifact_from_playwright_trace(trace_zip)
             observations = artifact["observations"]
             self.assertTrue(
@@ -694,8 +710,10 @@ class FailureArtifactExpansionTests(unittest.TestCase):
                 or observations.get("ordinary_locator_failed"),
                 f"should detect shadow DOM signal, got obs={observations}",
             )
+            self.assertTrue(observations.get("shadow_inferred_from_html"))
             diagnosis = classify_failure_artifact(artifact)
             self.assertEqual(diagnosis["failure_type"], "playwright_shadow_dom_locator")
+            self.assertEqual(diagnosis["evidence_level"], "inferred")
 
     def test_network_keyword_in_unrelated_metadata_does_not_trigger_proxy_error(self):
         artifact = {
@@ -706,7 +724,11 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             "summary": "Variable named proxyConfig appears in test metadata",
             "error": {"message": "Timeout waiting for selector .submit", "status_code": 200},
             "artifacts": {},
-            "observations": {"missing_selectors": [".submit"], "metadata_note": "proxyConfig is set in setup"},
+            "observations": {
+                "missing_selectors": [".submit"],
+                "metadata_note": "proxyConfig is set in setup",
+                "user_description": "I am using proxy settings but the visible failure is a selector timeout.",
+            },
             "expected": {"required_fields": []},
             "actual": {"fields": {}, "array_length": None},
             "labels": {"failure_type": "unknown", "confidence": 0.0},
