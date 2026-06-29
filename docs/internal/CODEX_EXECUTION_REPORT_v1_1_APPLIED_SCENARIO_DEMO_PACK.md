@@ -88,4 +88,22 @@ For platform-risk cases, generated next actions must stay compliance-oriented: c
 
 ## CI
 
-Pending push and GitHub Actions verification.
+GitHub Actions run: `28345592252`
+
+Commit: `98c7d80 feat: add applied scenario demo pack`
+
+Result: `success`
+
+Passed jobs:
+
+- `unit-tests (windows-latest)`
+- `unit-tests (ubuntu-latest)`
+- `unit-tests (macos-latest)`
+- `benchmark-windows`
+
+The unit-test matrix also ran:
+
+- external validation runner
+- external public reference validation
+- resolution validation
+- applied scenario validation
