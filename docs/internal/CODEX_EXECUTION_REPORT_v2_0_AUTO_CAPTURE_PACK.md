@@ -82,4 +82,10 @@ The tool must not provide challenge bypass, access-control circumvention, creden
 
 ## CI
 
-Pending full local verification, push, and GitHub Actions verification.
+GitHub Actions passed after push:
+
+- Workflow: `benchmark`
+- Run id: `28347365006`
+- Branch: `main`
+- Commit: `0fed31a`
+- Result: success
