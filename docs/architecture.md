@@ -1,5 +1,41 @@
 # Architecture
 
+## Agent Failure Doctor
+
+Agent Failure Doctor is the current product layer of this repository. It diagnoses local sanitized failure evidence from AI browser automation, Playwright, crawler, RPA, and business automation runs.
+
+Input evidence:
+
+```text
+trace/log/network/description/screenshot metadata
+```
+
+Primary flow:
+
+```text
+capture or collect evidence
+  -> diagnose
+  -> plan
+  -> verify
+  -> optional sanitize/share
+```
+
+Short form:
+
+```text
+diagnose -> plan -> verify
+```
+
+The diagnostic core is a local rule engine with evidence scoring. It favors explainable, testable, CI-verifiable classifications over opaque model judgments. Future optional reasoning assist should consume the structured evidence bundle and produce prompts, hypotheses, and questions, but it must not replace the rule engine as the source of truth.
+
+Key packages:
+
+- `failure_doctor`: multi-input CLI, user-facing reports, fix plans, verification, auto capture, sanitize/share.
+- `trace_doctor`: Playwright trace-specific diagnosis.
+- `tools.failure_artifacts`: artifact schema, classifier, reports, issue drafts, fix plan and verification helpers.
+- `integrations`: Playwright collector, generic log pack adapter, browser-use style adapters.
+- `tools.validation`: validation runners and dashboards.
+
 ## Phase 5.1: AI-Agent Web Extraction Evaluation Harness
 
 - 315 baseline challenges (public canonical web scraping patterns)
