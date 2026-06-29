@@ -1,0 +1,1094 @@
+{
+  "schema_version": "external-public-reference-ledger/v0.9",
+  "purpose": "Traceable external public sources used to seed validation. These are not external user submissions to this repository.",
+  "summary": {
+    "total_sources": 62,
+    "real_public_issue": 43,
+    "real_public_qa": 14,
+    "official_doc_pattern": 5,
+    "categories": {
+      "agent_loop_or_iteration_limit": 1,
+      "agent_loop_or_response_parse": 1,
+      "agent_runtime_tool_mismatch": 1,
+      "anti_bot_risk": 4,
+      "auth_permission_block": 1,
+      "cdp_websocket_disconnect": 8,
+      "dependency_conflict": 1,
+      "download_handling": 4,
+      "environment_runtime": 2,
+      "locator_timeout": 1,
+      "network_http_error": 1,
+      "route_mock_har": 6,
+      "shadow_dom_locator": 10,
+      "storage_state_context": 11,
+      "strict_mode_violation": 7,
+      "target_closed_or_page_crash": 1,
+      "trace_debugging": 1,
+      "trace_generation": 1
+    },
+    "projects": {
+      "All-Hands-AI/OpenHands": 1,
+      "browser-use/browser-use": 20,
+      "crewAIInc/crewAI": 3,
+      "microsoft/playwright": 19,
+      "playwright": 5,
+      "stackoverflow/playwright": 14
+    }
+  },
+  "sources": [
+    {
+      "source_id": "doc_trace_viewer",
+      "source_type": "official_doc_pattern",
+      "validation_use": "official_doc_pattern",
+      "project": "playwright",
+      "category": "trace_debugging",
+      "source_url": "https://playwright.dev/docs/trace-viewer",
+      "title": "Playwright Trace Viewer",
+      "summary": "Playwright Trace Viewer; category=trace_debugging; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "insufficient_evidence",
+        "source_expected": "trace viewer / debugging evidence"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "doc_auth_storage",
+      "source_type": "official_doc_pattern",
+      "validation_use": "official_doc_pattern",
+      "project": "playwright",
+      "category": "storage_state_context",
+      "source_url": "https://playwright.dev/docs/auth",
+      "title": "Playwright Authentication / storage state",
+      "summary": "Playwright Authentication / storage state; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "storage_state_context"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "doc_mock_api",
+      "source_type": "official_doc_pattern",
+      "validation_use": "official_doc_pattern",
+      "project": "playwright",
+      "category": "route_mock_har",
+      "source_url": "https://playwright.dev/docs/mock",
+      "title": "Playwright Mock APIs / HAR",
+      "summary": "Playwright Mock APIs / HAR; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "route_mock_har"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "doc_locators_shadow",
+      "source_type": "official_doc_pattern",
+      "validation_use": "official_doc_pattern",
+      "project": "playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://playwright.dev/docs/locators",
+      "title": "Playwright Locators / Shadow DOM",
+      "summary": "Playwright Locators / Shadow DOM; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "doc_tracing_api",
+      "source_type": "official_doc_pattern",
+      "validation_use": "official_doc_pattern",
+      "project": "playwright",
+      "category": "trace_generation",
+      "source_url": "https://playwright.dev/docs/api/class-tracing",
+      "title": "Playwright Tracing API",
+      "summary": "Playwright Tracing API; category=trace_generation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "toolchain_environment",
+        "source_expected": "trace_generation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_20182_storage_origin_mismatch",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://github.com/microsoft/playwright/issues/20182",
+      "title": "storageState origin mismatch / localhost vs 127.0.0.1",
+      "summary": "storageState origin mismatch / localhost vs 127.0.0.1; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "base_url_state_origin_mismatch"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_32594_auth0_storage_state_not_reused",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://github.com/microsoft/playwright/issues/32594",
+      "title": "Auth0 storage state does not work for subsequent tests",
+      "summary": "Auth0 storage state does not work for subsequent tests; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "likely_storage_state_not_loaded"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_16556_storage_state_multi_browser",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://github.com/microsoft/playwright/issues/16556",
+      "title": "storageState only working in one of three browsers",
+      "summary": "storageState only working in one of three browsers; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "likely_context_lost_auth"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_28457_storage_state_gitlab_ci",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://github.com/microsoft/playwright/issues/28457",
+      "title": "storageState not returned / not written in GitLab CI",
+      "summary": "storageState not returned / not written in GitLab CI; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "likely_auth_state_expired_or_ci_context"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_29925_azure_login_redirect",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://github.com/microsoft/playwright/issues/29925",
+      "title": "Azure Entra login redirect fails after recorded login",
+      "summary": "Azure Entra login redirect fails after recorded login; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "login_redirect_after_authenticated_action"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_21405_routefromhar_config",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "source_url": "https://github.com/microsoft/playwright/issues/21405",
+      "title": "routeFromHAR advanced configuration / replay vs record behavior",
+      "summary": "routeFromHAR advanced configuration / replay vs record behavior; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "har_fallback_or_miss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_28167_routefromhar_not_properly_recording",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "source_url": "https://github.com/microsoft/playwright/issues/28167",
+      "title": "routeFromHAR not properly recording/replaying state-changing requests",
+      "summary": "routeFromHAR not properly recording/replaying state-changing requests; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "har_fallback_or_miss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_15553_har_notfound_fallback",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "source_url": "https://github.com/microsoft/playwright/issues/15553",
+      "title": "HAR mocking and notFound=fallback behavior",
+      "summary": "HAR mocking and notFound=fallback behavior; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "har_fallback_or_miss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_18288_routefromhar_matching_get_requests",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "source_url": "https://github.com/microsoft/playwright/issues/18288",
+      "title": "routeFromHAR and subsequent matching GET requests",
+      "summary": "routeFromHAR and subsequent matching GET requests; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "route_pattern_mismatch_or_har_miss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_29261_har_response_text_protocol_error",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "source_url": "https://github.com/microsoft/playwright/issues/29261",
+      "title": "response.text protocol error when using HAR replay",
+      "summary": "response.text protocol error when using HAR replay; category=route_mock_har; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "source_expected": "har_response_shape_or_encoding_mismatch"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_29170_response_event_429",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "network_http_error",
+      "source_url": "https://github.com/microsoft/playwright/issues/29170",
+      "title": "page.on response event and 429 response handling",
+      "summary": "page.on response event and 429 response handling; category=network_http_error; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "rate_limited_or_network_response_observation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_33547_shadow_slot_locator",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://github.com/microsoft/playwright/issues/33547",
+      "title": "locator does not find element under slot in shadow DOM",
+      "summary": "locator does not find element under slot in shadow DOM; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "likely_shadow_dom_boundary"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_23047_closed_shadow_root",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://github.com/microsoft/playwright/issues/23047",
+      "title": "closed shadow DOM roots are not directly accessible",
+      "summary": "closed shadow DOM roots are not directly accessible; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "closed_shadow_root_unreachable"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_16268_shadow_focus_matcher",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://github.com/microsoft/playwright/issues/16268",
+      "title": "toBeFocused matcher isn't piercing shadow DOM",
+      "summary": "toBeFocused matcher isn't piercing shadow DOM; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator_assertion_gap"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_29470_shadow_slots_recommended_locators",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://github.com/microsoft/playwright/issues/29470",
+      "title": "recommended locators and slot/shadow DOM behavior",
+      "summary": "recommended locators and slot/shadow DOM behavior; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator_strategy"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_26636_scope_locator_timeout",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "locator_timeout",
+      "source_url": "https://github.com/microsoft/playwright/issues/26636",
+      "title": "TimeoutError waiting for locator(':scope')",
+      "summary": "TimeoutError waiting for locator(':scope'); category=locator_timeout; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "source_expected": "locator_timeout_or_engine_regression"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_10611_strict_mode",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://github.com/microsoft/playwright/issues/10611",
+      "title": "strict mode violation issue seed",
+      "summary": "strict mode violation issue seed; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_30069_strict_mode",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://github.com/microsoft/playwright/issues/30069",
+      "title": "strict mode violation issue seed",
+      "summary": "strict mode violation issue seed; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "pw_36045_strict_or_locator",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "microsoft/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://github.com/microsoft/playwright/issues/36045",
+      "title": "strict/locator issue seed",
+      "summary": "strict/locator issue seed; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation_or_locator_conflict"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_78764486_storage_state_not_used",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://stackoverflow.com/questions/78764486/not-being-able-to-use-storagestate-in-playwright-when-navigation-the-website",
+      "title": "storageState set but not used",
+      "summary": "storageState set but not used; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "likely_storage_state_not_loaded"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_78312468_storage_dependency",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://stackoverflow.com/questions/78312468/a-problem-in-storage-state-and-dependency-features-in-playwright",
+      "title": "storage state and dependency feature issue",
+      "summary": "storage state and dependency feature issue; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "context_or_session_scope_mismatch"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_78459565_basic_auth_storage",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://stackoverflow.com/questions/78459565/basic-auth-not-being-stored-in-storagestate",
+      "title": "Basic auth not stored in storageState",
+      "summary": "Basic auth not stored in storageState; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "auth_mechanism_not_persisted_by_storage_state"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_75806185_firebase_storage",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://stackoverflow.com/questions/75806185/playwright-fail-to-authenticate-to-firebase-using-storage-state",
+      "title": "Firebase authentication fails with storageState",
+      "summary": "Firebase authentication fails with storageState; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "likely_auth_state_expired_or_origin_mismatch"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_79289601_login_state_not_working",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "storage_state_context",
+      "source_url": "https://stackoverflow.com/questions/79289601/login-once-and-run-multiple-subsequent-tests-on-that-state-not-working",
+      "title": "Login once and run subsequent tests not working",
+      "summary": "Login once and run subsequent tests not working; category=storage_state_context; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "source_expected": "storage_state_not_loaded_or_test_dependency_misconfigured"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_75658146_strict_substring",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://stackoverflow.com/questions/75658146/strict-mode-violation-error-happens-when-i-try-select-an-option-which-is-a-subst",
+      "title": "strict mode violation from substring selector",
+      "summary": "strict mode violation from substring selector; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_78138968_strict_multiple_locators",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://stackoverflow.com/questions/78138968/getting-this-error-strict-mode-violation-on-multiple-locators-in-playwright",
+      "title": "strict mode violation multiple locators",
+      "summary": "strict mode violation multiple locators; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_76043713_strict_locator_error",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://stackoverflow.com/questions/76043713/playwright-locator-error-strict-mode-violation",
+      "title": "Playwright locator strict mode violation",
+      "summary": "Playwright locator strict mode violation; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_76810320_strict_four_elements",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "strict_mode_violation",
+      "source_url": "https://stackoverflow.com/questions/76810320/error-locator-waitfor-error-strict-mode-violation-locator-resolved-to-4-el",
+      "title": "locator resolved to four elements",
+      "summary": "locator resolved to four elements; category=strict_mode_violation; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "source_expected": "strict_mode_violation"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_76650720_shadow_text",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://stackoverflow.com/questions/76650720/can-not-access-text-inside-shadow-dom-using-playwright",
+      "title": "cannot access text inside Shadow DOM",
+      "summary": "cannot access text inside Shadow DOM; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator_strategy"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_73980796_shadow_edit_fields",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://stackoverflow.com/questions/73980796/unable-to-fill-edit-fields-from-shadow-dom-using-playwright",
+      "title": "unable to fill edit fields from Shadow DOM",
+      "summary": "unable to fill edit fields from Shadow DOM; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator_conflict_or_hidden_element"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_74796191_shadow_inner_html",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://stackoverflow.com/questions/74796191/get-element-text-behind-shadow-dom-element-using-playwright",
+      "title": "get text behind Shadow DOM element",
+      "summary": "get text behind Shadow DOM element; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_locator_strategy"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_71555077_stencil_shadow_disabled",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://stackoverflow.com/questions/71555077/playwright-fails-to-test-disabled-elements-under-shadowrootopen",
+      "title": "disabled elements under shadowRoot(open) fail in real test",
+      "summary": "disabled elements under shadowRoot(open) fail in real test; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "shadow_dom_or_hydration_timing"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "so_79345642_closed_shadow_root",
+      "source_type": "real_public_qa",
+      "validation_use": "external_public_reference",
+      "project": "stackoverflow/playwright",
+      "category": "shadow_dom_locator",
+      "source_url": "https://stackoverflow.com/questions/79345642/how-to-access-an-element-inside-a-closed-shadow-root-using-playwright",
+      "title": "closed shadow root access question",
+      "summary": "closed shadow root access question; category=shadow_dom_locator; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "source_expected": "closed_shadow_root_unreachable"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_1913_download_not_saved",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "download_handling",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1913",
+      "title": "Downloads are not saved",
+      "summary": "Downloads are not saved; category=download_handling; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "source_expected": "download_not_saved"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_2046_download_not_available_next_step",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "download_handling",
+      "source_url": "https://github.com/browser-use/browser-use/issues/2046",
+      "title": "Downloaded file not available to subsequent steps",
+      "summary": "Downloaded file not available to subsequent steps; category=download_handling; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "source_expected": "download_not_available_to_next_step"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_91_download_access",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "download_handling",
+      "source_url": "https://github.com/browser-use/browser-use/issues/91",
+      "title": "Cannot access downloaded files",
+      "summary": "Cannot access downloaded files; category=download_handling; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "source_expected": "download_not_saved_or_unavailable"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_3722_download_tracking",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "download_handling",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3722",
+      "title": "Agent fails to keep track of downloads",
+      "summary": "Agent fails to keep track of downloads; category=download_handling; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "source_expected": "agent_download_state_loss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_4579_cdp_instability",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4579",
+      "title": "CDP connection instability causing indefinite hangs",
+      "summary": "CDP connection instability causing indefinite hangs; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_websocket_disconnect"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_4374_keep_alive_cdp_drop",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4374",
+      "title": "keep_alive close drops CDP WebSocket",
+      "summary": "keep_alive close drops CDP WebSocket; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_websocket_disconnect"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_4688_cdp_websocket_drops",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4688",
+      "title": "Intermittent CDP WebSocket connection drops",
+      "summary": "Intermittent CDP WebSocket connection drops; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_websocket_disconnect"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_5048_cdp_windows_crash",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/5048",
+      "title": "CDP instability on Windows, httpx.ReadError / page crash",
+      "summary": "CDP instability on Windows, httpx.ReadError / page crash; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_or_page_crash"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_5067_page_crash_no_recovery",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "target_closed_or_page_crash",
+      "source_url": "https://github.com/browser-use/browser-use/issues/5067",
+      "title": "No automatic page-crash recovery, agent hangs",
+      "summary": "No automatic page-crash recovery, agent hangs; category=target_closed_or_page_crash; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "source_expected": "page_crash_or_target_closed"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_3601_cdp_client_stop_breaks_extension",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3601",
+      "title": "CDP client stop breaks chrome-extension sessions",
+      "summary": "CDP client stop breaks chrome-extension sessions; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_websocket_disconnect_or_extension_context_loss"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_2819_cdp_connection_error",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/2819",
+      "title": "Always occurs CDP connection error",
+      "summary": "Always occurs CDP connection error; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_connection_error"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_536_cdp_headless_404",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/536",
+      "title": "CDP connection 404 in headless mode",
+      "summary": "CDP connection 404 in headless mode; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_connection_error"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_3019_browser_closed_cdp_disconnected",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "cdp_websocket_disconnect",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3019",
+      "title": "Browser closed or CDP disconnected after upgrade",
+      "summary": "Browser closed or CDP disconnected after upgrade; category=cdp_websocket_disconnect; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "cdp_websocket_disconnected",
+        "source_expected": "cdp_websocket_disconnect"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_1830_closed_pipe_windows",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "environment_runtime",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1830",
+      "title": "Windows asyncio closed pipe",
+      "summary": "Windows asyncio closed pipe; category=environment_runtime; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "toolchain_environment",
+        "source_expected": "environment_runtime_error"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_1185_windows_agent_run",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "environment_runtime",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1185",
+      "title": "Agent run does not work on Windows machine",
+      "summary": "Agent run does not work on Windows machine; category=environment_runtime; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "toolchain_environment",
+        "source_expected": "environment_runtime_error"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_349_response_parse_fail",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "agent_loop_or_response_parse",
+      "source_url": "https://github.com/browser-use/browser-use/issues/349",
+      "title": "could not parse response / fails at variable step",
+      "summary": "could not parse response / fails at variable step; category=agent_loop_or_response_parse; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "insufficient_evidence",
+        "source_expected": "agent_response_parse_failure"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_356_cloudflare_captcha",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "anti_bot_risk",
+      "source_url": "https://github.com/browser-use/browser-use/issues/356",
+      "title": "Cloudflare captcha / human verification blocker",
+      "summary": "Cloudflare captcha / human verification blocker; category=anti_bot_risk; boundary=identify_and_route_only_no_bypass",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "captcha_or_challenge_page"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "identify_and_route_only_no_bypass",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_1582_cloudflare_patchright",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "anti_bot_risk",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1582",
+      "title": "Not able to get past Cloudflare after Patchright update",
+      "summary": "Not able to get past Cloudflare after Patchright update; category=anti_bot_risk; boundary=identify_and_route_only_no_bypass",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "captcha_or_challenge_page"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "identify_and_route_only_no_bypass",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_206_omni_parser_captcha",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "anti_bot_risk",
+      "source_url": "https://github.com/browser-use/browser-use/issues/206",
+      "title": "Verify you are human element not detected",
+      "summary": "Verify you are human element not detected; category=anti_bot_risk; boundary=identify_and_route_only_no_bypass",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "captcha_or_challenge_page"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "identify_and_route_only_no_bypass",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "bu_3633_jenkins_blocked_captcha",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "browser-use/browser-use",
+      "category": "anti_bot_risk",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3633",
+      "title": "Jenkins deployment with CAPTCHA/Cloudflare blocked cases",
+      "summary": "Jenkins deployment with CAPTCHA/Cloudflare blocked cases; category=anti_bot_risk; boundary=identify_and_route_only_no_bypass",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "captcha_or_challenge_page"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "identify_and_route_only_no_bypass",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "oh_9255_cli_browser_tool_unavailable",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "All-Hands-AI/OpenHands",
+      "category": "agent_runtime_tool_mismatch",
+      "source_url": "https://github.com/All-Hands-AI/OpenHands/issues/9255",
+      "title": "Agent attempts browser actions in CLI runtime where browsing is unavailable",
+      "summary": "Agent attempts browser actions in CLI runtime where browsing is unavailable; category=agent_runtime_tool_mismatch; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "insufficient_evidence",
+        "source_expected": "runtime_api_missing"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "crew_2702_browseruse_incompat",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "crewAIInc/crewAI",
+      "category": "dependency_conflict",
+      "source_url": "https://github.com/crewAIInc/crewAI/issues/2702",
+      "title": "BrowserUse integration dependency incompatibility",
+      "summary": "BrowserUse integration dependency incompatibility; category=dependency_conflict; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "toolchain_environment",
+        "source_expected": "environment_dependency_conflict"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "crew_841_iteration_limit",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "crewAIInc/crewAI",
+      "category": "agent_loop_or_iteration_limit",
+      "source_url": "https://github.com/crewAIInc/crewAI/issues/841",
+      "title": "Agent stopped due to iteration limit or time limit",
+      "summary": "Agent stopped due to iteration limit or time limit; category=agent_loop_or_iteration_limit; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "source_expected": "agent_repeated_action_loop_or_iteration_limit"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    },
+    {
+      "source_id": "crew_2928_remote_mcp_auth",
+      "source_type": "real_public_issue",
+      "validation_use": "external_public_reference",
+      "project": "crewAIInc/crewAI",
+      "category": "auth_permission_block",
+      "source_url": "https://github.com/crewAIInc/crewAI/issues/2928",
+      "title": "Remote MCP auth issue",
+      "summary": "Remote MCP auth issue; category=auth_permission_block; boundary=normal_diagnostic_case",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "source_expected": "auth_or_permission_block"
+      },
+      "safe_use": "diagnosis/validation only",
+      "safe_boundary": "normal_diagnostic_case",
+      "can_become_validation_case": true
+    }
+  ]
+}

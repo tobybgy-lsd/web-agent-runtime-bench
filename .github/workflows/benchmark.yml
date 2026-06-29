@@ -38,6 +38,9 @@ jobs:
       - name: External validation runner
         run: python -m tools.validation.run_external_validation
 
+      - name: External public reference validation
+        run: python -m tools.validation.run_external_public_reference_validation
+
   benchmark-windows:
     runs-on: windows-latest
     needs: unit-tests

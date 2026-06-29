@@ -113,26 +113,31 @@ Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v0.8.0 Real Data & Native Playwright Trace Validation.
+Current milestone: Agent Failure Doctor v0.9 External Public Reference Validation.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
 - 30 native Playwright-generated `trace.zip` fixtures
 - 30/30 real trace reasonable classifications
 - 30/30 real trace exact subtype matches
+- 62 external public reference seeds
+- 20 external public reference held-out records
+- 20/20 external public reference reasonable classifications
+- 20/20 external public reference actionable next actions
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions
 - 0 forbidden outputs in generated reports/prompts
 - GitHub Actions green across Ubuntu, macOS, Windows, plus Windows benchmark/smoke/safety
 
-See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for validation metrics, limits, and boundaries.
+See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md), [docs/EXTERNAL_DATA_SOURCES.md](docs/EXTERNAL_DATA_SOURCES.md), and [validation/dashboard.md](validation/dashboard.md) for validation metrics, limits, and boundaries.
 
 ## Reproduce Validation
 
 ```powershell
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
+python -m tools.validation.run_external_public_reference_validation
 python scripts\validate_external_heldout.py
 ```
 

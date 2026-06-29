@@ -7,6 +7,7 @@ Agent Failure Doctor is validated with three evidence tiers:
 1. Sanitized template fixtures for broad regression coverage.
 2. Traceable public-source ledger records for credibility and category grounding.
 3. Native Playwright-generated `trace.zip` fixtures for adapter semantics.
+4. External public reference seeds for post-release source grounding and held-out validation.
 
 The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
 
@@ -138,6 +139,44 @@ Current result:
 | Forbidden outputs | 0 |
 
 The non-reasonable held-out case is retained to show a real current limit: a mixed route-interception + cookie-store symptom does not yet produce a confident route/storage diagnosis from a short log-only summary.
+
+## v0.9 External Public Reference Validation
+
+The v0.9 external public reference pack starts from 62 traceable public sources and official documentation patterns. These are not external user submissions to this repository. They are public references used to seed a validation ledger and create a reproducible held-out set.
+
+Artifacts:
+
+- `validation/source_ledger_external_seed_v0_9.json`
+- `validation/source_ledger_external_seed_v0_9.csv`
+- `validation/external_public_reference_ledger.json`
+- `validation/external_heldout_20_cases.json`
+- `validation/external_heldout_20.json`
+- `docs/EXTERNAL_DATA_SOURCES.md`
+- `tools/validation/run_external_public_reference_validation.py`
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_external_public_reference_validation
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| External public reference seeds | 62 |
+| Official doc patterns | 5 |
+| Real public issues | 43 |
+| Real public Q&A records | 14 |
+| Held-out records | 20 |
+| Reasonable classifications | 20 |
+| Reasonable classification rate | 100.0% |
+| Exact category matches | 20 |
+| Exact subtype matches | n/a |
+| Actionable next actions | 20 |
+| Forbidden outputs | 0 |
+
+Exact subtype matching is not claimed for this track because the seed pack provides category-level expected diagnoses, not authoritative subtype labels.
 
 ## Website Change + Anti-Bot Risk Addendum
 

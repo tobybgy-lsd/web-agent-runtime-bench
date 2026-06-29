@@ -8,11 +8,13 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |
 | Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
 | Website-change / anti-bot routing | 50 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
+| External public reference held-out set | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
 | External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
 
 ## Source Ledger
 
 `validation/source_ledger_real_failures.json` separates real public sources from sanitized validation records.
+`validation/external_public_reference_ledger.json` adds 62 external public reference seeds from official docs, public issues, and Q&A sources. These are not external user submissions to this repository.
 
 | Source Type | Count | Meaning |
 |---|---:|---|
@@ -46,10 +48,15 @@ Current result:
 ## External Held-Out Track
 
 `validation/external_heldout_10_cases.json` contains 10 public-source records not used to tune the v0.8 rules in this pass. `scripts/validate_external_heldout.py` reruns them and writes `validation/external_heldout_10.json`.
+`validation/external_heldout_20_cases.json` contains 20 v0.9 external public reference records selected from the 62-source seed ledger. `tools.validation.run_external_public_reference_validation` reruns them and writes `validation/external_heldout_20.json`.
 
 Current result:
 
 ```text
+20/20 external public reference reasonable classifications
+20/20 external public reference actionable next actions
+0 external public reference forbidden outputs
+
 9/10 reasonable classifications
 10/10 actionable next actions
 0 forbidden outputs

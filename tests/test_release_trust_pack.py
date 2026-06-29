@@ -9,14 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseTrustPackTests(unittest.TestCase):
-    def test_versions_are_aligned_to_v08(self):
+    def test_versions_and_readme_validation_milestone_are_aligned(self):
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         dashboard = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
         self.assertIn('version = "0.8.0"', pyproject)
         self.assertIn("## v0.8.0", changelog)
-        self.assertIn("v0.8.0 Real Data & Native Playwright Trace Validation", readme)
+        self.assertIn("v0.9 External Public Reference Validation", readme)
+        self.assertIn("62 external public reference seeds", readme)
         self.assertIn("External held-out public-source set", dashboard)
 
     def test_readme_top_is_not_redundant_or_mojibake(self):

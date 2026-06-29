@@ -33,17 +33,20 @@ report/
 `-- failure_doctor_report.zip
 ```
 
-## v0.8.0 验证状态
+## v0.9 验证状态
 
 - 131 条 source ledger 记录，并区分真实公开 issue、官方文档行为边界、public-inspired sanitized 记录
 - 50 条可追溯真实公开 issue 记录
 - 30 个由 Playwright 原生生成的 `trace.zip` fixtures
 - 真实 trace 验证：30/30 合理分类
 - 真实 trace 验证：30/30 精确 subtype
+- 62 条 external public reference seed
+- 20 条 external public reference held-out 记录
+- external public reference 验证：20/20 合理分类，20/20 可执行下一步
 - external held-out 验证：10 条公开来源记录，9/10 合理分类，10/10 可执行下一步
 - 生成报告和 Prompt 的 forbidden output 为 0
 
-详见 [validation/dashboard.md](validation/dashboard.md) 和 [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md)。
+详见 [validation/dashboard.md](validation/dashboard.md)、[docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) 和 [docs/EXTERNAL_DATA_SOURCES.md](docs/EXTERNAL_DATA_SOURCES.md)。
 
 ## 复现真实 Trace 验证
 
@@ -51,6 +54,7 @@ report/
 python -m pip install -e .[trace-gen]
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
+python -m tools.validation.run_external_public_reference_validation
 python scripts\validate_external_heldout.py
 ```
 
