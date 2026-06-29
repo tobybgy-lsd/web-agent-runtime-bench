@@ -51,4 +51,18 @@ scripts\local_safety_scan.ps1                               PASS
 git ls-files garbage check                                  PASS, no tracked runtime garbage
 ```
 
-CI status should be appended after push.
+## CI
+
+GitHub Actions:
+
+```text
+run id: 28350872859
+workflow: benchmark
+branch: main
+commit: 1494437
+status: success
+unit-tests windows-latest: PASS
+unit-tests ubuntu-latest: PASS
+unit-tests macos-latest: PASS
+benchmark-windows: PASS
+```
