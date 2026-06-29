@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.6.0
+
+- Added Batch Diagnosis / Fleet Mode.
+- Added `failure-doctor batch <runs_dir> --out <batch_report>`.
+- Batch reports generate `summary.json`, `summary.md`, `failures_by_type.csv`, `top_root_causes.md`, `repeated_failures.md`, `suggested_regression_cases.md`, `repair_priority.md`, and per-run reports under `reports/`.
+- Fleet mode groups repeated failures, ranks repair priority, suggests regression cases, and keeps forbidden output count at 0.
+
 ## v2.5.0
 
 - Added AI Handoff & Patch Proposal Pack.

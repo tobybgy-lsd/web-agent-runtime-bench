@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 from zipfile import ZIP_DEFLATED, ZipFile
 
+from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
@@ -57,6 +58,8 @@ def main(argv: list[str] | None = None) -> int:
         return handoff_report(args)
     if args.command == "propose-patch":
         return propose_patch(args)
+    if args.command == "batch":
+        return batch_diagnose(args)
     parser.print_help()
     return 1
 
@@ -113,6 +116,9 @@ def build_parser() -> argparse.ArgumentParser:
     patch.add_argument("--repo", required=True, help="Repository root to inspect later")
     patch.add_argument("--report", required=True, help="Path to a report directory containing diagnosis.json")
     patch.add_argument("--out", required=True, help="Output patch proposal directory")
+    batch = sub.add_parser("batch", help="Diagnose a folder of failed runs and write a fleet-level report")
+    batch.add_argument("runs", help="Directory containing failed run folders")
+    batch.add_argument("--out", required=True, help="Output batch report directory")
     return parser
 
 
@@ -285,6 +291,41 @@ def propose_patch(args: argparse.Namespace) -> int:
     print("Agent Failure Doctor Patch Proposal")
     print("Mode: proposal only")
     print(f"Output: {result['out_dir']}")
+    return 0
+
+
+def batch_diagnose(args: argparse.Namespace) -> int:
+    runs_root = Path(args.runs)
+    out_dir = Path(args.out)
+    try:
+        runs = discover_runs(runs_root)
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 2
+    reports_root = out_dir / "reports"
+    summaries: list[dict[str, Any]] = []
+    for run_path in runs:
+        report_dir = reports_root / run_path.stem
+        evidence = collect_inputs(run_path)
+        input_summary = input_summary_for(evidence)
+        artifact = build_artifact(evidence, run_id=f"batch_{run_path.stem}")
+        diagnosis = _low_evidence_diagnosis(input_summary) if _is_low_evidence(input_summary) else classify_composite_failure_artifact(artifact)
+        public = enrich_for_users(diagnosis, input_summary=input_summary)
+        write_failure_doctor_report(report_dir, artifact, diagnosis, public, evidence, input_summary)
+        summaries.append(
+            {
+                "run_id": run_path.stem,
+                "name": run_path.name,
+                "source": str(run_path),
+                "diagnosis": diagnosis,
+                "public": public,
+            }
+        )
+    summary = write_batch_report(out_dir, summaries)
+    print("Agent Failure Doctor Batch Diagnosis")
+    print(f"Runs: {summary['diagnosed_runs']}/{summary['total_runs']}")
+    print(f"Repeated failure groups: {summary['repeated_failures_count']}")
+    print(f"Output: {out_dir}")
     return 0
 
 

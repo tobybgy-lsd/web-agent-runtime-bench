@@ -8,17 +8,17 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack
+Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-v2.5 also adds AI handoff task packs and dry-run patch proposals.
+v2.5: AI handoff. v2.6: batch/fleet reports.
 
 Core commands:
-`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor handoff` / `failure-doctor propose-patch` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize` / `failure-doctor adapt`
+`diagnose` / `batch` / `plan` / `handoff` / `propose-patch` / `verify` / `run` / `sanitize` / `adapt`
 
 Lifecycle:
 `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
@@ -29,6 +29,8 @@ cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
+
+Full command names include `failure-doctor diagnose`, `failure-doctor batch`, `failure-doctor plan`, `failure-doctor handoff`, `failure-doctor propose-patch`, `failure-doctor verify`, `failure-doctor run`, `failure-doctor sanitize`, and `failure-doctor adapt`.
 
 See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
@@ -42,6 +44,7 @@ failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automa
 failure-doctor plan .\report --out .\fix_plan
 failure-doctor handoff .\report --target codex --out .\ai_handoff
 failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
+failure-doctor batch .\.failure-doctor\runs --out .\batch_report
 failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
 failure-doctor sanitize .\report --out .\shareable_pack
 failure-doctor run -- python .\examples\mock_script_fails.py
@@ -247,6 +250,40 @@ v2.5 validation writes `validation/ai_handoff_validation.json`:
 0 forbidden outputs
 ```
 
+## Batch Diagnosis / Fleet Mode
+
+Diagnose many failed runs and get a fleet-level summary:
+
+```powershell
+failure-doctor batch .\runs --out .\batch_report
+```
+
+Input:
+
+```text
+runs/
+|-- run_001/
+|-- run_002/
+|-- run_003/
+`-- ...
+```
+
+Output:
+
+```text
+batch_report/
+|-- summary.json
+|-- summary.md
+|-- failures_by_type.csv
+|-- top_root_causes.md
+|-- repeated_failures.md
+|-- suggested_regression_cases.md
+|-- repair_priority.md
+`-- reports/
+```
+
+Fleet mode answers which failures repeat, which root causes dominate, which runs should become regression cases, and which fixes deserve priority.
+
 ## Applied Scenario Demos
 
 Local-only mock demos show how Agent Failure Doctor can diagnose failures in:
@@ -321,9 +358,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack.
+Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode.
 
-Latest added validation track: P95 Core Triad Gate.
+Latest added capability: Batch Diagnosis / Fleet Mode.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

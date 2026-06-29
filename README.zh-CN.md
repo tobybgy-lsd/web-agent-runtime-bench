@@ -1,15 +1,16 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack
+Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode
 
 Core lifecycle:
-`failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
+`failure-doctor diagnose` / `failure-doctor batch` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
 
 v2.5 commands:
 
 ```powershell
 failure-doctor handoff .\report --target codex --out .\ai_handoff
 failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
+failure-doctor batch .\runs --out .\batch_report
 ```
 
 [English documentation](README.md)

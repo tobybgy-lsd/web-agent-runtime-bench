@@ -21,6 +21,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
 | P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
 | AI Handoff & Patch Proposal | 20 | 20/20 task packs | 18/20 patch proposals | 20/20 required sections + token budgets | 0 | 0 | 0 | 290+ |
+| Batch Diagnosis / Fleet Mode | CLI fixture | 4/4 diagnosed | repeated failures detected | regression + repair priority generated | 0 | 0 | 0 | 300+ |
 
 ## Source Ledger
 
@@ -140,6 +141,16 @@ python -m unittest tests.test_ai_handoff_patch_proposal
 ```
 
 Safety boundary: this track does not edit source files, apply patches, run tests on behalf of the user, open pull requests, or provide bypass-oriented actions.
+
+## Batch Diagnosis / Fleet Mode
+
+v2.6 adds `failure-doctor batch <runs_dir> --out <batch_report>` for local folders of failed runs. It writes a fleet-level summary, repeated-failure groups, top root causes, repair priority, suggested regression cases, and per-run reports.
+
+Reproduce:
+
+```powershell
+python -m unittest tests.test_batch_diagnosis_fleet_mode
+```
 
 ## Playwright Trace Doctor P95 Validation
 
