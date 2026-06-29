@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any, Mapping
 from zipfile import ZIP_DEFLATED, ZipFile
 
+from integrations.generic_log_pack.adapter import pack_generic_logs
+from integrations.playwright.collector import collect_playwright_artifacts
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace
 from tools.failure_artifacts.diagnose import diagnose_artifact
 from tools.failure_artifacts.issue import render_issue_draft
@@ -36,6 +38,10 @@ def main(argv: list[str] | None = None) -> int:
         return plan_from_report(args)
     if args.command == "verify":
         return verify_inputs(args)
+    if args.command == "collect-playwright":
+        return collect_playwright_inputs(args)
+    if args.command == "pack-logs":
+        return pack_log_inputs(args)
     parser.print_help()
     return 1
 
@@ -66,6 +72,12 @@ def build_parser() -> argparse.ArgumentParser:
     verify.add_argument("--out", required=True, help="Output verification report directory")
     verify.add_argument("--fix-plan", default=None, help="Optional fix_plan.json path or directory")
     verify.add_argument("--create-regression", action="store_true", help="Write regression_case.json")
+    collect = sub.add_parser("collect-playwright", help="Collect Playwright test-results into a failure pack")
+    collect.add_argument("test_results", help="Path to Playwright test-results or a failed test artifact folder")
+    collect.add_argument("--out", required=True, help="Output failure pack directory")
+    pack_logs = sub.add_parser("pack-logs", help="Normalize a raw log folder into a failure pack")
+    pack_logs.add_argument("raw_logs", help="Path to a folder containing logs, network summaries, and screenshots")
+    pack_logs.add_argument("--out", required=True, help="Output failure pack directory")
     return parser
 
 
@@ -134,6 +146,22 @@ def verify_inputs(args: argparse.Namespace) -> int:
     print("Agent Failure Doctor Verification")
     print(f"Status: {report.get('status')}")
     print(f"Output: {out_dir}")
+    return 0
+
+
+def collect_playwright_inputs(args: argparse.Namespace) -> int:
+    summary = collect_playwright_artifacts(Path(args.test_results), Path(args.out))
+    print("Agent Failure Doctor Playwright Collector")
+    print(f"Output: {args.out}")
+    print(f"Evidence priority: {', '.join(summary.get('evidence_priority', [])) or 'none'}")
+    return 0
+
+
+def pack_log_inputs(args: argparse.Namespace) -> int:
+    summary = pack_generic_logs(Path(args.raw_logs), Path(args.out))
+    print("Agent Failure Doctor Log Pack")
+    print(f"Output: {args.out}")
+    print(f"Evidence priority: {', '.join(summary.get('evidence_priority', [])) or 'none'}")
     return 0
 
 

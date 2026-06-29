@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.mock/checkout",
+    "status": 200,
+    "method": "GET"
+  }
+]

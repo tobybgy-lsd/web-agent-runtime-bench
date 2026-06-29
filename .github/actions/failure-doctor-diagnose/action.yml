@@ -1,0 +1,20 @@
+name: Failure Doctor Diagnose
+description: Diagnose local automation failure artifacts with Agent Failure Doctor.
+inputs:
+  input:
+    description: Path to the local failure artifact folder.
+    required: true
+  out:
+    description: Output report directory.
+    required: false
+    default: diagnosis_report
+runs:
+  using: composite
+  steps:
+    - name: Install Agent Failure Doctor
+      shell: bash
+      run: python -m pip install -e .
+    - name: Diagnose failed automation artifacts
+      shell: bash
+      run: failure-doctor diagnose "${{ inputs.input }}" --out "${{ inputs.out }}"
+

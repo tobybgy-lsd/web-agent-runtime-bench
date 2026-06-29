@@ -76,11 +76,11 @@ class AppliedScenarioValidationTests(unittest.TestCase):
         self.assertGreaterEqual(summary["verification_correct"], 16)
         self.assertEqual(summary["forbidden_output_count"], 0)
 
-    def test_version_and_docs_expose_v1_1_pack(self):
+    def test_version_and_docs_expose_current_package_and_v1_1_pack(self):
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-        self.assertIn('version = "1.1.0"', pyproject)
+        self.assertIn('version = "1.2.0"', pyproject)
         self.assertIn("Applied Scenario Demos", readme)
         self.assertIn("run_applied_scenario_validation", readme)
         self.assertIn("## v1.1.0", changelog)

@@ -1,0 +1,1 @@
+Download event fired but file was not saved; acceptDownloads is false in local export mock.

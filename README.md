@@ -19,6 +19,9 @@ Core commands:
 
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 
+Integration commands:
+`failure-doctor collect-playwright` / `failure-doctor pack-logs`
+
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
 cd web-agent-runtime-bench
@@ -143,9 +146,27 @@ Run:
 python -m tools.validation.run_applied_scenario_validation
 ```
 
+## Integrations
+
+Collect Playwright test-results into a failure pack:
+
+```powershell
+failure-doctor collect-playwright .\examples\mock_playwright_test_results --out .\tmp_failure_pack
+failure-doctor diagnose .\tmp_failure_pack --out .\tmp_collected_report
+```
+
+Normalize a loose log folder:
+
+```powershell
+failure-doctor pack-logs .\examples\mock_raw_logs --out .\tmp_log_pack
+failure-doctor diagnose .\tmp_log_pack --out .\tmp_log_report
+```
+
+See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.md](docs/GITHUB_ACTION_USAGE.md).
+
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v1.1 Applied Scenario Demo Pack.
+Current milestone: Agent Failure Doctor v1.2 Integration Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -162,6 +183,7 @@ Current milestone: Agent Failure Doctor v1.1 Applied Scenario Demo Pack.
 - 18/18 applied scenario reasonable classifications
 - 18/18 applied scenario valid fix plans
 - 18/18 applied scenario verification statuses correct
+- Playwright collector, generic log packer, browser-use adapter, and GitHub Actions usage docs
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions

@@ -12,6 +12,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
 | Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
 | Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
+| Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
 
 ## Source Ledger
 
@@ -89,6 +90,25 @@ Current result:
 0 forbidden outputs
 ```
 
+## Integration Adapter Track
+
+The v1.2 integration track adds local adapters for workflow entrypoints:
+
+- Playwright test-results collector: `failure-doctor collect-playwright`
+- Generic raw log folder packer: `failure-doctor pack-logs`
+- browser-use / browser-agent log adapter
+- GitHub Actions usage documentation
+
+Current result:
+
+```text
+Playwright collector produces a diagnosable failure pack
+Generic log packer produces a diagnosable failure pack
+browser-use adapter produces diagnosable failure packs for download and repeated-action failures
+GitHub Actions docs include local-first diagnosis usage
+0 forbidden outputs in integration docs/adapters
+```
+
 ## Notes
 
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.
@@ -96,6 +116,7 @@ Current result:
 - The external held-out set is intentionally small and conservative; it is a trust check, not a broad accuracy claim.
 - Real Playwright trace fixtures use native Playwright trace records and resource snapshots.
 - Applied scenario demos are local-only mock failure packs, not production business systems.
+- Integration adapters normalize local artifacts into failure packs; they do not upload artifacts or connect to third-party platforms.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.

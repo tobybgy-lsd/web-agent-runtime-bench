@@ -9,6 +9,7 @@ Agent Failure Doctor is validated with three evidence tiers:
 3. Native Playwright-generated `trace.zip` fixtures for adapter semantics.
 4. External public reference seeds for post-release source grounding and held-out validation.
 5. Local-only applied scenario demos for business automation style failure diagnosis.
+6. Local workflow integration adapters that produce diagnosable failure packs.
 
 The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
 
@@ -247,6 +248,39 @@ Covered scenario families:
 - authorized content publishing workflow
 - GUI / RPA data bridge
 - ERP-to-ecommerce sync
+
+## v1.2 Integration Pack Validation
+
+The v1.2 integration track validates workflow entrypoints that collect local automation artifacts into failure packs.
+
+Artifacts:
+
+- `integrations/playwright/collector.py`
+- `integrations/generic_log_pack/adapter.py`
+- `integrations/browser_use/adapter.py`
+- `.github/actions/failure-doctor-diagnose/action.yml`
+- `docs/INTEGRATIONS.md`
+- `docs/GITHUB_ACTION_USAGE.md`
+
+Validated entrypoints:
+
+```powershell
+failure-doctor collect-playwright examples/mock_playwright_test_results --out tmp_failure_pack
+failure-doctor diagnose tmp_failure_pack --out tmp_collected_report
+failure-doctor pack-logs examples/mock_raw_logs --out tmp_log_pack
+failure-doctor diagnose tmp_log_pack --out tmp_log_report
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| Integration adapters | 4 |
+| Playwright collector smoke | pass |
+| Generic log pack smoke | pass |
+| browser-use adapter tests | pass |
+| GitHub Actions docs test | pass |
+| Forbidden outputs | 0 |
 
 ## Website Change + Anti-Bot Risk Addendum
 

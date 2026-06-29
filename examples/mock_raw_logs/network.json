@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.mock/export",
+    "status": 200,
+    "method": "GET"
+  }
+]

@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "1.1.0"',
+            'version = "1.2.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -101,7 +101,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
     def test_readme_is_english_first_with_badges_and_links(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        top = readme[:1200]
+        top = readme[:1600]
         for phrase in (
             "[中文文档](README.zh-CN.md)",
             "![CI]",

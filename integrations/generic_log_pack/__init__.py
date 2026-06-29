@@ -1,0 +1,2 @@
+"""Generic log folder packer."""
+

@@ -116,3 +116,16 @@ python -m tools.validation.run_applied_scenario_validation
 These demos are failure diagnosis packs, not production business systems.
 
 Current result: 18/18 reasonable classifications, 18/18 valid fix plans, 18/18 correct verification statuses, 0 forbidden outputs.
+
+## Integration Pack
+
+Agent Failure Doctor v1.2 adds local integration adapters:
+
+```powershell
+failure-doctor collect-playwright .\examples\mock_playwright_test_results --out .\tmp_failure_pack
+failure-doctor diagnose .\tmp_failure_pack --out .\tmp_collected_report
+failure-doctor pack-logs .\examples\mock_raw_logs --out .\tmp_log_pack
+failure-doctor diagnose .\tmp_log_pack --out .\tmp_log_report
+```
+
+See docs/INTEGRATIONS.md and docs/GITHUB_ACTION_USAGE.md.

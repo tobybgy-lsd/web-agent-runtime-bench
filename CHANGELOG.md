@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.2.0
+
+- Added Integration Pack:
+  - `failure-doctor collect-playwright`
+  - `failure-doctor pack-logs`
+  - Playwright test-results collector
+  - generic log folder packer
+  - browser-use / browser-agent log adapter
+  - GitHub Actions usage documentation
+- Added local mock integration fixtures:
+  - `examples/mock_playwright_test_results`
+  - `examples/mock_raw_logs`
+- Added integration safety tests.
+- No real-platform access and no anti-bot bypass guidance.
+
 ## v1.1.0
 
 - Added Applied Scenario Demo Pack.
