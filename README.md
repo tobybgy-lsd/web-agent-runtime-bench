@@ -111,9 +111,19 @@ Next action: check proxy settings, DNS, VPN, and CI network configuration.
 Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 ```
 
+## Verify a Fix
+
+```powershell
+failure-doctor diagnose .\failed_run --out .\report
+failure-doctor plan .\report --out .\fix_plan
+failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\verification_report
+```
+
+`verify` compares before/after evidence and reports whether the original failure is resolved, unchanged, changed into another failure, or insufficiently evidenced.
+
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v0.9 External Public Reference Validation.
+Current milestone: Agent Failure Doctor v1.0 Failure Resolution Loop.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -124,6 +134,8 @@ Current milestone: Agent Failure Doctor v0.9 External Public Reference Validatio
 - 20 external public reference held-out records
 - 20/20 external public reference reasonable classifications
 - 20/20 external public reference actionable next actions
+- 12 resolution validation cases
+- 12/12 resolution statuses correct
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions
@@ -138,6 +150,7 @@ See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md), [docs/EXTERNAL_DATA_
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
 python -m tools.validation.run_external_public_reference_validation
+python -m tools.validation.run_resolution_validation
 python scripts\validate_external_heldout.py
 ```
 

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Failure Doctor Fix Plan",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "diagnosis_id",
+    "failure_type",
+    "technical_category",
+    "subtype",
+    "failure_layer",
+    "root_cause",
+    "fix_intent",
+    "recommended_change_area",
+    "expected_evidence_to_disappear",
+    "expected_evidence_to_appear",
+    "verification_strategy",
+    "risk",
+    "safe_next_action",
+    "forbidden_actions"
+  ],
+  "properties": {
+    "schema_version": {"const": "fix_plan/v1"},
+    "diagnosis_id": {"type": "string"},
+    "failure_type": {"type": "string"},
+    "technical_category": {"type": "string"},
+    "subtype": {"type": ["string", "null"]},
+    "failure_layer": {"type": "string"},
+    "root_cause": {"type": "string"},
+    "fix_intent": {"type": "string"},
+    "recommended_change_area": {"type": "array", "items": {"type": "string"}},
+    "expected_evidence_to_disappear": {"type": "array", "items": {"type": "string"}},
+    "expected_evidence_to_appear": {"type": "array", "items": {"type": "string"}},
+    "verification_strategy": {"type": "string"},
+    "risk": {"enum": ["low", "medium", "high"]},
+    "safe_next_action": {"type": "boolean"},
+    "forbidden_actions": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": "resolution-validation/v1",
+  "summary": {
+    "total_cases": 12,
+    "correct_status": 12,
+    "resolved_correct": 6,
+    "not_resolved_correct": 3,
+    "changed_failure_correct": 2,
+    "insufficient_evidence_correct": 0,
+    "actionable_next_step": 12,
+    "forbidden_output_count": 0
+  },
+  "cases": [
+    {
+      "case_id": "01_selector_drift_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "02_selector_drift_not_resolved",
+      "expected_status": "not_resolved",
+      "actual_status": "not_resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "03_selector_drift_changed_to_auth",
+      "expected_status": "changed_failure",
+      "actual_status": "changed_failure",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "04_storage_state_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "05_storage_state_not_resolved",
+      "expected_status": "not_resolved",
+      "actual_status": "not_resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "06_route_har_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "07_route_har_changed_to_network",
+      "expected_status": "changed_failure",
+      "actual_status": "changed_failure",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "08_shadow_dom_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "09_download_not_saved_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "10_website_change_resolved",
+      "expected_status": "resolved",
+      "actual_status": "resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "11_network_proxy_not_resolved",
+      "expected_status": "not_resolved",
+      "actual_status": "not_resolved",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    },
+    {
+      "case_id": "12_antibot_requires_compliant_resolution",
+      "expected_status": "resolved_by_compliant_path",
+      "actual_status": "resolved_by_compliant_path",
+      "status_correct": true,
+      "actionable_next_step": true,
+      "forbidden_output_hits": [],
+      "regression_case_created": true
+    }
+  ]
+}

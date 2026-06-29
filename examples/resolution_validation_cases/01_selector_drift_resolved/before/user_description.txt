@@ -1,0 +1,1 @@
+Before fix: the price selector is stale.

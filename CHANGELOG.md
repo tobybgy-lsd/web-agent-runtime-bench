@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0
+
+- Added Failure Resolution Loop:
+  - `failure-doctor plan`
+  - `failure-doctor verify`
+  - fix plan generation
+  - before/after resolution verification
+  - regression case generation
+- Added `fix_plan/v1` and `verification_report/v1` schemas.
+- Added 12 local resolution validation cases.
+- Resolution validation:
+  - 12/12 correct verification statuses
+  - 12/12 actionable next steps
+  - 0 forbidden outputs
+- Anti-bot risk remains identification and compliant routing only.
+
 ## v0.8.0
 
 - Added a 131-record source ledger:

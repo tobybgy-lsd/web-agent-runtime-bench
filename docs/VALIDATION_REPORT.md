@@ -178,6 +178,38 @@ Current result:
 
 Exact subtype matching is not claimed for this track because the seed pack provides category-level expected diagnoses, not authoritative subtype labels.
 
+## v1.0 Failure Resolution Loop Validation
+
+The v1.0 resolution track validates the loop after diagnosis: fix plan generation, before/after verification, and regression case creation. Fixtures are local-only, sanitized before/after input packs.
+
+Artifacts:
+
+- `schemas/fix_plan.schema.json`
+- `schemas/verification_report.schema.json`
+- `examples/resolution_validation_cases/`
+- `validation/resolution_validation_12.json`
+- `tools/validation/run_resolution_validation.py`
+
+Reproduce:
+
+```powershell
+failure-doctor diagnose examples/resolution_validation_cases/01_selector_drift_resolved/before --out tmp_report
+failure-doctor plan tmp_report --out tmp_fix_plan
+failure-doctor verify --before examples/resolution_validation_cases/01_selector_drift_resolved/before --after examples/resolution_validation_cases/01_selector_drift_resolved/after --out tmp_verification --create-regression
+python -m tools.validation.run_resolution_validation
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| Resolution validation cases | 12 |
+| Correct verification status | 12 |
+| Actionable next steps | 12 |
+| Forbidden outputs | 0 |
+
+Anti-bot cases are not marked resolved through access-control defeat. They can only resolve through compliant path evidence such as official API use, authorized export, manual review, or stopping unclear automation.
+
 ## Website Change + Anti-Bot Risk Addendum
 
 The v0.6 addendum is tracked separately in `validation/website_antibot_validation_50.json`.

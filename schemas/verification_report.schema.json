@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Failure Doctor Verification Report",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "status",
+    "before",
+    "after",
+    "resolved_evidence",
+    "remaining_evidence",
+    "new_failures",
+    "confidence",
+    "regression_case_created",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "verification_report/v1"},
+    "status": {"enum": ["resolved", "not_resolved", "changed_failure", "insufficient_evidence", "resolved_by_compliant_path"]},
+    "before": {"type": "object"},
+    "after": {"type": "object"},
+    "resolved_evidence": {"type": "array", "items": {"type": "string"}},
+    "remaining_evidence": {"type": "array", "items": {"type": "string"}},
+    "new_failures": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"type": "number"},
+    "regression_case_created": {"type": "boolean"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -33,6 +33,16 @@ report/
 `-- failure_doctor_report.zip
 ```
 
+## 验证修复是否真的成功
+
+```powershell
+failure-doctor diagnose .\failed_run --out .\report
+failure-doctor plan .\report --out .\fix_plan
+failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\verification_report
+```
+
+`verify` 会对比 before/after 证据，判断原失败是否已解决、是否未解决、是否变成另一个失败，或证据不足。
+
 ## v0.9 验证状态
 
 - 131 条 source ledger 记录，并区分真实公开 issue、官方文档行为边界、public-inspired sanitized 记录
@@ -43,6 +53,8 @@ report/
 - 62 条 external public reference seed
 - 20 条 external public reference held-out 记录
 - external public reference 验证：20/20 合理分类，20/20 可执行下一步
+- 12 组 resolution validation before/after 案例
+- resolution validation：12/12 状态判断正确
 - external held-out 验证：10 条公开来源记录，9/10 合理分类，10/10 可执行下一步
 - 生成报告和 Prompt 的 forbidden output 为 0
 
@@ -55,6 +67,7 @@ python -m pip install -e .[trace-gen]
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
 python -m tools.validation.run_external_public_reference_validation
+python -m tools.validation.run_resolution_validation
 python scripts\validate_external_heldout.py
 ```
 

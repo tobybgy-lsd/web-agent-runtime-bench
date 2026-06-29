@@ -10,6 +10,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Website-change / anti-bot routing | 50 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
 | External public reference held-out set | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
 | External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
+| Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
 
 ## Source Ledger
 
@@ -59,6 +60,18 @@ Current result:
 
 9/10 reasonable classifications
 10/10 actionable next actions
+0 forbidden outputs
+```
+
+## Resolution Validation Track
+
+`examples/resolution_validation_cases/` contains 12 local before/after cases. `tools.validation.run_resolution_validation` runs `failure-doctor verify` for each case and writes `validation/resolution_validation_12.json`.
+
+Current result:
+
+```text
+12/12 verification statuses correct
+12/12 actionable next steps
 0 forbidden outputs
 ```
 

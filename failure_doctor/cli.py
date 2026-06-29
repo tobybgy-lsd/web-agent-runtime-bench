@@ -12,6 +12,14 @@ from tools.failure_artifacts.adapters import artifact_from_playwright_trace
 from tools.failure_artifacts.diagnose import diagnose_artifact
 from tools.failure_artifacts.issue import render_issue_draft
 from tools.failure_artifacts.reporter import render_markdown_report
+from tools.failure_artifacts.regression_case import create_regression_case
+from tools.failure_artifacts.resolution import (
+    generate_fix_plan,
+    render_fix_plan_markdown,
+    render_verification_markdown,
+    verify_resolution,
+    write_json,
+)
 from trace_doctor.cli import _render_repair_suggestions
 
 
@@ -24,6 +32,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "diagnose":
         return diagnose_inputs(args)
+    if args.command == "plan":
+        return plan_from_report(args)
+    if args.command == "verify":
+        return verify_inputs(args)
     parser.print_help()
     return 1
 
@@ -45,6 +57,15 @@ def build_parser() -> argparse.ArgumentParser:
     diagnose.add_argument("input", help="Path to trace.zip, log file, network.json, description file, screenshot, or a directory")
     diagnose.add_argument("--out", required=True, help="Output report directory")
     diagnose.add_argument("--run-id", default=None, help="Stable run identifier")
+    plan = sub.add_parser("plan", help="Generate a fix plan from a diagnosis report directory")
+    plan.add_argument("report", help="Path to a report directory containing diagnosis.json")
+    plan.add_argument("--out", required=True, help="Output fix plan directory")
+    verify = sub.add_parser("verify", help="Verify whether a fix resolved a before/after failure")
+    verify.add_argument("--before", required=True, help="Before input directory/file or report directory")
+    verify.add_argument("--after", required=True, help="After input directory/file or report directory")
+    verify.add_argument("--out", required=True, help="Output verification report directory")
+    verify.add_argument("--fix-plan", default=None, help="Optional fix_plan.json path or directory")
+    verify.add_argument("--create-regression", action="store_true", help="Write regression_case.json")
     return parser
 
 
@@ -74,6 +95,45 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print(f"Next: {public.get('next_action')}")
     print(f"Report: {out_dir}")
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
+    return 0
+
+
+def plan_from_report(args: argparse.Namespace) -> int:
+    report_dir = Path(args.report)
+    out_dir = Path(args.out)
+    diagnosis = _load_report_diagnosis(report_dir)
+    evidence = _load_optional_json(report_dir / "evidence.json")
+    plan = generate_fix_plan(diagnosis, evidence)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    write_json(out_dir / "fix_plan.json", plan)
+    (out_dir / "fix_plan.md").write_text(render_fix_plan_markdown(plan), encoding="utf-8")
+    (out_dir / "codex_fix_prompt.md").write_text(_render_fix_plan_codex_prompt(plan), encoding="utf-8")
+    print("Agent Failure Doctor Fix Plan")
+    print(f"Root cause: {plan.get('root_cause')}")
+    print(f"Risk: {plan.get('risk')}")
+    print(f"Output: {out_dir}")
+    return 0
+
+
+def verify_inputs(args: argparse.Namespace) -> int:
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    before_diag, before_evidence, before_summary = _diagnose_or_load(Path(args.before), out_dir / "before_report")
+    after_diag, after_evidence, after_summary = _diagnose_or_load(Path(args.after), out_dir / "after_report")
+    fix_plan = _load_fix_plan(Path(args.fix_plan)) if args.fix_plan else generate_fix_plan(before_diag, before_evidence)
+    report = verify_resolution(before_diag, before_evidence, after_diag, after_evidence, fix_plan)
+    regression = create_regression_case(str(args.before), str(args.after), report) if args.create_regression or report.get("regression_case_created") else None
+    if regression:
+        report["regression_case_created"] = True
+    write_json(out_dir / "verification_report.json", report)
+    (out_dir / "verification_report.md").write_text(render_verification_markdown(report), encoding="utf-8")
+    write_json(out_dir / "before_summary.json", before_summary)
+    write_json(out_dir / "after_summary.json", after_summary)
+    if regression:
+        write_json(out_dir / "regression_case.json", regression)
+    print("Agent Failure Doctor Verification")
+    print(f"Status: {report.get('status')}")
+    print(f"Output: {out_dir}")
     return 0
 
 
@@ -535,6 +595,81 @@ Verification:
 Forbidden scope:
 - Do not implement challenge defeat, access-control defeat, credential extraction, account rotation, network rotation, or automated challenge solving.
 """
+
+
+def _load_report_diagnosis(report_dir: Path) -> dict[str, Any]:
+    path = report_dir / "diagnosis.json"
+    if not path.exists():
+        raise SystemExit(f"diagnosis.json not found in report directory: {report_dir}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    raw = payload.get("raw_diagnosis")
+    if isinstance(raw, Mapping):
+        merged = dict(raw)
+        merged.setdefault("technical_category", payload.get("technical_category"))
+        merged.setdefault("failure_layer", payload.get("failure_layer"))
+        merged.setdefault("subtype", payload.get("subtype"))
+        return merged
+    return payload
+
+
+def _load_optional_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _load_fix_plan(path: Path) -> dict[str, Any]:
+    if path.is_dir():
+        path = path / "fix_plan.json"
+    if not path.exists():
+        raise SystemExit(f"fix_plan.json not found: {path}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _diagnose_or_load(path: Path, scratch_report_dir: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    if path.is_dir() and (path / "diagnosis.json").exists():
+        diagnosis = _load_report_diagnosis(path)
+        evidence = _load_optional_json(path / "evidence.json")
+        summary = _load_optional_json(path / "input_summary.json")
+        return diagnosis, evidence, summary
+
+    args = argparse.Namespace(input=str(path), out=str(scratch_report_dir), run_id=f"verify_{path.name}")
+    code = diagnose_inputs(args)
+    if code != 0:
+        raise SystemExit(f"failed to diagnose input during verify: {path}")
+    diagnosis = _load_report_diagnosis(scratch_report_dir)
+    evidence = _load_optional_json(scratch_report_dir / "evidence.json")
+    summary = _load_optional_json(scratch_report_dir / "input_summary.json")
+    return diagnosis, evidence, summary
+
+
+def _render_fix_plan_codex_prompt(plan: Mapping[str, Any]) -> str:
+    areas = "\n".join(f"- {item}" for item in plan.get("recommended_change_area", []))
+    return "\n".join(
+        [
+            "# Codex Fix Prompt",
+            "",
+            "Please implement the failure fix described by this plan.",
+            "",
+            f"- Root cause: {plan.get('root_cause')}",
+            f"- Fix intent: {plan.get('fix_intent')}",
+            f"- Risk: {plan.get('risk')}",
+            "",
+            "## Recommended Change Area",
+            "",
+            areas,
+            "",
+            "## Verification",
+            "",
+            str(plan.get("verification_strategy")),
+            "",
+            "## Boundaries",
+            "",
+            "- Do not change unrelated business logic.",
+            "- Do not add access-control defeat logic, challenge automation, credential extraction, or unauthorized collection.",
+            "- After editing, rerun the failing automation and save after-run evidence for `failure-doctor verify`.",
+        ]
+    )
 
 
 def _low_evidence_diagnosis(input_summary: Mapping[str, Any]) -> dict[str, Any]:
