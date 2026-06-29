@@ -49,6 +49,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def diagnose_inputs(args: argparse.Namespace) -> int:
+    _configure_stdio()
     input_path = Path(args.input)
     out_dir = Path(args.out)
     if not input_path.exists():
