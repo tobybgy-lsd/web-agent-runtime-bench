@@ -1,9 +1,16 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
+Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack
 
 Core lifecycle:
-`failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor verify` -> `failure-doctor sanitize`
+`failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
+
+v2.5 commands:
+
+```powershell
+failure-doctor handoff .\report --target codex --out .\ai_handoff
+failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
+```
 
 [English documentation](README.md)
 

@@ -8,19 +8,20 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
+Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+v2.5 also adds AI handoff task packs and dry-run patch proposals.
 
 Core commands:
-`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize` / `failure-doctor adapt`
+`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor handoff` / `failure-doctor propose-patch` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize` / `failure-doctor adapt`
 
 Lifecycle:
-`diagnose -> plan -> verify -> sanitize`
+`capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -29,16 +30,18 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
 
+See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+
 Composite diagnosis:
 Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
-
-See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
 Show the v2.1 lifecycle:
 
 ```powershell
 failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --out .\report
 failure-doctor plan .\report --out .\fix_plan
+failure-doctor handoff .\report --target codex --out .\ai_handoff
+failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
 failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
 failure-doctor sanitize .\report --out .\shareable_pack
 failure-doctor run -- python .\examples\mock_script_fails.py
@@ -187,6 +190,49 @@ failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\ve
 
 `verify` compares before/after evidence and reports whether the original failure is resolved, unchanged, changed into another failure, or insufficiently evidenced.
 
+## AI Handoff & Patch Proposal
+
+Turn a report into task packs that Codex, Claude Code, or Cursor can execute:
+
+```powershell
+failure-doctor handoff .\report --target codex --out .\ai_handoff
+failure-doctor handoff .\report --target claude_code --out .\ai_handoff
+failure-doctor handoff .\report --target cursor --out .\ai_handoff
+```
+
+This writes:
+
+```text
+ai_handoff/
+|-- codex_task.md
+|-- claude_code_task.md
+|-- cursor_task.md
+|-- affected_files.json
+|-- validation_commands.md
+|-- forbidden_actions.md
+|-- token_budget_report.json
+`-- ai_handoff_pack.zip
+```
+
+Generate a dry-run patch proposal without modifying source code:
+
+```powershell
+failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
+```
+
+This writes:
+
+```text
+patch_plan/
+|-- patch_proposal.md
+|-- proposed_changes.json
+|-- affected_files.json
+|-- validation_commands.md
+`-- patch_risk_assessment.json
+```
+
+`propose-patch` is intentionally proposal-only. It does not edit files, apply patches, run tests, or open pull requests.
+
 ## Applied Scenario Demos
 
 Local-only mock demos show how Agent Failure Doctor can diagnose failures in:
@@ -261,7 +307,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Current stable milestone: Agent Failure Doctor v2.5.0 AI Handoff & Patch Proposal Pack.
 
 Latest added validation track: P95 Core Triad Gate.
 

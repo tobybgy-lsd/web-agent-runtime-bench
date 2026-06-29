@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 from zipfile import ZIP_DEFLATED, ZipFile
 
+from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
 from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_framework_failure
@@ -52,6 +53,10 @@ def main(argv: list[str] | None = None) -> int:
         return sanitize_inputs(args)
     if args.command == "run":
         return run_command(args)
+    if args.command == "handoff":
+        return handoff_report(args)
+    if args.command == "propose-patch":
+        return propose_patch(args)
     parser.print_help()
     return 1
 
@@ -100,6 +105,14 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--run-id", default=None, help="Stable run identifier")
     run.add_argument("--cwd", default=None, help="Working directory for the wrapped command")
     run.add_argument("cmd", nargs=argparse.REMAINDER, help="Command to run after --")
+    handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
+    handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
+    handoff.add_argument("--target", required=True, choices=["codex", "claude_code", "cursor", "all"], help="Preferred AI coding assistant target")
+    handoff.add_argument("--out", required=True, help="Output AI handoff directory")
+    patch = sub.add_parser("propose-patch", help="Generate a dry-run patch proposal from a report")
+    patch.add_argument("--repo", required=True, help="Repository root to inspect later")
+    patch.add_argument("--report", required=True, help="Path to a report directory containing diagnosis.json")
+    patch.add_argument("--out", required=True, help="Output patch proposal directory")
     return parser
 
 
@@ -248,6 +261,31 @@ def run_command(args: argparse.Namespace) -> int:
     print(f"Output: {run_dir}")
     print(f"Shareable pack: {zip_path}")
     return exit_code
+
+
+def handoff_report(args: argparse.Namespace) -> int:
+    try:
+        result = write_ai_handoff_pack(Path(args.report), Path(args.out), target=str(args.target))
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor AI Handoff")
+    print(f"Target: {result['selected_target']}")
+    print(f"Output: {result['out_dir']}")
+    print(f"Bundle: {result['zip_path']}")
+    return 0
+
+
+def propose_patch(args: argparse.Namespace) -> int:
+    try:
+        result = write_patch_proposal(Path(args.repo), Path(args.report), Path(args.out))
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Patch Proposal")
+    print("Mode: proposal only")
+    print(f"Output: {result['out_dir']}")
+    return 0
 
 
 def collect_inputs(path: Path) -> dict[str, Any]:

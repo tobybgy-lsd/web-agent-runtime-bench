@@ -20,6 +20,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Playwright Trace Doctor P95 validation | 100 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 290+ |
 | Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
 | P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
+| AI Handoff & Patch Proposal | 2 commands | CLI tested | proposal only | validation commands generated | 0 | 0 | 0 | 290+ |
 
 ## Source Ledger
 
@@ -112,6 +113,20 @@ Reproduce:
 ```powershell
 python -m tools.validation.run_p95_core_triage_gate
 ```
+
+## AI Handoff & Patch Proposal
+
+v2.5 adds a proposal-only repair handoff layer. It converts existing diagnosis, fix plan, repair order, and evidence graph outputs into AI coding assistant task packs and dry-run patch proposals.
+
+Reproduce:
+
+```powershell
+failure-doctor handoff .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --target codex --out .\tmp\ai_handoff
+failure-doctor propose-patch --repo . --report .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --out .\tmp\patch_plan
+python -m unittest tests.test_ai_handoff_patch_proposal
+```
+
+Safety boundary: this track does not edit source files, apply patches, run tests on behalf of the user, open pull requests, or provide bypass-oriented actions.
 
 ## Playwright Trace Doctor P95 Validation
 
