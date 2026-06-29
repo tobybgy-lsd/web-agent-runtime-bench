@@ -1,0 +1,8 @@
+{
+  "framework": "scrapy",
+  "technical_category": "anti_bot_risk",
+  "subtype": "rate_limited",
+  "accepted_technical_categories": [
+    "anti_bot_risk"
+  ]
+}

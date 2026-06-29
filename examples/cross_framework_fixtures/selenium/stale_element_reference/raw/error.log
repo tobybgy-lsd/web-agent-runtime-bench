@@ -1,0 +1,1 @@
+selenium.common.exceptions.StaleElementReferenceException: stale element reference: element is not attached to the page document

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -10,6 +10,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
+from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_framework_failure
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace
@@ -42,6 +43,8 @@ def main(argv: list[str] | None = None) -> int:
         return verify_inputs(args)
     if args.command == "collect-playwright":
         return collect_playwright_inputs(args)
+    if args.command == "adapt":
+        return adapt_framework_inputs(args)
     if args.command == "pack-logs":
         return pack_log_inputs(args)
     if args.command == "sanitize":
@@ -81,6 +84,10 @@ def build_parser() -> argparse.ArgumentParser:
     collect = sub.add_parser("collect-playwright", help="Collect Playwright test-results into a failure pack")
     collect.add_argument("test_results", help="Path to Playwright test-results or a failed test artifact folder")
     collect.add_argument("--out", required=True, help="Output failure pack directory")
+    adapt = sub.add_parser("adapt", help="Normalize Selenium/Puppeteer/Cypress/Scrapy/requests/httpx logs into a failure pack")
+    adapt.add_argument("input", help="Path to a framework failure log folder or file")
+    adapt.add_argument("--framework", required=True, choices=sorted(SUPPORTED_FRAMEWORKS), help="Source framework or auto")
+    adapt.add_argument("--out", required=True, help="Output failure pack directory")
     pack_logs = sub.add_parser("pack-logs", help="Normalize a raw log folder into a failure pack")
     pack_logs.add_argument("raw_logs", help="Path to a folder containing logs, network summaries, and screenshots")
     pack_logs.add_argument("--out", required=True, help="Output failure pack directory")
@@ -168,6 +175,21 @@ def collect_playwright_inputs(args: argparse.Namespace) -> int:
     print("Agent Failure Doctor Playwright Collector")
     print(f"Output: {args.out}")
     print(f"Evidence priority: {', '.join(summary.get('evidence_priority', [])) or 'none'}")
+    return 0
+
+
+def adapt_framework_inputs(args: argparse.Namespace) -> int:
+    try:
+        summary = normalize_framework_failure(Path(args.input), str(args.framework), Path(args.out))
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Cross-Framework Adapter")
+    print(f"Framework: {summary.get('framework')}")
+    print(f"Technical: {summary.get('candidate_technical_category')} / {summary.get('subtype')}")
+    print(f"Layer: {summary.get('candidate_failure_layer')}")
+    print(f"Redaction: {summary.get('redaction_status')}")
+    print(f"Output: {args.out}")
     return 0
 
 
@@ -375,13 +397,17 @@ def user_category_for(technical: str, subtype: str = "") -> str:
         return "疑似风控/访问限制"
     if technical in {"auth_expiry", "playwright_storage_state_context"}:
         return "登录状态失效"
-    if technical in {"selector_drift", "playwright_shadow_dom_locator", "playwright_strict_mode_violation", "playwright_frame_locator"}:
+    if technical in {"selector_drift", "playwright_shadow_dom_locator", "playwright_strict_mode_violation", "playwright_frame_locator", "selector_syntax_error"}:
         return "按钮/元素找不到"
-    if technical in {"async_hydration_timing", "playwright_execution_context_destroyed"}:
+    if technical in {"popup_or_overlay_blocking", "popup_or_new_page"}:
+        return "弹窗/遮罩挡住"
+    if technical in {"browser_driver_mismatch", "target_closed_or_page_crash", "cdp_protocol_error", "environment_config_mismatch"}:
+        return "浏览器环境不一致"
+    if technical in {"navigation_or_wait_timeout", "browser_context_or_origin_policy", "viewport_responsive_layout_mismatch", "async_hydration_timing", "playwright_execution_context_destroyed"}:
         return "页面没加载完"
     if technical in {"playwright_popup"}:
         return "弹窗/遮罩挡住"
-    if technical == "response_shape_change" or (technical == "playwright_route_mock_har" and subtype == "mock_response_shape_mismatch"):
+    if technical in {"response_shape_change", "fixture_or_mock_missing"} or (technical == "playwright_route_mock_har" and subtype == "mock_response_shape_mismatch"):
         return "接口返回变了"
     if technical == "rate_limit_or_soft_block":
         return "请求被限流"
@@ -389,7 +415,7 @@ def user_category_for(technical: str, subtype: str = "") -> str:
         return "网络/代理问题"
     if technical in {"runtime_api_missing", "toolchain_environment", "playwright_browser_context_closed", "cdp_websocket_disconnected"}:
         return "浏览器环境不一致"
-    if technical in {"playwright_file_chooser", "playwright_download"}:
+    if technical in {"playwright_file_chooser", "playwright_download", "download_not_saved"}:
         return "文件上传下载失败"
     if technical == "insufficient_evidence":
         return "证据不足"
@@ -409,6 +435,10 @@ def failure_layer_for(technical: str) -> str:
         "runtime_api_missing",
         "playwright_browser_context_closed",
         "cdp_websocket_disconnected",
+        "browser_driver_mismatch",
+        "target_closed_or_page_crash",
+        "cdp_protocol_error",
+        "environment_config_mismatch",
     }:
         return "environment"
     return "automation_engineering"
@@ -450,7 +480,7 @@ def confidence_reason_for(diagnosis: Mapping[str, Any]) -> str:
     return (
         f"confidence={confidence}, evidence_level={evidence_level}; "
         f"classified as {technical}/{subtype} because evidence includes: {first_evidence}. "
-        "为什么不是其他分类：当前证据首先命中该类别的专属日志或 trace 标记，其他类别只作为备选。"
+        "为什么不是其他分类: the current evidence first matches category-specific log, trace, or adapter markers; other categories remain alternatives only."
     )
 
 
@@ -488,6 +518,9 @@ def write_failure_doctor_report(
 def _diagnosis_hint_from_text(log_text: str, description_text: str, network_events: Any) -> dict[str, Any]:
     text = f"{log_text}\n{description_text}".lower()
     hints: dict[str, Any] = {}
+    adapter_hint = _adapter_hint_from_text(log_text)
+    if adapter_hint:
+        hints["adapter_failure_hint"] = adapter_hint
     if "err_proxy_connection_failed" in text or "proxy_connection_failed" in text:
         hints.update({"network_error": "proxy connection failed", "transport_marker": "proxy", "subtype_hint": "proxy_connection_failed"})
     if "err_name_not_resolved" in text:
@@ -512,15 +545,32 @@ def _diagnosis_hint_from_text(log_text: str, description_text: str, network_even
     return hints
 
 
+def _adapter_hint_from_text(text: str) -> dict[str, str]:
+    fields: dict[str, str] = {}
+    marker_map = {
+        "framework": "AFD_FRAMEWORK=",
+        "technical_category": "AFD_TECHNICAL_CATEGORY=",
+        "subtype": "AFD_SUBTYPE=",
+        "failure_layer": "AFD_FAILURE_LAYER=",
+        "error_family": "AFD_ERROR_FAMILY=",
+    }
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        for key, marker in marker_map.items():
+            if line.startswith(marker):
+                fields[key] = line[len(marker) :].strip()
+    return fields
+
+
 def _render_public_markdown(
     public: Mapping[str, Any],
     diagnosis: Mapping[str, Any],
     artifact: Mapping[str, Any],
     input_summary: Mapping[str, Any],
 ) -> str:
-    evidence = "\n".join(f"- {item}" for item in public.get("evidence", [])) or "- 暂无明确证据，需要补充 trace、log 或 network.json。"
-    fixes = "\n".join(f"- {item}" for item in public.get("suggested_fix", [])) or "- 先补充失败日志和最小复现。"
-    missing = "\n".join(f"- {item}" for item in public.get("missing_evidence", [])) or "- 无明显缺失。"
+    evidence = "\n".join(f"- {item}" for item in public.get("evidence", [])) or "- No direct evidence yet; collect trace, logs, or network evidence."
+    fixes = "\n".join(f"- {item}" for item in public.get("suggested_fix", [])) or "- Collect a minimal reproduction before editing code."
+    missing = "\n".join(f"- {item}" for item in public.get("missing_evidence", [])) or "- No obvious missing evidence."
     priority = ", ".join(public.get("evidence_priority", [])) or "none"
     return "\n".join(
         [
@@ -528,23 +578,23 @@ def _render_public_markdown(
             "",
             "## 结论",
             "",
-            f"这个失败更像是 **{public.get('user_facing_category')}**。",
-            f"- 技术分类：`{public.get('technical_category')}`",
-            f"- 子类型：`{public.get('subtype', 'n/a')}`",
-            f"- 置信度：`{public.get('confidence', 0)}`",
-            f"- 修复难度：`{public.get('estimated_fix_difficulty')}`",
-            f"- 证据优先级：`{priority}`",
+            f"This failure most likely belongs to **{public.get('user_facing_category')}**.",
+            f"- Technical category: `{public.get('technical_category')}`",
+            f"- Subtype: `{public.get('subtype', 'n/a')}`",
+            f"- Confidence: `{public.get('confidence', 0)}`",
+            f"- Fix difficulty: `{public.get('estimated_fix_difficulty')}`",
+            f"- Evidence priority: `{priority}`",
             "",
             "## 证据",
             "",
             evidence,
             "",
-            "## 输入盘点",
+            "## Input Summary",
             "",
-            f"- 识别到的证据优先级：`{priority}`",
-            "- 缺失证据：",
+            f"- Evidence priority: `{priority}`",
+            "- Missing evidence:",
             missing,
-            f"- 盘点详情见：`input_summary.json`",
+            "- Details: `input_summary.json`",
             "",
             "## 为什么",
             "",
@@ -557,7 +607,7 @@ def _render_public_markdown(
             "",
             "## 给 Codex 的修复指令",
             "",
-            "把 `codex_fix_prompt.md` 交给 Codex/Claude。它已经包含保守修复、推荐修复、验证命令和禁止修改范围。",
+            "Give `codex_fix_prompt.md` to Codex or Claude. It contains conservative repair steps, recommended repair steps, verification commands, and forbidden edit boundaries.",
             "",
             "## Technical Details",
             "",
@@ -572,36 +622,36 @@ def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, 
     if public.get("technical_category") == "website_change":
         return _render_website_change_codex_fix_prompt(public, diagnosis)
 
-    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- 证据不足，需要先补充日志或 trace。"
+    evidence = "\n".join(f"- {item}" for item in diagnosis.get("evidence", [])) or "- Evidence is thin; collect logs, trace, or network data first."
     fixes = list(diagnosis.get("suggested_fix", [])) if isinstance(diagnosis.get("suggested_fix", []), list) else []
-    conservative = fixes[0] if fixes else "先补充失败日志、trace、network.json 或最小复现，不要猜测根因。"
-    recommended = "\n".join(f"- {item}" for item in fixes[1:]) or "- 做最小代码修复，并为该失败增加回归测试。"
-    missing = "\n".join(f"- {item}" for item in public.get("missing_evidence", [])) or "- 当前证据相对完整。"
+    conservative = fixes[0] if fixes else "Collect a minimal reproduction and do not guess the root cause."
+    recommended = "\n".join(f"- {item}" for item in fixes[1:]) or "- Make the smallest code change that addresses the diagnosed cause, then add a regression test."
+    missing = "\n".join(f"- {item}" for item in public.get("missing_evidence", [])) or "- Current evidence is sufficient for an initial fix plan."
     verification_commands = "\n".join(
         [
-            "- 运行相关单测或最小复现。",
-            '- 如果是本仓库，运行：`python -m unittest discover -s tests -p "test_*.py"`。',
-            "- 失败时保留 trace/screenshot/log，并重新生成诊断报告。",
+            "- Run the affected test or minimal reproduction.",
+            "- For this repo, run: `python -m unittest discover -s tests -p \"test_*.py\"`.",
+            "- If it still fails, save fresh trace/screenshot/log evidence and regenerate the diagnosis report.",
         ]
     )
     return f"""# Codex Fix Prompt
 
 请修复这个 AI 自动化失败。
 
-## 诊断结果
+## Diagnosis
 
-- 大类：{public.get("user_facing_category")}
-- 技术原因：{public.get("technical_category")}
-- 子类型：{public.get("subtype", "n/a")}
-- 置信度：{public.get("confidence", 0)}
-- 修复难度：{public.get("estimated_fix_difficulty")}
-- 置信原因：{public.get("confidence_reason")}
+- User-facing category: {public.get("user_facing_category")}
+- Technical category: {public.get("technical_category")}
+- Subtype: {public.get("subtype", "n/a")}
+- Confidence: {public.get("confidence", 0)}
+- Fix difficulty: {public.get("estimated_fix_difficulty")}
+- Confidence reason: {public.get("confidence_reason")}
 
-## 证据
+## Evidence
 
 {evidence}
 
-## 还缺什么证据
+## Missing Evidence
 
 {missing}
 
@@ -621,9 +671,9 @@ def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, 
 
 1. 不要改业务逻辑。
 2. 不要加入 Cookie、Token、Authorization 或密码。
-3. 不要加入 CAPTCHA 绕过或反爬规避逻辑。
-4. 不要把截图、trace 或日志里的敏感信息写入仓库。
-5. 不要把网络/代理/环境问题误修成 selector 改动。
+3. 不要加入 challenge solving、access-control defeat 或 bot-evasion logic。
+4. 不要提交敏感截图、trace 或日志。
+5. 不要把网络、代理或环境问题误修成 selector 改动。
 """
 
 
@@ -775,8 +825,8 @@ def _low_evidence_diagnosis(input_summary: Mapping[str, Any]) -> dict[str, Any]:
         "evidence_level": "low",
         "evidence": ["only low-priority evidence was provided"],
         "suggested_fix": [
-            f"需要补充这些材料：{missing}",
-            "优先补充 trace.zip 或 error.log；如果有接口问题，再补 network.json。",
+            f"需要补充这些材料: {missing}",
+            "prefer trace.zip or error.log first; add network.json when the failure involves HTTP/API behavior",
         ],
         "can_auto_fix": False,
         "synthetic_only": True,
@@ -812,12 +862,12 @@ def _recognized_files(evidence: Mapping[str, Any]) -> dict[str, Any]:
 
 def _input_guidance(priority: list[str], missing: list[str]) -> str:
     if not priority:
-        return "没有识别到可诊断材料；请至少提供 trace.zip 或 error.log。"
+        return "No diagnosable material was recognized; provide at least trace.zip or error.log."
     if priority == ["screenshot_metadata"] or priority == ["description"] or set(priority).issubset({"description", "screenshot_metadata"}):
-        return "证据较弱；当前只做低置信度盘点，请补充 trace.zip、error.log 或 network.json。"
+        return "Evidence is weak; this run only supports low-confidence triage until trace.zip, error.log, or network.json is provided."
     if "trace_zip" in priority:
-        return "已识别 trace.zip，将优先使用 trace 诊断；其他材料作为辅助证据。"
-    return "已识别日志或网络材料，可进行规则诊断；补充 trace.zip 可提升证据质量。"
+        return "trace.zip was recognized and will be used as the strongest evidence source."
+    return "Logs or network evidence were recognized; add trace.zip to improve evidence quality when available."
 
 
 def _read_network_events(path: Path) -> list[dict[str, Any]]:

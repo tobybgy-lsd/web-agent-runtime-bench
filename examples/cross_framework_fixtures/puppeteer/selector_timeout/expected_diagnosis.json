@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "selector_drift",
+  "subtype": "puppeteer_selector_timeout",
+  "accepted_technical_categories": [
+    "selector_drift"
+  ]
+}

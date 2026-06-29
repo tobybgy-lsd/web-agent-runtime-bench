@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "download_not_saved",
+  "subtype": "download_not_saved",
+  "accepted_technical_categories": [
+    "download_not_saved"
+  ]
+}

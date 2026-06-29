@@ -1,0 +1,8 @@
+{
+  "framework": "scrapy",
+  "technical_category": "playwright_storage_state_context",
+  "subtype": "login_redirect_after_authenticated_action",
+  "accepted_technical_categories": [
+    "playwright_storage_state_context"
+  ]
+}

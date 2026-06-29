@@ -1,0 +1,1 @@
+Sanitized scrapy failure sample for scrapy_empty_response.

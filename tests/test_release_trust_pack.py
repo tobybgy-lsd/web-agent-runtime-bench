@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -14,10 +14,10 @@ class ReleaseTrustPackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         dashboard = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
-        self.assertIn('version = "2.1.0"', pyproject)
+        self.assertIn('version = "2.2.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("## v2.0.0", changelog)
-        self.assertIn("v2.1 Sanitize & Share Pack", readme)
+        self.assertIn("v2.2 Cross-Framework Adapter Pack", readme)
         self.assertIn("v2.0 Auto Capture", readme)
         self.assertIn("62 external public reference seeds", readme)
         self.assertIn("External held-out public-source set", dashboard)
@@ -29,8 +29,8 @@ class ReleaseTrustPackTests(unittest.TestCase):
         self.assertIn("trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt", top)
         self.assertIn("diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.", top)
         self.assertEqual(top.count("diagnosis, evidence, next action"), 1)
-        self.assertNotIn("涓", top)
-        self.assertNotIn("鏂", top)
+        self.assertNotIn("娑", top)
+        self.assertNotIn("閺", top)
 
     def test_external_heldout_validation_is_reproducible(self):
         result = subprocess.run(
@@ -48,3 +48,4 @@ class ReleaseTrustPackTests(unittest.TestCase):
         self.assertGreaterEqual(summary["reasonable_classifications"], 7)
         self.assertGreaterEqual(summary["actionable_next_actions"], 8)
         self.assertEqual(summary["forbidden_outputs"], 0)
+

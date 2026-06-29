@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "browser_context_or_origin_policy",
+  "subtype": "cross_origin_navigation_blocked",
+  "accepted_technical_categories": [
+    "browser_context_or_origin_policy"
+  ]
+}

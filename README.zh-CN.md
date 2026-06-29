@@ -1,6 +1,6 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.1
+Current stable milestone: Agent Failure Doctor v2.2
 
 Core lifecycle:
 `failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor verify` -> `failure-doctor sanitize`

@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "playwright_route_mock_har",
+  "subtype": "cypress_intercept_not_matched",
+  "accepted_technical_categories": [
+    "playwright_route_mock_har"
+  ]
+}

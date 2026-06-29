@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "execution_context_destroyed",
+  "subtype": "navigation_race_or_context_destroyed",
+  "accepted_technical_categories": [
+    "execution_context_destroyed"
+  ]
+}

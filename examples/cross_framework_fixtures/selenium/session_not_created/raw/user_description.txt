@@ -1,0 +1,1 @@
+Sanitized selenium failure sample for session_not_created.

@@ -8,7 +8,7 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.1
+Current stable milestone: Agent Failure Doctor v2.2
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
@@ -17,7 +17,7 @@ Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
 Core commands:
-`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize`
+`failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify` / `failure-doctor run` / `failure-doctor sanitize` / `failure-doctor adapt`
 
 Lifecycle:
 `diagnose -> plan -> verify -> sanitize`
@@ -46,7 +46,7 @@ Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It d
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 
 Integration commands:
-`failure-doctor collect-playwright` / `failure-doctor pack-logs`
+`failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
 
 ## What You Get
 
@@ -92,6 +92,8 @@ This writes a local run folder under `.failure-doctor/runs/<run_id>/`:
 ```
 
 The generated `safe_to_share.json` defaults to `safe_to_share=false`; review and sanitize before sending a pack to anyone else.
+
+Sanitize & Share Pack:
 
 Sanitize a failed run before sharing it:
 
@@ -214,11 +216,27 @@ failure-doctor pack-logs .\examples\mock_raw_logs --out .\tmp_log_pack
 failure-doctor diagnose .\tmp_log_pack --out .\tmp_log_report
 ```
 
+Normalize a Selenium, Puppeteer, Cypress, Scrapy, requests, or httpx failure log:
+
+```powershell
+failure-doctor adapt .\examples\cross_framework_fixtures\selenium\no_such_element\raw --framework selenium --out .\tmp_selenium_pack
+failure-doctor diagnose .\tmp_selenium_pack --out .\tmp_selenium_report
+failure-doctor plan .\tmp_selenium_report --out .\tmp_selenium_fix_plan
+```
+
+Supported adapter frameworks:
+
+```text
+selenium | puppeteer | cypress | scrapy | requests | httpx | auto
+```
+
+Playwright remains the deepest native trace backend. Cross-framework adapters normalize local logs and metadata into the same failure lifecycle; they do not run those frameworks or connect to external platforms.
+
 See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.md](docs/GITHUB_ACTION_USAGE.md).
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.1 Sanitize & Share Pack.
+Current stable milestone: Agent Failure Doctor v2.2 Cross-Framework Adapter Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -238,6 +256,11 @@ Current stable milestone: Agent Failure Doctor v2.1 Sanitize & Share Pack.
 - Playwright collector, generic log packer, browser-use adapter, and GitHub Actions usage docs
 - v2.0 Auto Capture command wrapper: `failure-doctor run -- <command>`
 - Sanitize & Share command: `failure-doctor sanitize <failed_run> --out <shareable_failure_pack>`
+- Cross-framework adapter command: `failure-doctor adapt <input> --framework <framework> --out <failure_pack>`
+- 42 cross-framework fixtures across Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx
+- 42/42 cross-framework reasonable classifications
+- 42/42 cross-framework valid fix plans
+- 0 forbidden outputs in cross-framework validation
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions

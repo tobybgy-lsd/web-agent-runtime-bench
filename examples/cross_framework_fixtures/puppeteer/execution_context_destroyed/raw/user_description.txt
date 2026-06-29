@@ -1,0 +1,1 @@
+Sanitized puppeteer failure sample for execution_context_destroyed.

@@ -1,0 +1,8 @@
+{
+  "framework": "httpx",
+  "technical_category": "network_http_error",
+  "subtype": "dns_name_not_resolved",
+  "accepted_technical_categories": [
+    "network_http_error"
+  ]
+}

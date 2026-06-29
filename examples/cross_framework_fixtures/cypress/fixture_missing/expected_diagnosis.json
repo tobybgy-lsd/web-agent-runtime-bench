@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "fixture_or_mock_missing",
+  "subtype": "cypress_fixture_missing",
+  "accepted_technical_categories": [
+    "fixture_or_mock_missing"
+  ]
+}

@@ -1,5 +1,17 @@
 # FAQ
 
+## Does Agent Failure Doctor only support Playwright?
+
+No. Playwright remains the deepest native `trace.zip` backend, but v2.2 adds `failure-doctor adapt` for Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx logs.
+
+## Does the cross-framework adapter run Selenium, Puppeteer, Cypress, Scrapy, requests, or httpx?
+
+No. It only normalizes local logs and metadata into a failure pack that the existing diagnosis, fix-plan, verification, and sanitize commands can consume.
+
+## Can I use `--framework auto`?
+
+Yes. `auto` uses local log markers such as Selenium WebDriver exceptions, Puppeteer ProtocolError messages, Cypress `cy.*` errors, Scrapy/Twisted errors, requests exceptions, and httpx/httpcore errors. If evidence is thin, it should downgrade to insufficient evidence instead of guessing.
+
 ## Is this a crawler?
 
 No. Agent Failure Doctor is a failure diagnosis and repair workflow tool. It can analyze local crawler or RPA failure evidence, but it does not execute production crawling jobs.

@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "cdp_protocol_error",
+  "subtype": "puppeteer_protocol_error",
+  "accepted_technical_categories": [
+    "cdp_protocol_error"
+  ]
+}

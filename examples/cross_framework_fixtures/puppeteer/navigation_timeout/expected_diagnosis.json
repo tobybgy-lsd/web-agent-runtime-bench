@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "navigation_or_wait_timeout",
+  "subtype": "navigation_timeout",
+  "accepted_technical_categories": [
+    "navigation_or_wait_timeout"
+  ]
+}

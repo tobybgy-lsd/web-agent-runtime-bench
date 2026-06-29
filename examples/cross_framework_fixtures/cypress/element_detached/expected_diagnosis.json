@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "selector_drift",
+  "subtype": "element_detached_from_dom",
+  "accepted_technical_categories": [
+    "selector_drift"
+  ]
+}

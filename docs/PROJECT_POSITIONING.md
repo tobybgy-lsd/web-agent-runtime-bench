@@ -1,5 +1,13 @@
 # Project Positioning
 
+## v2.2 Position
+
+Agent Failure Doctor is now a local-first failure lifecycle tool for AI browser automation and crawler/RPA-adjacent debugging.
+
+Playwright remains the native trace backend. Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx are supported through a cross-framework log adapter that normalizes failures into the same `diagnose -> plan -> verify -> sanitize` workflow.
+
+This is not a crawler framework, RPA platform, or platform-risk workaround tool. It is a diagnosis, repair-planning, verification, and sanitized-sharing layer for local failure artifacts.
+
 Recommended GitHub About text:
 
 > Local-first failure diagnosis, repair planning, fix verification, auto-capture, and sanitized sharing for AI browser automation, Playwright, crawler, and RPA runs.

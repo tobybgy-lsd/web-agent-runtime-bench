@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "viewport_responsive_layout_mismatch",
+  "subtype": "viewport_mismatch",
+  "accepted_technical_categories": [
+    "viewport_responsive_layout_mismatch"
+  ]
+}

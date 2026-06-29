@@ -1,0 +1,8 @@
+{
+  "framework": "selenium",
+  "technical_category": "popup_or_new_page",
+  "subtype": "window_or_tab_closed",
+  "accepted_technical_categories": [
+    "popup_or_new_page"
+  ]
+}

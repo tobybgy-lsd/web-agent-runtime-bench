@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Framework Failure Pack",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "framework",
+    "input_type",
+    "detected_error_family",
+    "candidate_failure_layer",
+    "candidate_technical_category",
+    "redaction_status",
+    "safe_to_share"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "framework_failure_pack/v1"
+    },
+    "framework": {
+      "enum": ["selenium", "puppeteer", "cypress", "scrapy", "requests", "httpx", "auto"]
+    },
+    "input_type": {
+      "type": "array",
+      "items": {
+        "enum": ["error.log", "console.txt", "network.json", "screenshot_metadata", "user_description"]
+      }
+    },
+    "detected_error_family": {
+      "type": "string"
+    },
+    "candidate_failure_layer": {
+      "enum": ["automation_engineering", "environment", "website_change", "anti_bot_risk", "insufficient_evidence"]
+    },
+    "candidate_technical_category": {
+      "type": "string"
+    },
+    "subtype": {
+      "type": "string"
+    },
+    "redaction_status": {
+      "enum": ["clean", "redacted", "needs_review"]
+    },
+    "safe_to_share": {
+      "const": false
+    }
+  },
+  "additionalProperties": true
+}

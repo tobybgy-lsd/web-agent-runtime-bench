@@ -1,0 +1,8 @@
+{
+  "framework": "selenium",
+  "technical_category": "popup_or_overlay_blocking",
+  "subtype": "click_intercepted_by_overlay",
+  "accepted_technical_categories": [
+    "popup_or_overlay_blocking"
+  ]
+}

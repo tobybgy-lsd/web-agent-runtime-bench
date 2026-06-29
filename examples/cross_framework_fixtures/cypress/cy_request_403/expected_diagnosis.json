@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "anti_bot_risk",
+  "subtype": "auth_or_permission_block",
+  "accepted_technical_categories": [
+    "anti_bot_risk"
+  ]
+}

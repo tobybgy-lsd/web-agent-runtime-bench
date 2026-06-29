@@ -1,0 +1,1 @@
+Sanitized httpx failure sample for httpx_read_timeout.

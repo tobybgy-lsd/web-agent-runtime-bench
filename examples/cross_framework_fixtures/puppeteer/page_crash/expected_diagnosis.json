@@ -1,0 +1,8 @@
+{
+  "framework": "puppeteer",
+  "technical_category": "target_closed_or_page_crash",
+  "subtype": "page_crash",
+  "accepted_technical_categories": [
+    "target_closed_or_page_crash"
+  ]
+}

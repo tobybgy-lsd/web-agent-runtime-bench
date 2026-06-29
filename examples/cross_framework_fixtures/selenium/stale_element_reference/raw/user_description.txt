@@ -1,0 +1,1 @@
+Sanitized selenium failure sample for stale_element_reference.

@@ -7,11 +7,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseAlignmentPackTests(unittest.TestCase):
-    def test_readme_first_screen_shows_v2_1_lifecycle_commands(self):
+    def test_readme_first_screen_shows_v2_2_lifecycle_commands(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         opening = readme[:2200]
 
-        self.assertIn("Current stable milestone: Agent Failure Doctor v2.1", opening)
+        self.assertIn("Current stable milestone: Agent Failure Doctor v2.2", opening)
         self.assertNotIn("Current milestone: v0.8", opening)
         for phrase in (
             "failure-doctor diagnose",
@@ -19,6 +19,7 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
             "failure-doctor verify",
             "failure-doctor run",
             "failure-doctor sanitize",
+            "failure-doctor adapt",
             "diagnose -> plan -> verify -> sanitize",
         ):
             self.assertIn(phrase, opening)

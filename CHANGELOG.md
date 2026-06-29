@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.2.0
+
+- Added Cross-Framework Adapter Pack.
+- Added `failure-doctor adapt <input> --framework <framework> --out <failure_pack>`.
+- Supports `selenium`, `puppeteer`, `cypress`, `scrapy`, `requests`, `httpx`, and `auto`.
+- Added `integrations.cross_framework` with local-only log normalization, redaction status, framework metadata, and standard failure pack output.
+- Added `schemas/framework_failure_pack.schema.json`.
+- Added 42 sanitized cross-framework fixtures and `tools.validation.run_cross_framework_validation`.
+- Validation result: 42/42 reasonable classifications, 42/42 actionable next actions, 42/42 valid fix plans, 0 forbidden outputs.
+- Playwright remains the native trace backend; cross-framework adapters do not run external frameworks or access external platforms.
+
 ## v2.1.1
 
 - Release Alignment & Showcase Pack.

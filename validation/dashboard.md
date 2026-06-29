@@ -13,6 +13,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
 | Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
 | Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
+| Cross-framework adapters | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
 
 ## Source Ledger
 
@@ -109,6 +110,27 @@ GitHub Actions docs include local-first diagnosis usage
 0 forbidden outputs in integration docs/adapters
 ```
 
+## Cross-Framework Adapter Track
+
+`failure-doctor adapt <input> --framework <framework> --out <failure_pack>` normalizes local failure logs from Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx into the same diagnosis, plan, verify, and sanitize lifecycle.
+
+Current result:
+
+```text
+42 cross-framework fixtures
+42/42 reasonable classifications
+42/42 actionable next actions
+42/42 valid fix plans
+0 severe misclassifications
+0 forbidden outputs
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_cross_framework_validation
+```
+
 ## v1.3 Validation Hardening Gate
 
 `tools.validation.run_validation_hardening` aggregates the validation tracks into `validation/v1_3_validation_hardening.json`.
@@ -166,6 +188,7 @@ shareable_failure_pack.zip is generated from sanitized files only
 - Real Playwright trace fixtures use native Playwright trace records and resource snapshots.
 - Applied scenario demos are local-only mock failure packs, not production business systems.
 - Integration adapters normalize local artifacts into failure packs; they do not upload artifacts or connect to third-party platforms.
+- Cross-framework adapters are log/metadata adapters, not Selenium, Puppeteer, Cypress, Scrapy, requests, or httpx runners.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.

@@ -1,0 +1,8 @@
+{
+  "framework": "selenium",
+  "technical_category": "browser_driver_mismatch",
+  "subtype": "session_not_created",
+  "accepted_technical_categories": [
+    "browser_driver_mismatch"
+  ]
+}

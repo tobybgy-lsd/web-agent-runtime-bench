@@ -1,0 +1,8 @@
+{
+  "framework": "httpx",
+  "technical_category": "website_change",
+  "subtype": "response_shape_changed",
+  "accepted_technical_categories": [
+    "website_change"
+  ]
+}

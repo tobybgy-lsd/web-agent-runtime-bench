@@ -1,0 +1,1 @@
+selenium.common.exceptions.SessionNotCreatedException: session not created: This version of ChromeDriver only supports Chrome version 120

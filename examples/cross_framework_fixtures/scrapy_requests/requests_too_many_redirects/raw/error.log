@@ -1,0 +1,1 @@
+requests.exceptions.TooManyRedirects: exceeded 30 redirects

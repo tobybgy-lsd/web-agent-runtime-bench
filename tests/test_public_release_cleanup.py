@@ -1,4 +1,4 @@
-import json
+﻿import json
 import re
 import subprocess
 import sys
@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "2.1.0"',
+            'version = "2.2.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -114,7 +114,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
             self.assertIn(phrase, top)
-        for marker in ("闁", "閺", "濞", "缂", "涓"):
+        for marker in ("闂", "闁", "婵", "缂", "娑"):
             self.assertNotIn(marker, readme)
 
     def test_readme_zh_cn_links_back_to_english(self):
@@ -192,3 +192,4 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

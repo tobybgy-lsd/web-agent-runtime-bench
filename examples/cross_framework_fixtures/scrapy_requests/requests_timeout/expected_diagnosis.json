@@ -1,0 +1,8 @@
+{
+  "framework": "requests",
+  "technical_category": "network_http_error",
+  "subtype": "request_timeout",
+  "accepted_technical_categories": [
+    "network_http_error"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "framework": "cypress",
+  "technical_category": "environment_config_mismatch",
+  "subtype": "base_url_mismatch",
+  "accepted_technical_categories": [
+    "environment_config_mismatch"
+  ]
+}

@@ -1,0 +1,1 @@
+Sanitized puppeteer failure sample for selector_timeout.

@@ -1,0 +1,8 @@
+{
+  "framework": "selenium",
+  "technical_category": "selector_syntax_error",
+  "subtype": "invalid_css_or_xpath",
+  "accepted_technical_categories": [
+    "selector_syntax_error"
+  ]
+}

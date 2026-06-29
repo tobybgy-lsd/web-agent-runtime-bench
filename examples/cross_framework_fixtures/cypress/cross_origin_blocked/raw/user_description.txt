@@ -1,0 +1,1 @@
+Sanitized cypress failure sample for cross_origin_blocked.

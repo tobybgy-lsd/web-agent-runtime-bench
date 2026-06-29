@@ -73,6 +73,64 @@ def _result(
     return result
 
 
+def _classify_cross_framework_adapter_hint(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    observations = artifact.get("observations", {})
+    if not isinstance(observations, Mapping):
+        return None
+    hint = observations.get("adapter_failure_hint")
+    if not isinstance(hint, Mapping):
+        return None
+    technical = str(hint.get("technical_category") or "").strip()
+    subtype = str(hint.get("subtype") or "").strip()
+    if not technical:
+        return None
+    framework = str(hint.get("framework") or "unknown")
+    layer = str(hint.get("failure_layer") or "automation_engineering")
+    error_family = str(hint.get("error_family") or subtype or technical)
+    evidence = [
+        f"cross-framework adapter hint: framework={framework}",
+        f"detected error family: {error_family}",
+    ]
+    result = _result(
+        technical,
+        0.94 if technical != "insufficient_evidence" else 0.35,
+        evidence,
+        _cross_framework_adapter_fix_suggestions(technical, subtype, framework),
+        subtype=subtype or None,
+        evidence_level="adapter_normalized",
+    )
+    result["failure_layer"] = layer
+    return result
+
+
+def _cross_framework_adapter_fix_suggestions(technical: str, subtype: str, framework: str) -> list[str]:
+    generic = [
+        f"treat this as a {framework} failure normalized into Agent Failure Doctor evidence",
+        "run `failure-doctor plan` on the report before editing code",
+        "keep sanitized logs and framework_metadata.json with the regression case",
+    ]
+    specific: dict[str, str] = {
+        "selector_drift": "update the stale selector or wait condition from current DOM evidence",
+        "popup_or_overlay_blocking": "handle the blocking overlay or popup before clicking the target",
+        "navigation_or_wait_timeout": "replace fixed waits with a semantic ready/navigation condition",
+        "browser_driver_mismatch": "align browser, driver, and runtime versions before changing selectors",
+        "selector_syntax_error": "fix the invalid CSS/XPath selector syntax",
+        "popup_or_new_page": "switch to the correct window, tab, popup, or page before continuing",
+        "target_closed_or_page_crash": "capture browser/runtime logs and prevent using a closed page target",
+        "cdp_protocol_error": "separate CDP/runtime instability from page-level locator failures",
+        "playwright_route_mock_har": "verify intercept/mock/HAR registration before the first matching request",
+        "fixture_or_mock_missing": "restore the fixture/mock file and add a regression check for it",
+        "environment_config_mismatch": "fix base URL and environment config before editing test logic",
+        "browser_context_or_origin_policy": "handle the browser origin/context boundary explicitly",
+        "viewport_responsive_layout_mismatch": "reproduce with the same viewport and update responsive selectors",
+        "network_http_error": "verify proxy, DNS, TLS, and timeout settings before changing extraction code",
+        "website_change": "update selectors, endpoints, or response parsing from fresh site evidence",
+        "anti_bot_risk": "keep this as compliance triage; do not add access-control defeat logic",
+        "insufficient_evidence": "collect error.log, console.txt, network.json, trace, or a minimal reproduction",
+    }
+    return [specific.get(technical, "review the normalized framework failure evidence before editing")] + generic
+
+
 def _classify_runtime_api_missing(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     runtime_rules = (
         ("window", "missing_window", "globalThis.window"),
@@ -1200,6 +1258,7 @@ def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> d
 
 
 CLASSIFIERS = (
+    _classify_cross_framework_adapter_hint,
     _classify_runtime_api_missing,
     _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,

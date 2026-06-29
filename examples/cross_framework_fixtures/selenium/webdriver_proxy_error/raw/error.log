@@ -1,0 +1,1 @@
+selenium.common.exceptions.WebDriverException: unknown error: net::ERR_PROXY_CONNECTION_FAILED

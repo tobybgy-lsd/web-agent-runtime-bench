@@ -1,0 +1,8 @@
+{
+  "framework": "selenium",
+  "technical_category": "selector_drift",
+  "subtype": "stale_element_reference",
+  "accepted_technical_categories": [
+    "selector_drift"
+  ]
+}
