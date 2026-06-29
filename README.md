@@ -8,22 +8,16 @@
 
 Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.
 
-Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
+- Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
+- Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
-Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+**Input:** trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
-Input:
-trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
+**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
-Output:
-diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+**Core commands:** `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
 
-Core commands:
-`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
-
-Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
-
-Quickstart:
+## Quickstart
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -34,18 +28,15 @@ failure-doctor plan .\report --out .\fix_plan
 failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
 ```
 
-Validation: P98 master gate passed. See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
+**Validation:** P98 master gate passed. See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
 
-Lifecycle:
-`capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
+Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
-P98 gate:
-`knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize -> master gate`
+- Lifecycle: `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
+- P98 gate: `knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize -> master gate`
+- Composite diagnosis: primary, secondary, blocking, downstream failures, evidence graph, and repair order.
 
-Composite diagnosis:
-Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
-
-Show the local failure lifecycle:
+## Show The Local Failure Lifecycle
 
 ```powershell
 failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --out .\report
@@ -63,8 +54,7 @@ Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It d
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 Spiderbuf-inspired challenge demos are local-only mock failure packs inspired by public crawler-training challenge categories; they validate diagnosis and safe next actions without accessing spiderbuf.cn or publishing private solution logic.
 
-Integration commands:
-`failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
+**Integration commands:** `failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
 
 ## What You Get
 

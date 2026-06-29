@@ -1,16 +1,13 @@
 # Agent Failure Doctor
 
-Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
+- Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
+- Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
-Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+**Core lifecycle:** `failure-doctor diagnose` / `failure-doctor batch` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
 
-Core lifecycle:
-`failure-doctor diagnose` / `failure-doctor batch` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
+**P98 gate:** `knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize -> master gate`
 
-v3.0 P98 首批闸门：
-`P98 scorecard -> failure knowledge base -> crawler failure coverage matrix`
-
-v2.5 commands:
+**Advanced commands:**
 
 ```powershell
 failure-doctor handoff .\report --target codex --out .\ai_handoff
@@ -22,11 +19,9 @@ failure-doctor batch .\runs --out .\batch_report
 
 Agent Failure Doctor 是一个本地优先的 AI 自动化失败诊断工具，面向 AI Browser Agent、Playwright、RPA、爬虫自动化和数据采集脚本调试。
 
-输入：
-`trace.zip` / `error.log` / `console.txt` / `network.json` / 截图 metadata / `user_description.txt`
+**输入：** `trace.zip` / `error.log` / `console.txt` / `network.json` / 截图 metadata / `user_description.txt`
 
-输出：
-诊断结论、证据、下一步、修复建议、GitHub issue 草稿、Codex 修复 Prompt。
+**输出：** 诊断结论、证据、下一步、修复建议、GitHub issue 草稿、Codex 修复 Prompt。
 
 ## 快速开始
 
