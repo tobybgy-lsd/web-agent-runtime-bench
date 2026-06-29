@@ -6,17 +6,17 @@ The repository has release-note drafts prepared for the public alignment line. P
 
 | Version | Notes file | Suggested title | Status |
 |---|---|---|---|
-| v2.4.1 | `docs/RELEASE_NOTES_v2.4.1.md` | Agent Failure Doctor v2.4.1 - P95 Alignment & Missing Tracks | pending publication as latest stable |
+| v2.4.1 | `docs/RELEASE_NOTES_v2.4.1.md` | Agent Failure Doctor v2.4.1 - P95 Alignment & Missing Tracks | published as latest stable |
 | v2.5.0 | `docs/RELEASE_NOTES_v2.5.0.md` | Agent Failure Doctor v2.5.0 - AI Handoff & Patch Proposal | ready for manual publication |
 | v2.6.0 | `docs/RELEASE_NOTES_v2.6.0.md` | Agent Failure Doctor v2.6.0 - Batch Diagnosis / Fleet Mode | ready for manual publication |
 | v3.0.0 | `docs/RELEASE_NOTES_v3.0.0.md` | Agent Failure Doctor v3.0.0 - P98 Controlled Maturity Skeleton | ready for manual publication |
 | v3.0.1 | `docs/RELEASE_NOTES_v3.0.1.md` | Agent Failure Doctor v3.0.1 - Public Alignment & P98 Track Separation | not yet; development track only |
 
-## Suggested manual steps
+## Published release
 
-```powershell
-gh release create v2.4.1 --title "Agent Failure Doctor v2.4.1 - P95 Alignment & Missing Tracks" --notes-file docs/RELEASE_NOTES_v2.4.1.md
-```
+`v2.4.1` is published as the latest stable GitHub Release:
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v2.4.1
 
 For historical releases, first confirm that each tag points to the intended commit:
 

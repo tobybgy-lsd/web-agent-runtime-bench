@@ -26,10 +26,10 @@ class ReleaseNotesPresenceTests(unittest.TestCase):
             self.assertIn(version, text)
         self.assertIn("Publish releases only from the intended tags/commits", text)
         self.assertIn("v2.4.1", text)
-        self.assertIn("pending publication as latest stable", text)
+        self.assertIn("published as latest stable", text)
         self.assertIn("v3.0.1", text)
         self.assertIn("not yet; development track only", text)
-        self.assertIn("gh release create v2.4.1", text)
+        self.assertIn("https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v2.4.1", text)
 
 
 if __name__ == "__main__":

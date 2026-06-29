@@ -50,7 +50,9 @@ Results:
 
 ## Release Publication
 
-`v2.4.1` should be published as the latest stable GitHub Release with `docs/RELEASE_NOTES_v2.4.1.md`.
+`v2.4.1` was published as the latest stable GitHub Release with `docs/RELEASE_NOTES_v2.4.1.md`:
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v2.4.1
 
 `v3.0.1` should not be published as a stable GitHub Release while `validation/p98_master_gate.json` remains `in_progress`.
 
