@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.1.0
+
+- Added Sanitize & Share Pack.
+- Added `failure-doctor sanitize <failed_run> --out <shareable_failure_pack>`.
+- Generates `sanitized_error.log`, `sanitized_network.json`, `sanitized_trace_metadata.json`, `redaction_report.json`, `safe_to_share.json`, `README_FOR_REVIEWER.md`, and `shareable_failure_pack.zip`.
+- Redacts common authorization headers, cookies, bearer tokens, API keys, emails, phone numbers, ID numbers, order ids, customer names, and internal/private URLs.
+- Raw `trace.zip` archives are not copied into the shareable pack; only metadata is exported.
+- `safe_to_share=false` remains the default until a human reviews the pack.
+
 ## v2.0.0
 
 - Added Auto Capture Pack.

@@ -14,9 +14,11 @@ class ReleaseTrustPackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         dashboard = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
-        self.assertIn('version = "2.0.0"', pyproject)
+        self.assertIn('version = "2.1.0"', pyproject)
+        self.assertIn("## v2.1.0", changelog)
         self.assertIn("## v2.0.0", changelog)
-        self.assertIn("v2.0 Auto Capture Pack", readme)
+        self.assertIn("v2.1 Sanitize & Share Pack", readme)
+        self.assertIn("v2.0 Auto Capture", readme)
         self.assertIn("62 external public reference seeds", readme)
         self.assertIn("External held-out public-source set", dashboard)
 

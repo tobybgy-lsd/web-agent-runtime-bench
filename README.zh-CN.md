@@ -155,3 +155,15 @@ failure-doctor run -- playwright test
 It writes `.failure-doctor/runs/<run_id>/` with command.txt, exit_code.txt, stdout.log, stderr.log, environment.json, detected_artifacts.json, input_summary.json, diagnosis/, fix_plan/, verification_hint.md, and shareable_failure_pack.zip.
 
 `safe_to_share.json` defaults to `safe_to_share=false`; review and sanitize before sharing.
+
+## Sanitize & Share Pack
+
+Agent Failure Doctor v2.1 adds a conservative sharing step:
+
+```powershell
+failure-doctor sanitize .\.failure-doctor\runs\<run_id> --out .\shareable_failure_pack
+```
+
+It writes `sanitized_error.log`, `sanitized_network.json`, `sanitized_trace_metadata.json`, `redaction_report.json`, `safe_to_share.json`, `README_FOR_REVIEWER.md`, and `shareable_failure_pack.zip`.
+
+Raw `trace.zip` is not copied into the sanitized pack. `safe_to_share.json` still defaults to `safe_to_share=false`; review the pack before sending it to a public issue or another developer.

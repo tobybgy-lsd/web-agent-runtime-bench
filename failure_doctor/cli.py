@@ -9,6 +9,7 @@ from typing import Any, Mapping
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from failure_doctor.run_capture import capture_run, write_shareable_zip
+from failure_doctor.sanitize_share import sanitize_failure_pack
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace
@@ -43,6 +44,8 @@ def main(argv: list[str] | None = None) -> int:
         return collect_playwright_inputs(args)
     if args.command == "pack-logs":
         return pack_log_inputs(args)
+    if args.command == "sanitize":
+        return sanitize_inputs(args)
     if args.command == "run":
         return run_command(args)
     parser.print_help()
@@ -81,6 +84,9 @@ def build_parser() -> argparse.ArgumentParser:
     pack_logs = sub.add_parser("pack-logs", help="Normalize a raw log folder into a failure pack")
     pack_logs.add_argument("raw_logs", help="Path to a folder containing logs, network summaries, and screenshots")
     pack_logs.add_argument("--out", required=True, help="Output failure pack directory")
+    sanitize = sub.add_parser("sanitize", help="Create a redacted shareable failure pack")
+    sanitize.add_argument("failed_run", help="Path to a failed run folder or input file")
+    sanitize.add_argument("--out", required=True, help="Output shareable failure pack directory")
     run = sub.add_parser("run", help="Run a command and auto-capture a local failure pack")
     run.add_argument("--workspace", default=".failure-doctor", help="Workspace root for captured runs")
     run.add_argument("--run-id", default=None, help="Stable run identifier")
@@ -170,6 +176,25 @@ def pack_log_inputs(args: argparse.Namespace) -> int:
     print("Agent Failure Doctor Log Pack")
     print(f"Output: {args.out}")
     print(f"Evidence priority: {', '.join(summary.get('evidence_priority', [])) or 'none'}")
+    return 0
+
+
+def sanitize_inputs(args: argparse.Namespace) -> int:
+    try:
+        result = sanitize_failure_pack(Path(args.failed_run), Path(args.out))
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    safe = result["safe_to_share"]
+    report = result["redaction_report"]
+    print("Agent Failure Doctor Sanitize & Share")
+    print(f"Output: {result['out_dir']}")
+    print(f"Bundle: {result['zip_path']}")
+    print(f"Redactions: {report.get('total_redactions', 0)}")
+    print(f"Safe to share automatically: {safe.get('safe_to_share')}")
     return 0
 
 

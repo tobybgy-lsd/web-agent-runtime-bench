@@ -15,7 +15,7 @@ Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
 Core commands:
-`failure-doctor run` / `failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
+`failure-doctor run` / `failure-doctor sanitize` / `failure-doctor diagnose` / `failure-doctor plan` / `failure-doctor verify`
 
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
 
@@ -75,6 +75,14 @@ This writes a local run folder under `.failure-doctor/runs/<run_id>/`:
 ```
 
 The generated `safe_to_share.json` defaults to `safe_to_share=false`; review and sanitize before sending a pack to anyone else.
+
+Sanitize a failed run before sharing it:
+
+```powershell
+failure-doctor sanitize .\.failure-doctor\runs\<run_id> --out .\shareable_failure_pack
+```
+
+This writes redacted logs, redacted network summaries, trace metadata only, a redaction report, a review gate, and `shareable_failure_pack.zip`. Raw `trace.zip` archives are not copied into the sanitized pack.
 
 Put a failed run in a folder:
 
@@ -193,7 +201,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v2.0 Auto Capture Pack.
+Current milestone: Agent Failure Doctor v2.1 Sanitize & Share Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -211,7 +219,8 @@ Current milestone: Agent Failure Doctor v2.0 Auto Capture Pack.
 - 18/18 applied scenario valid fix plans
 - 18/18 applied scenario verification statuses correct
 - Playwright collector, generic log packer, browser-use adapter, and GitHub Actions usage docs
-- Auto Capture command wrapper: `failure-doctor run -- <command>`
+- v2.0 Auto Capture command wrapper: `failure-doctor run -- <command>`
+- Sanitize & Share command: `failure-doctor sanitize <failed_run> --out <shareable_failure_pack>`
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions

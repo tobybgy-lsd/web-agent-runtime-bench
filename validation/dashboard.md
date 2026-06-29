@@ -143,6 +143,21 @@ safe_to_share.json defaults to false
 basic bearer-token redaction is covered by tests
 ```
 
+## v2.1 Sanitize & Share Smoke
+
+`failure-doctor sanitize <failed_run> --out <shareable_failure_pack>` creates a conservative redacted pack for external review.
+
+Current smoke behavior:
+
+```text
+sanitized_error.log and sanitized_network.json are written
+redaction_report.json records category counts
+sanitized_trace_metadata.json records trace metadata only
+raw trace.zip is not copied into the shareable pack
+safe_to_share.json defaults to false
+shareable_failure_pack.zip is generated from sanitized files only
+```
+
 ## Notes
 
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.

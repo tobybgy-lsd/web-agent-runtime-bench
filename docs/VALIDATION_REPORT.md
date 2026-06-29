@@ -338,6 +338,33 @@ Safety behavior:
 - no real-platform access is performed by the wrapper itself
 - no automatic code modification is performed
 
+## v2.1 Sanitize & Share Pack
+
+The v2.1 Sanitize & Share Pack adds a separate redaction command:
+
+```powershell
+failure-doctor sanitize <failed_run> --out <shareable_failure_pack>
+```
+
+The command writes:
+
+- `sanitized_error.log`
+- `sanitized_network.json`
+- `sanitized_trace_metadata.json`
+- `redaction_report.json`
+- `safe_to_share.json`
+- `README_FOR_REVIEWER.md`
+- `shareable_failure_pack.zip`
+
+Validation focus:
+
+- common authorization headers, cookies, bearer tokens, API keys, emails, phone numbers, ID numbers, order ids, customer names, and internal/private URLs are replaced with placeholders
+- raw `trace.zip` archives are not copied into the shareable pack
+- trace evidence is reduced to filename, size, hash, and an explicit `raw_trace_included=false` marker
+- `safe_to_share=false` remains the default because automated redaction is not proof that every private detail was removed
+
+This is a sharing-friction reduction layer, not a guarantee that a pack is public-safe without review.
+
 ## Website Change + Anti-Bot Risk Addendum
 
 The v0.6 addendum is tracked separately in `validation/website_antibot_validation_50.json`.
