@@ -18,9 +18,23 @@ class FailureDoctorPlanCliTests(unittest.TestCase):
             plan_dir = tmp_path / "fix_plan"
             input_dir.mkdir()
             (input_dir / "error.log").write_text("locator.click: Error: strict mode violation: locator('button') resolved to 2 elements", encoding="utf-8")
-            diagnose = subprocess.run([sys.executable, "-m", "failure_doctor", "diagnose", str(input_dir), "--out", str(report_dir)], cwd=ROOT, text=True, capture_output=True)
+            diagnose = subprocess.run(
+                [sys.executable, "-m", "failure_doctor", "diagnose", str(input_dir), "--out", str(report_dir)],
+                cwd=ROOT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                capture_output=True,
+            )
             self.assertEqual(diagnose.returncode, 0, diagnose.stdout + diagnose.stderr)
-            result = subprocess.run([sys.executable, "-m", "failure_doctor", "plan", str(report_dir), "--out", str(plan_dir)], cwd=ROOT, text=True, capture_output=True)
+            result = subprocess.run(
+                [sys.executable, "-m", "failure_doctor", "plan", str(report_dir), "--out", str(plan_dir)],
+                cwd=ROOT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                capture_output=True,
+            )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertTrue((plan_dir / "fix_plan.json").exists())
             self.assertTrue((plan_dir / "fix_plan.md").exists())

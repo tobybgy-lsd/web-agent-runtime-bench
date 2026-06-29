@@ -24,6 +24,8 @@ class FailureDoctorVerifyCliTests(unittest.TestCase):
                 [sys.executable, "-m", "failure_doctor", "verify", "--before", str(before), "--after", str(after), "--out", str(out), "--create-regression"],
                 cwd=ROOT,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
