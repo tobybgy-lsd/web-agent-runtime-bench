@@ -6,6 +6,8 @@
 ## v3.2.0
 
 - Completed the Auto Collector & One-Click Diagnosis Pack.
+- Added `failure-doctor agent-bootstrap --target <agent> --project <dir>` for the Agent Frontend Invocation Pack.
+- Added Codex, Cursor, Claude Code, VS Code/Copilot, Antigravity, OpenCode, Qoder, Trae, WorkBuddy, OpenClaw, Hermes, and generic agent invocation targets.
 - Added `failure-doctor collect --project <dir> --preset auto --out <report> --auto-diagnose --auto-handoff --auto-sanitize`.
 - Added `failure-doctor watch --project <dir> --out <reports> --once --auto-diagnose` for polling-based local failure capture.
 - Added authorized project-scoped collection manifests, `open_this_first.md`, raw-local-only storage, sanitized packs, diagnosis reports, fix plans, and AI handoff packs.

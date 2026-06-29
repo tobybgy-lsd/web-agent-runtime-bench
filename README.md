@@ -25,15 +25,16 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 failure-doctor plan .\report --out .\fix_plan
 failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
+failure-doctor agent-bootstrap --target all --project .
 ```
 
-See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
+See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), [docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
 
 P98 master gate passed with the auto collector pillar included.
 
-Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
+Advanced commands include `failure-doctor handoff`, `failure-doctor agent-bootstrap`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
-**Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` / `watch` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
+**Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` / `watch` / `sanitize` / `adapt` / `handoff` / `agent-bootstrap` / `propose-patch` / `batch`
 
 **Classic lifecycle:** `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
 
@@ -42,6 +43,14 @@ Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patc
 For non-technical Windows users, double-click `scripts/windows/Start-FailureDoctor-Diagnosis.bat` or drag a failed project folder onto it.
 
 Advanced v3.2 commands include `failure-doctor collect` and `failure-doctor watch`.
+
+Agent frontend invocation:
+
+```powershell
+failure-doctor agent-bootstrap --target all --project .
+```
+
+This writes `.failure-doctor/AGENT_ENTRYPOINT.md` plus Codex, Cursor, Claude Code, VS Code/Copilot, Antigravity, OpenCode, Qoder, Trae, WorkBuddy, OpenClaw, Hermes, and generic agent workflow instructions.
 
 Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It does not claim to solve arbitrary failures, but it provides explainable classification, evidence, fix plans, and before/after verification for known automation failure patterns.
 

@@ -10,6 +10,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
+from failure_doctor.agent_invocation import AGENT_TARGETS, bootstrap_agent_frontend
 from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
@@ -61,6 +62,8 @@ def main(argv: list[str] | None = None) -> int:
         return run_command(args)
     if args.command == "handoff":
         return handoff_report(args)
+    if args.command == "agent-bootstrap":
+        return agent_bootstrap(args)
     if args.command == "propose-patch":
         return propose_patch(args)
     if args.command == "batch":
@@ -150,6 +153,9 @@ def build_parser() -> argparse.ArgumentParser:
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
     handoff.add_argument("--target", required=True, choices=["codex", "claude_code", "cursor", "all"], help="Preferred AI coding assistant target")
     handoff.add_argument("--out", required=True, help="Output AI handoff directory")
+    agent_bootstrap_cmd = sub.add_parser("agent-bootstrap", help="Generate frontend invocation instructions for AI coding agents")
+    agent_bootstrap_cmd.add_argument("--target", required=True, choices=sorted((*AGENT_TARGETS, "all")), help="Agent frontend target")
+    agent_bootstrap_cmd.add_argument("--project", required=True, help="Authorized project folder")
     patch = sub.add_parser("propose-patch", help="Generate a dry-run patch proposal from a report")
     patch.add_argument("--repo", required=True, help="Repository root to inspect later")
     patch.add_argument("--report", required=True, help="Path to a report directory containing diagnosis.json")
@@ -317,6 +323,22 @@ def handoff_report(args: argparse.Namespace) -> int:
     print(f"Target: {result['selected_target']}")
     print(f"Output: {result['out_dir']}")
     print(f"Bundle: {result['zip_path']}")
+    return 0
+
+
+def agent_bootstrap(args: argparse.Namespace) -> int:
+    try:
+        manifest = bootstrap_agent_frontend(Path(args.project), target=str(args.target))
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Frontend Invocation Pack")
+    print(f"Targets: {', '.join(manifest.get('targets', []))}")
+    print(f"Entrypoint: {manifest.get('entrypoint')}")
+    print(f"Agents root: {manifest.get('agents_root')}")
     return 0
 
 

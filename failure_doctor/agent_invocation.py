@@ -1,0 +1,243 @@
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+
+PACK_VERSION = "3.2.0"
+
+AGENT_TARGETS = (
+    "codex",
+    "cursor",
+    "claude_code",
+    "vscode_copilot",
+    "antigravity",
+    "opencode",
+    "qoder",
+    "trae",
+    "workbuddy",
+    "openclaw",
+    "hermes",
+    "generic_agent",
+)
+
+
+@dataclass(frozen=True)
+class AgentTargetProfile:
+    display_name: str
+    mode: str
+    role: str
+
+
+TARGET_PROFILES: dict[str, AgentTargetProfile] = {
+    "codex": AgentTargetProfile("Codex", "first-class coding agent", "run commands, inspect reports, propose and verify patches"),
+    "cursor": AgentTargetProfile("Cursor", "first-class coding agent", "run terminal workflows and use the report as patch context"),
+    "claude_code": AgentTargetProfile("Claude Code", "first-class terminal agent", "run the local diagnosis workflow and produce conservative edits"),
+    "vscode_copilot": AgentTargetProfile("VS Code / Copilot Agent", "first-class IDE agent", "use workspace instructions and terminal commands"),
+    "antigravity": AgentTargetProfile("Google Antigravity", "workflow target", "call the local backend and summarize evidence to the user"),
+    "opencode": AgentTargetProfile("OpenCode", "first-class open source coding agent", "invoke the same diagnose-plan-verify workflow"),
+    "qoder": AgentTargetProfile("Qoder", "IDE workflow target", "turn diagnosis output into an IDE task plan"),
+    "trae": AgentTargetProfile("Trae", "IDE workflow target", "route automation failures through the local backend first"),
+    "workbuddy": AgentTargetProfile("WorkBuddy", "RPA/workbench workflow target", "collect local evidence and explain next actions in plain language"),
+    "openclaw": AgentTargetProfile("OpenClaw", "local assistant runtime target", "use strict sandbox boundaries before tool calls"),
+    "hermes": AgentTargetProfile("Hermes", "memory-safe workflow target", "record lessons only after verified local evidence"),
+    "generic_agent": AgentTargetProfile("Generic Agent", "portable agent workflow", "give any AI frontend a safe backend invocation contract"),
+}
+
+
+def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> dict[str, Any]:
+    project = project.resolve()
+    if not project.exists() or not project.is_dir():
+        raise FileNotFoundError(f"project not found: {project}")
+    targets = _select_targets(target)
+    root = project / ".failure-doctor"
+    agents_root = root / "agents"
+    agents_root.mkdir(parents=True, exist_ok=True)
+
+    (root / "AGENT_ENTRYPOINT.md").write_text(_render_entrypoint(targets), encoding="utf-8")
+    for item in targets:
+        profile = TARGET_PROFILES[item]
+        target_dir = agents_root / item
+        target_dir.mkdir(parents=True, exist_ok=True)
+        (target_dir / "instructions.md").write_text(_render_instructions(item, profile), encoding="utf-8")
+        (target_dir / "diagnose_project.md").write_text(_render_diagnose_project(item, profile), encoding="utf-8")
+        (target_dir / "repair_workflow.md").write_text(_render_repair_workflow(item, profile), encoding="utf-8")
+        (target_dir / "allowed_commands.md").write_text(_render_allowed_commands(), encoding="utf-8")
+        (target_dir / "forbidden_actions.md").write_text(_render_forbidden_actions(), encoding="utf-8")
+
+    manifest: dict[str, Any] = {
+        "schema_version": "agent_invocation_pack/v1",
+        "pack_version": PACK_VERSION,
+        "project": str(project),
+        "targets": targets,
+        "target_count": len(targets),
+        "entrypoint": str(root / "AGENT_ENTRYPOINT.md"),
+        "agents_root": str(agents_root),
+        "safety": {
+            "local_only": True,
+            "project_scoped_only": True,
+            "no_external_upload": True,
+            "no_browser_profile_access": True,
+            "no_credential_store_access": True,
+            "no_captcha_bypass": True,
+            "no_bot_evasion": True,
+        },
+        "recommended_command": "failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize",
+    }
+    (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
+    return manifest
+
+
+def _select_targets(target: str) -> list[str]:
+    if target == "all":
+        return list(AGENT_TARGETS)
+    if target not in AGENT_TARGETS:
+        raise ValueError(f"unsupported target: {target}")
+    return [target]
+
+
+def _render_entrypoint(targets: list[str]) -> str:
+    names = ", ".join(TARGET_PROFILES[target].display_name for target in targets)
+    return f"""# Agent Failure Doctor Entrypoint
+
+Targets generated for: {names}
+
+When this project fails, do not guess from logs manually.
+
+Run:
+
+```powershell
+failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize
+```
+
+Then read:
+
+- `.failure-doctor` launcher guidance in this file
+- `failure_doctor_auto_report/open_this_first.md`
+- `failure_doctor_auto_report/report/diagnosis.md`
+- `failure_doctor_auto_report/ai_handoff/codex_task.md`
+
+Then propose a patch only if evidence is sufficient.
+
+Never:
+
+- scan outside project
+- read browser profiles
+- read credential stores
+- upload raw evidence externally
+- bypass CAPTCHA
+- bypass anti-bot
+- spoof fingerprints
+- crack signatures
+- use IP/account pools
+"""
+
+
+def _render_instructions(target: str, profile: AgentTargetProfile) -> str:
+    return f"""# {profile.display_name} Instructions
+
+You are using Agent Failure Doctor as the local failure diagnosis backend.
+
+Target id: `{target}`
+Target mode: {profile.mode}
+Frontend role: {profile.role}
+
+Default behavior:
+
+1. Stay inside the authorized project folder.
+2. Run the collector command from `diagnose_project.md`.
+3. Read `open_this_first.md`, `report/diagnosis.md`, and the AI handoff files.
+4. Explain the root cause, evidence, risk, and next action in plain language.
+5. Edit code only after evidence is sufficient.
+6. Verify the fix with the project test command or a minimal reproduction.
+
+Keep Playwright trace analysis, framework log normalization, report generation, sanitize, handoff, fix planning, and verification inside `failure-doctor`.
+"""
+
+
+def _render_diagnose_project(target: str, profile: AgentTargetProfile) -> str:
+    return f"""# Diagnose Project with {profile.display_name}
+
+From the project root, run:
+
+```powershell
+failure-doctor collect --project . --preset auto --out .\\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
+```
+
+Read in this order:
+
+1. `.\\failure_doctor_auto_report\\open_this_first.md`
+2. `.\\failure_doctor_auto_report\\collection_manifest.json`
+3. `.\\failure_doctor_auto_report\\report\\diagnosis.md`
+4. `.\\failure_doctor_auto_report\\fix_plan\\fix_plan.md`
+5. `.\\failure_doctor_auto_report\\ai_handoff\\codex_task.md`
+
+If evidence is insufficient, ask for the missing trace, log, network summary, screenshot, or user description instead of guessing.
+"""
+
+
+def _render_repair_workflow(target: str, profile: AgentTargetProfile) -> str:
+    return f"""# Repair Workflow for {profile.display_name}
+
+Use this workflow:
+
+1. Collect evidence with `failure-doctor collect`.
+2. Identify the primary failure layer and subtype from `diagnosis.json`.
+3. Read the confidence reason and missing evidence list.
+4. If the report has a fix plan, make the smallest scoped change.
+5. Run the affected test or reproduction.
+6. Run `failure-doctor verify` when before/after evidence is available.
+7. Run `failure-doctor sanitize` before sharing any pack.
+
+Patch rules:
+
+- Prefer local, conservative fixes.
+- Keep unrelated business logic unchanged.
+- Add or update regression tests for the diagnosed failure.
+- If anti-bot risk is diagnosed, provide compliance next actions only.
+"""
+
+
+def _render_allowed_commands() -> str:
+    return """# Allowed Commands
+
+Allowed within the authorized project only:
+
+```powershell
+failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize
+failure-doctor diagnose .\\failure_doctor_auto_report --out .\\failure_doctor_manual_report
+failure-doctor plan .\\failure_doctor_auto_report\\report --out .\\failure_doctor_auto_report\\fix_plan
+failure-doctor verify --before .\\before --after .\\after --out .\\verification
+failure-doctor sanitize .\\failure_doctor_auto_report --out .\\shareable_failure_pack
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+Use project-specific test commands when they are documented in README, package scripts, pyproject, or CI config.
+"""
+
+
+def _render_forbidden_actions() -> str:
+    return """# Forbidden Actions
+
+Hard safety boundary:
+
+- project-scoped only
+- no browser profile access
+- no credential store access
+- no external upload of raw traces, logs, screenshots, or network captures
+- no CAPTCHA bypass
+- no bot evasion
+- no fingerprint spoofing
+- no signature cracking
+- no IP/account pool guidance
+- no credential extraction
+- no collection from real platforms unless the user provides explicit authorization
+
+If a request asks for bypass, evasion, credential extraction, or unauthorized collection, stop and provide safe diagnostic or compliance-oriented next actions only.
+"""
+
+
+def _json(payload: dict[str, Any]) -> str:
+    return json.dumps(payload, indent=2, ensure_ascii=False) + "\n"

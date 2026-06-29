@@ -18,7 +18,7 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
         for phrase in (
             "failure-doctor diagnose",
             "`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt`",
-            "Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.",
+            "Advanced commands include `failure-doctor handoff`, `failure-doctor agent-bootstrap`, `failure-doctor propose-patch`, and `failure-doctor batch`.",
             "diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share",
         ):
             self.assertIn(phrase, opening)
