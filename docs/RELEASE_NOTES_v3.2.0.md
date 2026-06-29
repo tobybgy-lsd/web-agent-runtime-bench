@@ -7,6 +7,7 @@ v3.2.0 adds authorized local evidence collection and one-click diagnosis on top 
 - Added `failure-doctor collect --project <dir> --preset auto --out <report> --auto-diagnose --auto-handoff --auto-sanitize`.
 - Added `failure-doctor watch --project <dir> --out <reports> --once --auto-diagnose`.
 - Added `failure-doctor run --capture -- <command>` compatibility.
+- Added `failure-doctor agent-bootstrap --target <agent|all> --project <dir>` for Codex, Cursor, Claude Code, VS Code/Copilot, Antigravity, OpenCode, Qoder, Trae, WorkBuddy, OpenClaw, Hermes, and generic agent frontends.
 - Added project-scoped `collection_manifest.json`, `collection_summary.md`, `open_this_first.md`, raw-local-only evidence storage, sanitized packs, diagnosis reports, fix plans, and AI handoff packs.
 - Added Windows one-click launchers under `scripts/windows/`.
 - Added `tools.validation.run_auto_collector_validation` and promoted Auto Collector to the P98 master gate.

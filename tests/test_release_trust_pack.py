@@ -29,8 +29,10 @@ class ReleaseTrustPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         top = readme[:1200]
         self.assertIn("Local-first failure diagnosis", top)
-        self.assertIn("trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt", top)
-        self.assertIn("diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.", top)
+        self.assertIn("trace.zip / error.log / console.txt / network.json", top)
+        self.assertIn("screenshot metadata / user_description.txt", top)
+        self.assertIn("diagnosis, evidence, next action, repair suggestions", top)
+        self.assertIn("GitHub issue draft, Codex fix prompt.", top)
         self.assertEqual(top.count("diagnosis, evidence, next action"), 1)
         self.assertNotIn("娑", top)
         self.assertNotIn("閺", top)

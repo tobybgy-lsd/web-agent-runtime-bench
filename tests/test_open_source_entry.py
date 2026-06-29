@@ -9,6 +9,7 @@ class OpenSourceEntryTests(unittest.TestCase):
     def test_readme_top_is_plain_product_entry(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         opening = readme[:1400]
+        normalized_opening = " ".join(opening.split())
 
         for phrase in (
             "# Agent Failure Doctor",
@@ -21,7 +22,7 @@ class OpenSourceEntryTests(unittest.TestCase):
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
             "failure-doctor plan .\\report --out .\\fix_plan",
         ):
-            self.assertIn(phrase, opening)
+            self.assertIn(" ".join(phrase.split()), normalized_opening)
 
     def test_proxy_failed_example_matches_readme_command(self):
         pack = ROOT / "examples" / "failed_runs" / "proxy_failed"

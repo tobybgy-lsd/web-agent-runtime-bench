@@ -6,15 +6,18 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 
-Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.
+Local-first failure diagnosis lifecycle tool for AI browser automation,
+Playwright, crawler, RPA, and business automation failures.
 
 - Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate
 - Previous stable line: Agent Failure Doctor v3.1.0 P98 Master Gate.
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
-**Input:** trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
+**Input:** trace.zip / error.log / console.txt / network.json /
+screenshot metadata / user_description.txt
 
-**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+**Output:** diagnosis, evidence, next action, repair suggestions,
+GitHub issue draft, Codex fix prompt.
 
 ## Quickstart
 
@@ -24,23 +27,37 @@ cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 failure-doctor plan .\report --out .\fix_plan
-failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
+failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report `
+  --auto-diagnose --auto-handoff --auto-sanitize
 failure-doctor agent-bootstrap --target all --project .
 ```
 
-See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), [docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
+See [validation/dashboard.md](validation/dashboard.md),
+[docs/P98_LIMITS.md](docs/P98_LIMITS.md),
+[docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md),
+and [docs/safety_boundary.md](docs/safety_boundary.md).
 
 P98 master gate passed with the auto collector pillar included.
 
-Advanced commands include `failure-doctor handoff`, `failure-doctor agent-bootstrap`, `failure-doctor propose-patch`, and `failure-doctor batch`.
+Advanced commands include `failure-doctor handoff`,
+`failure-doctor agent-bootstrap`, `failure-doctor propose-patch`, and
+`failure-doctor batch`.
 
-**Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` / `watch` / `sanitize` / `adapt` / `handoff` / `agent-bootstrap` / `propose-patch` / `batch`
+**Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` /
+`watch` / `sanitize` / `adapt` / `handoff` / `agent-bootstrap` /
+`propose-patch` / `batch`
 
-**Classic lifecycle:** `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
+**Classic lifecycle:** `diagnose` / `plan` / `verify` / `run` /
+`sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal
+-> verify -> sanitize/share`
 
-**P98 gate:** `knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector -> master gate`
+**P98 gate:** `knowledge base -> coverage matrix ->
+trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
+-> master gate`
 
-For non-technical Windows users, double-click `scripts/windows/Start-FailureDoctor-Diagnosis.bat` or drag a failed project folder onto it.
+For non-technical Windows users, double-click
+`scripts/windows/Start-FailureDoctor-Diagnosis.bat` or drag a failed project
+folder onto it.
 
 Advanced v3.2 commands include `failure-doctor collect` and `failure-doctor watch`.
 
@@ -50,12 +67,23 @@ Agent frontend invocation:
 failure-doctor agent-bootstrap --target all --project .
 ```
 
-This writes `.failure-doctor/AGENT_ENTRYPOINT.md` plus Codex, Cursor, Claude Code, VS Code/Copilot, Antigravity, OpenCode, Qoder, Trae, WorkBuddy, OpenClaw, Hermes, and generic agent workflow instructions.
+This writes `.failure-doctor/AGENT_ENTRYPOINT.md` plus Codex, Cursor,
+Claude Code, VS Code/Copilot, Antigravity, OpenCode, Qoder, Trae, WorkBuddy,
+OpenClaw, Hermes, and generic agent workflow instructions.
 
-Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It does not claim to solve arbitrary failures, but it provides explainable classification, evidence, fix plans, and before/after verification for known automation failure patterns.
+Agent Failure Doctor uses a deterministic evidence-based diagnostic engine.
+It does not claim to solve arbitrary failures, but it provides explainable
+classification, evidence, fix plans, and before/after verification for known
+automation failure patterns.
 
-Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
-Spiderbuf-inspired challenge demos are local-only mock failure packs inspired by public crawler-training challenge categories; they validate diagnosis and safe next actions without accessing spiderbuf.cn or publishing private solution logic.
+Applied scenario demos are local-only mock workflows for commerce automation,
+live monitoring, content publishing, GUI data bridge, and ERP sync failure
+diagnosis.
+
+Spiderbuf-inspired challenge demos are local-only mock failure packs inspired
+by public crawler-training challenge categories; they validate diagnosis and
+safe next actions without accessing spiderbuf.cn or publishing private solution
+logic.
 
 **Integration commands:** `failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
 
@@ -73,7 +101,10 @@ report/
 `-- failure_doctor_report.zip
 ```
 
-Agent Failure Doctor turns sanitized automation failure materials into a report that explains what likely failed, what evidence supports the diagnosis, what evidence is missing, and what to ask Codex or another coding assistant to change next.
+Agent Failure Doctor turns sanitized automation failure materials into a report
+that explains what likely failed, what evidence supports the diagnosis, what
+evidence is missing, and what to ask Codex or another coding assistant to
+change next.
 
 ## One-Minute Start
 
@@ -112,7 +143,10 @@ Sanitize a failed run before sharing it:
 failure-doctor sanitize .\.failure-doctor\runs\<run_id> --out .\shareable_failure_pack
 ```
 
-This writes redacted logs, redacted network summaries, trace metadata only, a redaction report, a review gate, and `shareable_failure_pack.zip`. Raw `trace.zip` archives are not copied into the sanitized pack.
+This writes redacted logs, redacted network summaries, trace metadata only, a
+redaction report, a review gate, and `shareable_failure_pack.zip`.
+
+Raw `trace.zip` archives are not copied into the sanitized pack.
 
 Put a failed run in a folder:
 
@@ -192,7 +226,9 @@ failure-doctor plan .\report --out .\fix_plan
 failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\verification_report
 ```
 
-`verify` compares before/after evidence and reports whether the original failure is resolved, unchanged, changed into another failure, or insufficiently evidenced.
+`verify` compares before/after evidence and reports whether the original failure
+is resolved, unchanged, changed into another failure, or insufficiently
+evidenced.
 
 ## AI Handoff & Patch Proposal
 
@@ -283,11 +319,14 @@ batch_report/
 `-- reports/
 ```
 
-Fleet mode answers which failures repeat, which root causes dominate, which runs should become regression cases, and which fixes deserve priority.
+Fleet mode answers which failures repeat, which root causes dominate, which runs
+should become regression cases, and which fixes deserve priority.
 
 ## P98 Controlled Maturity
 
-v3.0 starts the P98 controlled maturity track. This is not an ecosystem score; it does not count stars, external PRs, external issues, PyPI downloads, or long-term community adoption.
+v3.0 starts the P98 controlled maturity track. This is not an ecosystem score;
+it does not count stars, external PRs, external issues, PyPI downloads, or
+long-term community adoption.
 
 Current P98 assets:
 
@@ -336,7 +375,8 @@ python -m tools.validation.run_applied_scenario_validation
 - Selenium detection risk
 - challenge page detected
 
-These cases are diagnosis-only. They do not access spiderbuf.cn, do not include private solutions, and do not include access-control defeat steps.
+These cases are diagnosis-only. They do not access spiderbuf.cn, do not include
+private solutions, and do not include access-control defeat steps.
 
 ```powershell
 python -m tools.validation.run_spiderbuf_inspired_validation
@@ -372,7 +412,9 @@ Supported adapter frameworks:
 selenium | puppeteer | cypress | scrapy | requests | httpx | auto
 ```
 
-Playwright remains the deepest native trace backend. Cross-framework adapters normalize local logs and metadata into the same failure lifecycle; they do not run those frameworks or connect to external platforms.
+Playwright remains the deepest native trace backend. Cross-framework adapters
+normalize local logs and metadata into the same failure lifecycle; they do not
+run those frameworks or connect to external platforms.
 
 See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.md](docs/GITHUB_ACTION_USAGE.md).
 
@@ -423,12 +465,18 @@ Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks
 - 0 forbidden outputs in generated reports/prompts
 - GitHub Actions green across Ubuntu, macOS, Windows, plus Windows benchmark/smoke/safety
 
-See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md), [docs/EXTERNAL_DATA_SOURCES.md](docs/EXTERNAL_DATA_SOURCES.md), and [validation/dashboard.md](validation/dashboard.md) for validation metrics, limits, and boundaries.
+See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md),
+[docs/EXTERNAL_DATA_SOURCES.md](docs/EXTERNAL_DATA_SOURCES.md), and
+[validation/dashboard.md](validation/dashboard.md) for validation metrics,
+limits, and boundaries.
 
 ## Reproduce Validation
 
 ```powershell
-python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
+python -m tools.real_trace_generation.generate_real_trace_fixtures `
+  --out .\examples\realistic_playwright_traces `
+  --count 30 `
+  --clean
 python -m tools.validation.run_real_trace_validation
 python -m tools.validation.run_playwright_trace_p95_validation
 python -m tools.validation.run_external_public_reference_validation
@@ -453,11 +501,16 @@ It is not:
 - a real-platform scraper
 - a tool for unauthorized collection
 
-For suspected platform risk cases, the intended output is identification, routing, and compliance-oriented next steps such as reducing request volume, using an official API, confirming authorization, contacting the platform, or stopping unauthorized collection.
+For suspected platform risk cases, the intended output is identification,
+routing, and compliance-oriented next steps such as reducing request volume,
+using an official API, confirming authorization, contacting the platform, or
+stopping unauthorized collection.
 
 ## Contributing Failure Cases
 
-You do not need to write code. The most useful contribution is a sanitized failure case: log snippets, trace metadata, network summaries, screenshot metadata, and a short description of what happened.
+You do not need to write code. The most useful contribution is a sanitized
+failure case: log snippets, trace metadata, network summaries, screenshot
+metadata, and a short description of what happened.
 
 Open an [External failure case issue](.github/ISSUE_TEMPLATE/external_failure_case.yml) and remove secrets before posting:
 
@@ -470,11 +523,19 @@ Open an [External failure case issue](.github/ISSUE_TEMPLATE/external_failure_ca
 - private data
 - personal data
 
-Accepted input types include sanitized `error.log`, `trace.zip`, `console.txt`, `network.json`, screenshot metadata, and `user_description.txt`.
+Accepted input types include sanitized `error.log`, `trace.zip`, `console.txt`,
+`network.json`, screenshot metadata, and `user_description.txt`.
 
-If you allow it, a sanitized case may be assigned an `EXT-YYYY-NNNN` id, run once with the current released version before rule changes, and added to the external validation dashboard. Templates and author-generated examples are not counted as external cases.
+If you allow it, a sanitized case may be assigned an `EXT-YYYY-NNNN` id, run
+once with the current released version before rule changes, and added to the
+external validation dashboard.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/external_validation_protocol.md](docs/external_validation_protocol.md), [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md), and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
+Templates and author-generated examples are not counted as external cases.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md),
+[docs/external_validation_protocol.md](docs/external_validation_protocol.md),
+[docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md),
+and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
 
 ## Commands
 

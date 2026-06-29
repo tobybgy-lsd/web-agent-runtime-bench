@@ -28,10 +28,11 @@ class PositioningRoadmapTests(unittest.TestCase):
 
     def test_readme_uses_professional_engine_positioning(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        normalized_readme = " ".join(readme.split())
 
-        self.assertIn("deterministic evidence-based diagnostic engine", readme)
-        self.assertIn("explainable classification", readme)
-        self.assertIn("known automation failure patterns", readme)
+        self.assertIn("deterministic evidence-based diagnostic engine", normalized_readme)
+        self.assertIn("explainable classification", normalized_readme)
+        self.assertIn("known automation failure patterns", normalized_readme)
 
 
 if __name__ == "__main__":
