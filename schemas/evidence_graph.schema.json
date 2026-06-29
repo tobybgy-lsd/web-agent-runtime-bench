@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Failure Doctor Evidence Graph",
+  "type": "object",
+  "properties": {
+    "schema_version": { "const": "evidence_graph/v1" },
+    "nodes": { "type": "array" },
+    "edges": { "type": "array" }
+  },
+  "required": ["schema_version", "nodes", "edges"]
+}

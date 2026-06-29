@@ -1,0 +1,7 @@
+{
+  "family": "adversarial_cases",
+  "case_id": "adversarial_22",
+  "primary": "playwright_storage_state_context",
+  "secondary": "selector_drift",
+  "blocking": "playwright_storage_state_context"
+}

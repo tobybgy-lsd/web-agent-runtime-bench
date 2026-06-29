@@ -574,7 +574,7 @@
       "case_id": "HOLD_007",
       "reason": "insufficient_evidence",
       "expected_category": "playwright_route_mock_har",
-      "actual_category": "unknown",
+      "actual_category": "insufficient_evidence",
       "source_url": "https://github.com/microsoft/playwright/issues/41447",
       "safe_to_publish": false
     }

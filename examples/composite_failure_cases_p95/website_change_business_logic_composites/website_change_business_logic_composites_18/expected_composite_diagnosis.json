@@ -1,0 +1,7 @@
+{
+  "family": "website_change_business_logic_composites",
+  "case_id": "website_change_business_logic_composites_18",
+  "primary": "website_change",
+  "secondary": "response_shape_change",
+  "blocking": "website_change"
+}

@@ -1,0 +1,1 @@
+Misleading user note says proxy; structured evidence is auth redirect.

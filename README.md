@@ -8,7 +8,7 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.2
+Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
@@ -28,6 +28,9 @@ cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
+
+Composite diagnosis:
+Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
 
 See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
@@ -258,9 +261,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.2 Cross-Framework Adapter Pack.
+Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack.
 
-Latest added validation track: Spiderbuf-inspired local-only challenge validation.
+Latest added validation track: Composite Diagnosis P95 Strict Gate.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
@@ -290,6 +293,11 @@ Latest added validation track: Spiderbuf-inspired local-only challenge validatio
 - 10/10 Spiderbuf-inspired valid fix plans
 - 10/10 Spiderbuf-inspired verification statuses correct
 - 0 forbidden outputs in Spiderbuf-inspired validation
+- 160 composite P95 strict local-only validation cases
+- 160/160 composite primary classifications correct
+- 160/160 composite repair-order checks correct
+- 160/160 composite evidence graphs generated
+- 0 forbidden outputs in composite P95 strict validation
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions
@@ -306,6 +314,7 @@ python -m tools.validation.run_real_trace_validation
 python -m tools.validation.run_external_public_reference_validation
 python -m tools.validation.run_resolution_validation
 python -m tools.validation.run_spiderbuf_inspired_validation
+python -m tools.validation.run_composite_diagnosis_p95_strict_validation
 python scripts\validate_external_heldout.py
 ```
 

@@ -224,7 +224,7 @@ def generate_fix_plan(diagnosis: Mapping[str, Any], evidence: Mapping[str, Any] 
     template = PLAN_TEMPLATES.get(failure_type, PLAN_TEMPLATES["insufficient_evidence"])
     subtype = diagnosis.get("subtype") or ""
     diagnosis_id = str(diagnosis.get("diagnosis_id") or diagnosis.get("run_id") or f"FD-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
-    return {
+    plan = {
         "schema_version": "fix_plan/v1",
         "diagnosis_id": diagnosis_id,
         "failure_type": failure_type,
@@ -241,6 +241,13 @@ def generate_fix_plan(diagnosis: Mapping[str, Any], evidence: Mapping[str, Any] 
         "safe_next_action": True,
         "forbidden_actions": ["access-control defeat", "challenge automation", "credential extraction", "unauthorized collection"],
     }
+    if isinstance(diagnosis.get("repair_order"), list):
+        plan["repair_order"] = list(diagnosis.get("repair_order", []))
+    if isinstance(diagnosis.get("secondary_failures"), list):
+        plan["secondary_failures"] = list(diagnosis.get("secondary_failures", []))
+    if isinstance(diagnosis.get("blocking_failure"), Mapping):
+        plan["blocking_failure"] = dict(diagnosis.get("blocking_failure", {}))
+    return plan
 
 
 def verify_resolution(
@@ -281,6 +288,19 @@ def verify_resolution(
         if appeared and not remaining:
             return _verification_report("resolved", before, after, resolved + appeared, [], [], 0.82, True, ["same broad category appeared, but success evidence replaced the failure evidence"])
         return _verification_report("not_resolved", before, after, resolved, remaining or before["evidence"], [], 0.84, False, ["same failure type still appears after fix"])
+    before_secondaries = _secondary_types(before_diagnosis)
+    if after_type in before_secondaries and after_type != before_type:
+        return _verification_report(
+            "partially_resolved",
+            before,
+            after,
+            resolved,
+            remaining,
+            [after_type],
+            0.8,
+            False,
+            ["primary failure no longer appears, but a previously secondary/downstream failure remains"],
+        )
     if after_type not in {"unknown", "none_detected", "insufficient_evidence"} and after_type != before_type:
         return _verification_report("changed_failure", before, after, resolved, remaining, [after_type], 0.78, False, ["original failure changed into a different failure"])
     if resolved or appeared or after_type in {"unknown", "none_detected"}:
@@ -390,6 +410,25 @@ def _summary(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
         "subtype": str(diagnosis.get("subtype") or ""),
         "evidence": list(diagnosis.get("evidence", [])) if isinstance(diagnosis.get("evidence", []), list) else [],
     }
+
+
+def _secondary_types(diagnosis: Mapping[str, Any]) -> set[str]:
+    values: set[str] = set()
+    secondaries = diagnosis.get("secondary_failures")
+    if isinstance(secondaries, list):
+        for item in secondaries:
+            if isinstance(item, Mapping):
+                technical = item.get("technical_category") or item.get("failure_type")
+                if technical:
+                    values.add(str(technical))
+    downstream = diagnosis.get("downstream_failures")
+    if isinstance(downstream, list):
+        for item in downstream:
+            if isinstance(item, Mapping):
+                technical = item.get("technical_category") or item.get("failure_type")
+                if technical:
+                    values.add(str(technical))
+    return values
 
 
 def _evidence_text(diagnosis: Mapping[str, Any], evidence: Mapping[str, Any]) -> str:

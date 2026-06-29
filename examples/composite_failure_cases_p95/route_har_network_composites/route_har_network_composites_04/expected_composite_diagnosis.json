@@ -1,0 +1,7 @@
+{
+  "family": "route_har_network_composites",
+  "case_id": "route_har_network_composites_04",
+  "primary": "playwright_route_mock_har",
+  "secondary": "network_http_error",
+  "blocking": "playwright_route_mock_har"
+}

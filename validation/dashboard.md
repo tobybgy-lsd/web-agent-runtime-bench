@@ -15,6 +15,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
 | Cross-framework adapters | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
 | Spiderbuf-inspired challenge validation | 10 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 280+ |
+| Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
 
 ## Source Ledger
 
@@ -65,6 +66,26 @@ Current result:
 9/10 reasonable classifications
 10/10 actionable next actions
 0 forbidden outputs
+```
+
+## Composite Diagnosis Track
+
+`examples/composite_failure_cases_p95/` and `examples/composite_adversarial_cases/` contain local-only mock composite failures. They validate primary, secondary, blocking, downstream, repair-order, and evidence-graph behavior without accessing real sites or publishing private challenge solutions.
+
+Current result:
+
+```text
+Composite Diagnosis P95 Strict:
+160/160 primary classifications correct
+160/160 repair-order checks correct
+160/160 evidence graphs valid
+0 forbidden outputs
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_composite_diagnosis_p95_strict_validation
 ```
 
 ## Resolution Validation Track

@@ -10,6 +10,7 @@ Agent Failure Doctor is validated with three evidence tiers:
 4. External public reference seeds for post-release source grounding and held-out validation.
 5. Local-only applied scenario demos for business automation style failure diagnosis.
 6. Local workflow integration adapters that produce diagnosable failure packs.
+7. Composite diagnosis fixtures that validate primary, secondary, blocking, downstream, evidence graph, and repair-order behavior.
 
 The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
 
@@ -24,6 +25,28 @@ Supported input families:
 - screenshot metadata
 
 ## Source Ledger
+
+## Composite Diagnosis P95 Strict Validation
+
+`examples/composite_failure_cases_p95/` and `examples/composite_adversarial_cases/`
+are local-only mock fixtures. They do not access real sites and do not contain
+private challenge solutions.
+
+| Metric | Result |
+|---|---:|
+| Total cases | 160 |
+| Primary failure correct | 160 |
+| Secondary/downstream checks | 160 |
+| Blocking failure correct | 160 |
+| Repair order correct | 160 |
+| Evidence graph valid | 160 |
+| Forbidden outputs | 0 |
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_composite_diagnosis_p95_strict_validation
+```
 
 `validation/source_ledger_real_failures.json` contains 131 source records.
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.4.0
+
+- Added Composite Diagnosis P95 Strict Gate Pack.
+- Added candidate-based diagnosis, evidence node extraction, evidence graph generation, causal policy, and composite diagnosis output while preserving legacy `failure_type`, `technical_category`, `subtype`, and `confidence` fields.
+- Added composite schema files: `schemas/composite_diagnosis.schema.json`, `schemas/evidence_graph.schema.json`, and `schemas/composite_validation_result.schema.json`.
+- Added strict local-only composite validation fixtures and `tools.validation.run_composite_diagnosis_p95_strict_validation`.
+- Validation result: 160/160 primary classifications, 160/160 repair-order checks, 160/160 evidence graphs, 0 forbidden outputs.
+- `failure-doctor diagnose` now writes primary, secondary, blocking, downstream, evidence graph, and repair order fields to `diagnosis.json`.
+- `failure-doctor plan` preserves composite repair order, and `failure-doctor verify` can report `partially_resolved` when the primary failure is fixed but a known secondary failure remains.
+- No external AI calls, no uploads, no bypass guidance, and no private challenge solutions were added.
+
 ## v2.3.0
 
 - Added Spiderbuf-Inspired Challenge Validation Pack.

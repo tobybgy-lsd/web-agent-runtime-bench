@@ -1,4 +1,4 @@
-import json
+﻿import json
 import unittest
 from pathlib import Path
 
@@ -11,7 +11,7 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         opening = readme[:2200]
 
-        self.assertIn("Current stable milestone: Agent Failure Doctor v2.2", opening)
+        self.assertIn("Current stable milestone: Agent Failure Doctor v2.4", opening)
         self.assertNotIn("Current milestone: v0.8", opening)
         for phrase in (
             "failure-doctor diagnose",

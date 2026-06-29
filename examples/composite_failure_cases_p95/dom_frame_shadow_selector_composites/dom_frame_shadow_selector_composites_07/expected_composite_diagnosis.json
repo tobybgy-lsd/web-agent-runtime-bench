@@ -1,0 +1,7 @@
+{
+  "family": "dom_frame_shadow_selector_composites",
+  "case_id": "dom_frame_shadow_selector_composites_07",
+  "primary": "playwright_shadow_dom_locator",
+  "secondary": "selector_drift",
+  "blocking": "playwright_shadow_dom_locator"
+}

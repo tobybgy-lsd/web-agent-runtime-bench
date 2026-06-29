@@ -14,6 +14,7 @@ from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
 from tools.failure_artifacts.adapters import artifact_from_playwright_trace
+from tools.failure_artifacts.composite import classify_composite_failure_artifact
 from tools.failure_artifacts.diagnose import diagnose_artifact
 from tools.failure_artifacts.issue import render_issue_draft
 from tools.failure_artifacts.reporter import render_markdown_report
@@ -113,7 +114,7 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     evidence = collect_inputs(input_path)
     input_summary = input_summary_for(evidence)
     artifact = build_artifact(evidence, run_id=args.run_id)
-    diagnosis = _low_evidence_diagnosis(input_summary) if _is_low_evidence(input_summary) else diagnose_artifact(artifact)
+    diagnosis = _low_evidence_diagnosis(input_summary) if _is_low_evidence(input_summary) else classify_composite_failure_artifact(artifact)
     public = enrich_for_users(diagnosis, input_summary=input_summary)
     outputs = write_failure_doctor_report(out_dir, artifact, diagnosis, public, evidence, input_summary)
 
@@ -520,7 +521,8 @@ def write_failure_doctor_report(
         "codex_fix_prompt.md": out_dir / "codex_fix_prompt.md",
         "failure_doctor_report.zip": out_dir / "failure_doctor_report.zip",
     }
-    diagnosis_payload = {**dict(public), "raw_diagnosis": dict(diagnosis)}
+    composite_payload = _composite_public_fields(diagnosis)
+    diagnosis_payload = {**dict(public), **composite_payload, "raw_diagnosis": dict(diagnosis)}
     outputs["diagnosis.json"].write_text(_json(diagnosis_payload), encoding="utf-8")
     outputs["diagnosis.md"].write_text(_render_public_markdown(public, diagnosis, artifact, input_summary), encoding="utf-8")
     outputs["evidence.json"].write_text(_json({"inputs": evidence, "artifact": artifact, "diagnosis": diagnosis_payload}), encoding="utf-8")
@@ -589,6 +591,7 @@ def _render_public_markdown(
     fixes = "\n".join(f"- {item}" for item in public.get("suggested_fix", [])) or "- Collect a minimal reproduction before editing code."
     missing = "\n".join(f"- {item}" for item in public.get("missing_evidence", [])) or "- No obvious missing evidence."
     priority = ", ".join(public.get("evidence_priority", [])) or "none"
+    composite = _render_composite_markdown(diagnosis)
     return "\n".join(
         [
             "# Agent Failure Diagnosis",
@@ -628,9 +631,71 @@ def _render_public_markdown(
             "",
             "## Technical Details",
             "",
+            composite,
+            "",
             render_markdown_report(diagnosis, artifact),
         ]
     )
+
+
+def _composite_public_fields(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
+    keys = (
+        "schema_version",
+        "diagnosis_mode",
+        "primary_failure",
+        "secondary_failures",
+        "blocking_failure",
+        "downstream_failures",
+        "competing_hypotheses",
+        "evidence_graph",
+        "repair_order",
+        "why_this_order",
+        "score_breakdown",
+        "why_not_other_categories",
+    )
+    return {key: diagnosis[key] for key in keys if key in diagnosis}
+
+
+def _render_composite_markdown(diagnosis: Mapping[str, Any]) -> str:
+    if "primary_failure" not in diagnosis:
+        return "## Composite Diagnosis\n\nComposite diagnosis was not generated for this report."
+    primary = diagnosis.get("primary_failure", {})
+    secondary = diagnosis.get("secondary_failures", [])
+    blocking = diagnosis.get("blocking_failure", {})
+    repair_order = diagnosis.get("repair_order", [])
+    graph = diagnosis.get("evidence_graph", {})
+    return "\n".join(
+        [
+            "## Composite Diagnosis",
+            "",
+            "### Primary Failure",
+            "",
+            f"- `{primary.get('technical_category')}` / `{primary.get('subtype')}`",
+            "",
+            "### Secondary Failures",
+            "",
+            _bullets([f"{item.get('technical_category')} ({item.get('relationship_to_primary')})" for item in secondary]) or "- none",
+            "",
+            "### Blocking Failure",
+            "",
+            f"- `{blocking.get('technical_category')}`: {blocking.get('reason')}",
+            "",
+            "### Evidence Graph Summary",
+            "",
+            f"- Nodes: `{len(graph.get('nodes', [])) if isinstance(graph, Mapping) else 0}`",
+            f"- Edges: `{len(graph.get('edges', [])) if isinstance(graph, Mapping) else 0}`",
+            "",
+            "### Repair Order",
+            "",
+            _bullets(repair_order) or "- collect more evidence",
+        ]
+    )
+
+
+def _bullets(items: Any) -> str:
+    if not isinstance(items, list):
+        return ""
+    return "\n".join(f"- {item}" for item in items)
 
 
 def _render_codex_fix_prompt(public: Mapping[str, Any], diagnosis: Mapping[str, Any]) -> str:
@@ -794,14 +859,11 @@ def _diagnose_or_load(path: Path, scratch_report_dir: Path) -> tuple[dict[str, A
         summary = _load_optional_json(path / "input_summary.json")
         return diagnosis, evidence, summary
 
-    args = argparse.Namespace(input=str(path), out=str(scratch_report_dir), run_id=f"verify_{path.name}")
-    code = diagnose_inputs(args)
-    if code != 0:
-        raise SystemExit(f"failed to diagnose input during verify: {path}")
-    diagnosis = _load_report_diagnosis(scratch_report_dir)
-    evidence = _load_optional_json(scratch_report_dir / "evidence.json")
-    summary = _load_optional_json(scratch_report_dir / "input_summary.json")
-    return diagnosis, evidence, summary
+    evidence_inputs = collect_inputs(path)
+    summary = input_summary_for(evidence_inputs)
+    artifact = build_artifact(evidence_inputs, run_id=f"verify_{path.name}")
+    diagnosis = _low_evidence_diagnosis(summary) if _is_low_evidence(summary) else diagnose_artifact(artifact)
+    return diagnosis, {"inputs": evidence_inputs, "artifact": artifact, "diagnosis": diagnosis}, summary
 
 
 def _render_fix_plan_codex_prompt(plan: Mapping[str, Any]) -> str:

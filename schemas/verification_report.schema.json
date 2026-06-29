@@ -17,7 +17,7 @@
   ],
   "properties": {
     "schema_version": {"const": "verification_report/v1"},
-    "status": {"enum": ["resolved", "not_resolved", "changed_failure", "insufficient_evidence", "resolved_by_compliant_path"]},
+    "status": {"enum": ["resolved", "not_resolved", "changed_failure", "partially_resolved", "insufficient_evidence", "resolved_by_compliant_path"]},
     "before": {"type": "object"},
     "after": {"type": "object"},
     "resolved_evidence": {"type": "array", "items": {"type": "string"}},

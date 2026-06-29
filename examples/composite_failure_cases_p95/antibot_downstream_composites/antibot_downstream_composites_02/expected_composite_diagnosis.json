@@ -1,0 +1,7 @@
+{
+  "family": "antibot_downstream_composites",
+  "case_id": "antibot_downstream_composites_02",
+  "primary": "anti_bot_risk",
+  "secondary": "selector_drift",
+  "blocking": "anti_bot_risk"
+}

@@ -1,0 +1,1 @@
+Authenticated product page redirected to login before .price was found.

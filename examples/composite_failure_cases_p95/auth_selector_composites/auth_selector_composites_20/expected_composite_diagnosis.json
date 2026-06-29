@@ -1,0 +1,7 @@
+{
+  "family": "auth_selector_composites",
+  "case_id": "auth_selector_composites_20",
+  "primary": "playwright_storage_state_context",
+  "secondary": "selector_drift",
+  "blocking": "playwright_storage_state_context"
+}

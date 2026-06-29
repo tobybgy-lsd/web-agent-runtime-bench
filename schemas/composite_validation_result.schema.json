@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Composite Diagnosis P95 Strict Validation Result",
+  "type": "object",
+  "properties": {
+    "version": { "type": "string" },
+    "track": { "const": "composite_diagnosis_p95_strict_validation" },
+    "overall_status": { "enum": ["pass", "fail"] },
+    "global_metrics": { "type": "object" },
+    "family_metrics": { "type": "object" },
+    "gate": { "type": "object" },
+    "cases": { "type": "array" }
+  },
+  "required": ["version", "track", "overall_status", "global_metrics", "family_metrics", "gate", "cases"]
+}

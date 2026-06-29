@@ -1,0 +1,1 @@
+Endpoint response shape changed before downstream business mapping failed.

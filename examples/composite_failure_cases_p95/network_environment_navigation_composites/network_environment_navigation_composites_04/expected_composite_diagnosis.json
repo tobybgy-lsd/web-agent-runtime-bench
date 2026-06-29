@@ -1,0 +1,7 @@
+{
+  "family": "network_environment_navigation_composites",
+  "case_id": "network_environment_navigation_composites_04",
+  "primary": "network_http_error",
+  "secondary": "selector_drift",
+  "blocking": "network_http_error"
+}

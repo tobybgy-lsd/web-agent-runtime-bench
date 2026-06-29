@@ -1,6 +1,6 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.2
+Current stable milestone: Agent Failure Doctor v2.4 Composite Diagnosis P95 Strict Gate Pack
 
 Core lifecycle:
 `failure-doctor diagnose` -> `failure-doctor plan` -> `failure-doctor verify` -> `failure-doctor sanitize`
@@ -47,6 +47,12 @@ failure-doctor verify --before .\failed_run --after .\rerun_after_fix --out .\ve
 ```
 
 `verify` 会对比 before/after 证据，判断原失败是否已解决、是否未解决、是否变成另一个失败，或证据不足。
+
+## 复合故障诊断
+
+Agent Failure Doctor 现在可以在复杂失败里同时输出主故障、次故障、阻断故障、下游故障、证据图和修复顺序。旧字段 `technical_category` / `subtype` / `confidence` 仍然保留，方便旧脚本继续使用。
+
+复合诊断仍然是本地、确定性、可回归的规则引擎；不调用外部 AI，不上传 artifact，也不提供验证码绕过、风控规避、指纹伪造、动态签名破解或未授权采集建议。
 
 ## v0.9 验证状态
 

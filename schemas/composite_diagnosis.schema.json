@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Failure Doctor Composite Diagnosis",
+  "type": "object",
+  "properties": {
+    "schema_version": { "const": "composite_diagnosis/v2" },
+    "diagnosis_mode": { "enum": ["single", "composite"] },
+    "primary_failure": { "type": "object" },
+    "secondary_failures": { "type": "array" },
+    "blocking_failure": { "type": "object" },
+    "downstream_failures": { "type": "array" },
+    "competing_hypotheses": { "type": "array" },
+    "evidence_graph": { "type": "object" },
+    "repair_order": { "type": "array", "items": { "type": "string" } },
+    "why_this_order": { "type": "string" },
+    "confidence_reason": { "type": "string" },
+    "score_breakdown": {
+      "type": "object",
+      "properties": {
+        "structured_evidence_score": { "type": "number" },
+        "timing_relation_score": { "type": "number" },
+        "independent_source_score": { "type": "number" },
+        "negative_evidence_score": { "type": "number" },
+        "total_score": { "type": "number" }
+      },
+      "required": ["structured_evidence_score", "timing_relation_score", "independent_source_score", "negative_evidence_score", "total_score"]
+    },
+    "why_not_other_categories": { "type": "array", "items": { "type": "string" } },
+    "safe_next_action": { "type": "boolean" }
+  },
+  "required": ["schema_version", "diagnosis_mode", "primary_failure", "evidence_graph", "repair_order", "score_breakdown", "safe_next_action"]
+}

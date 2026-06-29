@@ -1,0 +1,1 @@
+page.goto net::ERR_PROXY_CONNECTION_FAILED then selector .table timed out
