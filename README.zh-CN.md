@@ -82,6 +82,8 @@ python scripts\validate_external_heldout.py
 - 脱敏错误摘要
 - 是否可以变成公开测试案例
 
-不要提交密码、cookie、token、authorization header、API key、私有 URL、个人数据或客户数据。
+不要提交密码、cookie、token、authorization header、API key、私有 URL、private data、个人数据或客户数据。
 
-欢迎提交脱敏后的失败日志、trace.zip 或错误描述；适合公开的案例会加入 validation corpus。
+欢迎提交脱敏后的 `error.log`、`trace.zip`、`console.txt`、`network.json`、截图 metadata 或 `user_description.txt`。如果你允许，案例会获得 `EXT-YYYY-NNNN` 编号，并在不先调规则的情况下用当前发布版本 first-run 一次，结果进入 [外部验证仪表盘](validation/external_validation_dashboard.md)。
+
+模板和作者自己生成的示例不计入外部验证指标。详细流程见 [docs/external_validation_protocol.md](docs/external_validation_protocol.md) 和 [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md)。

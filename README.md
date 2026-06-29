@@ -21,7 +21,7 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
 
-See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics.
+See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
 ## What You Get
 
@@ -154,7 +154,7 @@ For suspected platform risk cases, the intended output is identification, routin
 
 You do not need to write code. The most useful contribution is a sanitized failure case: log snippets, trace metadata, network summaries, screenshot metadata, and a short description of what happened.
 
-Open a Failure case issue and remove secrets before posting:
+Open an [External failure case issue](.github/ISSUE_TEMPLATE/external_failure_case.yml) and remove secrets before posting:
 
 - passwords
 - API keys
@@ -162,11 +162,14 @@ Open a Failure case issue and remove secrets before posting:
 - tokens
 - authorization headers
 - private screenshots
+- private data
 - personal data
 
-Welcome sanitized failure logs, trace.zip files, or error descriptions. Suitable public cases may be added to the validation corpus.
+Accepted input types include sanitized `error.log`, `trace.zip`, `console.txt`, `network.json`, screenshot metadata, and `user_description.txt`.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md), and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
+If you allow it, a sanitized case may be assigned an `EXT-YYYY-NNNN` id, run once with the current released version before rule changes, and added to the external validation dashboard. Templates and author-generated examples are not counted as external cases.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/external_validation_protocol.md](docs/external_validation_protocol.md), [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md), and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
 
 ## Commands
 

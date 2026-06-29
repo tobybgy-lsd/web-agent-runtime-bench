@@ -1,0 +1,14 @@
+{
+  "schema_version": "external-validation/v0.9-results",
+  "summary": {
+    "external_cases_total": 0,
+    "accepted_sanitized_cases": 0,
+    "unique_external_submitters": 0,
+    "first_run_reasonable": 0,
+    "actionable_next_action": 0,
+    "severe_misclassification": 0,
+    "forbidden_output": 0,
+    "regression_tests_added": 0
+  },
+  "cases": []
+}

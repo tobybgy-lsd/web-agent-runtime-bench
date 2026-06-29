@@ -12,6 +12,7 @@ Please remove:
 - authorization headers
 - API keys
 - private URLs
+- private data
 - customer data
 - personal information
 

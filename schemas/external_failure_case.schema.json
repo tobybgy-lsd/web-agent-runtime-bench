@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "External Failure Case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "source",
+    "source_url",
+    "submitted_by_external_user",
+    "input_type",
+    "tool",
+    "sanitized",
+    "permission_to_add_to_public_corpus",
+    "first_run_version",
+    "first_run_commit",
+    "expected_category_by_maintainer",
+    "actual_category_first_run",
+    "actual_subtype_first_run",
+    "result",
+    "actionable_next_action",
+    "forbidden_output",
+    "became_regression_test"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^EXT-[0-9]{4}-[0-9]{4}$"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "public_external_issue",
+        "external_public_reference",
+        "public_inspired_sanitized",
+        "github_issue",
+        "stackoverflow",
+        "other"
+      ]
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "submitted_by_external_user": {
+      "type": "boolean"
+    },
+    "input_type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "trace.zip",
+          "error.log",
+          "console.txt",
+          "network.json",
+          "screenshot metadata",
+          "user_description.txt",
+          "description"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "tool": {
+      "type": "string"
+    },
+    "sanitized": {
+      "type": "boolean"
+    },
+    "permission_to_add_to_public_corpus": {
+      "type": "boolean"
+    },
+    "first_run_version": {
+      "type": "string"
+    },
+    "first_run_commit": {
+      "type": "string"
+    },
+    "expected_category_by_maintainer": {
+      "type": "string"
+    },
+    "actual_category_first_run": {
+      "type": "string"
+    },
+    "actual_subtype_first_run": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "exact_match",
+        "reasonable_category_match",
+        "insufficient_evidence",
+        "severe_misclassification",
+        "not_run",
+        "rejected_sensitive_data"
+      ]
+    },
+    "actionable_next_action": {
+      "type": "boolean"
+    },
+    "forbidden_output": {
+      "type": "boolean"
+    },
+    "became_regression_test": {
+      "type": "boolean"
+    },
+    "unique_submitter_hash": {
+      "type": "string"
+    },
+    "input_pack_path": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

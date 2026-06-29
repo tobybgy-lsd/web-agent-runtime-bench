@@ -1,0 +1,83 @@
+name: External failure case
+description: Submit a sanitized external failure case for validation.
+title: "[External Failure Case]: "
+labels:
+  - external-failure-case
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit only sanitized material. Do not include credentials, cookies, tokens,
+        authorization headers, private data, customer data, private URLs, or secrets.
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Tool
+      options:
+        - Playwright
+        - browser-use
+        - Scrapy
+        - requests
+        - Codex
+        - RPA
+        - other
+    validations:
+      required: true
+  - type: checkboxes
+    id: input-type
+    attributes:
+      label: Input type
+      options:
+        - label: trace.zip
+        - label: error.log
+        - label: console.txt
+        - label: network.json
+        - label: screenshot metadata
+        - label: user_description.txt
+        - label: description
+  - type: textarea
+    id: what-failed
+    attributes:
+      label: What failed
+      description: Briefly describe the failed automation, crawler, RPA, or browser-agent run.
+      placeholder: The run timed out after clicking the export button.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      placeholder: The run should download a report file.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      placeholder: The click completed, but no download appeared.
+    validations:
+      required: true
+  - type: textarea
+    id: sanitized-error-excerpt
+    attributes:
+      label: Sanitized error excerpt
+      description: Paste only sanitized excerpts. Remove credentials, cookies, tokens, private data, and customer data.
+      render: text
+  - type: dropdown
+    id: public-validation-case
+    attributes:
+      label: Can this become a public validation case?
+      options:
+        - "yes"
+        - "no"
+        - "not sure"
+    validations:
+      required: true
+  - type: checkboxes
+    id: sanitized-confirmation
+    attributes:
+      label: Sanitization confirmation
+      options:
+        - label: I confirm no credentials/cookies/tokens/private data are included.
+          required: true

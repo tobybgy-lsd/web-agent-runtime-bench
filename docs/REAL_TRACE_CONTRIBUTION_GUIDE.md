@@ -1,29 +1,29 @@
 # Real Trace Contribution Guide
 
-This project accepts only sanitized, local-first failure evidence.
+You do not need to write code to contribute.
 
-## What Helps
+The most useful contribution is a sanitized failure case:
 
-- A sanitized Playwright `trace.zip`
-- `error.log` or `console.txt`
-- `network.json` with secrets removed
-- `user_description.txt` explaining what the automation expected and what happened
-- Screenshot metadata or redacted screenshots when allowed
+- `trace.zip`
+- `error.log`
+- `console.txt`
+- `network.json`
+- screenshot metadata
+- `user_description.txt`
 
-## Before Sharing
+## Remove Before Sharing
 
-Remove:
-
-- passwords
-- API keys
+- credentials
 - cookies
 - tokens
 - authorization headers
+- API keys
+- private data
 - private URLs
-- personal data
 - customer data
+- personal information
 
-If you are not sure whether a trace contains private data, do not upload it publicly. Open an issue with a short sanitized excerpt first.
+If you are not sure whether a file is safe to share, submit only a short sanitized excerpt and describe what happened.
 
 ## Recommended Folder Shape
 
@@ -42,6 +42,17 @@ Run locally:
 ```powershell
 failure-doctor diagnose .\my_failed_run --out .\report
 ```
+
+## How A Case Is Accepted
+
+1. Open an external failure case issue.
+2. Confirm the material contains no credentials, cookies, tokens, or private data.
+3. Maintainers assign a stable id such as `EXT-2026-0001`.
+4. The current released version is run before diagnosis rules are changed.
+5. The result is recorded in `validation/external_validation_dashboard.md`.
+6. If the case exposes a gap, a future fix may add a regression test.
+
+Templates and local synthetic examples are not counted as external cases.
 
 ## Public Test Case Checklist
 

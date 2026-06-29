@@ -35,6 +35,9 @@ jobs:
       - name: Unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
 
+      - name: External validation runner
+        run: python -m tools.validation.run_external_validation
+
   benchmark-windows:
     runs-on: windows-latest
     needs: unit-tests
