@@ -98,4 +98,8 @@ These are intentionally outside the controlled P98 score:
 
 ## CI / Release Status
 
-Local validation is complete. GitHub Actions and GitHub Release publication are handled after commit and push.
+- Commit: `f802f81 feat: complete p98 master gate`
+- GitHub Actions run: `28371310181`
+- CI result: pass
+- GitHub Release: `v3.1.0`
+- Release URL: https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.1.0
