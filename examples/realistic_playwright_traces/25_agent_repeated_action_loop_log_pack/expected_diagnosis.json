@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "agent_repetition_loop",
+  "subtype": "repeated_action_loop",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

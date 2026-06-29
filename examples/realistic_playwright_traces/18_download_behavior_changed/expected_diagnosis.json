@@ -1,0 +1,7 @@
+{
+  "failure_layer": "website_change",
+  "technical_category": "website_change",
+  "subtype": "download_behavior_changed",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

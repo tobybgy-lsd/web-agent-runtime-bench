@@ -1,0 +1,7 @@
+{
+  "failure_layer": "anti_bot_risk",
+  "technical_category": "anti_bot_risk",
+  "subtype": "dynamic_signature_required",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

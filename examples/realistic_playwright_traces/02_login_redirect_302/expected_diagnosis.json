@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_storage_state_context",
+  "subtype": "login_redirect_after_authenticated_action",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

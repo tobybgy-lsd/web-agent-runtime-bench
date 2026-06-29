@@ -1,0 +1,7 @@
+{
+  "failure_layer": "environment",
+  "technical_category": "cdp_websocket_disconnected",
+  "subtype": "websocket_disconnect",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

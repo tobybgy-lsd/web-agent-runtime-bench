@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_shadow_dom_locator",
+  "subtype": "locator_targets_host_not_inner_node",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

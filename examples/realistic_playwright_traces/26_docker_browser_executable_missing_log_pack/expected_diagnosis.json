@@ -1,0 +1,7 @@
+{
+  "failure_layer": "environment",
+  "technical_category": "toolchain_environment",
+  "subtype": null,
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

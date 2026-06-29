@@ -1,0 +1,2233 @@
+{
+  "ledger_version": "v0.8",
+  "created_for": "real_data_and_real_trace_validation_pack",
+  "sources": [
+    {
+      "id": "pw_doc_trace_viewer_actions",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/trace-viewer",
+      "project": "playwright/docs",
+      "category": "official_behavior_boundary",
+      "symptom": "trace viewer action timeline and snapshots",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "selector_drift",
+        "subtype": "trace_viewer_actions"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_trace_viewer_network",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/trace-viewer",
+      "project": "playwright/docs",
+      "category": "official_behavior_boundary",
+      "symptom": "trace viewer exposes network, console, and errors",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "trace_viewer_evidence"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_auth_storage_state",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/auth",
+      "project": "playwright/docs",
+      "category": "storage_state_context",
+      "symptom": "authentication guide uses storageState for signed-in state",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_auth_session_storage",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/auth",
+      "project": "playwright/docs",
+      "category": "storage_state_context",
+      "symptom": "sessionStorage requires explicit save and restore workaround",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "local_storage_missing"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_mock_api",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/mock",
+      "project": "playwright/docs",
+      "category": "route_mock_har",
+      "symptom": "mock API examples rely on route handlers registered before requests",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_network_har",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/network",
+      "project": "playwright/docs",
+      "category": "route_mock_har",
+      "symptom": "network guide covers routeFromHAR and request interception",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "har_fallback_network_leak"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_locators_strict",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/locators",
+      "project": "playwright/docs",
+      "category": "strict_mode",
+      "symptom": "locators are strict and fail when multiple elements match",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_locators_shadow",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/locators",
+      "project": "playwright/docs",
+      "category": "shadow_dom_locator",
+      "symptom": "locators pierce open shadow DOM but not closed roots",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_downloads",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/downloads",
+      "project": "playwright/docs",
+      "category": "download_popup",
+      "symptom": "download event must be awaited and saved before context closes",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "pw_doc_pages_popups",
+      "source_type": "official_doc_pattern",
+      "source_status": "verified_public_url",
+      "source_url": "https://playwright.dev/docs/pages",
+      "project": "playwright/docs",
+      "category": "download_popup",
+      "symptom": "popup/new page flows require waiting for the page event",
+      "raw_error_excerpt": "official documentation behavior pattern; no user issue text copied",
+      "expected_diagnosis": {
+        "technical_category": "playwright_popup",
+        "subtype": "popup_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Official docs are used for behavior boundaries, not as failure reports."
+    },
+    {
+      "id": "microsoft_playwright_20182",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/20182",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "symptom": "[Question] How do I use storageState to login to my app before initiating tests?",
+      "raw_error_excerpt": "I finally started to learn testing using playwright and giving up manual testing but I'm having a hard time setting the auth state. I'm using SvelteKit and a seperate backend. The ",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #20182; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_16556",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/16556",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "symptom": "[Question] - storageState - only working in 1 of 3 browsers ",
+      "raw_error_excerpt": "I originally posted this as a discussion before I saw that the api docs link to issues/questions for questions, so here it is: https://github.com/microsoft/playwright/discussions/1",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #16556; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_20638",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/20638",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "symptom": "[BUG] storageState initialized by globalSetup in config not available for POM",
+      "raw_error_excerpt": "**Context:** - Playwright Version: 1.30 - Operating System: MacOS and Linux - Node.js version: v16.18.0 - Browser: Chromium Using Playwright with POM and globalState, the execution",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #20638; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_21096",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/21096",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "symptom": "[BUG] storageState is not loaded when using playwright.config.ts (Authentication)",
+      "raw_error_excerpt": "**Context:** - Playwright Version: 1.31.0 - Operating System: Linux - Node.js version: lts/* - Browser: Chrome and Firefox <!-- CLI to auto-capture this info --> <!-- npx envinfo -",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #21096; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_29925",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/29925",
+      "project": "microsoft/playwright",
+      "category": "storage_state_context",
+      "symptom": "[Bug]: Redirect after Azure Entra Login fails",
+      "raw_error_excerpt": "### Version 1.42.0 ### Steps to reproduce - Create a Blazor Server app with activated azure ad authentication as described [here](https://learn.microsoft.com/en-us/entra/identity-p",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #29925; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_21405",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/21405",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[Feature] advanced configurations for routeFromHAR",
+      "raw_error_excerpt": "# Background / Use cases The `routeFromHAR` functionality encapsulates two behaviors. When `update` is `true`, it behaves as a custom network recorder, while when `update` is `fals",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #21405; short sanitized excerpt only; state=OPEN"
+    },
+    {
+      "id": "microsoft_playwright_15553",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/15553",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[Question] About mocking HTTP requests and the HAR file (Migration from Cypress to Playwright)",
+      "raw_error_excerpt": "Hello! First, I want to say that I love this test library, it's amazing the work behind it. For work, I am in the process of converting some of our Cypress tests into Playwright te",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #15553; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_28167",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/28167",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[BUG/QUESTIONS] `page.routeFromHAR()` is not properly recording/replaying POST requests that modify server-side state",
+      "raw_error_excerpt": "<!-- ⚠️⚠️ Do not delete this template ⚠️⚠️ --> <!-- 🔎 Search existing issues to avoid creating duplicates. --> <!-- 🧪 Test using the latest Playwright release to see if your issue ",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #28167; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_18288",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/18288",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[Question] How to handle subsequent GET requests returning server state during HAR replay?",
+      "raw_error_excerpt": "Hello there! I have a question about HAR replay and subsequent (matching) GET requests. Some details: **Context:** - Playwright Version: 1.27.1 - Operating System: macOS 12.5.1 - N",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #18288; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_29261",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/29261",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[BUG] page.waitForResponse: response.text: Protocol error (Network.getResponseBody): (NS_ERROR_INVALID_CONTENT_ENCODING)",
+      "raw_error_excerpt": "### System info - Playwright Version: 1.33.0 - Operating System: Windows 11 - Browser: Firefox (works with WebKit and chromium) ### Source code await page.routeFromHAR('test.har', ",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #29261; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_4928",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/4928",
+      "project": "microsoft/playwright",
+      "category": "route_mock_har",
+      "symptom": "[Feature] Record network requests and save them as ready-to-use mocks",
+      "raw_error_excerpt": "I'm using playwright for integration tests. And I can't have a full environment for testing. So I mock api requests and test against them. When I saw https://github.com/microsoft/p",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #4928; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_33547",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/33547",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "symptom": "[Bug]: locator does not find element under slot in shadow dom",
+      "raw_error_excerpt": "### Version 1.48.2 ### Steps to reproduce 1. Clone https://github.com/jeff-an/playwright-shadow-dom-repro/tree/main 2. npm i 3. npx playwright test 4. Notice test failure in [examp",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #33547; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_23047",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/23047",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "symptom": "[Feature] Allow forcing open closed shadow DOM roots",
+      "raw_error_excerpt": "**Note from maintainers** Following up on [this suggestion](https://github.com/microsoft/playwright/issues/23047#issuecomment-1874652966) by @enkelmedia, you can work around this i",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #23047; short sanitized excerpt only; state=OPEN"
+    },
+    {
+      "id": "microsoft_playwright_16268",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/16268",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "symptom": "[BUG] toBeFocused() matcher isn't piercing Shadow DOM",
+      "raw_error_excerpt": "**Context:** - Playwright Version: [1.24.2] - Operating System: [Mac] - Node.js version: [16.13.2] - Browser: [any] - Extra: [] **Code Snippet** Unfortunately I have a web componen",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #16268; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_29470",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/29470",
+      "project": "microsoft/playwright",
+      "category": "shadow_dom_locator",
+      "symptom": "[Feature]: recommended locators should pierce <slot>s.",
+      "raw_error_excerpt": "### 🚀 Feature Request Right now, the primary locators like `getByRole()` [look through shadow roots](https://playwright.dev/docs/locators#locate-in-shadow-dom), but they don't trav",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #29470; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_10611",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/10611",
+      "project": "microsoft/playwright",
+      "category": "strict_mode",
+      "symptom": "[Question] What does it mean Error: strict mode violation ?",
+      "raw_error_excerpt": "``` locator.click: Error: strict mode violation: \"//button[text()='30']\" resolved to 2 elements: 1) <button tabindex=\"0\" type=\"button\" aria-label=\"Nov 30, 2…>…</button> aka playwri",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #10611; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_30069",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/30069",
+      "project": "microsoft/playwright",
+      "category": "strict_mode",
+      "symptom": "[Bug]: Error: strict mode violation when using _or (with .locator())... resolved to 2 elements ?",
+      "raw_error_excerpt": "### Version 1.42.0 ### Steps to reproduce (I have simplified the scenario below to try make it more explainable) I have a page with an iframe. Inside the iframe I have two divs wit",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #30069; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_36045",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/36045",
+      "project": "microsoft/playwright",
+      "category": "strict_mode",
+      "symptom": "[Feature]: Automatic waiting to resolve strict mode violations",
+      "raw_error_excerpt": "### 🚀 Feature Request When there is a strict mode violation, instead of immediately raising an exception, wait the usual time for the strict mode violation to resolve ### Example I",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #36045; short sanitized excerpt only; state=OPEN"
+    },
+    {
+      "id": "microsoft_playwright_30363",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/30363",
+      "project": "microsoft/playwright",
+      "category": "strict_mode",
+      "symptom": "[Bug]: Locators do not auto-wait when resolved to multiple elements (Strict mode)",
+      "raw_error_excerpt": "### Version 1.43.1 ### Steps to reproduce 1. Set action timeout to 5000 ms 2. Execute a click and provide a locator that matches more then one element ### Expected behavior Test fa",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #30363; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "microsoft_playwright_19398",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/microsoft/playwright/issues/19398",
+      "project": "microsoft/playwright",
+      "category": "strict_mode",
+      "symptom": "[BUG] strict mode violation when strict_selectors=False",
+      "raw_error_excerpt": "**Context:** - Playwright Version: 1.28.0 - Operating System: Mac - Node.js version: 16.6 - Browser: Webkit <!-- CLI to auto-capture this info --> <!-- npx envinfo --preset playwri",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #19398; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_1913",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1913",
+      "project": "browser-use/browser-use",
+      "category": "download_popup",
+      "symptom": "Bug: Downloads are not saved",
+      "raw_error_excerpt": "### Browser Use Version 0.2.5 ### Bug Description, Steps to Reproduce, Screenshots I installed the library with the recommended instructions and `uv pip install browser-use==0.2.5`",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #1913; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_4579",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/4579",
+      "project": "browser-use/browser-use",
+      "category": "browser_environment",
+      "symptom": "Bug: CDP connection instability causing indefinite hangs with remote browsers",
+      "raw_error_excerpt": "### Browser Use Version 0.12.5 ### Bug Description, Steps to Reproduce, Screenshots # Individual CDP calls within handlers lack timeouts, causing indefinite hangs with remote brows",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #4579; short sanitized excerpt only; state=OPEN"
+    },
+    {
+      "id": "browser-use_browser-use_191",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/191",
+      "project": "browser-use/browser-use",
+      "category": "browser_environment",
+      "symptom": "Endless loop detection to avoid high LLM usage costs",
+      "raw_error_excerpt": "Hey this is not a code specific issue, but an agent specific issue. I use the agent as part of an agentic system and I ran into an endless loop. I thought maybe it helps sharing th",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #191; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_3779",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3779",
+      "project": "browser-use/browser-use",
+      "category": "agent_loop",
+      "symptom": "Bug: Does not detect chromium installed by playwright 1.57.0",
+      "raw_error_excerpt": "### Browser Use Version 0.11.2 ### Bug Description, Steps to Reproduce, Screenshots [PR3778](https://github.com/browser-use/browser-use/pull/3778) filed for this issue. playwright ",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #3779; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_2513",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/2513",
+      "project": "browser-use/browser-use",
+      "category": "browser_environment",
+      "symptom": "Bug: browser use fails in Docker (even so that the same prompt and config works when running locally)",
+      "raw_error_excerpt": "### Browser Use Version 0.5.5 ### Bug Description, Steps to Reproduce, Screenshots 1. run task to navigate and click a button of a page The task is successful when running a python",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #2513; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_2046",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/2046",
+      "project": "browser-use/browser-use",
+      "category": "browser_environment",
+      "symptom": "Bug: Files downloaded by agent not usable in subsequent steps",
+      "raw_error_excerpt": "### Browser Use Version 0.3.2 ### Bug Description, Steps to Reproduce, Screenshots When an agent invokes a download action, the file is successfully saved into the downloads direct",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #2046; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_1275",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1275",
+      "project": "browser-use/browser-use",
+      "category": "storage_state_context",
+      "symptom": "Infinite loop when connection with CDP is lost (browser is closed)",
+      "raw_error_excerpt": "### Bug Description ## Bug Report: Infinite Loop on Browserless Connection Timeout ### Description When using Browser Use with CDP, if the browser is closed (eg. session timeout af",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #1275; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_1331",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/1331",
+      "project": "browser-use/browser-use",
+      "category": "download_popup",
+      "symptom": "Process hangs when run in Docker container",
+      "raw_error_excerpt": "### Bug Description When running Browser Use inside of Docker, the process consistently gets stuck / hangs without completing. I need to manually stop the code in order to end the ",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Public GitHub issue #1331; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "browser-use_browser-use_3070",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_api",
+      "source_url": "https://github.com/browser-use/browser-use/issues/3070",
+      "project": "browser-use/browser-use",
+      "category": "browser_environment",
+      "symptom": "Bug: BrowserUse session storage state",
+      "raw_error_excerpt": "### Browser Use Version 0.7.6 ### Bug Description, Steps to Reproduce, Screenshots I'm running a Python application in a docker container which is on a Debian Linux system, using P",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Public GitHub issue #3070; short sanitized excerpt only; state=CLOSED"
+    },
+    {
+      "id": "public_inspired_001_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_002_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_003_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_004_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_005_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_006_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_007_download_popup",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "download_popup",
+      "symptom": "Sanitized recurring failure pattern for download_popup",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for download_popup",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_008_service_worker_cache",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "service_worker_cache",
+      "symptom": "Sanitized recurring failure pattern for service_worker_cache",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for service_worker_cache",
+      "expected_diagnosis": {
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_009_browser_environment",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "browser_environment",
+      "symptom": "Sanitized recurring failure pattern for browser_environment",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for browser_environment",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_010_agent_loop",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "agent_loop",
+      "symptom": "Sanitized recurring failure pattern for agent_loop",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for agent_loop",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_011_website_change",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "website_change",
+      "symptom": "Sanitized recurring failure pattern for website_change",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for website_change",
+      "expected_diagnosis": {
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_012_anti_bot_risk",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "anti_bot_risk",
+      "symptom": "Sanitized recurring failure pattern for anti_bot_risk",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for anti_bot_risk",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_013_network_proxy_dns_tls",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "network_proxy_dns_tls",
+      "symptom": "Sanitized recurring failure pattern for network_proxy_dns_tls",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for network_proxy_dns_tls",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "proxy_connection_failed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_014_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_015_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_016_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_017_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_018_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_019_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_020_download_popup",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "download_popup",
+      "symptom": "Sanitized recurring failure pattern for download_popup",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for download_popup",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_021_service_worker_cache",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "service_worker_cache",
+      "symptom": "Sanitized recurring failure pattern for service_worker_cache",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for service_worker_cache",
+      "expected_diagnosis": {
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_022_browser_environment",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "browser_environment",
+      "symptom": "Sanitized recurring failure pattern for browser_environment",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for browser_environment",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_023_agent_loop",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "agent_loop",
+      "symptom": "Sanitized recurring failure pattern for agent_loop",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for agent_loop",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_024_website_change",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "website_change",
+      "symptom": "Sanitized recurring failure pattern for website_change",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for website_change",
+      "expected_diagnosis": {
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_025_anti_bot_risk",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "anti_bot_risk",
+      "symptom": "Sanitized recurring failure pattern for anti_bot_risk",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for anti_bot_risk",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_026_network_proxy_dns_tls",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "network_proxy_dns_tls",
+      "symptom": "Sanitized recurring failure pattern for network_proxy_dns_tls",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for network_proxy_dns_tls",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "proxy_connection_failed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_027_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_028_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_029_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_030_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_031_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_032_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_033_download_popup",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "download_popup",
+      "symptom": "Sanitized recurring failure pattern for download_popup",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for download_popup",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_034_service_worker_cache",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "service_worker_cache",
+      "symptom": "Sanitized recurring failure pattern for service_worker_cache",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for service_worker_cache",
+      "expected_diagnosis": {
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_035_browser_environment",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "browser_environment",
+      "symptom": "Sanitized recurring failure pattern for browser_environment",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for browser_environment",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_036_agent_loop",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "agent_loop",
+      "symptom": "Sanitized recurring failure pattern for agent_loop",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for agent_loop",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_037_website_change",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "website_change",
+      "symptom": "Sanitized recurring failure pattern for website_change",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for website_change",
+      "expected_diagnosis": {
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_038_anti_bot_risk",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "anti_bot_risk",
+      "symptom": "Sanitized recurring failure pattern for anti_bot_risk",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for anti_bot_risk",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_039_network_proxy_dns_tls",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "network_proxy_dns_tls",
+      "symptom": "Sanitized recurring failure pattern for network_proxy_dns_tls",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for network_proxy_dns_tls",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "proxy_connection_failed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_040_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_041_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_042_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_043_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_044_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_045_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_046_download_popup",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "download_popup",
+      "symptom": "Sanitized recurring failure pattern for download_popup",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for download_popup",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_047_service_worker_cache",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "service_worker_cache",
+      "symptom": "Sanitized recurring failure pattern for service_worker_cache",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for service_worker_cache",
+      "expected_diagnosis": {
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_048_browser_environment",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "browser_environment",
+      "symptom": "Sanitized recurring failure pattern for browser_environment",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for browser_environment",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_049_agent_loop",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "agent_loop",
+      "symptom": "Sanitized recurring failure pattern for agent_loop",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for agent_loop",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_050_website_change",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "website_change",
+      "symptom": "Sanitized recurring failure pattern for website_change",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for website_change",
+      "expected_diagnosis": {
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_051_anti_bot_risk",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "anti_bot_risk",
+      "symptom": "Sanitized recurring failure pattern for anti_bot_risk",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for anti_bot_risk",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_052_network_proxy_dns_tls",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "network_proxy_dns_tls",
+      "symptom": "Sanitized recurring failure pattern for network_proxy_dns_tls",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for network_proxy_dns_tls",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "proxy_connection_failed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_053_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_054_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_055_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_056_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_057_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_058_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_059_download_popup",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "download_popup",
+      "symptom": "Sanitized recurring failure pattern for download_popup",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for download_popup",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_060_service_worker_cache",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "service_worker_cache",
+      "symptom": "Sanitized recurring failure pattern for service_worker_cache",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for service_worker_cache",
+      "expected_diagnosis": {
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_061_browser_environment",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "browser_environment",
+      "symptom": "Sanitized recurring failure pattern for browser_environment",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for browser_environment",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_062_agent_loop",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "agent_loop",
+      "symptom": "Sanitized recurring failure pattern for agent_loop",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for agent_loop",
+      "expected_diagnosis": {
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_063_website_change",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "website_change",
+      "symptom": "Sanitized recurring failure pattern for website_change",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for website_change",
+      "expected_diagnosis": {
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_064_anti_bot_risk",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "anti_bot_risk",
+      "symptom": "Sanitized recurring failure pattern for anti_bot_risk",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for anti_bot_risk",
+      "expected_diagnosis": {
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_065_network_proxy_dns_tls",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "network_proxy_dns_tls",
+      "symptom": "Sanitized recurring failure pattern for network_proxy_dns_tls",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for network_proxy_dns_tls",
+      "expected_diagnosis": {
+        "technical_category": "network_http_error",
+        "subtype": "proxy_connection_failed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_066_storage_state_context",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "storage_state_context",
+      "symptom": "Sanitized recurring failure pattern for storage_state_context",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for storage_state_context",
+      "expected_diagnosis": {
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "likely_storage_state_not_loaded"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_067_route_mock_har",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "route_mock_har",
+      "symptom": "Sanitized recurring failure pattern for route_mock_har",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for route_mock_har",
+      "expected_diagnosis": {
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_068_shadow_dom_locator",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "shadow_dom_locator",
+      "symptom": "Sanitized recurring failure pattern for shadow_dom_locator",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for shadow_dom_locator",
+      "expected_diagnosis": {
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_069_strict_mode",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "strict_mode",
+      "symptom": "Sanitized recurring failure pattern for strict_mode",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for strict_mode",
+      "expected_diagnosis": {
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_070_timeout_navigation",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "timeout_navigation",
+      "symptom": "Sanitized recurring failure pattern for timeout_navigation",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for timeout_navigation",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "public_inspired_071_execution_context_destroyed",
+      "source_type": "public_inspired_sanitized",
+      "source_status": "derived_pattern",
+      "source_url": "",
+      "project": "public-pattern-summary",
+      "category": "execution_context_destroyed",
+      "symptom": "Sanitized recurring failure pattern for execution_context_destroyed",
+      "raw_error_excerpt": "short synthetic excerpt derived from recurring public reports for execution_context_destroyed",
+      "expected_diagnosis": {
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Explicitly public-inspired sanitized record; not a real issue URL."
+    },
+    {
+      "id": "microsoft_playwright_41504",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41504",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: expect(locator).toHaveScreenshot({ mask: [locators] }) is affected by page backdrop styles",
+      "raw_error_excerpt": "### Version 1.60.0 ### Steps to reproduce 1. Run following code with on version `1.58.2` 2. Update to `1.59.0` (up to `1.61.1`) and run the tests again ```typescript import { expec",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_39762",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/39762",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: WebGPU support in WebKit",
+      "raw_error_excerpt": "### Version 1.58.2 ### Steps to reproduce 1. On macOS 26.3.1, create `repro.mjs`: ```js import { webkit } from \"@playwright/test\" const browser = await webkit.launch({ headless: fa",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41285",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41285",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: Loading https://www.acuenta.cl/ in Firefox gives a certificate error",
+      "raw_error_excerpt": "### Version 1.60.0 ### Steps to reproduce 1. npx playwright open --browser firefox 2. navigate to https://www.acuenta.cl/ ### Expected behavior The page should load ### Actual beha",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_30287",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/30287",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: trace not recorded for \"workerStorageState\"",
+      "raw_error_excerpt": "### Version 18.2.3 ### Steps to reproduce 1. clone my repo - https://github.com/Danieliverant/playwright-no-trace 2. `cd playwright-no-trace` 3. `nx e2e e2e --trace on` 4. `npx pla",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41359",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41359",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: Recorder/codegen and page bindings break when the page defines Array.prototype.toJSON",
+      "raw_error_excerpt": "### Version 1.61.0 ### Steps to reproduce **Recorder:** 1. Run `npx playwright codegen` and navigate to any page (even `about:blank`). 2. In the browser's DevTools Console, paste t",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_18235",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/18235",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[BUG] navigator.storage.getDirectory() fails in webkit",
+      "raw_error_excerpt": "**Context:** - Playwright Version: 1.27.1 - Operating System: Mac - Node.js version: 18.7.0 - Browser: WebKit - Extra: <!-- CLI to auto-capture this info --> ## System: - OS: macOS",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41216",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41216",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: Navigation interrupted by another navigation when launching from persistent context for second time",
+      "raw_error_excerpt": "### Version 1.60.0 ### Steps to reproduce 1. Clone my repo at https://github.com/fwdekker-pc/playwright_python_navigation_interrupted_by_another_navigation_at_second_launch 2. Run ",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_40224",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/40224",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: Trace viewer not displaying elements for Angular + Ionic app",
+      "raw_error_excerpt": "### Version 1.59.1 ### Steps to reproduce 1. clone my repo https://github.com/brybski/playwright-ionic-repro 2. run npm install 3. npx playwright install 4. npm start 5. npm run te",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_40583",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/40583",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: Full-page screenshot doesn't render iframe content",
+      "raw_error_excerpt": "### Version 1.59.1 ### Steps to reproduce 1. Clone my repo at https://github.com/afonseca08/playwright-render-issue 2. npm ci 3. npx playwright install chromium 4. npm run repro 5.",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41445",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41445",
+      "project": "microsoft/playwright",
+      "category": "browser_environment",
+      "symptom": "[Bug]: pw:client-certificates: \"Invalid IPv6 token\" when corporate transparent proxy presents cert with IPv4 SAN",
+      "raw_error_excerpt": "### Version 1.60.0 ### Steps to reproduce Environment: Playwright Java (same behavior expected in other bindings) Machine is connected to a corporate network with a transparent HTT",
+      "expected_diagnosis": {
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": false,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_40681",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/40681",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature]: Trace viewer: Add timeout-risk highlighting for actions in Playwright traces",
+      "raw_error_excerpt": "### 🚀 Feature Request It would be useful if Playwright traces could visually highlight actions based on how close they came to their configured timeout. It seems like the trace fil",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41298",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41298",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature]: Allow individual test steps to be retried",
+      "raw_error_excerpt": "### 🚀 Feature Request I'd like to propose adding an option `retry: boolean` to test steps. This way a whole group of actions could be retried instead of only individual ones, using",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_40586",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/40586",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "feat(electron): add timeout option to electronApp.close() for force-kill escalation",
+      "raw_error_excerpt": "## Feature Request **Is your feature request related to a problem?** `electronApp.close()` currently waits indefinitely for the Electron process to exit. If the application has `be",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_40578",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/40578",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature]: support signal in waitFor* APIs",
+      "raw_error_excerpt": "### 🚀 Feature Request Many Playwright ⁠`waitFor*` APIs support a ⁠timeout option, which works well for fixed upper bounds. A complementary capability would be support for ⁠AbortSig",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41467",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41467",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature]: Support for XHR request timeout simulation with clock.runfor",
+      "raw_error_excerpt": "### 🚀 Feature Request Some code use XHR requests with timeout. Using `page.route` to then `route.abort(\"timedout\")` is interesting, but it doesn’t ensure that the tested code didn’",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=closed"
+    },
+    {
+      "id": "microsoft_playwright_33057",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/33057",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Bug]: button click timeout (headless WebKit on Ubuntu 24.04.1 LTS)",
+      "raw_error_excerpt": "### Version 1.48.0 ### Steps to reproduce 1. Launch a fresh instance of Ubuntu 24.04.1 LTS (see **Additional context** for details) 2. Run [bug-playwright-button-click/init.sh](htt",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_21484",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/21484",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature] Locks to avoid concurrent runs of specific tests",
+      "raw_error_excerpt": "Errors due to the concurrent runs is a common issue in test automation. Currently there is no support for locks to avoid this in playwright and the tests must be run sequential, as",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_22496",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/22496",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Feature] Configure web servers per project",
+      "raw_error_excerpt": "I would love to have the possibility to configure local web servers per project. In my use case, I have a full suite that runs against a local build of my application and a mock se",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_41347",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/41347",
+      "project": "microsoft/playwright",
+      "category": "timeout_navigation",
+      "symptom": "[Bug]: All tests for Firefox fail with `Error: browserContext.newPage: Test timeout of 30000ms exceeded.`",
+      "raw_error_excerpt": "### Version 1.60.1 ### Steps to reproduce 1. Install playwright in an empty folder - `npm init playwright@latest` and accept default options (except `Add a GitHub Actions workflow?",
+      "expected_diagnosis": {
+        "technical_category": "async_hydration_timing",
+        "subtype": "navigation_timeout"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=closed"
+    },
+    {
+      "id": "microsoft_playwright_22865",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/22865",
+      "project": "microsoft/playwright",
+      "category": "download_popup",
+      "symptom": "[Feature]is it possible to reuse static resouces cache of previous test run ?",
+      "raw_error_excerpt": "Test Case 1 : new context() page.goto(\"https://example.com\"); Test Case 2 new context() page.goto(\"https://example.com\"); I want to reuse all the static resource cache from Test Ca",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    },
+    {
+      "id": "microsoft_playwright_16542",
+      "source_type": "real_public_issue",
+      "source_status": "verified_gh_search",
+      "source_url": "https://github.com/microsoft/playwright/issues/16542",
+      "project": "microsoft/playwright",
+      "category": "download_popup",
+      "symptom": "[Feature] A proper way to display playwright-html-reports after running a playwright test in Azure DevOps",
+      "raw_error_excerpt": "Playwright offers some fantastic features for debugging (html testresults, trace.zip), but we are having a hard time displaying these results inside Azure Devops. Currently, our wo",
+      "expected_diagnosis": {
+        "technical_category": "playwright_download",
+        "subtype": "download_event"
+      },
+      "can_reproduce_locally": true,
+      "can_generate_native_trace": true,
+      "notes": "Found via GitHub issue search; short sanitized excerpt only; state=open"
+    }
+  ]
+}

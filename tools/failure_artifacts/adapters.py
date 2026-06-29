@@ -35,9 +35,12 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
             lower = name.lower()
             data = archive.read(name)
             text = data.decode("utf-8", errors="replace")
+            if lower.startswith("resources/src@"):
+                continue
             if _is_text_resource(lower):
                 text_resources[name] = text[:5000]
-            status_code = _extract_status(text) or status_code
+            if not lower.endswith((".trace", ".network")):
+                status_code = _extract_status(text) or status_code
             for record in _parse_json_records(text):
                 records.append(record)
                 for message in _extract_record_messages(record):
@@ -61,7 +64,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
                 if isinstance(parsed, dict):
                     status_code = _as_int(parsed.get("status") or parsed.get("status_code")) or status_code
                     url = str(parsed.get("url") or url)
-                else:
+                elif "network" not in lower:
                     status_code = _extract_status(text) or status_code
 
     action_events, failed_action, action_stack = _extract_action_observations(records)
@@ -266,8 +269,14 @@ def _coerce_message_text(value: Any) -> str:
 def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
     record_type = str(record.get("type") or record.get("method") or "").lower()
     params = record.get("params") if isinstance(record.get("params"), dict) else {}
-    response = _first_dict(record.get("response"), params.get("response"))
-    request = _first_dict(record.get("request"), params.get("request"), response.get("request") if response else None)
+    snapshot = record.get("snapshot") if isinstance(record.get("snapshot"), dict) else {}
+    response = _first_dict(record.get("response"), params.get("response"), snapshot.get("response"))
+    request = _first_dict(
+        record.get("request"),
+        params.get("request"),
+        snapshot.get("request"),
+        response.get("request") if response else None,
+    )
 
     status = _as_int(
         record.get("status")
@@ -280,6 +289,7 @@ def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
     url = str(
         record.get("url")
         or params.get("url")
+        or snapshot.get("url")
         or (response or {}).get("url")
         or (request or {}).get("url")
         or ""
@@ -300,8 +310,11 @@ def _extract_network_event(record: dict[str, Any]) -> dict[str, Any] | None:
 
     looks_network_like = bool(status or url) and (
         "network" in record_type
+        or record_type == "resource-snapshot"
         or "request" in record
         or "response" in record
+        or "request" in snapshot
+        or "response" in snapshot
         or "request" in params
         or "response" in params
     )
@@ -337,7 +350,7 @@ def _extract_action_observations(records: list[dict[str, Any]]) -> tuple[list[di
             params = record.get("params") if isinstance(record.get("params"), dict) else {}
             action = {
                 "call_id": call_id,
-                "api_name": str(record.get("apiName") or record.get("api_name") or ""),
+                "api_name": _record_api_name(record),
             }
             selector = params.get("selector") or record.get("selector")
             if selector:
@@ -442,7 +455,7 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
         record_type = str(record.get("type") or "").lower()
         method = str(record.get("method") or "").lower()
         params = record.get("params") if isinstance(record.get("params"), dict) else {}
-        api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
+        api_name = _record_api_name(record).lower()
 
         if record_type == "event" and "network.responsereceived" in method:
             response = params.get("response") if isinstance(params.get("response"), dict) else {}
@@ -458,11 +471,32 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
                 auth_status_seen = True
                 auth_status_code = status
 
+        if record_type == "resource-snapshot":
+            snapshot = record.get("snapshot") if isinstance(record.get("snapshot"), dict) else {}
+            response = snapshot.get("response") if isinstance(snapshot.get("response"), dict) else {}
+            request = snapshot.get("request") if isinstance(snapshot.get("request"), dict) else {}
+            headers = _headers_map(response.get("headers"))
+            response_url = str(request.get("url") or "")
+            status = _as_int(response.get("status"))
+            location = str(headers.get("location") or "")
+            if is_auth_url(response_url) or (status in (301, 302, 307, 308) and is_auth_url(location)):
+                auth_redirect_url = location or response_url
+                auth_status_seen = True
+                auth_status_code = status
+            if status == 401:
+                auth_status_seen = True
+                auth_status_code = status
+
         if record_type == "event" and "page.framenavigated" in method:
             frame = params.get("frame") if isinstance(params.get("frame"), dict) else {}
             frame_url = str(frame.get("url") or "")
             if is_auth_url(frame_url):
                 auth_redirect_url = frame_url
+                auth_status_seen = True
+
+        for message in _extract_record_messages(record):
+            value = message.lower()
+            if any(marker in value for marker in ("not authenticated", "session expired", "unauthorized", "please log in")):
                 auth_status_seen = True
 
         if record_type == "event" and "runtime.consoleapicalled" in method:
@@ -535,6 +569,8 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
     live_network_urls: list[str] = []
     har_load_failed = False
     har_not_found_policy = ""
+    fallback_seen = False
+    har_error = ""
 
     route_api_markers = ("page.route", "browsercontext.route")
     har_api_markers = ("page.routefromhar", "browsercontext.routefromhar")
@@ -543,12 +579,21 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
         record_type = str(record.get("type") or "").lower()
         method = str(record.get("method") or "").lower()
         params = record.get("params") if isinstance(record.get("params"), dict) else {}
-        api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
+        api_name = _record_api_name(record).lower()
         start_time = _as_float(record.get("startTime") or record.get("start_time"))
 
-        is_route_registration = record_type == "before" and any(marker in api_name for marker in route_api_markers) and "fromhar" not in api_name
+        is_route_registration = (
+            record_type == "before"
+            and (
+                (any(marker in api_name for marker in route_api_markers) and "fromhar" not in api_name)
+                or "setnetworkinterceptionpatterns" in api_name
+            )
+        )
         if is_route_registration:
             pattern = str(params.get("url") or params.get("pattern") or "")
+            patterns = params.get("patterns") if isinstance(params.get("patterns"), list) else []
+            if not pattern and patterns and isinstance(patterns[0], dict):
+                pattern = str(patterns[0].get("glob") or patterns[0].get("regexSource") or "")
             if pattern:
                 route_patterns.append(pattern)
                 observations["route_registered"] = True
@@ -580,6 +625,18 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
                     first_request_index = index
                 live_network_urls.append(request_url)
 
+        if record_type == "resource-snapshot":
+            snapshot = record.get("snapshot") if isinstance(record.get("snapshot"), dict) else {}
+            request = snapshot.get("request") if isinstance(snapshot.get("request"), dict) else {}
+            request_url = str(request.get("url") or "")
+            request_time = _as_float(snapshot.get("_monotonicTime"))
+            if request_url:
+                if not first_request_url:
+                    first_request_url = request_url
+                    first_request_at_ms = request_time
+                    first_request_index = index
+                live_network_urls.append(request_url)
+
         if record_type == "event" and "network.loadingfailed" in method:
             error_text = str(params.get("errorText") or "").lower()
             if "file_not_found" in error_text or "err_file_not_found" in error_text:
@@ -589,6 +646,23 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
 
         if record_type == "after" and "route.fulfill" in api_name and record.get("error"):
             observations.setdefault("har_miss_url", first_request_url)
+
+        if "route.continue" in api_name and params.get("isFallback") is True:
+            fallback_seen = True
+            observations["har_expected"] = True
+            observations["har_loaded"] = True
+            observations["har_not_found_policy"] = "fallback"
+            har_not_found_policy = "fallback"
+
+        for message in _extract_record_messages(record):
+            lowered_message = message.lower()
+            if "route_from_har" in lowered_message or "routefromhar" in lowered_message:
+                observations["har_expected"] = True
+                if "enoent" in lowered_message or "no such file or directory" in lowered_message or "not found" in lowered_message:
+                    har_load_failed = True
+                    har_error = message
+                    observations["har_loaded"] = False
+                    observations["har_error"] = message[:500]
 
     if route_registered_index is not None and first_request_index is not None and first_request_index < route_registered_index:
         observations["route_registered_after_request"] = True
@@ -620,6 +694,11 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
 
     if har_load_failed:
         observations["har_loaded"] = False
+        if har_error:
+            observations["har_error"] = har_error[:500]
+    if fallback_seen and live_network_urls:
+        observations["live_network_request"] = True
+        observations.setdefault("har_miss_url", live_network_urls[0])
     if observations.get("har_loaded") is True and har_not_found_policy == "fallback" and live_network_urls:
         observations["live_network_request"] = True
         observations.setdefault("har_miss_url", live_network_urls[0])
@@ -732,6 +811,33 @@ def _candidate_sources(record: dict[str, Any]) -> list[dict[str, Any]]:
     if isinstance(metadata, dict):
         sources.append(metadata)
     return sources
+
+
+def _headers_map(headers: Any) -> dict[str, str]:
+    if isinstance(headers, dict):
+        return {str(key).lower(): str(value) for key, value in headers.items()}
+    if isinstance(headers, list):
+        mapped: dict[str, str] = {}
+        for item in headers:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            value = item.get("value")
+            if name is not None:
+                mapped[str(name).lower()] = "" if value is None else str(value)
+        return mapped
+    return {}
+
+
+def _record_api_name(record: dict[str, Any]) -> str:
+    explicit = record.get("apiName") or record.get("api_name")
+    if explicit:
+        return str(explicit)
+    cls = str(record.get("class") or "")
+    method = str(record.get("method") or "")
+    if cls and method:
+        return f"{cls}.{method}"
+    return method
 
 
 def _enrich_shadow_dom_from_html(shadow_obs: dict[str, Any], html: str) -> dict[str, Any]:

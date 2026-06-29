@@ -1,8 +1,16 @@
-# Agent Failure Doctor Credibility Validation Report
+# Agent Failure Doctor Validation Report
 
 ## Scope
 
-Agent Failure Doctor is validated against public-inspired, sanitized records. These records are useful for regression and routing checks, but they are not claimed to be complete real-world failure packages with private traces, screenshots, cookies, tokens, or authorization headers.
+Agent Failure Doctor is validated with three evidence tiers:
+
+1. Sanitized template fixtures for broad regression coverage.
+2. Traceable public-source ledger records for credibility and category grounding.
+3. Native Playwright-generated `trace.zip` fixtures for adapter semantics.
+
+The project does not claim that all validation samples are raw real-world private failure packages. Sanitized and public-inspired records are labeled separately from real public issue URLs. Older template records are best described as public-inspired, sanitized records.
+
+Source families: GitHub Issues / Stack Overflow / browser-use / Playwright.
 
 Supported input families:
 
@@ -12,11 +20,26 @@ Supported input families:
 - `user_description.txt`
 - screenshot metadata
 
-## Main Public Validation Ledger
+## Source Ledger
 
-The main ledger is `validation/public_failure_validation_150.json`.
+`validation/source_ledger_real_failures.json` contains 131 source records.
 
-Source families: GitHub Issues / Stack Overflow / browser-use / Playwright.
+| Source Type | Count | Use |
+|---|---:|---|
+| `real_public_issue` | 50 | Traceable public issue URLs for real symptoms |
+| `official_doc_pattern` | 10 | Official behavior boundaries from Playwright and related docs |
+| `public_inspired_sanitized` | 71 | Sanitized validation records inspired by public failure patterns |
+
+Ledger rules:
+
+- public-inspired records must not pretend to be GitHub issue URLs
+- source URLs must not use fake example issue IDs
+- every record must include source type, category, symptom, raw excerpt, and expected diagnosis
+- no secrets, cookies, tokens, authorization headers, or private customer data are stored
+
+## Template Validation Ledger
+
+The main sanitized ledger remains `validation/public_failure_validation_150.json`.
 
 | Metric | Result |
 |---|---:|
@@ -29,7 +52,63 @@ Source families: GitHub Issues / Stack Overflow / browser-use / Playwright.
 | Insufficient evidence cases | 21 |
 | Codex fix prompt generated | 150/150 |
 
-## v0.6 Website Change + Anti-Bot Risk Addendum
+## Public-Inspired Independent Validation
+
+The independent validation track is intentionally more conservative than the template ledger.
+
+| Metric | Result |
+|---|---:|
+| Sample count | 50 |
+| Reasonable classification rate | 78.0% |
+| Actionable next action rate | 90.0% |
+| Severe misclassifications | 4 |
+| Insufficient evidence cases | 7 |
+
+## v0.8 Real Playwright Trace Semantic Validation
+
+The v0.8 trace track generates native Playwright `trace.zip` files with `context.tracing.start(...)` and validates the adapter against raw Playwright trace records. The fixture generator uses a local-only HTTP server and does not contact third-party sites.
+
+Artifacts:
+
+- `examples/realistic_playwright_traces/*/trace.zip`
+- `examples/realistic_playwright_traces/*/expected_diagnosis.json`
+- `examples/realistic_playwright_traces/*/source.json`
+- `validation/real_trace_validation_30.json`
+
+Reproduce:
+
+```powershell
+python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
+python -m tools.validation.run_real_trace_validation
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| Native Playwright trace fixtures | 30 |
+| Reasonable classifications | 30 |
+| Reasonable classification rate | 100.0% |
+| Exact subtype matches | 30 |
+| Exact subtype match rate | 100.0% |
+| Actionable next actions | 30 |
+| Severe misclassifications | 0 |
+| Insufficient evidence cases | 0 |
+| Forbidden outputs | 0 |
+| Custom classifier fields in raw traces | 0 |
+
+Covered paths:
+
+- storage-state/context login redirect, 401, session expiry
+- route timing, route pattern mismatch, HAR missing, HAR fallback network leak
+- shadow DOM boundary, custom element not upgraded, host-vs-inner target
+- selector drift, strict mode, navigation timeout, execution-context race
+- download, popup-style next-step failure, service-worker cache
+- browser executable missing, CDP disconnect, agent repetition loop
+- website response/API/login/download changes
+- rate limit, challenge page, dynamic signature risk
+
+## Website Change + Anti-Bot Risk Addendum
 
 The v0.6 addendum is tracked separately in `validation/website_antibot_validation_50.json`.
 
@@ -39,75 +118,35 @@ The v0.6 addendum is tracked separately in `validation/website_antibot_validatio
 | Website Change records | 25 |
 | Anti-Bot Risk records | 25 |
 | Reasonable classifications | 50 |
-| Reasonable classification rate | 100.0% |
 | Safe next actions | 50 |
-| Safe next action rate | 100.0% |
 | Forbidden outputs | 0 |
 | Insufficient evidence cases | 0 |
 | Severe misclassifications | 0 |
 
-Reproduce the v0.6 addendum:
+Reproduce:
 
 ```bash
 python scripts/validate_website_antibot.py
 ```
 
-## v0.7.1 Real Playwright Trace Semantic Validation
-
-The real trace semantic validation track is implemented in `tests/test_real_trace_semantic_validation.py`. These fixtures use native Playwright-style trace records such as `before`, `after`, `event`, `Network.requestWillBeSent`, `Network.responseReceived`, `Page.frameNavigated`, `Runtime.consoleAPICalled`, and `Runtime.exceptionThrown`.
-
-They intentionally do not include custom classifier fields such as `storageStateExpected`, `routeRegistered`, `shadowHost`, or `elementExistsInShadowDom`.
-
-| Metric | Result |
-|---|---:|
-| Fixture count | 20 |
-| Diagnosable fixtures | 20 |
-| Severe misclassifications | 0 |
-| Custom classifier fields in raw traces | 0 |
-
-Covered paths:
-
-- login redirect / 401 / session expired
-- route timing / route pattern / HAR missing / HAR fallback
-- shadow DOM boundary / custom element not upgraded / host-vs-inner target
-- strict mode / popup / download / service-worker cache
-- execution-context navigation race / navigation timeout
-- proxy / DNS
-- response shape changed / selector drift
-
-## Combined v0.6 Dashboard View
-
-| Metric | Result |
-|---|---:|
-| Combined records | 200 |
-| Reasonable classifications | 196 |
-| Reasonable classification rate | 98.0% |
-| Actionable or safe next actions | 192 |
-| Actionable or safe next action rate | 96.0% |
-| Severe misclassifications | 4 |
-| Insufficient evidence cases | 21 |
-
-## Website Change Boundary
-
-`website_change` is repair-oriented. It can recommend refreshing DOM/network evidence, updating selectors, endpoints, JSON paths, GraphQL queries, pagination, login-flow handling, or download-flow handling.
-
-## Anti-Bot Risk Boundary
+## Safety Boundary
 
 `anti_bot_risk` is identification and compliant routing only. Safe actions include confirming authorization, using official APIs or authorized exports, reducing request volume where appropriate, manual review, contacting the platform owner, or stopping unclear runs.
 
 The tool must not provide:
 
-- CAPTCHA bypass
-- bot evasion
+- challenge-solving instructions
+- access-control circumvention
 - credential extraction
 - account rotation
 - network rotation
-- private signature bypass
+- private signature defeat guidance
 - unauthorized collection guidance
 
 ## Current Limits
 
 - Screenshot input is metadata-only; there is no image understanding yet.
-- Public-inspired records are sanitized summaries, not full private evidence bundles.
+- Public-inspired records are sanitized summaries, not raw private evidence bundles.
+- The real trace fixture server is local-only; it validates adapter semantics, not live third-party website drift.
 - Low-evidence inputs should downgrade to `insufficient_evidence` instead of forcing a specific diagnosis.
 - The validation corpus should keep growing from externally submitted sanitized cases.

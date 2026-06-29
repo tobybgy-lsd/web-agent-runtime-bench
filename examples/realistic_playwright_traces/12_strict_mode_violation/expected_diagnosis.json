@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_strict_mode_violation",
+  "subtype": "locator_multiple_matches",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

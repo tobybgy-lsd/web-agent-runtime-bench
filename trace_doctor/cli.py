@@ -119,7 +119,7 @@ def _render_repair_suggestions(diagnosis: Mapping[str, Any]) -> str:
             "",
             "## Safety Boundary",
             "",
-            "- Do not add CAPTCHA bypass logic.",
+            "- Do not add challenge-solving or access-control circumvention logic.",
             "- Do not extract credentials, cookies, tokens, or authorization headers.",
             "- Keep the diagnostic workflow local and based on sanitized traces.",
         ]

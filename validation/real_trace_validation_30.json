@@ -1,0 +1,673 @@
+{
+  "version": "v0.8",
+  "track": "real_playwright_trace_semantic_validation",
+  "total_cases": 30,
+  "exact_subtype_match": 30,
+  "reasonable_category_match": 30,
+  "actionable_next_action": 30,
+  "insufficient_evidence": 0,
+  "severe_misclassification": 0,
+  "forbidden_output_count": 0,
+  "cases": [
+    {
+      "case_id": "01_selector_drift",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "selector_drift",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "selector_drift",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "02_login_redirect_302",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "03_auth_401_missing_cookie",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "04_session_expired_console",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_storage_state_context",
+        "subtype": "login_redirect_after_authenticated_action",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "05_route_registered_too_late",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_registered_too_late",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "06_route_pattern_mismatch",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "route_pattern_mismatch",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "07_har_file_missing_or_fallback",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "har_not_found_or_not_loaded",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "har_not_found_or_not_loaded",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "08_live_network_leak_after_mock",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "har_fallback_network_leak",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_route_mock_har",
+        "subtype": "har_fallback_network_leak",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "09_shadow_dom_boundary",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "shadow_root_boundary",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "10_custom_element_not_upgraded",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "custom_element_not_upgraded",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "custom_element_not_upgraded",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "11_host_locator_instead_of_inner_button",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "locator_targets_host_not_inner_node",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_shadow_dom_locator",
+        "subtype": "locator_targets_host_not_inner_node",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "12_strict_mode_violation",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_strict_mode_violation",
+        "subtype": "locator_multiple_matches",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "13_response_shape_changed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "response_shape_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "14_endpoint_changed_404_to_v2",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "api_endpoint_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "api_endpoint_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "15_graphql_schema_changed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "graphql_schema_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "graphql_schema_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "16_pagination_cursor_missing",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "pagination_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "pagination_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "17_login_flow_changed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "login_flow_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "login_flow_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "18_download_behavior_changed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "download_behavior_changed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "website_change",
+        "technical_category": "website_change",
+        "subtype": "download_behavior_changed",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "19_navigation_timeout",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "async_hydration_timing",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "async_hydration_timing",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "20_execution_context_destroyed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_execution_context_destroyed",
+        "subtype": "navigation_race",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "21_target_closed",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "environment",
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "environment",
+        "technical_category": "playwright_browser_context_closed",
+        "subtype": "target_closed",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "22_download_not_saved",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_download",
+        "subtype": "download_event",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_download",
+        "subtype": "download_event",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "23_service_worker_cache_stale",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_service_worker_cache",
+        "subtype": "stale_cache",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "24_cdp_websocket_disconnect_log_pack",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "environment",
+        "technical_category": "cdp_websocket_disconnected",
+        "subtype": "websocket_disconnect",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "environment",
+        "technical_category": "cdp_websocket_disconnected",
+        "subtype": "websocket_disconnect",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "25_agent_repeated_action_loop_log_pack",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "agent_repetition_loop",
+        "subtype": "repeated_action_loop",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "26_docker_browser_executable_missing_log_pack",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "environment",
+        "technical_category": "toolchain_environment",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "environment",
+        "technical_category": "toolchain_environment",
+        "subtype": null,
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "27_download_not_available_to_next_step_log_pack",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_download",
+        "subtype": "download_event",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "automation_engineering",
+        "technical_category": "playwright_download",
+        "subtype": "download_event",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "28_rate_limited_429_local",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "rate_limited",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "rate_limited",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "29_captcha_or_challenge_page_local",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "captcha_or_challenge_page",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    },
+    {
+      "case_id": "30_dynamic_signature_required_local",
+      "input_type": "native_playwright_trace_zip",
+      "expected": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "dynamic_signature_required",
+        "evidence_level": "inferred",
+        "safe_next_action": true
+      },
+      "actual": {
+        "failure_layer": "anti_bot_risk",
+        "technical_category": "anti_bot_risk",
+        "subtype": "dynamic_signature_required",
+        "evidence_level": "confirmed",
+        "safe_next_action": true
+      },
+      "result": "exact_match",
+      "forbidden_output_count": 0,
+      "actionable_next_action": true,
+      "notes": ""
+    }
+  ]
+}

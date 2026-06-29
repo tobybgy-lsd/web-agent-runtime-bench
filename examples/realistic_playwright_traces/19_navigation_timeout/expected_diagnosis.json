@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "async_hydration_timing",
+  "subtype": null,
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

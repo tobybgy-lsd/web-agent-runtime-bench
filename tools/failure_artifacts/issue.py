@@ -91,7 +91,7 @@ def render_issue_draft(artifact: Mapping[str, Any], diagnosis: Mapping[str, Any]
 - [x] The pack is sanitized.
 - [x] No cookies, tokens, passwords, or authorization headers are included.
 - [x] No live endpoint or network replay is required.
-- [x] No CAPTCHA bypass or anti-bot evasion request is included.
+- [x] No challenge-solving or access-control circumvention request is included.
 - [ ] I reviewed the generated issue before submitting.
 """
 

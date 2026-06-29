@@ -1,0 +1,12 @@
+{
+  "case_id": "17_login_flow_changed",
+  "source_type": "local_reproduction_from_public_pattern",
+  "source_urls": [
+    "https://playwright.dev/docs/trace-viewer"
+  ],
+  "generated_by": "tools/real_trace_generation/generate_real_trace_fixtures.py",
+  "contains_custom_observation_fields": false,
+  "contains_credentials": false,
+  "contains_real_third_party_data": false,
+  "sanitized_dummy_cookie": false
+}

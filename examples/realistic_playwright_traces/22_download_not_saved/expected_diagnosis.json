@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_download",
+  "subtype": "download_event",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

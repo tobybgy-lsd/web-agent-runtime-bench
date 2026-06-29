@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_execution_context_destroyed",
+  "subtype": "navigation_race",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

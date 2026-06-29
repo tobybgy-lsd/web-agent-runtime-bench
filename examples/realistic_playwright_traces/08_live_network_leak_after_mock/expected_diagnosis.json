@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_route_mock_har",
+  "subtype": "har_fallback_network_leak",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

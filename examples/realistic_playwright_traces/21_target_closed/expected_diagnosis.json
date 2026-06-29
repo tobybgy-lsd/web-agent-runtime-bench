@@ -1,0 +1,7 @@
+{
+  "failure_layer": "environment",
+  "technical_category": "playwright_browser_context_closed",
+  "subtype": "target_closed",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

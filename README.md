@@ -8,13 +8,7 @@
 
 Diagnose why AI-generated browser automation / crawler / RPA runs failed.
 
-Input:
-trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
-
-Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-
-Quickstart:
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -23,26 +17,42 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
 
+Input:
+trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
+
+`trace.zip` / `error.log` / `console.txt` / `network.json` / screenshot metadata / `user_description.txt`
+
+Output:
+diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+
+diagnosis, evidence, next action, repair suggestions, GitHub issue draft, and Codex fix prompt.
+
 See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics.
 
-Agent Failure Doctor is local-first. It turns sanitized automation failure
-materials into a report that explains what likely failed, what evidence supports
-the diagnosis, what evidence is missing, and what to ask Codex or another coding
-assistant to change next.
+## Quickstart
+
+```powershell
+git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
+cd web-agent-runtime-bench
+python -m pip install -e .
+failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
+```
 
 ## What You Get
 
 ```text
 report/
-├── diagnosis.json
-├── diagnosis.md
-├── evidence.json
-├── input_summary.json
-├── issue_draft.md
-├── repair_suggestions.md
-├── codex_fix_prompt.md
-└── failure_doctor_report.zip
+|-- diagnosis.json
+|-- diagnosis.md
+|-- evidence.json
+|-- input_summary.json
+|-- issue_draft.md
+|-- repair_suggestions.md
+|-- codex_fix_prompt.md
+`-- failure_doctor_report.zip
 ```
+
+Agent Failure Doctor is local-first. It turns sanitized automation failure materials into a report that explains what likely failed, what evidence supports the diagnosis, what evidence is missing, and what to ask Codex or another coding assistant to change next.
 
 ## One-Minute Start
 
@@ -50,11 +60,11 @@ Put a failed run in a folder:
 
 ```text
 my_failed_run/
-├── error.log
-├── console.txt
-├── network.json
-├── README.txt
-└── screenshot.png
+|-- error.log
+|-- console.txt
+|-- network.json
+|-- README.txt
+`-- screenshot.png
 ```
 
 Then run:
@@ -63,14 +73,13 @@ Then run:
 failure-doctor diagnose .\my_failed_run --out .\report
 ```
 
-The tool automatically inventories inputs and uses this evidence priority:
+The tool inventories inputs and uses this evidence priority:
 
 ```text
 trace.zip > log > network.json > user description > screenshot metadata
 ```
 
-When evidence is too thin, it should downgrade to `insufficient_evidence`
-instead of guessing.
+When evidence is too thin, it should downgrade to `insufficient_evidence` instead of guessing.
 
 ## Minimal Demos
 
@@ -90,6 +99,12 @@ Low-evidence screenshot-only run:
 
 ```powershell
 failure-doctor diagnose .\examples\failed_runs\low_evidence_screenshot_only --out .\report_low_evidence
+```
+
+Native Playwright trace fixture:
+
+```powershell
+trace-doctor diagnose .\examples\realistic_playwright_traces\02_login_redirect_302\trace.zip --out .\report_login_trace
 ```
 
 ## Before / After Report
@@ -113,17 +128,25 @@ Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 
 ## Validation Status
 
-Current public release: Agent Failure Doctor v0.6.0.
+Current milestone: Agent Failure Doctor v0.8 Real Data & Real Trace Validation Pack.
 
-- 150 public-inspired / sanitized validation records with traceable public URLs
-- 100 public failure corpus cases
-- 97.3% reasonable classification in the validation ledger
-- 94.7% actionable `next_action`
-- 170 tests
+- 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
+- 50 traceable real public issue records
+- 30 native Playwright-generated `trace.zip` fixtures
+- 30/30 real trace reasonable classifications
+- 30/30 real trace exact subtype matches
+- 0 forbidden outputs in generated reports/prompts
 - smoke test and local safety scan passing
 
-See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for the validation
-ledger, limits, and current boundaries.
+See [validation/dashboard.md](validation/dashboard.md) and [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for validation metrics, limits, and boundaries.
+
+## Reproduce Real Trace Validation
+
+```powershell
+python -m pip install -e .[trace-gen]
+python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
+python -m tools.validation.run_real_trace_validation
+```
 
 ## Safety Boundary
 
@@ -131,22 +154,17 @@ This project is for local, sanitized failure diagnosis.
 
 It is not:
 
-- a CAPTCHA bypass tool
-- a bot evasion tool
+- a challenge-solving tool
+- an access-control circumvention tool
 - a credential extractor
 - a real-platform scraper
 - a tool for unauthorized collection
 
-For suspected anti-bot or platform risk cases, the intended output is
-identification, routing, and compliance-oriented next steps such as reducing
-request volume, using an official API, confirming authorization, contacting the
-platform, or stopping unauthorized collection.
+For suspected platform risk cases, the intended output is identification, routing, and compliance-oriented next steps such as reducing request volume, using an official API, confirming authorization, contacting the platform, or stopping unauthorized collection.
 
 ## Contributing Failure Cases
 
-You do not need to write code. The most useful contribution is a sanitized
-failure case: log snippets, trace metadata, network summaries, screenshots
-metadata, and a short description of what happened.
+You do not need to write code. The most useful contribution is a sanitized failure case: log snippets, trace metadata, network summaries, screenshot metadata, and a short description of what happened.
 
 Open a Failure case issue and remove secrets before posting:
 
@@ -158,10 +176,7 @@ Open a Failure case issue and remove secrets before posting:
 - private screenshots
 - personal data
 
-If Discussions are enabled, please submit non-sensitive failure cases under
-Failure Cases.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the minimal contribution format.
+See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md), and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
 
 ## Commands
 
@@ -171,14 +186,9 @@ Run all tests:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
-Run Windows smoke test:
+Run smoke and safety checks:
 
 ```powershell
 scripts\smoke_test.ps1
-```
-
-Run local safety scan:
-
-```powershell
 scripts\local_safety_scan.ps1
 ```

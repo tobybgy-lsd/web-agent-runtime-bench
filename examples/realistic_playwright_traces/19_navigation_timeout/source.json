@@ -1,0 +1,12 @@
+{
+  "case_id": "19_navigation_timeout",
+  "source_type": "local_reproduction_from_public_pattern",
+  "source_urls": [
+    "https://github.com/microsoft/playwright/issues/12393"
+  ],
+  "generated_by": "tools/real_trace_generation/generate_real_trace_fixtures.py",
+  "contains_custom_observation_fields": false,
+  "contains_credentials": false,
+  "contains_real_third_party_data": false,
+  "sanitized_dummy_cookie": false
+}

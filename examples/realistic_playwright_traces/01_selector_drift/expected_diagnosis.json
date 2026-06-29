@@ -1,0 +1,7 @@
+{
+  "failure_layer": "website_change",
+  "technical_category": "selector_drift",
+  "subtype": null,
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

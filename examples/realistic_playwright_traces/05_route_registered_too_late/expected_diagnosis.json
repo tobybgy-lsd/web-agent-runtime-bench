@@ -1,0 +1,7 @@
+{
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_route_mock_har",
+  "subtype": "route_registered_too_late",
+  "evidence_level": "inferred",
+  "safe_next_action": true
+}

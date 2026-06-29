@@ -30,6 +30,9 @@ def _error_focused_text(artifact: Mapping[str, Any], *, include_user_description
             for event in network_events[:10]:
                 if isinstance(event, Mapping):
                     parts.append(json.dumps(event, ensure_ascii=False))
+        console_messages = observations.get("console_messages")
+        if isinstance(console_messages, list):
+            parts.extend(str(message) for message in console_messages[:10])
         exception_details = observations.get("exception_details")
         if isinstance(exception_details, list):
             for detail in exception_details[:5]:
@@ -37,6 +40,12 @@ def _error_focused_text(artifact: Mapping[str, Any], *, include_user_description
                     parts.append(str(detail.get("message") or ""))
                     parts.append(str(detail.get("stack") or ""))
         parts.append(str(observations.get("body_text") or ""))
+        parts.append(str(observations.get("html_excerpt") or ""))
+        snapshot_excerpts = observations.get("snapshot_excerpts")
+        if isinstance(snapshot_excerpts, list):
+            for excerpt in snapshot_excerpts[:5]:
+                if isinstance(excerpt, Mapping):
+                    parts.append(str(excerpt.get("excerpt") or ""))
     return " ".join(parts).lower()
 
 
@@ -90,7 +99,7 @@ def _classify_runtime_api_missing(artifact: Mapping[str, Any], text: str) -> dic
 
 
 def _classify_captcha_or_bot_wall(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
-    focused = _error_focused_text(artifact, include_user_description=True)
+    focused = _error_focused_text(artifact, include_user_description=False)
     markers = ("captcha", "verify you are human", "are you human", "turnstile", "recaptcha", "cloudflare challenge", "just a moment")
     found = [marker for marker in markers if marker in focused]
     if not found:
@@ -102,7 +111,7 @@ def _classify_captcha_or_bot_wall(artifact: Mapping[str, Any], text: str) -> dic
         [
             "stop automation and request authorized/manual review",
             "record as blocked, not as selector drift",
-            "do not add CAPTCHA bypass or anti-bot evasion logic",
+            "do not add challenge-solving or access-control circumvention logic",
         ],
     )
 
@@ -288,7 +297,7 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if not isinstance(observations, Mapping):
         observations = {}
     status = artifact.get("error", {}).get("status_code") or observations.get("status_code")
-    focused = _error_focused_text(artifact, include_user_description=True)
+    focused = _error_focused_text(artifact, include_user_description=False)
 
     evidence: list[str] = []
     subtype = ""
@@ -374,9 +383,12 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if not subtype:
         return None
 
+    confidence = 0.93 if subtype == "dynamic_signature_required" else (
+        0.92 if subtype in {"rate_limited", "captcha_or_challenge_page", "ip_reputation_block", "auth_or_permission_block"} else 0.88
+    )
     return _result(
         "anti_bot_risk",
-        0.92 if subtype in {"rate_limited", "captcha_or_challenge_page", "ip_reputation_block", "auth_or_permission_block"} else 0.88,
+        confidence,
         evidence,
         _anti_bot_risk_safe_suggestions(subtype),
         subtype=subtype,
@@ -394,6 +406,12 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
 
 
 def _classify_auth_expiry(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    if artifact.get("tool") == "playwright":
+        observations = artifact.get("observations", {})
+        if isinstance(observations, Mapping):
+            console_messages = " ".join(map(str, observations.get("console_messages", []))).lower()
+            if any(marker in console_messages for marker in ("session expired", "unauthorized", "please log in")):
+                return None
     markers = ("password", "login", "signin", "sign in", "session expired", "redirected_to_login")
     found = [marker for marker in markers if marker in text]
     if not found:
@@ -781,7 +799,7 @@ def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -
             [
                 "classify this as access/rate limiting before changing selectors",
                 "reduce concurrency or add authorized backoff where appropriate",
-                "do not add anti-bot evasion or CAPTCHA bypass logic",
+                "do not add challenge-solving or access-control circumvention logic",
             ],
             subtype=f"http_{status}" if status else "soft_block_page",
         )
@@ -860,6 +878,8 @@ def _classify_async_hydration_timing(artifact: Mapping[str, Any], text: str) -> 
         "page.goto",
         "waiting until load",
         "timeout 30000ms exceeded",
+        "timeout 1ms exceeded",
+        "timeout exceeded",
     )
     found = [marker for marker in markers if marker in text]
     timing_evidence = []
@@ -1154,7 +1174,19 @@ def _classify_response_shape_change(artifact: Mapping[str, Any], text: str) -> d
 
 
 def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
-    markers = ("pwsh", "powershell", "node is not recognized", "modulenotfounderror", "permission denied", "no such file or directory")
+    markers = (
+        "pwsh",
+        "powershell",
+        "node is not recognized",
+        "modulenotfounderror",
+        "permission denied",
+        "no such file or directory",
+        "browser executable missing",
+        "executable doesn't exist",
+        "playwright install",
+        "missing browser",
+        "docker headless environment",
+    )
     found = [marker for marker in markers if marker in text]
     if not found:
         return None
