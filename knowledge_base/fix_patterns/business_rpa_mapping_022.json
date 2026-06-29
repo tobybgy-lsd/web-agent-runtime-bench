@@ -1,0 +1,63 @@
+{
+  "id": "business_rpa_mapping_022",
+  "version": 1,
+  "title": "Business Rpa Mapping 022",
+  "applies_to": [
+    "business automation",
+    "rpa"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_rpa_mapping",
+  "subtype": "field_mapping_or_retry",
+  "evidence_patterns": [
+    "field mapping or retry",
+    "business rpa mapping"
+  ],
+  "positive_evidence": [
+    "local synthetic evidence for field_mapping_or_retry",
+    "diagnostic signal appears in sanitized failure pack"
+  ],
+  "negative_evidence": [
+    "insufficient evidence should downgrade instead of guessing"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "field mapping or retry"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "field mapping or retry"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
+}

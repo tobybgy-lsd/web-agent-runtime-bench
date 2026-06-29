@@ -1,0 +1,50 @@
+{
+  "schema_version": "knowledge_base_p98_validation/v1",
+  "track": "knowledge_base_p98",
+  "total_patterns": 210,
+  "anti_bot_patterns": 27,
+  "patterns_by_layer": {
+    "anti_bot_risk": 27,
+    "automation_engineering": 70,
+    "business_mapping": 33,
+    "environment": 13,
+    "framework_runtime": 28,
+    "website_change": 39
+  },
+  "patterns_by_applies_to": {
+    "browser automation": 106,
+    "browser-use": 7,
+    "business automation": 10,
+    "crawler": 31,
+    "cypress": 23,
+    "httpx": 30,
+    "playwright": 122,
+    "puppeteer": 54,
+    "requests": 43,
+    "rpa": 28,
+    "scrapy": 17,
+    "selenium": 73
+  },
+  "schema_valid_rate": 1.0,
+  "public_safe_rate": 1.0,
+  "contains_private_solution_count": 0,
+  "anti_bot_forbidden_output_count": 0,
+  "search_recall_smoke": 0.96,
+  "diagnosis_pattern_mapping": 0.96,
+  "forbidden_output_count": 0,
+  "errors": [],
+  "p98_conditions": {
+    "total_patterns_at_least_200": true,
+    "schema_valid": true,
+    "public_safe": true,
+    "contains_private_solution_zero": true,
+    "anti_bot_patterns_at_least_10": true,
+    "browser_automation_patterns_at_least_45": true,
+    "playwright_patterns_at_least_35": true,
+    "selenium_puppeteer_cypress_at_least_35": true,
+    "scrapy_requests_httpx_at_least_25": true,
+    "crawler_patterns_at_least_30": true,
+    "business_rpa_patterns_at_least_20": true
+  },
+  "status": "pass"
+}

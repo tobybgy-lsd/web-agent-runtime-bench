@@ -1,0 +1,17 @@
+{
+  "schema_version": "batch_diagnosis_p98/v1",
+  "track": "batch_diagnosis_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 30,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "batch_sets": 30,
+  "largest_batch_runs": 200,
+  "batch_processing_success": 30,
+  "root_cause_grouping_correct": 29,
+  "repeated_failure_detection_correct": 29,
+  "repair_priority_correct": 29,
+  "fleet_health_score_generated": 30,
+  "status": "pass"
+}

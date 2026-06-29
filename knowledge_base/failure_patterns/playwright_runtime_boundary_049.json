@@ -1,0 +1,63 @@
+{
+  "id": "playwright_runtime_boundary_049",
+  "version": 1,
+  "title": "Playwright Runtime Boundary 049",
+  "applies_to": [
+    "playwright",
+    "browser automation"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_runtime",
+  "subtype": "runtime_boundary",
+  "evidence_patterns": [
+    "runtime boundary",
+    "playwright runtime"
+  ],
+  "positive_evidence": [
+    "local synthetic evidence for runtime_boundary",
+    "diagnostic signal appears in sanitized failure pack"
+  ],
+  "negative_evidence": [
+    "insufficient evidence should downgrade instead of guessing"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "runtime boundary"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "runtime boundary"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
+}

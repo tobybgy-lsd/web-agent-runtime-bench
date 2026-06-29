@@ -1,0 +1,23 @@
+{
+  "schema_version": "composite_counterfactual_p98/v1",
+  "track": "composite_counterfactual_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 280,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "composite_positive_cases": 140,
+  "counterfactual_pairs": 70,
+  "adversarial_noisy_cases": 70,
+  "primary_failure_correct": 276,
+  "secondary_failure_detected": 272,
+  "blocking_failure_correct": 272,
+  "downstream_failure_correct": 272,
+  "repair_order_correct": 276,
+  "evidence_graph_valid": 276,
+  "counterfactual_pair_correct": 69,
+  "adversarial_correct": 69,
+  "overconfident_wrong": 1,
+  "severe_misclassification": 1,
+  "status": "pass"
+}

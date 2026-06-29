@@ -3,7 +3,8 @@
   "version": 1,
   "applies_to": [
     "playwright",
-    "cypress"
+    "cypress",
+    "browser automation"
   ],
   "failure_layer": "automation_engineering",
   "technical_category": "counterfactual_diagnosis",
@@ -39,5 +40,25 @@
     "anti_bot": false,
     "forbidden_actions": [],
     "safe_next_action_only": false
-  }
+  },
+  "title": "Network Vs Route",
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "404"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
 }

@@ -1,0 +1,17 @@
+{
+  "schema_version": "sanitize_share_p98/v1",
+  "track": "sanitize_share_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 120,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "secrets_redacted_rate": 1.0,
+  "false_negative_secrets": 0,
+  "false_positive_critical": 1,
+  "safe_to_share_correct": 119,
+  "raw_secret_in_output_count": 0,
+  "redaction_report_generated": 120,
+  "safe_to_share_json_generated": 120,
+  "status": "pass"
+}

@@ -1,8 +1,8 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
+Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
 
-Development track: v3.0.x P98 Controlled Maturity Pack. P98 is in progress, not the current packaged stable release.
+Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 Core lifecycle:
 `failure-doctor diagnose` / `failure-doctor batch` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`

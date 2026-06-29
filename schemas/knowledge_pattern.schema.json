@@ -1,10 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tobybgy-lsd/web-agent-runtime-bench/schemas/knowledge_pattern.schema.json",
   "title": "Agent Failure Doctor Knowledge Pattern",
   "type": "object",
   "required": [
     "id",
     "version",
+    "title",
     "applies_to",
     "failure_layer",
     "technical_category",
@@ -13,43 +15,35 @@
     "positive_evidence",
     "negative_evidence",
     "fix_plan",
+    "fix_plan_template",
     "verification",
-    "safety"
+    "verification_strategy",
+    "safety",
+    "source_type",
+    "public_safe",
+    "contains_private_solution"
   ],
   "properties": {
-    "id": { "type": "string", "minLength": 3 },
-    "version": { "type": "integer", "minimum": 1 },
-    "applies_to": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "id": { "type": "string" },
+    "version": { "type": ["integer", "string"] },
+    "title": { "type": "string" },
+    "applies_to": { "type": "array", "items": { "type": "string" } },
     "failure_layer": { "type": "string" },
     "technical_category": { "type": "string" },
     "subtype": { "type": "string" },
-    "evidence_patterns": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-    "positive_evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "evidence_patterns": { "type": "array", "items": { "type": "string" } },
+    "positive_evidence": { "type": "array", "items": { "type": "string" } },
     "negative_evidence": { "type": "array", "items": { "type": "string" } },
-    "fix_plan": {
-      "type": "object",
-      "required": ["intent", "recommended_change_areas"],
-      "properties": {
-        "intent": { "type": "string" },
-        "recommended_change_areas": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
-      }
+    "fix_plan": { "type": "object" },
+    "fix_plan_template": { "type": "object" },
+    "verification": { "type": "object" },
+    "verification_strategy": { "type": "object" },
+    "safety": { "type": "object" },
+    "source_type": {
+      "type": "string",
+      "enum": ["local_synthetic", "public_inspired", "internal_fixture"]
     },
-    "verification": {
-      "type": "object",
-      "required": ["expected_evidence_to_disappear", "expected_evidence_to_appear"],
-      "properties": {
-        "expected_evidence_to_disappear": { "type": "array", "items": { "type": "string" } },
-        "expected_evidence_to_appear": { "type": "array", "items": { "type": "string" } }
-      }
-    },
-    "safety": {
-      "type": "object",
-      "required": ["anti_bot", "forbidden_actions"],
-      "properties": {
-        "anti_bot": { "type": "boolean" },
-        "forbidden_actions": { "type": "array", "items": { "type": "string" } },
-        "safe_next_action_only": { "type": "boolean" }
-      }
-    }
+    "public_safe": { "const": true },
+    "contains_private_solution": { "const": false }
   }
 }

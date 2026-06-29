@@ -1,7 +1,17 @@
 # Changelog
 
-> Current package stable line: v2.4.1.
-> v3.0.x entries document the in-progress P98 development track and are not the current packaged stable release.
+> Current package stable line: v3.1.0.
+> v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.1.0
+
+- Completed the P98 Master Gate Completion Pack.
+- Added P98 validation runners for Playwright trace, cross-framework adapters, training challenge sedimentation, composite/counterfactual diagnosis, AI handoff and patch proposal, batch/fleet diagnosis, and sanitize/share.
+- Expanded the failure knowledge base to 210 local synthetic public-safe patterns.
+- Expanded crawler coverage to 26 categories and 312 mapped local synthetic cases.
+- Added `tools.validation.run_p98_master_gate` and promoted `validation/p98_master_gate.json` to `overall_status=pass`.
+- Added v3.1.0 release notes and P98 limits/results documentation.
+- Kept safety boundary strict: forbidden output count 0, private solution leaks 0, real platform access 0.
 
 ## v3.0.1
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-failure-doctor"
-version = "2.4.1"
+version = "3.1.0"
 description = "Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs."
 readme = "README.md"
 requires-python = ">=3.10"

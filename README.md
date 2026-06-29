@@ -8,9 +8,9 @@
 
 Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
+Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
 
-Development track: v3.0.x P98 Controlled Maturity Pack. P98 is in progress, not the current packaged stable release.
+Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
@@ -19,7 +19,9 @@ Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
 Core commands:
-`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt`
+`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
+
+Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
 Quickstart:
 
@@ -32,17 +34,13 @@ failure-doctor plan .\report --out .\fix_plan
 failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
 ```
 
-Validation: P95 gate passed. See [validation/dashboard.md](validation/dashboard.md) and [docs/safety_boundary.md](docs/safety_boundary.md).
+Validation: P98 master gate passed. See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
 
 Lifecycle:
 `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
 
-Advanced outputs include AI handoff task packs and batch/fleet reports.
-
-Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
-
-P98 development gates:
-`scorecard -> knowledge base -> coverage matrix -> future P98 master gate`
+P98 gate:
+`knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize -> master gate`
 
 Composite diagnosis:
 Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
@@ -387,9 +385,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Current milestone: Agent Failure Doctor v3.1 P98 Master Gate.
 
-Development track: v3.0.x P98 scorecard, failure knowledge base, and crawler coverage matrix.
+Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

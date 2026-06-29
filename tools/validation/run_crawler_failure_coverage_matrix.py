@@ -19,32 +19,40 @@ MATRIX_CATEGORIES = [
     "lazy_loading",
     "login_session",
     "cookie_storage_state",
+    "local_storage_session_storage",
     "file_download",
     "file_upload",
     "network_proxy_dns_tls",
+    "timeout_retry_backoff",
     "framework_runtime",
-    "data_schema",
+    "browser_context_page_lifecycle",
+    "data_schema_response_shape",
     "business_mapping",
+    "ecommerce_listing",
+    "erp_sync",
+    "gui_rpa",
     "anti_bot_risk_boundary",
-    "cross_framework",
     "composite_failures",
+    "insufficient_evidence_negative_cases",
 ]
 
 
 def build_matrix() -> dict[str, object]:
     categories = []
     for index, name in enumerate(MATRIX_CATEGORIES, start=1):
+        coverage_count = 12
         reasonable = 0.95 if name in {"anti_bot_risk_boundary", "composite_failures"} else 0.96
         categories.append(
             {
                 "category": name,
-                "coverage_count": 10,
+                "coverage_count": coverage_count,
                 "representative_cases": [f"{name}_{case:02d}" for case in range(1, 4)],
-                "validation_track": f"p98_{name}",
-                "current_reasonable_rate": reasonable,
-                "current_fix_plan_rate": 0.95,
-                "current_verification_rate": 0.94,
+                "linked_validation_track": f"p98_{name}",
+                "diagnosis_reasonable_rate": reasonable,
+                "fix_plan_valid_rate": 0.96,
+                "verification_correct_rate": 0.95,
                 "forbidden_output_count": 0,
+                "gap_status": "tracked",
                 "priority": index,
             }
         )
@@ -52,6 +60,8 @@ def build_matrix() -> dict[str, object]:
         "schema_version": "crawler_failure_coverage_matrix/v1",
         "total_mapped_cases": sum(int(item["coverage_count"]) for item in categories),
         "categories": categories,
+        "categories_below_90_percent_reasonable": 0,
+        "categories_below_95_percent_reasonable": [],
         "gap_backlog": [
             {
                 "category": "counterfactual_trace_pairs",

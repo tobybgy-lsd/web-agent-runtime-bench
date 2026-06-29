@@ -2,7 +2,8 @@
   "id": "cypress_get_timeout_007",
   "version": 1,
   "applies_to": [
-    "cypress"
+    "cypress",
+    "browser automation"
   ],
   "failure_layer": "automation_engineering",
   "technical_category": "cypress_locator",
@@ -38,5 +39,25 @@
     "anti_bot": false,
     "forbidden_actions": [],
     "safe_next_action_only": false
-  }
+  },
+  "title": "Cy Get Timeout",
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "Timed out retrying"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
 }

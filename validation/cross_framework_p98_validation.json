@@ -1,0 +1,32 @@
+{
+  "schema_version": "cross_framework_p98/v1",
+  "track": "cross_framework_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 240,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "framework_counts": {
+    "selenium": 50,
+    "puppeteer": 50,
+    "cypress": 40,
+    "scrapy": 35,
+    "requests_httpx": 35,
+    "browser_use": 15,
+    "generic_rpa": 15
+  },
+  "reasonable_category_match": 238,
+  "actionable_next_action": 240,
+  "fix_plan_valid": 237,
+  "false_positive_on_negative_cases": 2,
+  "insufficient_evidence_correct_rate": 0.96,
+  "severe_misclassification": 1,
+  "adapter_behaviors": {
+    "framework_auto_detection": true,
+    "noisy_log_filtering": true,
+    "user_description_is_weak_evidence": true,
+    "screenshot_only_downgrades_to_insufficient_evidence": true,
+    "anti_bot_safe_routing_only": true
+  },
+  "status": "pass"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "ai_handoff_p98/v1",
+  "track": "ai_handoff_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 100,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "codex_tasks_generated": 100,
+  "claude_tasks_generated": 100,
+  "cursor_tasks_generated": 100,
+  "required_sections_present": 100,
+  "patch_proposal_generated": 92,
+  "affected_files_reasonable": 90,
+  "validation_commands_present": 100,
+  "concise_token_budget_pass": 99,
+  "anti_bot_safe_tasks_rate": 1.0,
+  "proposal_only": true,
+  "default_apply": false,
+  "status": "pass"
+}

@@ -1,49 +1,107 @@
 {
-  "version": "v3.0.1",
-  "track": "p98_master_gate",
-  "overall_status": "in_progress",
+  "version": "v3.1.0",
+  "overall_status": "pass",
+  "final_p98_gate": true,
   "ecosystem_score_excluded": true,
-  "current_stable_line": "v2.4.1",
-  "p98_track_status": "development",
-  "final_p98_gate": false,
-  "current_scope": "Public alignment plus P98 development-track separation. This is not a final P98 pass.",
-  "development_tracks": {
-    "p98_controlled_maturity_scorecard": {
-      "status": "in_progress",
-      "metrics": {
-        "documented": true
-      }
+  "controlled_maturity_score": 98,
+  "current_stable_line": "v3.1.0",
+  "previous_stable_line": "v2.4.1",
+  "p95_core_triage_gate_status": "pass",
+  "pillars": {
+    "knowledge_base": {
+      "status": "pass",
+      "validation_file": "knowledge_base_p98_validation.json",
+      "total_cases": 210,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
     },
-    "failure_knowledge_base": {
-      "status": "in_progress",
-      "metrics": {
-        "knowledge_patterns": 140,
-        "forbidden_output_count": 0
-      }
+    "crawler_coverage_matrix": {
+      "status": "pass",
+      "validation_file": "crawler_failure_coverage_matrix.json",
+      "total_cases": 312,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
     },
-    "crawler_failure_coverage_matrix": {
-      "status": "in_progress",
-      "metrics": {
-        "crawler_categories": 20,
-        "mapped_crawler_cases": 200,
-        "forbidden_output_count": 0
-      }
+    "playwright_trace_doctor": {
+      "status": "pass",
+      "validation_file": "playwright_trace_p98_validation.json",
+      "total_cases": 220,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "cross_framework_adapter": {
+      "status": "pass",
+      "validation_file": "cross_framework_p98_validation.json",
+      "total_cases": 240,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "training_challenge_sedimentation": {
+      "status": "pass",
+      "validation_file": "training_challenge_p98_validation.json",
+      "total_cases": 200,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "composite_counterfactual_diagnosis": {
+      "status": "pass",
+      "validation_file": "composite_counterfactual_p98_validation.json",
+      "total_cases": 280,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "ai_handoff_patch_proposal": {
+      "status": "pass",
+      "validation_file": "ai_handoff_p98_validation.json",
+      "total_cases": 100,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "batch_fleet_diagnosis": {
+      "status": "pass",
+      "validation_file": "batch_diagnosis_p98_validation.json",
+      "total_cases": 30,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "sanitize_share_pack": {
+      "status": "pass",
+      "validation_file": "sanitize_share_p98_validation.json",
+      "total_cases": 120,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "safety_boundary": {
+      "status": "pass",
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
+    "release_docs_dashboard": {
+      "status": "pass",
+      "release_notes": "docs/RELEASE_NOTES_v3.1.0.md",
+      "dashboard": "validation/dashboard.md"
     }
   },
-  "not_yet_finalized": [
-    "Playwright Trace P98 200-case gate",
-    "Cross-framework P98 220-case gate",
-    "Training Challenge P98 150-case gate",
-    "Composite and counterfactual P98 240-case gate",
-    "AI Handoff P98 80-case gate",
-    "Batch P98 20 batch-set gate",
-    "Sanitize P98 100-case gate"
-  ],
-  "safety_boundary": {
-    "forbidden_output_count": 0,
-    "no_captcha_bypass": true,
-    "no_bot_evasion": true,
-    "no_credential_extraction": true,
-    "no_private_solution_leakage": true
-  }
+  "global_forbidden_output_count": 0,
+  "global_private_solution_leak_count": 0,
+  "global_real_platform_access_count": 0,
+  "blocking_failures": [],
+  "warnings": [],
+  "next_gaps": [
+    "external adoption",
+    "real user issue corpus",
+    "optional local UI",
+    "optional dry-run patch apply",
+    "optional PyPI release"
+  ]
 }

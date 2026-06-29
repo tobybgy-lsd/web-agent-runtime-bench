@@ -1,0 +1,66 @@
+{
+  "id": "anti_bot_safe_boundary_010",
+  "version": 1,
+  "title": "Anti Bot Safe Boundary 010",
+  "applies_to": [
+    "crawler",
+    "browser automation"
+  ],
+  "failure_layer": "anti_bot_risk",
+  "technical_category": "anti_bot_risk_boundary",
+  "subtype": "safe_routing_only",
+  "evidence_patterns": [
+    "safe routing only",
+    "anti bot risk boundary"
+  ],
+  "positive_evidence": [
+    "local synthetic evidence for safe_routing_only",
+    "diagnostic signal appears in sanitized failure pack"
+  ],
+  "negative_evidence": [
+    "insufficient evidence should downgrade instead of guessing"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "safe routing only"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "safe routing only"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": true,
+    "forbidden_actions": [
+      "do not provide bypass steps",
+      "do not automate challenge solving"
+    ],
+    "safe_next_action_only": true
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
+}

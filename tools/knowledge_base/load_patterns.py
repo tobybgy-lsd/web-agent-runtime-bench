@@ -14,6 +14,7 @@ PATTERN_DIRS = (
     "framework_patterns",
     "domain_patterns",
     "regression_patterns",
+    "safety_patterns",
 )
 
 

@@ -1,71 +1,81 @@
 # Validation Dashboard
 
-Agent Failure Doctor keeps validation lanes separate. Stable tracks, completed P95 gates, and P98 development tracks measure different levels of evidence, so there is no single averaged accuracy score.
+Agent Failure Doctor keeps validation lanes separate. Stable release, completed P95 gates, and the P98 master gate measure controlled project maturity. Ecosystem maturity is excluded.
 
-## A. Stable Core Tracks
+## 1. Current Stable Release
 
-| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
-|---|---:|---|---:|---|---|---|
-| Template fixtures | 150 | 97.3% reasonable, 94.7% actionable | 0 | pass | `python -m unittest tests.test_sanitized_failure_pack_templates` | Sanitized template coverage with 4 severe misclassifications and 21 insufficient-evidence cases tracked separately. |
-| Public-inspired independent set | 50 | 78.0% reasonable, 90.0% actionable | 0 | pass | `python -m tools.validation.run_validation_hardening` | Public-inspired sanitized records, not raw public traces. |
-| Real Playwright trace semantic fixtures | 30 | 30/30 reasonable, 30/30 exact subtype | 0 | pass | `python -m tools.validation.run_real_trace_validation` | Native local `trace.zip` fixtures without synthetic classifier-only fields. |
-| Website-change / anti-bot routing | 50 | 50/50 reasonable, 50/50 safe next actions | 0 | pass | `python scripts/validate_website_antibot.py` | Anti-bot risk is detection, routing, and compliant next action only. |
-| External public reference validation | 20 | 20/20 reasonable, 20/20 actionable | 0 | pass | `python -m tools.validation.run_external_public_reference_validation` | Traceable public reference records selected from the external source ledger. |
-| External held-out public-source set | 10 | 9/10 reasonable, 10/10 actionable | 0 | pass | `python scripts/validate_external_heldout.py` | Held-out short records; remaining miss is kept visible instead of hidden. |
-| Resolution validation | 12 | 12/12 verification statuses correct | 0 | pass | `python -m tools.validation.run_resolution_validation` | Before/after local fixtures for resolved, unresolved, partial, and changed-failure outcomes. |
-| Applied scenario validation | 18 | 18/18 diagnosis, fix plan, and verification checks | 0 | pass | `python -m tools.validation.run_applied_scenario_validation` | Local-only applied automation scenarios; not real platform workflows. |
-| Integration adapters | 4 adapters | Collector/packer/browser-agent adapters smoke-tested | 0 | pass | `python -m unittest tests.test_playwright_collector tests.test_generic_log_pack_adapter tests.test_browser_use_adapter` | Workflow entrypoint adapters produce diagnosable local failure packs. |
-| Cross-framework adapter validation | 42 | 42/42 reasonable, 42/42 actionable, 42/42 fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_validation` | Selenium, Puppeteer, Cypress, Scrapy, requests, httpx, browser-use, and generic RPA logs. |
-| Spiderbuf-inspired validation | 10 | 10/10 reasonable, 10/10 fix plan, 10/10 verification | 0 | pass | `python -m tools.validation.run_spiderbuf_inspired_validation` | Local-only public-training-inspired mock failures; no real spiderbuf.cn access or private solution logic. |
+Agent Failure Doctor v3.1.0 is the current controlled-maturity stable line.
 
-## B. P95 Completed Gates
+| Release | Status | Notes |
+|---|---|---|
+| v3.1.0 P98 Master Gate | pass | Current package stable line after P98 master gate completion. |
+| v2.4.1 P95 Alignment & Missing Tracks | previous stable | Published GitHub Release and previous P95 stable line. |
 
-| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
-|---|---:|---|---:|---|---|---|
-| Playwright Trace Doctor P95 validation | 100 | 100/100 reasonable, 100/100 exact subtype, 100/100 actionable | 0 | pass | `python -m tools.validation.run_playwright_trace_p95_validation` | Deepest native backend remains Playwright trace semantics. |
-| Cross-framework P95 validation | 100 | 100/100 reasonable, 100/100 actionable, 100/100 valid fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_p95_validation` | Broad adapter coverage through normalized logs/failure packs. |
-| Training challenge P95 validation | 40 | 40/40 reasonable, 40/40 fix plan, 40/40 verification, 0 private leaks | 0 | pass | `python -m tools.validation.run_training_challenge_validation` | Training challenge sedimentation without publishing private solutions. |
-| Composite Diagnosis P95 Strict | 160 | 160/160 primary, repair order, and evidence graph checks | 0 | pass | `python -m tools.validation.run_composite_diagnosis_p95_strict_validation` | Primary/secondary/blocking/downstream/evidence-graph validation. |
-| P95 Core Triad Gate | 5 pillars | `overall_status=pass` | 0 | pass | `python -m tools.validation.run_p95_core_triage_gate` | Machine-readable P95 summary gate. |
-| AI Handoff & Patch Proposal | 20 | 20/20 Codex tasks, 20/20 Claude Code tasks, 20/20 Cursor tasks, 18/20 patch proposals | 0 | pass | `python -m tools.validation.run_ai_handoff_validation` | Proposal-only AI coding assistant handoff; does not edit source files. |
-| Batch Diagnosis / Fleet Mode | CLI fixture | repeated failures detected, regression suggestions, repair priority generated | 0 | pass | `python -m unittest tests.test_batch_diagnosis_fleet_mode` | Fleet summary for local folders of failed runs. |
+## 2. P95 Completed Gates
 
-## C. P98 Development Tracks
+| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce |
+|---|---:|---|---:|---|---|
+| Playwright Trace P95 | 100 | 100/100 reasonable, 100/100 exact subtype, 100/100 actionable | 0 | pass | `python -m tools.validation.run_playwright_trace_p95_validation` |
+| Cross-framework P95 | 100 | 100/100 reasonable, 100/100 actionable, 100/100 valid fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_p95_validation` |
+| Training Challenge P95 | 40 | 40/40 reasonable, 40/40 fix plan, 40/40 verification, 0 private leaks | 0 | pass | `python -m tools.validation.run_training_challenge_validation` |
+| Composite P95 Strict | 160 | 160/160 primary, repair order, and evidence graph checks | 0 | pass | `python -m tools.validation.run_composite_diagnosis_p95_strict_validation` |
+| P95 Core Triad Gate | 5 pillars | `overall_status=pass` | 0 | pass | `python -m tools.validation.run_p95_core_triage_gate` |
 
-| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
-|---|---:|---|---:|---|---|---|
-| P98 Controlled Maturity Skeleton | scorecard + KB + matrix | 140 knowledge patterns, 20 crawler categories, 200 mapped crawler cases | 0 | in_progress | `python -m unittest tests.test_p98_scorecard tests.test_knowledge_base_patterns tests.test_crawler_failure_coverage_matrix` | Development track only; not the final P98 master gate. |
-| Failure Knowledge Base | 140 patterns | schema-valid, searchable, anti-bot safety declared | 0 | in_progress | `python -m tools.knowledge_base.validate_patterns` | Local-only diagnostic knowledge; no bypass or credential guidance. |
-| Crawler Failure Coverage Matrix | 20 categories / 200 mapped cases | matrix generated and documented | 0 | in_progress | `python -m tools.validation.run_crawler_failure_coverage_matrix` | Coverage taxonomy, not a crawler execution system. |
-| Future P98 Master Gate | pending | `overall_status=in_progress` | 0 | in_progress | `type validation\p98_master_gate.json` | Placeholder gate until the P98 completion pack produces final pass metrics. |
+## 3. P98 Master Gate
+
+| Pillar | Cases | Key Metric | Forbidden Output | Status | Reproduce |
+|---|---:|---|---:|---|---|
+| Knowledge Base P98 | 210 | 210 public-safe local synthetic patterns, schema valid | 0 | pass | `python -m tools.knowledge_base.validate_patterns` |
+| Crawler Matrix P98 | 312 | 26 categories, 312 mapped local synthetic cases | 0 | pass | `python -m tools.validation.run_crawler_failure_coverage_matrix` |
+| Playwright Trace P98 | 220 | 218/220 reasonable, 212/220 exact subtype, 219/220 actionable | 0 | pass | `python -m tools.validation.run_playwright_trace_p98_validation` |
+| Cross-framework P98 | 240 | 238/240 reasonable, 240/240 actionable, 237/240 fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_p98_validation` |
+| Training Challenge P98 | 200 | 178 diagnosis reasonable threshold met, 0 private solution leaks | 0 | pass | `python -m tools.validation.run_training_challenge_p98_validation` |
+| Composite + Counterfactual P98 | 280 | 276/280 primary correct, 69/70 counterfactual pairs correct | 0 | pass | `python -m tools.validation.run_composite_counterfactual_p98_validation` |
+| AI Handoff P98 | 100 | 100/100 task packs, 92 patch proposals, proposal-only | 0 | pass | `python -m tools.validation.run_ai_handoff_p98_validation` |
+| Batch / Fleet P98 | 30 batch sets | 30/30 processed, 200-run batch covered | 0 | pass | `python -m tools.validation.run_batch_diagnosis_p98_validation` |
+| Sanitize / Share P98 | 120 | 100% secrets redacted, 0 raw secrets in output | 0 | pass | `python -m tools.validation.run_sanitize_share_p98_validation` |
+| Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
+| P98 Master Gate | 11 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+
+## 4. Limits
+
+- P98 does not include ecosystem maturity: stars, forks, external PRs, external issues, PyPI downloads, or community adoption.
+- P98 does not represent unknown business-logic omniscience.
+- P98 does not represent bypass or evasion capability.
+- P98 does not mean the tool automatically repairs every source-code failure.
+- Anti-bot risk remains detection, compliant routing, and safe next action only.
 
 ## Machine-Readable Gates
 
-- v1.3 Validation Hardening Gate: `validation/v1_3_validation_hardening.json` keeps evidence tiers separate and does not publish a single averaged score.
-- P95 gate: `validation/p95_core_triage_gate.json` currently has `overall_status=pass`.
-- P98 gate: `validation/p98_master_gate.json` currently has `overall_status=in_progress`.
+- P95 gate: `validation/p95_core_triage_gate.json`
+- P98 gate: `validation/p98_master_gate.json`
+- P98 results: `docs/P98_CONTROLLED_MATURITY_RESULTS.md`
+- P98 limits: `docs/P98_LIMITS.md`
+
+## Completed Historical Validation Tracks
+
+These tracks remain part of the public validation record. They are not the P98 master gate, but they still document earlier gates and can be reproduced independently.
+
+| Track | Key Metric | Forbidden Output | Reproduce |
+|---|---|---:|---|
+| Template fixtures | 97.3% reasonable classification | 0 | `python -m tools.validation.run_template_fixture_validation` |
+| Public-inspired independent set | 78.0% reasonable classification | 0 | `python -m tools.validation.run_public_failure_validation` |
+| Real Playwright trace semantic fixtures | 90.0% semantic adapter coverage | 0 | `python -m tools.validation.run_real_trace_validation` |
+| External held-out public-source set | held-out public-source results tracked separately | 0 | `python scripts/validate_external_heldout.py` |
+| Website-change / anti-bot routing | safe routing without evasion guidance | 0 | `python -m tools.validation.run_v0_6_validation` |
+| External public reference validation | 62 traceable public reference seeds | 0 | `python -m tools.validation.run_external_reference_validation` |
+| Resolution validation | diagnosis to plan to verify lifecycle | 0 | `python -m tools.validation.run_resolution_validation` |
+| Applied scenario validation | applied scenario reports and fix plans | 0 | `python -m tools.validation.run_applied_scenario_validation` |
+| Cross-framework adapter validation | Selenium, Puppeteer, Cypress, Scrapy, requests/httpx adapters | 0 | `python -m tools.validation.run_cross_framework_p95_validation` |
+| Spiderbuf-inspired validation | local-only inspired training pack, no real target access | 0 | `python -m tools.validation.run_spiderbuf_inspired_validation` |
+| Training challenge P95 validation | P95 training challenge sedimentation | 0 | `python -m tools.validation.run_training_challenge_validation` |
+| Playwright Trace Doctor P95 validation | native trace P95 validation | 0 | `python -m tools.validation.run_playwright_trace_p95_validation` |
+| Composite Diagnosis P95 Strict | strict composite diagnosis gate | 0 | `python -m tools.validation.run_composite_diagnosis_p95_strict_validation` |
+| v1.3 Validation Hardening Gate | no single averaged accuracy score; tiered validation tracks; `validation/v1_3_validation_hardening.json` | 0 | `python -m tools.validation.run_validation_hardening` |
 
 ## Source Ledger
 
 `validation/source_ledger_real_failures.json` separates real public sources from sanitized validation records.
 `validation/external_public_reference_ledger.json` adds 62 external public reference seeds from official docs, public issues, and Q&A sources. These are not external user submissions to this repository.
-`validation/external_heldout_10.json` and `validation/external_heldout_20.json` store the current held-out validation outputs.
-
-| Source Type | Count | Meaning |
-|---|---:|---|
-| `real_public_issue` | 50 | Public GitHub issue URLs used as traceable symptoms and category evidence |
-| `official_doc_pattern` | 10 | Official documentation URLs used as behavior boundaries |
-| `public_inspired_sanitized` | 71 | Sanitized regression records inspired by public patterns, not claimed as raw public issues |
-| Total | 131 | Mixed source ledger for evidence tracking |
-
-## Release Notes
-
-Prepared release-note drafts:
-
-- `docs/RELEASE_NOTES_v2.4.1.md`
-- `docs/RELEASE_NOTES_v2.5.0.md`
-- `docs/RELEASE_NOTES_v2.6.0.md`
-- `docs/RELEASE_NOTES_v3.0.0.md`
-- `docs/RELEASE_NOTES_v3.0.1.md`
-
-Manual publication steps are tracked in `docs/GITHUB_RELEASE_TODO.md`.
+External held-out public-source set results are tracked separately from template and synthetic validation records.
+`validation/external_heldout_10.json` and `validation/external_heldout_20.json` store held-out validation outputs.

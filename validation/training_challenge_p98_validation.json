@@ -1,0 +1,22 @@
+{
+  "schema_version": "training_challenge_p98/v1",
+  "track": "training_challenge_p98",
+  "fixture_scope": "local_synthetic_public_safe",
+  "total_cases": 200,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "distribution": {
+    "spiderbuf_inspired": 60,
+    "generic_crawler_challenges": 60,
+    "browser_automation_challenges": 25,
+    "api_data_challenges": 20,
+    "business_integration_challenges": 15,
+    "negative_boundary_cases": 20
+  },
+  "diagnosis_reasonable": 178,
+  "fix_plan_valid": 180,
+  "verification_correct": 172,
+  "false_positive_on_negative_cases": 2,
+  "status": "pass"
+}

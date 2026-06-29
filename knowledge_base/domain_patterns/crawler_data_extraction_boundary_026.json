@@ -1,0 +1,63 @@
+{
+  "id": "crawler_data_extraction_boundary_026",
+  "version": 1,
+  "title": "Crawler Data Extraction Boundary 026",
+  "applies_to": [
+    "crawler",
+    "browser automation"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "crawler_data_extraction",
+  "subtype": "data_extraction_boundary",
+  "evidence_patterns": [
+    "data extraction boundary",
+    "crawler data extraction"
+  ],
+  "positive_evidence": [
+    "local synthetic evidence for data_extraction_boundary",
+    "diagnostic signal appears in sanitized failure pack"
+  ],
+  "negative_evidence": [
+    "insufficient evidence should downgrade instead of guessing"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "fix_plan_template": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "data extraction boundary"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "verification_strategy": {
+    "expected_evidence_to_disappear": [
+      "data extraction boundary"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  },
+  "source_type": "local_synthetic",
+  "public_safe": true,
+  "contains_private_solution": false
+}
