@@ -8,9 +8,9 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current milestone: Agent Failure Doctor v3.0.1 Public Alignment & P98 Track Separation Pack
+Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
-Development track: v3.0 P98 Controlled Maturity Pack. P98 is in progress, not a final passed master gate.
+Development track: v3.0.x P98 Controlled Maturity Pack. P98 is in progress, not the current packaged stable release.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
@@ -20,7 +20,7 @@ diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex 
 Additional outputs include AI handoff task packs and batch/fleet reports.
 
 Core commands:
-`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
+`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt`
 
 Lifecycle:
 `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
@@ -34,7 +34,7 @@ failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\repor
 
 See [validation/dashboard.md](validation/dashboard.md) for stable/P95/P98 validation tracks, [docs/safety_boundary.md](docs/safety_boundary.md) for safety boundaries, and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
-Full command names include `failure-doctor diagnose`, `failure-doctor plan`, `failure-doctor verify`, `failure-doctor run`, `failure-doctor sanitize`, `failure-doctor adapt`, `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
+Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
 P98 development gates:
 `scorecard -> knowledge base -> coverage matrix -> future P98 master gate`
@@ -382,9 +382,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v3.0.0 P98 Controlled Maturity Pack.
+Current stable milestone: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
-Latest added capability: P98 scorecard, failure knowledge base, and crawler coverage matrix.
+Development track: v3.0.x P98 scorecard, failure knowledge base, and crawler coverage matrix.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

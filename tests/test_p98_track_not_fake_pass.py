@@ -13,6 +13,9 @@ class P98TrackNotFakePassTests(unittest.TestCase):
         self.assertEqual(payload["version"], "v3.0.1")
         self.assertEqual(payload["track"], "p98_master_gate")
         self.assertEqual(payload["overall_status"], "in_progress")
+        self.assertTrue(payload["ecosystem_score_excluded"])
+        self.assertEqual(payload["current_stable_line"], "v2.4.1")
+        self.assertEqual(payload["p98_track_status"], "development")
         self.assertFalse(payload["final_p98_gate"])
         self.assertIn("not a final P98 pass", payload["current_scope"])
 

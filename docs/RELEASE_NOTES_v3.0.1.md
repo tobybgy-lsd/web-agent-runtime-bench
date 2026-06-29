@@ -1,11 +1,11 @@
 # Agent Failure Doctor v3.0.1
 
-v3.0.1 is a Public Alignment & P98 Track Separation patch. It does not add new diagnosis categories; it makes the public project entry points consistent and easier to trust.
+v3.0.1 is a P98 development-track record, not the current packaged stable release. It does not add new diagnosis categories; it documents the P98 track separation work while the package stable line remains v2.4.1.
 
 ## What changed
 
-- Package version aligned to `3.0.1`.
-- README and README.zh-CN now present v3.0.1 as the current public milestone.
+- Package stable line remains `2.4.1`.
+- README and README.zh-CN present v2.4.1 as the current stable milestone and v3.0.x as the P98 development track.
 - Validation dashboard is split into:
   - Stable Core Tracks
   - P95 Completed Gates
@@ -30,7 +30,8 @@ This release remains local-first and diagnostic-only. It does not provide CAPTCH
 ## Known limits
 
 - `validation/p98_master_gate.json` is intentionally `in_progress`; it is not a final P98 pass.
-- GitHub Releases may still need manual publication for historical v2.4.1, v2.5.0, v2.6.0, v3.0.0, and v3.0.1 tags.
+- GitHub Releases should publish v2.4.1 as the latest stable release first.
+- v3.0.1 should not be published as the latest stable release while `validation/p98_master_gate.json` remains `in_progress`.
 - P98 completion requires a later master gate with larger case counts and counterfactual coverage.
 
 ## Reproduce commands

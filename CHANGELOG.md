@@ -1,5 +1,8 @@
 # Changelog
 
+> Current package stable line: v2.4.1.
+> v3.0.x entries document the in-progress P98 development track and are not the current packaged stable release.
+
 ## v3.0.1
 
 - Aligned public project positioning around Agent Failure Doctor v3.0.1.

@@ -2,6 +2,9 @@
   "version": "v3.0.1",
   "track": "p98_master_gate",
   "overall_status": "in_progress",
+  "ecosystem_score_excluded": true,
+  "current_stable_line": "v2.4.1",
+  "p98_track_status": "development",
   "final_p98_gate": false,
   "current_scope": "Public alignment plus P98 development-track separation. This is not a final P98 pass.",
   "development_tracks": {
