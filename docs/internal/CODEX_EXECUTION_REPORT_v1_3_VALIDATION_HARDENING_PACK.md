@@ -66,4 +66,10 @@ The hardening gate only reads local validation JSON files and writes a local sum
 
 ## CI
 
-Pending push and GitHub Actions verification.
+GitHub Actions passed after push:
+
+- Workflow: `benchmark`
+- Run id: `28347000880`
+- Branch: `main`
+- Commit: `5dd2be0`
+- Result: success
