@@ -1,6 +1,10 @@
 import json
 import re
+import subprocess
+import sys
+import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -121,6 +125,8 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         for phrase in (
             "# Validation Dashboard",
             "| v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |",
+            "| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 192 |",
+            "validation/website_antibot_validation_50.json",
             "public-inspired sanitized validation records",
             "not full real-world failure packages",
         ):
@@ -129,6 +135,55 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_no_tracked_runtime_garbage_or_placeholder_local_remains(self):
         tracked = (ROOT / "validation" / "public_failure_validation_150.json").read_text(encoding="utf-8")
         self.assertNotRegex(tracked, re.compile(r"https://github.com/.+/issues/42\d{3}"))
+
+    def test_only_one_failure_case_issue_template_is_public(self):
+        issue_templates = sorted(path.name for path in (ROOT / ".github" / "ISSUE_TEMPLATE").glob("*.yml"))
+        self.assertEqual(issue_templates, ["failure_case.yml"])
+
+    def test_gitattributes_sets_release_archive_and_line_endings(self):
+        text = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+        for phrase in (
+            ".github/ export-ignore",
+            "outputs/ export-ignore",
+            "sample_run/ export-ignore",
+            "**/__pycache__/ export-ignore",
+            "*.pyc export-ignore",
+            "* text=auto eol=lf",
+            "*.ps1 text eol=crlf",
+            "*.bat text eol=crlf",
+            "*.cmd text eol=crlf",
+        ):
+            self.assertIn(phrase, text)
+
+    def test_safety_boundary_does_not_duplicate_forbidden_items(self):
+        text = (ROOT / "docs" / "safety_boundary.md").read_text(encoding="utf-8")
+        self.assertEqual(text.count("Unauthorized data extraction from any platform"), 1)
+
+    def test_release_archive_script_excludes_runtime_and_git_artifacts(self):
+        forbidden = (
+            ".git/",
+            "outputs/",
+            "sample_run/",
+            "report/",
+            "__pycache__/",
+            ".pyc",
+            "agent_failure_doctor.egg-info/",
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp) / "AgentFailureDoctor-test-source.zip"
+            result = subprocess.run(
+                [sys.executable, "scripts/make_release_archive.py", "--out", str(archive)],
+                cwd=ROOT,
+                text=True,
+                encoding="utf-8",
+                capture_output=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            with zipfile.ZipFile(archive) as zf:
+                names = zf.namelist()
+            for name in names:
+                self.assertFalse(any(marker in name for marker in forbidden), name)
 
 
 if __name__ == "__main__":

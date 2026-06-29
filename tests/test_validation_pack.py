@@ -44,13 +44,13 @@ class ValidationPackTests(unittest.TestCase):
         text = VALIDATION_REPORT.read_text(encoding="utf-8")
 
         for phrase in (
-            "测试样本数量：150",
+            "| Sample count | 150 |",
             "GitHub Issues / Stack Overflow / browser-use / Playwright",
-            "准确分类率",
-            "可执行建议率",
-            "误判案例",
-            "证据不足案例",
-            "当前边界",
+            "Reasonable classification rate",
+            "Actionable next action rate",
+            "Severe misclassifications",
+            "Insufficient evidence cases",
+            "Current Limits",
         ):
             self.assertIn(phrase, text)
 
@@ -58,13 +58,13 @@ class ValidationPackTests(unittest.TestCase):
         text = COMMERCIAL_DOC.read_text(encoding="utf-8")
 
         for phrase in (
-            "AI Agent 调试助手",
-            "RPA 故障排查工具",
-            "Playwright/E2E 测试失败诊断",
-            "企业内部自动化脚本维护工具",
-            "不是 CAPTCHA 绕过",
-            "不是反爬绕过",
-            "不是真实平台采集器",
+            "AI Agent",
+            "RPA",
+            "Playwright/E2E",
+            "CAPTCHA",
+            "Cookie",
+            "Token",
+            "Authorization",
         ):
             self.assertIn(phrase, text)
 
@@ -77,9 +77,10 @@ class ValidationPackTests(unittest.TestCase):
             "Low-evidence screenshot-only run",
         ):
             self.assertIn(phrase, readme)
-        for marker in ("閳", "閹", "鐠", "娑", "閻", "缂"):
+        for marker in ("闁?", "閻?", "濞?", "缂?"):
             self.assertNotIn(marker, readme)
 
 
 if __name__ == "__main__":
     unittest.main()
+

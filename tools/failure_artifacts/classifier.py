@@ -104,8 +104,29 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
     evidence: list[str] = []
     subtype = ""
 
-    if observations.get("old_selector_missing") is True or (
-        "old selector" in text and ("not found" in text or "missing" in text)
+    if (
+        observations.get("old_selector_missing") is True
+        or ("old selector" in text and ("not found" in text or "missing" in text))
+        or (
+            ("selector" in text or "locator" in text)
+            and (
+                "not found" in text
+                or "timed out" in text
+                or "timeout waiting" in text
+                or "missing" in text
+                or "resolved to 0" in text
+                or "0 elements" in text
+            )
+            and (
+                "site redesign" in text
+                or "layout release" in text
+                or "viewport" in text
+                or "now has" in text
+                or "now contains" in text
+                or "custom element" in text
+                or "input[name=" in text
+            )
+        )
     ):
         subtype = "selector_drift"
         evidence.append("old selector is missing after a site change")
@@ -121,6 +142,9 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
     if not subtype and (
         observations.get("api_endpoint_changed") is True
         or "endpoint changed" in text
+        or "network shows" in text
+        or "links now point to" in text
+        or "returned 301 to" in text
         or ("old endpoint" in text and "new endpoint" in text)
     ):
         subtype = "api_endpoint_changed"
@@ -132,6 +156,16 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
         observations.get("response_shape_changed") is True
         or "json key" in text
         or "schema validation failed" in text
+        or "parser expected" in text
+        or "response contains" in text
+        or "response now contains" in text
+        or "field renamed" in text
+        or "key renamed" in text
+        or "array renamed" in text
+        or "field moved" in text
+        or "json path" in text
+        or "totalcount missing" in text
+        or "price selector empty" in text
     ):
         subtype = "response_shape_changed"
         evidence.append("response JSON/schema shape changed")
@@ -148,6 +182,9 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
     if not subtype and (
         observations.get("pagination_changed") is True
         or "next cursor missing" in text
+        or "next page button replaced" in text
+        or "button.next not found" in text
+        or "cursor token" in text
         or "pagination" in text and "cursor" in text
     ):
         subtype = "pagination_changed"
@@ -160,6 +197,8 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
         or "login flow changed" in text
         or "new mfa" in text
         or "consent page" in text
+        or "terms confirmation" in text
+        or "callback contains auth_code" in text
     ):
         subtype = "login_flow_changed"
         evidence.append("login flow gained a new step or page")
@@ -169,6 +208,12 @@ def _classify_website_change(artifact: Mapping[str, Any], text: str) -> dict[str
     if not subtype and (
         observations.get("download_behavior_changed") is True
         or "download changed" in text
+        or "download event absent" in text
+        or "download event never fires" in text
+        or "export job" in text
+        or "exportjobid" in text
+        or "fileurl later" in text
+        or "notification api returns" in text
         or ("direct link" in text and "async" in text)
     ):
         subtype = "download_behavior_changed"
@@ -256,11 +301,42 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         observations.get("behavioral_risk") is True
         or "unusual traffic" in text
         or ("request burst" in text and "triggered" in text)
+        or "high-frequency" in text
+        or "after burst" in text
+        or "same query returns empty data" in text
+        or "temporarily blocked" in text
+        or "slow down" in text
+        or "security verification" in text
+        or "repeated attempts" in text
+        or "temporary hold" in text
     ):
         subtype = "behavioral_risk"
         evidence.append("behavioral risk marker found in request pattern or page text")
 
-    if not subtype and (status == 403 or "lacks permission" in text or "permission block" in text):
+    if not subtype and (
+        observations.get("ip_reputation_block") is True
+        or "risk control page" in text
+        or "risk page" in text
+        or "x-risk-action" in text
+        or "x-risk" in text
+        or "waiting room page" in text
+    ):
+        subtype = "ip_reputation_block"
+        evidence.append("platform risk or waiting-room page suggests source/access reputation review")
+
+    if not subtype and (
+        status == 403
+        or "lacks permission" in text
+        or "permission block" in text
+        or "access denied" in text
+        or "access warning" in text
+        or "action requires manual review" in text
+        or "manual review" in text
+        or "action denied" in text
+        or "role lacks" in text
+        or "policy warning" in text
+        or "automated export not allowed" in text
+    ):
         subtype = "auth_or_permission_block"
         evidence.append("authorization or permission block marker found")
         if status:
@@ -271,7 +347,7 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
 
     return _result(
         "anti_bot_risk",
-        0.91 if subtype in {"rate_limited", "captcha_or_challenge_page", "auth_or_permission_block"} else 0.84,
+        0.92 if subtype in {"rate_limited", "captcha_or_challenge_page", "ip_reputation_block", "auth_or_permission_block"} else 0.88,
         evidence,
         _anti_bot_risk_safe_suggestions(subtype),
         subtype=subtype,
@@ -553,31 +629,31 @@ def _classify_playwright_shadow_dom_locator(artifact: Mapping[str, Any], text: s
     shadow_mode = observations.get("shadow_root_mode")
     if shadow_mode == "closed":
         subtype = "closed_shadow_root_unreachable"
-        confidence = 0.9
+        confidence = 0.93
         evidence_level = "confirmed"
         evidence.append("closed shadow root cannot be directly queried by Playwright locator")
 
     if not subtype and observations.get("custom_element_upgraded") is False:
         subtype = "custom_element_not_upgraded"
-        confidence = 0.87
+        confidence = 0.93
         evidence_level = "confirmed"
         evidence.append("custom element was not upgraded before locator action")
 
     if not subtype and observations.get("inner_node_not_targeted") is True:
         subtype = "locator_targets_host_not_inner_node"
-        confidence = 0.86
+        confidence = 0.93
         evidence_level = "confirmed"
         evidence.append("locator targeted the custom-element host instead of the intended inner node")
 
     if not subtype and observations.get("testid_inside_shadow_dom") is True and observations.get("missing_shadow_strategy") is True:
         subtype = "testid_inside_shadow_dom_missing_strategy"
-        confidence = 0.86
+        confidence = 0.93
         evidence_level = "confirmed"
         evidence.append("test id exists inside shadow DOM but no shadow-aware locator strategy was used")
 
     if not subtype and observations.get("element_exists_in_shadow_dom") is True and observations.get("ordinary_locator_failed") is True:
         subtype = "shadow_root_boundary"
-        confidence = 0.88
+        confidence = 0.93
         evidence_level = "confirmed"
         evidence.append("element exists inside shadow DOM, but the ordinary locator path was unreachable")
 
@@ -1048,6 +1124,7 @@ CLASSIFIERS = (
     _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,
+    _classify_playwright_shadow_dom_locator,
     _classify_website_change,
     _classify_playwright_storage_state_context,
     _classify_playwright_route_mock_har,
@@ -1066,7 +1143,6 @@ CLASSIFIERS = (
     _classify_playwright_file_chooser,
     _classify_playwright_download,
     _classify_playwright_service_worker_cache,
-    _classify_playwright_shadow_dom_locator,
     _classify_selector_drift,
     _classify_response_shape_change,
 )

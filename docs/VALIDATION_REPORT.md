@@ -1,115 +1,91 @@
 # Agent Failure Doctor Credibility Validation Report
 
+## Scope
+
+Agent Failure Doctor is validated against public-inspired, sanitized records. These records are useful for regression and routing checks, but they are not claimed to be complete real-world failure packages with private traces, screenshots, cookies, tokens, or authorization headers.
+
+Supported input families:
+
+- `trace.zip`
+- `error.log` / `console.txt`
+- `network.json`
+- `user_description.txt`
+- screenshot metadata
+
+## Main Public Validation Ledger
+
+The main ledger is `validation/public_failure_validation_150.json`.
+
+Source families: GitHub Issues / Stack Overflow / browser-use / Playwright.
+
+| Metric | Result |
+|---|---:|
+| Sample count | 150 |
+| Reasonable classifications | 146 |
+| Reasonable classification rate | 97.3% |
+| Actionable next actions | 142 |
+| Actionable next action rate | 94.7% |
+| Severe misclassifications | 4 |
+| Insufficient evidence cases | 21 |
+| Codex fix prompt generated | 150/150 |
+
 ## v0.6 Website Change + Anti-Bot Risk Addendum
 
-v0.6 adds two routing layers:
+The v0.6 addendum is tracked separately in `validation/website_antibot_validation_50.json`.
 
-- `website_change`: repair-oriented diagnosis for selector, DOM, endpoint, response-shape, GraphQL, pagination, login-flow, and download-flow changes.
-- `anti_bot_risk`: identification and compliant routing for rate limits, challenge pages, fingerprint-risk signals, dynamic request validation, network reputation, behavioral risk, and authorization or permission blocks.
-
-The public failure corpus now includes 50 additional public-inspired sanitized records for these two layers. These records are not presented as full real-world failure packages; they are sanitized validation examples designed to exercise safe routing and report generation.
-
-Anti-bot risk output is intentionally limited to confirming authorization, reducing request volume where appropriate, using official APIs or authorized exports, manual review, contacting the platform owner, or stopping unclear runs. It must not produce challenge-defeat, access-control defeat, credential abuse, or unauthorized collection guidance.
-
-测试样本数量：150
-
-来源：GitHub Issues / Stack Overflow / browser-use / Playwright
-
-本报告记录的是 **150 个 public-inspired / sanitized validation records**，不是“150 个完整真实公开失败包”。每条记录现在都保留可追溯公开 URL、公开 issue 标题级摘要、检索日期和脱敏说明；不复制完整 issue 正文、私有 trace、cookie、token、Authorization header、截图或账号数据。
-
-## 输入覆盖
-
-支持输入：log / trace / network / description / screenshot metadata
-
-本轮重点覆盖：
-
-- Docker / headless 环境问题
-- browser executable missing
-- Chromium sandbox 权限问题
-- CI 环境超时
-- proxy / DNS / TLS 子类
-- download path / permission
-- file upload path wrong
-- viewport / responsive layout mismatch
-- iframe / frame detached
-- worker / service worker cache
-- memory crash / target closed
-- agent loop / repeated action
-
-## 指标
-
-合理分类数：146
-可执行建议数：142
-严重误判：4
-证据不足案例：21
-
-| 指标 | 结果 |
+| Metric | Result |
 |---|---:|
-| 样本数量 | 150 |
-| 合理分类数 | 146 |
-| 准确分类率 | 97.3% |
-| 可执行建议数 | 142 |
-| 可执行建议率 | 94.7% |
-| 严重误判 | 4 |
-| 证据不足案例 | 21 |
-| Codex fix prompt 生成 | 150/150 |
+| Sample count | 50 |
+| Website Change records | 25 |
+| Anti-Bot Risk records | 25 |
+| Reasonable classifications | 50 |
+| Reasonable classification rate | 100.0% |
+| Safe next actions | 50 |
+| Safe next action rate | 100.0% |
+| Forbidden outputs | 0 |
+| Insufficient evidence cases | 0 |
+| Severe misclassifications | 0 |
 
-## 准确分类率
+Reproduce the v0.6 addendum:
 
-这里的“准确分类率”不是承诺真实线上准确率，而是 validation ledger 中诊断分类和人工预期大类一致，或在低证据输入下合理降级为 `insufficient_evidence` 的比例。
+```bash
+python scripts/validate_website_antibot.py
+```
 
-`insufficient_evidence` 在只有描述、搜索入口或截图 metadata 时视为合理行为，因为工具没有硬猜。
+## Combined v0.6 Dashboard View
 
-## 可执行建议率
+| Metric | Result |
+|---|---:|
+| Combined records | 200 |
+| Reasonable classifications | 196 |
+| Reasonable classification rate | 98.0% |
+| Actionable or safe next actions | 192 |
+| Actionable or safe next action rate | 96.0% |
+| Severe misclassifications | 4 |
+| Insufficient evidence cases | 21 |
 
-150 个样本全部生成 `codex_fix_prompt.md`。其中 142 个包含足够明确的下一步，例如检查 proxy/DNS/TLS、改 locator scope、等待 download event、检查 CDP session、补充 storageState 证据、检查 Docker/headless/sandbox/browser executable 等。
+## Website Change Boundary
 
-## 误判案例
+`website_change` is repair-oriented. It can recommend refreshing DOM/network evidence, updating selectors, endpoints, JSON paths, GraphQL queries, pagination, login-flow handling, or download-flow handling.
 
-严重误判：4。
+## Anti-Bot Risk Boundary
 
-典型风险：
+`anti_bot_risk` is identification and compliant routing only. Safe actions include confirming authorization, using official APIs or authorized exports, reducing request volume where appropriate, manual review, contacting the platform owner, or stopping unclear runs.
 
-- 页面崩溃恢复可能被归到 CDP transport，而实际也可能是 browser lifecycle。
-- download path/TCC/permission 混合问题可能在下载和环境之间摇摆。
-- 高 DPI 坐标偏移在 screenshot metadata-only 输入下会被降级为证据不足。
-- CI 超时有时难以区分页面加载、环境资源和网络问题。
+The tool must not provide:
 
-## 证据不足案例
+- CAPTCHA bypass
+- bot evasion
+- credential extraction
+- account rotation
+- network rotation
+- private signature bypass
+- unauthorized collection guidance
 
-证据不足案例：21。
+## Current Limits
 
-这些案例包括只有描述、issue index 或 screenshot metadata 的输入。正确行为是：
+- Screenshot input is metadata-only; there is no image understanding yet.
+- Public-inspired records are sanitized summaries, not full private evidence bundles.
+- Low-evidence inputs should downgrade to `insufficient_evidence` instead of forcing a specific diagnosis.
+- The validation corpus should keep growing from externally submitted sanitized cases.
 
-- 不硬判具体根因
-- 输出 `insufficient_evidence`
-- 明确要求补充 `trace.zip`、`error.log` 或 `network.json`
-
-这证明工具继续保持低证据降级机制，不会为了显得聪明而乱猜。
-
-## Regression Snapshots
-
-新增 regression snapshots 锁住典型误判：
-
-- Docker / headless 环境问题
-- browser executable missing
-- Chromium sandbox 权限问题
-- download path / permission
-- iframe / frame detached
-- worker / service worker cache
-- memory crash / target closed
-- agent loop / repeated action
-
-## 当前边界
-
-- 本工具是 local-first 诊断器，不上传或联网分析用户材料。
-- screenshot 当前只做 metadata，不做图像理解。
-- validation ledger 不包含私有 trace、真实 cookie、token、Authorization header 或平台签名。
-- 不做 CAPTCHA 绕过。
-- 不做反爬绕过。
-- 不做账号攻击。
-- 不是真实平台采集器。
-
-## 结论
-
-v0.5/v0.6 credibility hardening 后，Agent Failure Doctor 的表述应从“150 个真实公开失败样本验证”改为“150 个可追溯、公开来源启发、脱敏摘要级 validation records”。这比占位 issue 编号更可信，也保留了安全边界和可复核证据。

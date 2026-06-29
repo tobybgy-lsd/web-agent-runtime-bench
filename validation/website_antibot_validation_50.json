@@ -1,0 +1,913 @@
+{
+  "version": "v0.6.0",
+  "scope": "Website Change + Anti-Bot Risk routing validation",
+  "source_corpus": "public_failure_corpus/cases/v06_website_antibot.yaml",
+  "record_type": "public-inspired sanitized records, not full real-world failure packages",
+  "summary": {
+    "sample_count": 50,
+    "website_change_cases": 25,
+    "anti_bot_risk_cases": 25,
+    "reasonable_classifications": 50,
+    "reasonable_classification_rate": 1.0,
+    "safe_next_actions": 50,
+    "safe_next_action_rate": 1.0,
+    "forbidden_outputs": 0,
+    "insufficient_evidence_cases": 0,
+    "severe_misclassifications": 0
+  },
+  "cases": [
+    {
+      "case_id": "V06_WEBSITE_001",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-001",
+      "input_type": [
+        "log",
+        "description"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_002",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-002",
+      "input_type": [
+        "log",
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_003",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-003",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "api_endpoint_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_004",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-004",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_005",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-005",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "graphql_schema_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_006",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-006",
+      "input_type": [
+        "network",
+        "description"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_007",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-007",
+      "input_type": [
+        "trace",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "login_flow_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_008",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-008",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "download_behavior_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_009",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-009",
+      "input_type": [
+        "trace",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_010",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-010",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "api_endpoint_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_011",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-011",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_012",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-012",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_013",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-013",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "graphql_schema_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_014",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-014",
+      "input_type": [
+        "trace",
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_015",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-015",
+      "input_type": [
+        "screenshot",
+        "description",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "login_flow_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_016",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-016",
+      "input_type": [
+        "trace",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "download_behavior_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_017",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-017",
+      "input_type": [
+        "screenshot",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_018",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-018",
+      "input_type": [
+        "trace",
+        "description"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "selector_drift",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_019",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-019",
+      "input_type": [
+        "network",
+        "trace"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_020",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-020",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_021",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-021",
+      "input_type": [
+        "network",
+        "description"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "api_endpoint_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_022",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-022",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "api_endpoint_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_023",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-023",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "login_flow_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_024",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-024",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "download_behavior_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_WEBSITE_025",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-website-025",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "website_change",
+      "actual_category": "website_change",
+      "subtype": "response_shape_changed",
+      "failure_layer": "website_change",
+      "confidence": 0.9,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_001",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-001",
+      "input_type": [
+        "log",
+        "network"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "rate_limited",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_002",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-002",
+      "input_type": [
+        "screenshot",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "captcha_or_challenge_page",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_003",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-003",
+      "input_type": [
+        "description",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "fingerprint_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_004",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-004",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "dynamic_signature_required",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_005",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-005",
+      "input_type": [
+        "description",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "ip_reputation_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_006",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-006",
+      "input_type": [
+        "log",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_007",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-007",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_008",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-008",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "captcha_or_challenge_page",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_009",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-009",
+      "input_type": [
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_010",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-010",
+      "input_type": [
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_011",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-011",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "dynamic_signature_required",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_012",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-012",
+      "input_type": [
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_013",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-013",
+      "input_type": [
+        "log",
+        "screenshot"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_014",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-014",
+      "input_type": [
+        "network",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_015",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-015",
+      "input_type": [
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "ip_reputation_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_016",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-016",
+      "input_type": [
+        "description",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_017",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-017",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "dynamic_signature_required",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_018",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-018",
+      "input_type": [
+        "network",
+        "screenshot"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_019",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-019",
+      "input_type": [
+        "log",
+        "screenshot"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_020",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-020",
+      "input_type": [
+        "network"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "ip_reputation_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_021",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-021",
+      "input_type": [
+        "network",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "behavioral_risk",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_022",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-022",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_023",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-023",
+      "input_type": [
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "ip_reputation_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_024",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-024",
+      "input_type": [
+        "network",
+        "log"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "dynamic_signature_required",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.88,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    },
+    {
+      "case_id": "V06_ANTIBOT_025",
+      "source_url": "https://github.com/public-inspired/agent-failure-doctor/v06-antibot-025",
+      "input_type": [
+        "screenshot",
+        "description"
+      ],
+      "expected_category": "anti_bot_risk",
+      "actual_category": "anti_bot_risk",
+      "subtype": "auth_or_permission_block",
+      "failure_layer": "anti_bot_risk",
+      "confidence": 0.92,
+      "reasonable_classification": true,
+      "safe_next_action": true,
+      "codex_fix_prompt_generated": true,
+      "forbidden_output_hits": [],
+      "misclassified": false
+    }
+  ]
+}

@@ -25,7 +25,6 @@
 - Real platform bypass logic
 - Real platform examples (real websites, real API endpoints, copied website JS)
 - Unauthorized data extraction from any platform
-- Unauthorized data extraction from any platform
 - Copying real website JavaScript or reverse-engineering proprietary signing logic
 
 ## Sensitive Token Detection

@@ -152,6 +152,41 @@ class WebsiteChangeAndAntiBotRiskTests(unittest.TestCase):
         self.assertGreaterEqual(text.count("likely_technical_category: website_change"), 25)
         self.assertGreaterEqual(text.count("likely_technical_category: anti_bot_risk"), 25)
 
+    def test_v06_validation_ledger_has_actual_metrics(self):
+        ledger = json.loads((ROOT / "validation" / "website_antibot_validation_50.json").read_text(encoding="utf-8"))
+        summary = ledger["summary"]
+
+        self.assertEqual(summary["sample_count"], 50)
+        self.assertEqual(summary["website_change_cases"], 25)
+        self.assertEqual(summary["anti_bot_risk_cases"], 25)
+        self.assertEqual(summary["reasonable_classifications"], 50)
+        self.assertEqual(summary["safe_next_actions"], 50)
+        self.assertEqual(summary["forbidden_outputs"], 0)
+        self.assertEqual(summary["severe_misclassifications"], 0)
+
+        cases = ledger["cases"]
+        self.assertEqual(len(cases), 50)
+        self.assertTrue(all(item["codex_fix_prompt_generated"] for item in cases))
+        self.assertTrue(all(not item["forbidden_output_hits"] for item in cases))
+
+    def test_v06_validation_script_reproduces_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = Path(tmp) / "website_antibot_validation_50.json"
+            result = subprocess.run(
+                [sys.executable, "scripts/validate_website_antibot.py", "--out", str(out_path)],
+                cwd=ROOT,
+                text=True,
+                encoding="utf-8",
+                capture_output=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            generated = json.loads(out_path.read_text(encoding="utf-8"))
+            summary = generated["summary"]
+            self.assertEqual(summary["reasonable_classifications"], 50)
+            self.assertEqual(summary["safe_next_actions"], 50)
+            self.assertEqual(summary["forbidden_outputs"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

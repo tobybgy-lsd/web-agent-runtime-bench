@@ -2,15 +2,29 @@
 
 | Version | Samples | Reasonable Classification | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Tests |
 |---|---:|---:|---:|---:|---:|---:|
-| v0.6.0 | 200 | 88%+ target | 90%+ target | ≤5 target | calibrated | 200+ target |
+| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 192 |
 | v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
 
 ## Notes
 
-- Samples: public-inspired sanitized validation records, not full real-world failure packages.
-- Reasonable Classification: the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence.
-- Actionable Next Action: the report gives a concrete next debugging step.
-- Severe Misclassification: cases where the diagnosis points to the wrong broad layer.
-- Insufficient Evidence: cases where the tool avoids guessing and asks for more material.
-- Tests: current unit test count at the time of this dashboard update.
-- v0.6.0 adds 50 public-inspired sanitized Website Change / Anti-Bot Risk corpus records and keeps anti-bot output limited to identification, routing, and compliant next actions.
+- Samples are public-inspired sanitized validation records, not full real-world failure packages.
+- Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence.
+- Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
+- Severe Misclassification means the diagnosis points to the wrong broad layer.
+- Insufficient Evidence means the tool avoids guessing and asks for more material.
+- Tests are the current local unit-test count at the time of the dashboard update.
+
+## v0.6.0 Website Change / Anti-Bot Addendum
+
+The v0.6.0 addendum is tracked separately in `validation/website_antibot_validation_50.json`.
+
+| Metric | Result |
+|---|---:|
+| Website Change records | 25 |
+| Anti-Bot Risk records | 25 |
+| Reasonable classifications | 50/50 |
+| Safe next actions | 50/50 |
+| Forbidden outputs | 0 |
+| Severe misclassifications | 0 |
+
+Anti-bot risk output is limited to identification, routing, and compliant next actions. It does not provide CAPTCHA bypass, bot evasion, credential extraction, network rotation, account rotation, or private signature bypass guidance.

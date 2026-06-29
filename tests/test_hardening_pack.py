@@ -70,15 +70,16 @@ class HardeningPackTests(unittest.TestCase):
         ):
             self.assertIn(phrase, text)
 
-    def test_validation_report_is_updated_to_150_traceable_records(self):
+    def test_validation_report_is_updated_to_traceable_records(self):
         text = VALIDATION_REPORT.read_text(encoding="utf-8")
 
-        self.assertIn("测试样本数量：150", text)
-        self.assertIn("public-inspired / sanitized validation records", text)
-        self.assertIn("合理分类数：146", text)
-        self.assertIn("可执行建议数：142", text)
-        self.assertIn("严重误判：4", text)
-        self.assertIn("证据不足案例：21", text)
+        self.assertIn("public-inspired, sanitized records", text)
+        self.assertIn("| Sample count | 150 |", text)
+        self.assertIn("| Reasonable classifications | 146 |", text)
+        self.assertIn("| Actionable next actions | 142 |", text)
+        self.assertIn("| Severe misclassifications | 4 |", text)
+        self.assertIn("| Insufficient evidence cases | 21 |", text)
+        self.assertIn("validation/website_antibot_validation_50.json", text)
 
 
 def _make_validation_case_test(index: int):
@@ -100,3 +101,4 @@ for _index in range(40):
 
 if __name__ == "__main__":
     unittest.main()
+
