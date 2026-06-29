@@ -1,0 +1,10 @@
+{
+  "accepted_failure_types": [
+    "anti_bot_risk"
+  ],
+  "accepted_subtypes": [
+    "behavioral_risk",
+    "auth_or_permission_block"
+  ],
+  "expected_failure_layer": "anti_bot_risk"
+}

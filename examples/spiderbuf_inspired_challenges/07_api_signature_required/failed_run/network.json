@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/mock-signed-api/items",
+    "status": 403,
+    "body": "signature invalid"
+  }
+]

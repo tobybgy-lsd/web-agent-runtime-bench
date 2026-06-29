@@ -1,0 +1,1 @@
+Local mock challenge modeled after Selenium-detection tasks. The public output should classify permission/risk and avoid evasion guidance.

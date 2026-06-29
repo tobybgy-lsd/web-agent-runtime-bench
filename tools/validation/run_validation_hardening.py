@@ -71,6 +71,13 @@ THRESHOLDS: dict[str, dict[str, float | int]] = {
         "min_actionable_rate": 1.0,
         "max_forbidden_output_count": 0,
     },
+    "spiderbuf_inspired_challenge_validation": {
+        "min_sample_count": 10,
+        "min_reasonable_rate": 0.90,
+        "min_fix_plan_rate": 1.0,
+        "min_verification_correct_rate": 0.80,
+        "max_forbidden_output_count": 0,
+    },
 }
 
 
@@ -117,6 +124,7 @@ def build_tracks() -> list[dict[str, Any]]:
         resolution_track(),
         applied_scenario_track(),
         integration_track(),
+        spiderbuf_inspired_track(),
     ]
 
 
@@ -275,6 +283,26 @@ def integration_track() -> dict[str, Any]:
         "severe_misclassification": 0,
         "insufficient_evidence": 0,
         "forbidden_output_count": 0,
+        "gate": "pending",
+    }
+    return with_gate(track)
+
+
+def spiderbuf_inspired_track() -> dict[str, Any]:
+    path = ROOT / "validation" / "spiderbuf_inspired_validation.json"
+    data = read_json(path)
+    track = {
+        "track_id": "spiderbuf_inspired_challenge_validation",
+        "evidence_tier": "local_public_training_inspired_mock",
+        "source_file": rel(path),
+        "sample_count": data["total_cases"],
+        "reasonable_classification": data["diagnosis_reasonable"],
+        "reasonable_rate": rate(data["diagnosis_reasonable"], data["total_cases"]),
+        "fix_plan_valid": data["fix_plan_valid"],
+        "fix_plan_rate": rate(data["fix_plan_valid"], data["total_cases"]),
+        "verification_correct": data["verification_correct"],
+        "verification_correct_rate": rate(data["verification_correct"], data["total_cases"]),
+        "forbidden_output_count": data["forbidden_output_count"],
         "gate": "pending",
     }
     return with_gate(track)

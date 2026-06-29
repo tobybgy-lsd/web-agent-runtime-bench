@@ -1,0 +1,1 @@
+The rerun used a local mock scroll/next-cursor stop condition and verified the expected count.

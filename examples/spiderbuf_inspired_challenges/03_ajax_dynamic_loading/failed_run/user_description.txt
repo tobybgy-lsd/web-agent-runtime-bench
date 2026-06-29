@@ -1,0 +1,1 @@
+Local mock challenge modeled after Ajax-loading pages. The script parsed the shell before the network payload arrived.

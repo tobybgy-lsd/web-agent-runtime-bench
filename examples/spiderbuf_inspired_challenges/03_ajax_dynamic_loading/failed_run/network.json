@@ -1,0 +1,11 @@
+[
+  {
+    "url": "https://local.test/mock-ajax/page",
+    "status": 200
+  },
+  {
+    "url": "https://local.test/mock-ajax/items",
+    "status": 200,
+    "body_shape": "missing items"
+  }
+]

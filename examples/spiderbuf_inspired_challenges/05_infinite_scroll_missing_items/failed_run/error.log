@@ -1,0 +1,1 @@
+pagination cursor missing; next cursor missing after first viewport; virtualized list returned only visible window items and stopped before expected total.

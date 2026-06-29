@@ -1,0 +1,1 @@
+Local mock challenge modeled after iframe extraction tasks. The failed run used a parent-page selector instead of scoping into the frame.

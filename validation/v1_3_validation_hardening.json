@@ -138,6 +138,21 @@
       "forbidden_output_count": 0,
       "gate": "pass",
       "gate_failures": []
+    },
+    {
+      "track_id": "spiderbuf_inspired_challenge_validation",
+      "evidence_tier": "local_public_training_inspired_mock",
+      "source_file": "validation/spiderbuf_inspired_validation.json",
+      "sample_count": 10,
+      "reasonable_classification": 10,
+      "reasonable_rate": 1.0,
+      "fix_plan_valid": 10,
+      "fix_plan_rate": 1.0,
+      "verification_correct": 10,
+      "verification_correct_rate": 1.0,
+      "forbidden_output_count": 0,
+      "gate": "pass",
+      "gate_failures": []
     }
   ],
   "thresholds": [
@@ -209,6 +224,14 @@
       "min_sample_count": 4,
       "min_reasonable_rate": 1.0,
       "min_actionable_rate": 1.0,
+      "max_forbidden_output_count": 0
+    },
+    {
+      "track_id": "spiderbuf_inspired_challenge_validation",
+      "min_sample_count": 10,
+      "min_reasonable_rate": 0.9,
+      "min_fix_plan_rate": 1.0,
+      "min_verification_correct_rate": 0.8,
       "max_forbidden_output_count": 0
     }
   ],

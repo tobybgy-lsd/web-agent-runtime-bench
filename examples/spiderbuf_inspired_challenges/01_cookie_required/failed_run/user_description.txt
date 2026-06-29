@@ -1,0 +1,1 @@
+Local mock challenge modeled after crawler-training cookie/session tasks. The first attempt reached a login-shaped response instead of the expected data page.

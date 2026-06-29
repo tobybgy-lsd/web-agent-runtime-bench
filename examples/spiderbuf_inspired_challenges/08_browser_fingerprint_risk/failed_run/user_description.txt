@@ -1,0 +1,1 @@
+Local mock challenge modeled after browser-environment risk tasks. The public output should route to compliance and evidence collection.

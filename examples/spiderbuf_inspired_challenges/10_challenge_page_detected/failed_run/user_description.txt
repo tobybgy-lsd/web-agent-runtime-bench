@@ -1,0 +1,1 @@
+Local mock challenge modeled after challenge-page tasks. The public output should identify the boundary and suggest safe routes only.

@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/mock-ajax/items",
+    "status": 200,
+    "body_shape": "items present"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/mock-challenge/page",
+    "status": 403,
+    "body": "verify you are human"
+  }
+]

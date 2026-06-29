@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/mock-cookie-required/data",
+    "status": 302,
+    "location": "/login"
+  }
+]

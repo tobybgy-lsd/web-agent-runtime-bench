@@ -1,0 +1,1 @@
+Local mock challenge modeled after random CSS class tasks. The script depended on a generated class name.

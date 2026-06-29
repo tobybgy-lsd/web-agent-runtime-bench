@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/mock-scroll/items?page=2",
+    "status": 200,
+    "next_cursor": "end"
+  }
+]

@@ -1,0 +1,1 @@
+Timeout waiting for selector .item-card-a12; old selector .item-card-a12 not found after local mock class rotation; similar DOM candidate data-testid=result-card.

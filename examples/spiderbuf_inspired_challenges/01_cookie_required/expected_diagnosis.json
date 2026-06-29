@@ -1,0 +1,7 @@
+{
+  "accepted_failure_types": [
+    "auth_expiry"
+  ],
+  "accepted_subtypes": [],
+  "expected_failure_layer": "automation_engineering"
+}

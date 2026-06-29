@@ -14,6 +14,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
 | Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
 | Cross-framework adapters | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
+| Spiderbuf-inspired challenge validation | 10 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 280+ |
 
 ## Source Ledger
 
@@ -131,6 +132,26 @@ Reproduce:
 python -m tools.validation.run_cross_framework_validation
 ```
 
+## Spiderbuf-Inspired Challenge Validation Track
+
+`examples/spiderbuf_inspired_challenges/` contains local-only mock failure packs inspired by public crawler-training challenge categories. The cases validate diagnosis, fix-plan generation, before/after verification, and safety boundaries without accessing spiderbuf.cn or publishing private solution logic.
+
+Current result:
+
+```text
+10 Spiderbuf-inspired fixtures
+10/10 reasonable classifications
+10/10 valid fix plans
+10/10 correct verification statuses
+0 forbidden outputs
+```
+
+Reproduce:
+
+```powershell
+python -m tools.validation.run_spiderbuf_inspired_validation
+```
+
 ## v1.3 Validation Hardening Gate
 
 `tools.validation.run_validation_hardening` aggregates the validation tracks into `validation/v1_3_validation_hardening.json`.
@@ -140,7 +161,7 @@ This gate is intentionally a multi-track summary with no single averaged accurac
 Current result:
 
 ```text
-9/9 validation tracks pass
+10/10 validation tracks pass
 0 forbidden outputs across gated tracks
 regression backlog entries are marked safe_to_publish=false by default
 ```
@@ -189,6 +210,7 @@ shareable_failure_pack.zip is generated from sanitized files only
 - Applied scenario demos are local-only mock failure packs, not production business systems.
 - Integration adapters normalize local artifacts into failure packs; they do not upload artifacts or connect to third-party platforms.
 - Cross-framework adapters are log/metadata adapters, not Selenium, Puppeteer, Cypress, Scrapy, requests, or httpx runners.
+- Spiderbuf-inspired demos are local-only mock diagnostic fixtures, not public challenge solutions.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
 - Severe Misclassification means the diagnosis points to the wrong broad layer.

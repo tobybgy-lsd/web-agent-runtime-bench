@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.3.0
+
+- Added Spiderbuf-Inspired Challenge Validation Pack.
+- Added `examples/spiderbuf_inspired_challenges/` with 10 local-only mock failure packs inspired by public crawler-training challenge categories.
+- Added `tools.validation.run_spiderbuf_inspired_validation`.
+- Added `validation/spiderbuf_inspired_validation.json`.
+- Validation result: 10/10 reasonable classifications, 10/10 valid fix plans, 10/10 correct verification statuses, 0 forbidden outputs.
+- Public artifacts are diagnosis-only and do not include private solutions, access-control defeat steps, or real-site collection logic.
+
 ## v2.2.0
 
 - Added Cross-Framework Adapter Pack.

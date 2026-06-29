@@ -1,0 +1,1 @@
+Local mock challenge modeled after signed API tasks. The public pack records the risk classification only and does not include signing internals.

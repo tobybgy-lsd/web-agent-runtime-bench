@@ -1,0 +1,1 @@
+Local mock challenge modeled after infinite-scroll pages. The script treated the first viewport as the complete dataset.

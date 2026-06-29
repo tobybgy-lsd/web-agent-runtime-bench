@@ -44,6 +44,7 @@ failure-doctor run -- python .\examples\mock_script_fails.py
 Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It does not claim to solve arbitrary failures, but it provides explainable classification, evidence, fix plans, and before/after verification for known automation failure patterns.
 
 Applied scenario demos are local-only mock workflows for commerce automation, live monitoring, content publishing, GUI data bridge, and ERP sync failure diagnosis.
+Spiderbuf-inspired challenge demos are local-only mock failure packs inspired by public crawler-training challenge categories; they validate diagnosis and safe next actions without accessing spiderbuf.cn or publishing private solution logic.
 
 Integration commands:
 `failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
@@ -200,6 +201,27 @@ Run:
 python -m tools.validation.run_applied_scenario_validation
 ```
 
+## Spiderbuf-Inspired Challenge Demos
+
+`examples/spiderbuf_inspired_challenges/` contains local-only mock failure packs inspired by public crawler-training challenge categories:
+
+- cookie/session required
+- iframe extraction
+- Ajax dynamic loading
+- random CSS selector drift
+- infinite scroll missing items
+- rate limit 429
+- API signature required
+- browser fingerprint risk
+- Selenium detection risk
+- challenge page detected
+
+These cases are diagnosis-only. They do not access spiderbuf.cn, do not include private solutions, and do not include access-control defeat steps.
+
+```powershell
+python -m tools.validation.run_spiderbuf_inspired_validation
+```
+
 ## Integrations
 
 Collect Playwright test-results into a failure pack:
@@ -238,6 +260,8 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 Current stable milestone: Agent Failure Doctor v2.2 Cross-Framework Adapter Pack.
 
+Latest added validation track: Spiderbuf-inspired local-only challenge validation.
+
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
 - 30 native Playwright-generated `trace.zip` fixtures
@@ -261,6 +285,11 @@ Current stable milestone: Agent Failure Doctor v2.2 Cross-Framework Adapter Pack
 - 42/42 cross-framework reasonable classifications
 - 42/42 cross-framework valid fix plans
 - 0 forbidden outputs in cross-framework validation
+- 10 Spiderbuf-inspired local-only challenge validation cases
+- 10/10 Spiderbuf-inspired reasonable classifications
+- 10/10 Spiderbuf-inspired valid fix plans
+- 10/10 Spiderbuf-inspired verification statuses correct
+- 0 forbidden outputs in Spiderbuf-inspired validation
 - 10 external held-out public-source records
 - 9/10 external held-out reasonable classifications
 - 10/10 external held-out actionable next actions
@@ -276,6 +305,7 @@ python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examp
 python -m tools.validation.run_real_trace_validation
 python -m tools.validation.run_external_public_reference_validation
 python -m tools.validation.run_resolution_validation
+python -m tools.validation.run_spiderbuf_inspired_validation
 python scripts\validate_external_heldout.py
 ```
 

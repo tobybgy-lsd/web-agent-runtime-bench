@@ -1,0 +1,1 @@
+Local mock challenge modeled after rate-limit tasks. The diagnosis should classify risk and recommend compliant throttling/backoff, not access-control defeat.

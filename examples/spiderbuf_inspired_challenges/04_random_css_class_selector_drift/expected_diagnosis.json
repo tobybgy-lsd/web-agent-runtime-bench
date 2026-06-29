@@ -1,0 +1,10 @@
+{
+  "accepted_failure_types": [
+    "website_change",
+    "selector_drift"
+  ],
+  "accepted_subtypes": [
+    "selector_drift"
+  ],
+  "expected_failure_layer": "website_change"
+}
