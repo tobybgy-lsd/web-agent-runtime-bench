@@ -1,0 +1,44 @@
+{
+  "id": "cdp_disconnect_026",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "browser-use"
+  ],
+  "failure_layer": "environment",
+  "technical_category": "browser_runtime",
+  "subtype": "cdp_disconnect",
+  "evidence_patterns": [
+    "CDP",
+    "websocket disconnected",
+    "browser disconnected"
+  ],
+  "positive_evidence": [
+    "remote debugging endpoint lost"
+  ],
+  "negative_evidence": [
+    "application-level HTTP failure"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "CDP"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

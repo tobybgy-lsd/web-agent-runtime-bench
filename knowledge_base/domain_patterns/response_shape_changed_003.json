@@ -1,0 +1,44 @@
+{
+  "id": "response_shape_changed_003",
+  "version": 1,
+  "applies_to": [
+    "requests",
+    "httpx",
+    "playwright"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "data_schema",
+  "subtype": "response_shape_changed",
+  "evidence_patterns": [
+    "KeyError",
+    "field missing",
+    "JSON path"
+  ],
+  "positive_evidence": [
+    "expected JSON field not present"
+  ],
+  "negative_evidence": [
+    "request failed before JSON parse"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "KeyError"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

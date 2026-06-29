@@ -1,0 +1,44 @@
+{
+  "id": "cookie_expired_018",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "requests"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "login_session",
+  "subtype": "cookie_expired",
+  "evidence_patterns": [
+    "cookie expired",
+    "401",
+    "redirect login"
+  ],
+  "positive_evidence": [
+    "session cookie no longer accepted"
+  ],
+  "negative_evidence": [
+    "selector drift after authenticated page"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "cookie expired"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

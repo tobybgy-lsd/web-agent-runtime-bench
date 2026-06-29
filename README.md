@@ -8,14 +8,14 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode
+Current stable milestone: Agent Failure Doctor v3.0.0 P98 Controlled Maturity Pack
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-v2.5: AI handoff. v2.6: batch/fleet reports.
+v2.5: AI handoff. v2.6: batch/fleet reports. v3.0: P98 controlled maturity gates.
 
 Core commands:
 `diagnose` / `batch` / `plan` / `handoff` / `propose-patch` / `verify` / `run` / `sanitize` / `adapt`
@@ -33,6 +33,9 @@ failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\repor
 Full command names include `failure-doctor diagnose`, `failure-doctor batch`, `failure-doctor plan`, `failure-doctor handoff`, `failure-doctor propose-patch`, `failure-doctor verify`, `failure-doctor run`, `failure-doctor sanitize`, and `failure-doctor adapt`.
 
 See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+
+P98 gates:
+`scorecard -> knowledge base -> coverage matrix -> trace/cross-framework/counterfactual hardening`
 
 Composite diagnosis:
 Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
@@ -284,6 +287,25 @@ batch_report/
 
 Fleet mode answers which failures repeat, which root causes dominate, which runs should become regression cases, and which fixes deserve priority.
 
+## P98 Controlled Maturity
+
+v3.0 starts the P98 controlled maturity track. This is not an ecosystem score; it does not count stars, external PRs, external issues, PyPI downloads, or long-term community adoption.
+
+Current P98 assets:
+
+- [docs/P98_CONTROLLED_MATURITY_SCORECARD.md](docs/P98_CONTROLLED_MATURITY_SCORECARD.md)
+- [knowledge_base/](knowledge_base/)
+- [docs/CRAWLER_FAILURE_COVERAGE_MATRIX.md](docs/CRAWLER_FAILURE_COVERAGE_MATRIX.md)
+- [validation/crawler_failure_coverage_matrix.json](validation/crawler_failure_coverage_matrix.json)
+
+Knowledge-base commands:
+
+```powershell
+python -m tools.knowledge_base.validate_patterns
+python -m tools.knowledge_base.search_patterns --query selector_drift
+python -m tools.validation.run_crawler_failure_coverage_matrix
+```
+
 ## Applied Scenario Demos
 
 Local-only mock demos show how Agent Failure Doctor can diagnose failures in:
@@ -358,9 +380,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode.
+Current stable milestone: Agent Failure Doctor v3.0.0 P98 Controlled Maturity Pack.
 
-Latest added capability: Batch Diagnosis / Fleet Mode.
+Latest added capability: P98 scorecard, failure knowledge base, and crawler coverage matrix.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

@@ -1,0 +1,45 @@
+{
+  "id": "iframe_context_mismatch_019",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "puppeteer"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "frame_locator",
+  "subtype": "frame_context_mismatch",
+  "evidence_patterns": [
+    "iframe",
+    "frame detached",
+    "selector timeout"
+  ],
+  "positive_evidence": [
+    "target element appears in child frame",
+    "page locator used at top frame"
+  ],
+  "negative_evidence": [
+    "same selector present in main document"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "iframe"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

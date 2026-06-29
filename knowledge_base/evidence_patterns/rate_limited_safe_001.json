@@ -1,0 +1,49 @@
+{
+  "id": "rate_limited_safe_001",
+  "version": 1,
+  "applies_to": [
+    "requests",
+    "httpx",
+    "playwright",
+    "scrapy"
+  ],
+  "failure_layer": "anti_bot_risk",
+  "technical_category": "anti_bot_risk",
+  "subtype": "rate_limited",
+  "evidence_patterns": [
+    "HTTP 429",
+    "too many requests",
+    "rate limited"
+  ],
+  "positive_evidence": [
+    "server indicates rate limit or quota boundary"
+  ],
+  "negative_evidence": [
+    "local timeout before request"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "HTTP 429"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": true,
+    "forbidden_actions": [
+      "do not provide bypass steps",
+      "use official API or authorized workflow",
+      "stop unauthorized collection"
+    ],
+    "safe_next_action_only": true
+  }
+}

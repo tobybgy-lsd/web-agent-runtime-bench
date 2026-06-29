@@ -1,4 +1,4 @@
-﻿import json
+import json
 import subprocess
 import sys
 import unittest
@@ -14,10 +14,11 @@ class ReleaseTrustPackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         dashboard = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
-        self.assertIn('version = "2.6.0"', pyproject)
+        self.assertIn('version = "3.0.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("## v2.0.0", changelog)
-        self.assertIn("v2.6.0 Batch Diagnosis / Fleet Mode", readme)
+        self.assertIn("v3.0.0 P98 Controlled Maturity Pack", readme)
+        self.assertIn("P98 scorecard, failure knowledge base, and crawler coverage matrix", readme)
         self.assertIn("v2.0 Auto Capture", readme)
         self.assertIn("62 external public reference seeds", readme)
         self.assertIn("External held-out public-source set", dashboard)
@@ -48,4 +49,3 @@ class ReleaseTrustPackTests(unittest.TestCase):
         self.assertGreaterEqual(summary["reasonable_classifications"], 7)
         self.assertGreaterEqual(summary["actionable_next_actions"], 8)
         self.assertEqual(summary["forbidden_outputs"], 0)
-

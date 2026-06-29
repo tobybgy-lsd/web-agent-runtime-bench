@@ -1,0 +1,44 @@
+{
+  "id": "composite_auth_selector_011",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "browser-use"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "composite_failure",
+  "subtype": "auth_then_selector",
+  "evidence_patterns": [
+    "auth redirect",
+    "selector timeout",
+    "downstream"
+  ],
+  "positive_evidence": [
+    "auth failure causes downstream selector failure"
+  ],
+  "negative_evidence": [
+    "authenticated DOM changed selector only"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "auth redirect"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

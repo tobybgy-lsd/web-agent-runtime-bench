@@ -1,0 +1,45 @@
+{
+  "id": "shadow_dom_locator_boundary_018",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_shadow_dom_locator",
+  "subtype": "shadow_root_boundary",
+  "evidence_patterns": [
+    "shadow root",
+    "ordinary locator timeout",
+    "custom element"
+  ],
+  "positive_evidence": [
+    "inner node exists under shadow root",
+    "host locator targeted instead"
+  ],
+  "negative_evidence": [
+    "closed shadow root declared unreachable"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "shadow root"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

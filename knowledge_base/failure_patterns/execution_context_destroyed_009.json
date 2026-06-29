@@ -1,0 +1,44 @@
+{
+  "id": "execution_context_destroyed_009",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "framework_runtime",
+  "technical_category": "browser_runtime",
+  "subtype": "execution_context_destroyed",
+  "evidence_patterns": [
+    "execution context was destroyed",
+    "navigation",
+    "evaluate"
+  ],
+  "positive_evidence": [
+    "script evaluated during navigation"
+  ],
+  "negative_evidence": [
+    "stable load state reached before evaluate"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "execution context was destroyed"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

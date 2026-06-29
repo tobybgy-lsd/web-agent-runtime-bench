@@ -1,0 +1,44 @@
+{
+  "id": "hydration_race_014",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "cypress",
+    "puppeteer"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "page_readiness",
+  "subtype": "hydration_not_complete",
+  "evidence_patterns": [
+    "hydration",
+    "button disabled",
+    "click ignored"
+  ],
+  "positive_evidence": [
+    "DOM rendered before event handlers attached"
+  ],
+  "negative_evidence": [
+    "server-rendered static link works"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "hydration"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

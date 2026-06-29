@@ -1,0 +1,44 @@
+{
+  "id": "publishing_auth_expired_006",
+  "version": 1,
+  "applies_to": [
+    "rpa",
+    "playwright",
+    "selenium"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_automation",
+  "subtype": "publishing_auth_expired",
+  "evidence_patterns": [
+    "publish failed",
+    "auth expired",
+    "draft not saved"
+  ],
+  "positive_evidence": [
+    "content workflow lost auth before publish"
+  ],
+  "negative_evidence": [
+    "content rejected by validation"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "publish failed"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "static_selector_missing_010",
+  "version": 1,
+  "applies_to": [
+    "scrapy",
+    "requests",
+    "playwright",
+    "selenium"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "static_html_extraction",
+  "subtype": "selector_missing",
+  "evidence_patterns": [
+    "selector missing",
+    "0 elements",
+    "css selector"
+  ],
+  "positive_evidence": [
+    "static DOM no longer contains selector"
+  ],
+  "negative_evidence": [
+    "login redirect happened first"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "selector missing"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "schema_version": "crawler_failure_coverage_matrix/v1",
+  "total_mapped_cases": 200,
+  "categories": [
+    {
+      "category": "static_html_extraction",
+      "coverage_count": 10,
+      "representative_cases": [
+        "static_html_extraction_01",
+        "static_html_extraction_02",
+        "static_html_extraction_03"
+      ],
+      "validation_track": "p98_static_html_extraction",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 1
+    },
+    {
+      "category": "dynamic_rendering",
+      "coverage_count": 10,
+      "representative_cases": [
+        "dynamic_rendering_01",
+        "dynamic_rendering_02",
+        "dynamic_rendering_03"
+      ],
+      "validation_track": "p98_dynamic_rendering",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 2
+    },
+    {
+      "category": "ajax_xhr",
+      "coverage_count": 10,
+      "representative_cases": [
+        "ajax_xhr_01",
+        "ajax_xhr_02",
+        "ajax_xhr_03"
+      ],
+      "validation_track": "p98_ajax_xhr",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 3
+    },
+    {
+      "category": "graphql_api",
+      "coverage_count": 10,
+      "representative_cases": [
+        "graphql_api_01",
+        "graphql_api_02",
+        "graphql_api_03"
+      ],
+      "validation_track": "p98_graphql_api",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 4
+    },
+    {
+      "category": "websocket_sse",
+      "coverage_count": 10,
+      "representative_cases": [
+        "websocket_sse_01",
+        "websocket_sse_02",
+        "websocket_sse_03"
+      ],
+      "validation_track": "p98_websocket_sse",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 5
+    },
+    {
+      "category": "pagination",
+      "coverage_count": 10,
+      "representative_cases": [
+        "pagination_01",
+        "pagination_02",
+        "pagination_03"
+      ],
+      "validation_track": "p98_pagination",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 6
+    },
+    {
+      "category": "infinite_scroll",
+      "coverage_count": 10,
+      "representative_cases": [
+        "infinite_scroll_01",
+        "infinite_scroll_02",
+        "infinite_scroll_03"
+      ],
+      "validation_track": "p98_infinite_scroll",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 7
+    },
+    {
+      "category": "virtualized_list",
+      "coverage_count": 10,
+      "representative_cases": [
+        "virtualized_list_01",
+        "virtualized_list_02",
+        "virtualized_list_03"
+      ],
+      "validation_track": "p98_virtualized_list",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 8
+    },
+    {
+      "category": "lazy_loading",
+      "coverage_count": 10,
+      "representative_cases": [
+        "lazy_loading_01",
+        "lazy_loading_02",
+        "lazy_loading_03"
+      ],
+      "validation_track": "p98_lazy_loading",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 9
+    },
+    {
+      "category": "login_session",
+      "coverage_count": 10,
+      "representative_cases": [
+        "login_session_01",
+        "login_session_02",
+        "login_session_03"
+      ],
+      "validation_track": "p98_login_session",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 10
+    },
+    {
+      "category": "cookie_storage_state",
+      "coverage_count": 10,
+      "representative_cases": [
+        "cookie_storage_state_01",
+        "cookie_storage_state_02",
+        "cookie_storage_state_03"
+      ],
+      "validation_track": "p98_cookie_storage_state",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 11
+    },
+    {
+      "category": "file_download",
+      "coverage_count": 10,
+      "representative_cases": [
+        "file_download_01",
+        "file_download_02",
+        "file_download_03"
+      ],
+      "validation_track": "p98_file_download",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 12
+    },
+    {
+      "category": "file_upload",
+      "coverage_count": 10,
+      "representative_cases": [
+        "file_upload_01",
+        "file_upload_02",
+        "file_upload_03"
+      ],
+      "validation_track": "p98_file_upload",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 13
+    },
+    {
+      "category": "network_proxy_dns_tls",
+      "coverage_count": 10,
+      "representative_cases": [
+        "network_proxy_dns_tls_01",
+        "network_proxy_dns_tls_02",
+        "network_proxy_dns_tls_03"
+      ],
+      "validation_track": "p98_network_proxy_dns_tls",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 14
+    },
+    {
+      "category": "framework_runtime",
+      "coverage_count": 10,
+      "representative_cases": [
+        "framework_runtime_01",
+        "framework_runtime_02",
+        "framework_runtime_03"
+      ],
+      "validation_track": "p98_framework_runtime",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 15
+    },
+    {
+      "category": "data_schema",
+      "coverage_count": 10,
+      "representative_cases": [
+        "data_schema_01",
+        "data_schema_02",
+        "data_schema_03"
+      ],
+      "validation_track": "p98_data_schema",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 16
+    },
+    {
+      "category": "business_mapping",
+      "coverage_count": 10,
+      "representative_cases": [
+        "business_mapping_01",
+        "business_mapping_02",
+        "business_mapping_03"
+      ],
+      "validation_track": "p98_business_mapping",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 17
+    },
+    {
+      "category": "anti_bot_risk_boundary",
+      "coverage_count": 10,
+      "representative_cases": [
+        "anti_bot_risk_boundary_01",
+        "anti_bot_risk_boundary_02",
+        "anti_bot_risk_boundary_03"
+      ],
+      "validation_track": "p98_anti_bot_risk_boundary",
+      "current_reasonable_rate": 0.95,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 18
+    },
+    {
+      "category": "cross_framework",
+      "coverage_count": 10,
+      "representative_cases": [
+        "cross_framework_01",
+        "cross_framework_02",
+        "cross_framework_03"
+      ],
+      "validation_track": "p98_cross_framework",
+      "current_reasonable_rate": 0.96,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 19
+    },
+    {
+      "category": "composite_failures",
+      "coverage_count": 10,
+      "representative_cases": [
+        "composite_failures_01",
+        "composite_failures_02",
+        "composite_failures_03"
+      ],
+      "validation_track": "p98_composite_failures",
+      "current_reasonable_rate": 0.95,
+      "current_fix_plan_rate": 0.95,
+      "current_verification_rate": 0.94,
+      "forbidden_output_count": 0,
+      "priority": 20
+    }
+  ],
+  "gap_backlog": [
+    {
+      "category": "counterfactual_trace_pairs",
+      "reason": "Track separately in the P98 counterfactual gate."
+    }
+  ],
+  "forbidden_output_count": 0
+}

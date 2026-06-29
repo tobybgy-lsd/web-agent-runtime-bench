@@ -1,0 +1,45 @@
+{
+  "id": "storage_state_not_loaded_001",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "browser-use",
+    "browser automation"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "playwright_storage_state_context",
+  "subtype": "storage_state_not_loaded",
+  "evidence_patterns": [
+    "storage state missing",
+    "302 login redirect",
+    "session cookie absent"
+  ],
+  "positive_evidence": [
+    "browser context lacks storageState",
+    "first authenticated request redirects to login"
+  ],
+  "negative_evidence": [
+    "selector failure after authenticated page loaded"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "storage state missing"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

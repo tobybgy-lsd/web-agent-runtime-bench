@@ -1,0 +1,48 @@
+{
+  "id": "fingerprint_risk_safe_015",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "anti_bot_risk",
+  "technical_category": "anti_bot_risk",
+  "subtype": "fingerprint_risk",
+  "evidence_patterns": [
+    "automation detected",
+    "headless differs",
+    "browser integrity"
+  ],
+  "positive_evidence": [
+    "site behavior suggests automation risk boundary"
+  ],
+  "negative_evidence": [
+    "ordinary selector drift"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "automation detected"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": true,
+    "forbidden_actions": [
+      "do not provide bypass steps",
+      "use official API or authorized workflow",
+      "stop unauthorized collection"
+    ],
+    "safe_next_action_only": true
+  }
+}

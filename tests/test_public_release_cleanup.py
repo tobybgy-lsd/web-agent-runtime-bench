@@ -1,4 +1,4 @@
-﻿import json
+import json
 import re
 import subprocess
 import sys
@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "2.6.0"',
+            'version = "3.0.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -192,4 +192,3 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

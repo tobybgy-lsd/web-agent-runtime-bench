@@ -1,0 +1,42 @@
+{
+  "id": "requests_proxy_error_010",
+  "version": 1,
+  "applies_to": [
+    "requests"
+  ],
+  "failure_layer": "environment",
+  "technical_category": "python_http",
+  "subtype": "proxy_error",
+  "evidence_patterns": [
+    "ProxyError",
+    "Cannot connect to proxy",
+    "Max retries exceeded"
+  ],
+  "positive_evidence": [
+    "requests failed before reaching target host via proxy"
+  ],
+  "negative_evidence": [
+    "HTTP 200 via proxy"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "ProxyError"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

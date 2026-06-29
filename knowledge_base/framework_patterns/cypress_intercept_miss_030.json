@@ -1,0 +1,42 @@
+{
+  "id": "cypress_intercept_miss_030",
+  "version": 1,
+  "applies_to": [
+    "cypress"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "cypress_network",
+  "subtype": "intercept_not_matched",
+  "evidence_patterns": [
+    "cy.intercept",
+    "No request ever occurred",
+    "alias"
+  ],
+  "positive_evidence": [
+    "intercept registered pattern did not match request"
+  ],
+  "negative_evidence": [
+    "request fulfilled by fixture"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "cy.intercept"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

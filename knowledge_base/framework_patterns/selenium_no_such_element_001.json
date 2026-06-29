@@ -1,0 +1,42 @@
+{
+  "id": "selenium_no_such_element_001",
+  "version": 1,
+  "applies_to": [
+    "selenium"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "selenium_locator",
+  "subtype": "no_such_element_exception",
+  "evidence_patterns": [
+    "NoSuchElementException",
+    "unable to locate element",
+    "By.CSS_SELECTOR"
+  ],
+  "positive_evidence": [
+    "Selenium could not locate target element"
+  ],
+  "negative_evidence": [
+    "page redirected before locator"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "NoSuchElementException"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

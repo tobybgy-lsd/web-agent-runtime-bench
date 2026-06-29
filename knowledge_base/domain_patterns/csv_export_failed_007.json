@@ -1,0 +1,44 @@
+{
+  "id": "csv_export_failed_007",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "requests"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "file_download",
+  "subtype": "csv_export_failed",
+  "evidence_patterns": [
+    "CSV export",
+    "download failed",
+    "empty csv"
+  ],
+  "positive_evidence": [
+    "export artifact missing or empty"
+  ],
+  "negative_evidence": [
+    "schema validation failure after download"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "CSV export"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

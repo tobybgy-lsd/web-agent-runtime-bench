@@ -1,0 +1,44 @@
+{
+  "id": "popup_not_handled_005",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "popup_new_page",
+  "subtype": "popup_not_awaited",
+  "evidence_patterns": [
+    "new page opened",
+    "target closed",
+    "popup"
+  ],
+  "positive_evidence": [
+    "action opens popup but script continues on old page"
+  ],
+  "negative_evidence": [
+    "same page navigation"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "new page opened"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

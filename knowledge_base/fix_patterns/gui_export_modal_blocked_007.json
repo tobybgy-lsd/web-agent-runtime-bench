@@ -1,0 +1,44 @@
+{
+  "id": "gui_export_modal_blocked_007",
+  "version": 1,
+  "applies_to": [
+    "rpa",
+    "selenium",
+    "playwright"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_automation",
+  "subtype": "export_modal_blocked",
+  "evidence_patterns": [
+    "export modal",
+    "overlay",
+    "button blocked"
+  ],
+  "positive_evidence": [
+    "modal or overlay blocks export action"
+  ],
+  "negative_evidence": [
+    "download permission denied"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "export modal"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

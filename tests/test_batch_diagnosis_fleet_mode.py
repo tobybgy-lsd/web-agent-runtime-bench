@@ -72,14 +72,15 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
             priority = (out_dir / "repair_priority.md").read_text(encoding="utf-8")
             self.assertIn("run_001_proxy", priority)
 
-    def test_docs_and_version_expose_v2_6_batch_mode(self):
+    def test_docs_and_version_expose_batch_mode_under_current_release(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        self.assertIn('version = "2.6.0"', pyproject)
-        self.assertIn("v2.6.0 Batch Diagnosis / Fleet Mode", readme)
+        self.assertIn('version = "3.0.0"', pyproject)
+        self.assertIn("v3.0.0 P98 Controlled Maturity Pack", readme)
+        self.assertIn("Batch Diagnosis / Fleet Mode", readme)
         self.assertIn("failure-doctor batch", readme)
-        self.assertIn("## v2.6.0", changelog)
+        self.assertIn("## v3.0.0", changelog)
 
     def _write_run(self, path: Path, error_text: str) -> None:
         path.mkdir()

@@ -1,0 +1,44 @@
+{
+  "id": "cursor_expired_005",
+  "version": 1,
+  "applies_to": [
+    "requests",
+    "httpx",
+    "playwright"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_workflow",
+  "subtype": "cursor_expired",
+  "evidence_patterns": [
+    "cursor expired",
+    "resume token",
+    "page token invalid"
+  ],
+  "positive_evidence": [
+    "long-running job used stale continuation token"
+  ],
+  "negative_evidence": [
+    "pagination ended normally"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "cursor expired"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

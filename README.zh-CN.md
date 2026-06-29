@@ -1,9 +1,12 @@
 # Agent Failure Doctor
 
-Current stable milestone: Agent Failure Doctor v2.6.0 Batch Diagnosis / Fleet Mode
+Current stable milestone: Agent Failure Doctor v3.0.0 P98 Controlled Maturity Pack
 
 Core lifecycle:
 `failure-doctor diagnose` / `failure-doctor batch` -> `failure-doctor plan` -> `failure-doctor handoff` / `failure-doctor propose-patch` -> `failure-doctor verify` -> `failure-doctor sanitize`
+
+v3.0 P98 首批闸门：
+`P98 scorecard -> failure knowledge base -> crawler failure coverage matrix`
 
 v2.5 commands:
 

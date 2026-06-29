@@ -1,0 +1,44 @@
+{
+  "id": "download_path_permission_021",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "browser automation"
+  ],
+  "failure_layer": "environment",
+  "technical_category": "file_download",
+  "subtype": "download_path_permission",
+  "evidence_patterns": [
+    "download failure",
+    "permission denied",
+    "missing file"
+  ],
+  "positive_evidence": [
+    "download event fired but file not saved"
+  ],
+  "negative_evidence": [
+    "HTTP response body absent"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "download failure"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

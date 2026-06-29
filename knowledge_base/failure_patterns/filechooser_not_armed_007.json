@@ -1,0 +1,44 @@
+{
+  "id": "filechooser_not_armed_007",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "file_upload",
+  "subtype": "filechooser_not_armed",
+  "evidence_patterns": [
+    "file chooser",
+    "upload timeout",
+    "set input files"
+  ],
+  "positive_evidence": [
+    "upload action ran before chooser listener"
+  ],
+  "negative_evidence": [
+    "input element accepts file path"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "file chooser"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

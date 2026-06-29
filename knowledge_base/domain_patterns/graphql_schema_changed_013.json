@@ -1,0 +1,44 @@
+{
+  "id": "graphql_schema_changed_013",
+  "version": 1,
+  "applies_to": [
+    "requests",
+    "httpx",
+    "playwright"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "graphql_api",
+  "subtype": "schema_changed",
+  "evidence_patterns": [
+    "Cannot query field",
+    "GraphQL error",
+    "Unknown argument"
+  ],
+  "positive_evidence": [
+    "GraphQL schema rejects old query"
+  ],
+  "negative_evidence": [
+    "auth error prevents query"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "Cannot query field"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "counterfactual_shadow_vs_missing_dom_004",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "selenium"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "counterfactual_diagnosis",
+  "subtype": "shadow_vs_missing_dom",
+  "evidence_patterns": [
+    "shadow root",
+    "missing element",
+    "locator"
+  ],
+  "positive_evidence": [
+    "element exists behind shadow boundary"
+  ],
+  "negative_evidence": [
+    "element absent from all snapshots"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "shadow root"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

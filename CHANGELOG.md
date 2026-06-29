@@ -1,5 +1,14 @@
 # Changelog
 
+## v3.0.0
+
+- Started the P98 Controlled Maturity Pack.
+- Added `docs/P98_CONTROLLED_MATURITY_SCORECARD.md` to separate controllable project maturity from ecosystem maturity.
+- Added a structured failure knowledge base with 120+ local-only diagnostic patterns.
+- Added knowledge-base validation and search tools.
+- Added crawler failure coverage matrix documentation, JSON output, validation runner, and tests.
+- Kept anti-bot content restricted to detection, safe routing, and compliance-oriented next actions.
+
 ## v2.6.0
 
 - Added Batch Diagnosis / Fleet Mode.

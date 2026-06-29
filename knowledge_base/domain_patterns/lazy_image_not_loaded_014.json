@@ -1,0 +1,44 @@
+{
+  "id": "lazy_image_not_loaded_014",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "puppeteer"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "lazy_loading",
+  "subtype": "lazy_asset_missing",
+  "evidence_patterns": [
+    "lazy image",
+    "data-src",
+    "empty src"
+  ],
+  "positive_evidence": [
+    "asset loads only after scroll or intersection"
+  ],
+  "negative_evidence": [
+    "image URL intentionally blank"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "lazy image"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

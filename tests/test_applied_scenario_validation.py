@@ -1,4 +1,4 @@
-﻿import json
+import json
 import subprocess
 import sys
 import unittest
@@ -80,7 +80,7 @@ class AppliedScenarioValidationTests(unittest.TestCase):
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-        self.assertIn('version = "2.6.0"', pyproject)
+        self.assertIn('version = "3.0.0"', pyproject)
         self.assertIn("Applied Scenario Demos", readme)
         self.assertIn("run_applied_scenario_validation", readme)
         self.assertIn("## v1.1.0", changelog)
@@ -88,4 +88,3 @@ class AppliedScenarioValidationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

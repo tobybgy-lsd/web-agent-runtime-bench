@@ -1,0 +1,43 @@
+{
+  "id": "counterfactual_network_vs_route_020",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "cypress"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "counterfactual_diagnosis",
+  "subtype": "network_vs_route",
+  "evidence_patterns": [
+    "404",
+    "route expected",
+    "mock"
+  ],
+  "positive_evidence": [
+    "same 404 means different root cause with route expectation"
+  ],
+  "negative_evidence": [
+    "live endpoint intentionally returns 404"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "404"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

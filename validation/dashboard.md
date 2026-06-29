@@ -22,6 +22,7 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 | P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
 | AI Handoff & Patch Proposal | 20 | 20/20 task packs | 18/20 patch proposals | 20/20 required sections + token budgets | 0 | 0 | 0 | 290+ |
 | Batch Diagnosis / Fleet Mode | CLI fixture | 4/4 diagnosed | repeated failures detected | regression + repair priority generated | 0 | 0 | 0 | 300+ |
+| P98 Controlled Maturity Skeleton | Scorecard + knowledge base + coverage matrix | 140 knowledge patterns | 20 crawler categories / 200 mapped cases | P98 gates documented | 0 | 0 | 0 | 300+ |
 
 ## Source Ledger
 
@@ -150,6 +151,27 @@ Reproduce:
 
 ```powershell
 python -m unittest tests.test_batch_diagnosis_fleet_mode
+```
+
+## P98 Controlled Maturity
+
+v3.0 starts the P98 controlled maturity track with machine-checkable gates for scorecard, failure knowledge base, and crawler failure coverage matrix.
+
+Reproduce:
+
+```powershell
+python -m unittest tests.test_p98_scorecard tests.test_knowledge_base_patterns tests.test_crawler_failure_coverage_matrix
+python -m tools.knowledge_base.validate_patterns
+python -m tools.validation.run_crawler_failure_coverage_matrix
+```
+
+Current metrics:
+
+```text
+knowledge patterns: 140
+crawler matrix categories: 20
+mapped crawler cases: 200
+forbidden output count: 0
 ```
 
 ## Playwright Trace Doctor P95 Validation

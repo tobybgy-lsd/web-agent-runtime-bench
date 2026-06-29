@@ -1,0 +1,44 @@
+{
+  "id": "websocket_data_stream_015",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "puppeteer",
+    "cypress"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "websocket_sse",
+  "subtype": "data_not_in_xhr",
+  "evidence_patterns": [
+    "websocket",
+    "sse",
+    "no XHR"
+  ],
+  "positive_evidence": [
+    "data arrives through long-lived connection"
+  ],
+  "negative_evidence": [
+    "REST response contains payload"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "websocket"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

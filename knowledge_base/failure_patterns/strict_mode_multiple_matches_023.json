@@ -1,0 +1,43 @@
+{
+  "id": "strict_mode_multiple_matches_023",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "cypress"
+  ],
+  "failure_layer": "automation_engineering",
+  "technical_category": "locator_strategy",
+  "subtype": "strict_mode_violation",
+  "evidence_patterns": [
+    "strict mode violation",
+    "multiple elements",
+    "locator.click"
+  ],
+  "positive_evidence": [
+    "locator resolves to more than one element"
+  ],
+  "negative_evidence": [
+    "unique role or test id exists"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "strict mode violation"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

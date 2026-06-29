@@ -1,0 +1,44 @@
+{
+  "id": "sku_table_mapping_failure_011",
+  "version": 1,
+  "applies_to": [
+    "rpa",
+    "playwright",
+    "selenium"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_automation",
+  "subtype": "sku_table_mapping_failure",
+  "evidence_patterns": [
+    "SKU",
+    "table mapping",
+    "column mismatch"
+  ],
+  "positive_evidence": [
+    "source columns no longer match target table"
+  ],
+  "negative_evidence": [
+    "all fields accepted"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "SKU"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

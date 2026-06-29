@@ -1,0 +1,44 @@
+{
+  "id": "virtualized_list_missing_item_028",
+  "version": 1,
+  "applies_to": [
+    "playwright",
+    "selenium",
+    "cypress"
+  ],
+  "failure_layer": "website_change",
+  "technical_category": "virtualized_list",
+  "subtype": "item_outside_view_window",
+  "evidence_patterns": [
+    "virtual list",
+    "item not in DOM",
+    "scroll required"
+  ],
+  "positive_evidence": [
+    "DOM contains only visible window rows"
+  ],
+  "negative_evidence": [
+    "all rows rendered server-side"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "virtual list"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

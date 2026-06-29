@@ -1,0 +1,44 @@
+{
+  "id": "idempotency_conflict_004",
+  "version": 1,
+  "applies_to": [
+    "requests",
+    "httpx",
+    "rpa"
+  ],
+  "failure_layer": "business_mapping",
+  "technical_category": "business_workflow",
+  "subtype": "idempotency_conflict",
+  "evidence_patterns": [
+    "duplicate request",
+    "idempotency",
+    "already exists"
+  ],
+  "positive_evidence": [
+    "rerun attempted non-idempotent action"
+  ],
+  "negative_evidence": [
+    "network retry never reached server"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "duplicate request"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}

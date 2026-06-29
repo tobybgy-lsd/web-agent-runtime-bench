@@ -1,0 +1,42 @@
+{
+  "id": "scrapy_dns_lookup_009",
+  "version": 1,
+  "applies_to": [
+    "scrapy"
+  ],
+  "failure_layer": "environment",
+  "technical_category": "scrapy_network",
+  "subtype": "dns_lookup_error",
+  "evidence_patterns": [
+    "DNSLookupError",
+    "getaddrinfo failed",
+    "twisted"
+  ],
+  "positive_evidence": [
+    "Scrapy resolver could not resolve host"
+  ],
+  "negative_evidence": [
+    "HTTP 403 from resolved host"
+  ],
+  "fix_plan": {
+    "intent": "produce a safe, local-first repair or routing plan",
+    "recommended_change_areas": [
+      "diagnostic evidence",
+      "automation script",
+      "verification fixture"
+    ]
+  },
+  "verification": {
+    "expected_evidence_to_disappear": [
+      "DNSLookupError"
+    ],
+    "expected_evidence_to_appear": [
+      "successful rerun evidence or explicit insufficient_evidence downgrade"
+    ]
+  },
+  "safety": {
+    "anti_bot": false,
+    "forbidden_actions": [],
+    "safe_next_action_only": false
+  }
+}
