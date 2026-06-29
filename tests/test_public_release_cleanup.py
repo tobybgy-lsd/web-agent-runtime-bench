@@ -141,9 +141,19 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         tracked = (ROOT / "validation" / "public_failure_validation_150.json").read_text(encoding="utf-8")
         self.assertNotRegex(tracked, re.compile(r"https://github.com/.+/issues/42\d{3}"))
 
-    def test_only_failure_case_issue_templates_are_public(self):
+    def test_distribution_issue_templates_are_public(self):
         issue_templates = sorted(path.name for path in (ROOT / ".github" / "ISSUE_TEMPLATE").glob("*.yml"))
-        self.assertEqual(issue_templates, ["external_failure_case.yml", "failure_case.yml"])
+        self.assertEqual(
+            issue_templates,
+            [
+                "bug_report.yml",
+                "config.yml",
+                "external_failure_case.yml",
+                "failure_case.yml",
+                "feature_request.yml",
+                "safety_boundary.yml",
+            ],
+        )
 
     def test_gitattributes_sets_release_archive_and_line_endings(self):
         text = (ROOT / ".gitattributes").read_text(encoding="utf-8")

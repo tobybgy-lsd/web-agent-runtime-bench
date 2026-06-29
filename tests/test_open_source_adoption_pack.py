@@ -10,17 +10,17 @@ class OpenSourceAdoptionPackTests(unittest.TestCase):
         text = (ROOT / ".github" / "ISSUE_TEMPLATE" / "failure_case.yml").read_text(encoding="utf-8")
 
         for phrase in (
-            "name: Submit a sanitized failure case",
+            "name: Failure case report",
             'title: "[Failure Case]: "',
             "failure-case",
             "needs-triage",
-            "What failed?",
-            "Tool",
-            "Input type",
-            "Expected result",
-            "Actual result",
-            "Sanitized error excerpt",
-            "Can this become a public test case?",
+            "python -m pip install agent-failure-doctor",
+            "Framework / runtime",
+            "Failure area",
+            "What happened?",
+            "Expected behavior",
+            "Sanitized artifacts",
+            "raw_local_only_do_not_share",
             "I confirm this report contains no credentials/cookies/tokens/private data.",
         ):
             self.assertIn(phrase, text)

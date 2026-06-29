@@ -12,11 +12,25 @@ The repository has release-note drafts prepared for the public alignment line. P
 | v3.0.0 | `docs/RELEASE_NOTES_v3.0.0.md` | Agent Failure Doctor v3.0.0 - P98 Controlled Maturity Skeleton | ready for manual publication |
 | v3.0.1 | `docs/RELEASE_NOTES_v3.0.1.md` | Agent Failure Doctor v3.0.1 - Public Alignment & P98 Track Separation | not yet; development track only |
 | v3.1.0 | `docs/RELEASE_NOTES_v3.1.0.md` | Agent Failure Doctor v3.1.0 - P98 Master Gate Completion Pack | published as latest stable |
-| v3.2.0 | `docs/RELEASE_NOTES_v3.2.0.md` | Agent Failure Doctor v3.2.0 - Auto Collector & One-Click Diagnosis Pack | ready for manual publication after CI |
+| v3.2.0 | `docs/RELEASE_NOTES_v3.2.0.md` | Agent Failure Doctor v3.2.0 - Auto Collector & One-Click Diagnosis Pack | published |
 
 ## Published release
 
-`v3.1.0` is published as the latest stable GitHub Release until v3.2.0 is manually published:
+`v3.2.0` is published as the latest stable GitHub Release:
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.2.0
+
+PyPI is published:
+
+https://pypi.org/project/agent-failure-doctor/
+
+Install command:
+
+```powershell
+python -m pip install agent-failure-doctor
+```
+
+`v3.1.0` remains the previous stable GitHub Release:
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.1.0
 
@@ -33,7 +47,7 @@ git show --stat v2.4.1
 
 If a historical tag does not exist, create it only after confirming the correct commit boundary in the changelog.
 
-Keep `v3.0.1` as a development-track record. `v3.1.0` was published only after the P98 master gate, unit tests, smoke test, safety scan, and GitHub Actions were green. Publish `v3.2.0` only after the auto collector validation, P98 master gate, smoke test, safety scan, and GitHub Actions are green.
+Keep `v3.0.1` as a development-track record. `v3.1.0` was published only after the P98 master gate, unit tests, smoke test, safety scan, and GitHub Actions were green. `v3.2.0` was published after the auto collector validation, P98 master gate, smoke test, safety scan, GitHub Actions, and PyPI release were green.
 
 ## Safety note
 

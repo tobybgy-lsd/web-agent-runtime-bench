@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a new feature or integration.
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      placeholder: I want Agent Failure Doctor to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: Add support for...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Auto Collector
+        - One-click diagnosis
+        - Agent frontend invocation
+        - Codex / Cursor / Claude Code workflow
+        - Playwright trace
+        - Selenium / Puppeteer / Cypress
+        - Scrapy / requests / httpx
+        - RPA / GUI automation
+        - AI handoff / patch proposal
+        - Batch / fleet diagnosis
+        - Sanitize / share
+        - Documentation
+        - Other
+    validations:
+      required: true

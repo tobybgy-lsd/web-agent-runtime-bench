@@ -2,6 +2,15 @@
 
 v3.2.0 adds authorized local evidence collection and one-click diagnosis on top of the v3.1 P98 diagnostic core.
 
+## Quick Install
+
+```powershell
+python -m pip install agent-failure-doctor
+failure-doctor --help
+```
+
+PyPI: [https://pypi.org/project/agent-failure-doctor/](https://pypi.org/project/agent-failure-doctor/)
+
 ## What changed
 
 - Added `failure-doctor collect --project <dir> --preset auto --out <report> --auto-diagnose --auto-handoff --auto-sanitize`.
@@ -15,7 +24,7 @@ v3.2.0 adds authorized local evidence collection and one-click diagnosis on top 
 ## Reproduce
 
 ```powershell
-python -m pip install -e .
+python -m pip install agent-failure-doctor
 python -m tools.validation.run_auto_collector_validation
 python -m tools.validation.run_p98_master_gate
 failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize

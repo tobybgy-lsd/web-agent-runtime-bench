@@ -1,85 +1,145 @@
-name: Submit a sanitized failure case
-description: Share a sanitized failure artifact, log, trace, or description.
+name: Failure case report
+description: Submit a sanitized automation failure case for diagnosis improvement.
 title: "[Failure Case]: "
-labels:
-  - failure-case
-  - needs-triage
+labels: ["failure-case", "needs-triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for sharing a failure case. Please remove secrets before posting.
-        Do not include passwords, API keys, cookies, tokens, authorization headers,
-        private screenshots, customer data, personal data, or private URLs.
-  - type: textarea
-    id: what-failed
-    attributes:
-      label: What failed?
-      description: Briefly describe the automation, agent, crawler, or RPA run that failed.
-      placeholder: The browser agent timed out after clicking Export.
-    validations:
-      required: true
+        Thanks for helping improve Agent Failure Doctor.
+
+        Please only submit sanitized, local, non-sensitive failure materials.
+
+        Do NOT include:
+        - passwords, tokens, cookies, API keys, Authorization headers
+        - private customer data
+        - browser profile files
+        - CAPTCHA bypass, anti-bot evasion, fingerprint spoofing, signature cracking, or protected-platform bypass details
+
+        Install:
+        ```powershell
+        python -m pip install agent-failure-doctor
+        ```
+
+        Recommended local collection:
+        ```powershell
+        failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
+        ```
+
+        Share only the sanitized output. Do not upload raw_local_only_do_not_share.
+
   - type: dropdown
-    id: tool
+    id: framework
     attributes:
-      label: Tool
-      description: Playwright / browser-use / Scrapy / requests / Codex / RPA / other
+      label: Framework / runtime
       options:
         - Playwright
-        - browser-use
+        - Selenium
+        - Puppeteer
+        - Cypress
         - Scrapy
-        - requests
-        - Codex
-        - RPA
-        - other
+        - requests/httpx
+        - browser-use
+        - RPA / GUI automation
+        - Codex / Cursor / Claude Code / AI agent workflow
+        - Other
     validations:
       required: true
-  - type: checkboxes
-    id: input-type
-    attributes:
-      label: Input type
-      description: trace.zip / error.log / console.txt / network.json / screenshot / description
-      options:
-        - label: trace.zip
-        - label: error.log
-        - label: console.txt
-        - label: network.json
-        - label: screenshot
-        - label: description
-  - type: textarea
-    id: expected-result
-    attributes:
-      label: Expected result
-      placeholder: The script should download the report file.
-    validations:
-      required: true
-  - type: textarea
-    id: actual-result
-    attributes:
-      label: Actual result
-      placeholder: The script clicked the button, but no file was saved.
-    validations:
-      required: true
-  - type: textarea
-    id: sanitized-error-excerpt
-    attributes:
-      label: Sanitized error excerpt
-      description: Paste only sanitized excerpts. Remove secrets and private data.
-      render: text
+
   - type: dropdown
-    id: public-test-case
+    id: failure_area
     attributes:
-      label: Can this become a public test case?
+      label: Failure area
       options:
-        - "yes"
-        - "no"
-        - "not sure"
+        - auth / storage state
+        - selector / DOM changed
+        - iframe / shadow DOM / popup
+        - route / HAR / mock
+        - network / proxy / DNS / TLS
+        - timeout / retry / backoff
+        - data shape / JSON / GraphQL
+        - file download / upload
+        - batch / fleet diagnosis
+        - auto collector
+        - AI handoff / patch proposal
+        - sanitize / share pack
+        - anti-bot risk boundary
+        - insufficient evidence
+        - unknown
     validations:
       required: true
-  - type: checkboxes
-    id: sanitized-confirmation
+
+  - type: textarea
+    id: what_happened
     attributes:
-      label: Sanitization confirmation
+      label: What happened?
+      description: Describe the failure in plain language.
+      placeholder: The automation failed when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: I expected it to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands you ran
+      description: Paste commands only. Remove secrets.
+      render: powershell
+      placeholder: |
+        python -m pip install agent-failure-doctor
+        failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
+    validations:
+      required: false
+
+  - type: textarea
+    id: diagnosis_summary
+    attributes:
+      label: Agent Failure Doctor output summary
+      description: Paste relevant lines from diagnosis.md or open_this_first.md. Do not paste raw secrets.
+      placeholder: |
+        failure_type:
+        subtype:
+        confidence:
+        safe_next_action:
+    validations:
+      required: false
+
+  - type: textarea
+    id: sanitized_files
+    attributes:
+      label: Sanitized artifacts
+      description: Describe what sanitized files you can attach. Do not attach raw_local_only_do_not_share.
+      placeholder: sanitized_failure_pack.zip, diagnosis.md, collection_manifest.json
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety checklist
       options:
+        - label: I removed tokens, cookies, passwords, API keys, and Authorization headers.
+          required: true
+        - label: I am not asking for CAPTCHA bypass, anti-bot evasion, fingerprint spoofing, signature cracking, or protected-platform bypass.
+          required: true
+        - label: I am only sharing sanitized/local materials that I am authorized to share.
+          required: true
         - label: I confirm this report contains no credentials/cookies/tokens/private data.
           required: true
+        - label: Can this become a public test case? yes/no/not sure
+          required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        Compatibility note for earlier contributors:
+        Tool: Playwright / browser-use / Scrapy / requests / Codex / RPA / other
+        Input type: trace.zip / error.log / console.txt / network.json / screenshot / description
+        Expected result / Actual result / Sanitized error excerpt

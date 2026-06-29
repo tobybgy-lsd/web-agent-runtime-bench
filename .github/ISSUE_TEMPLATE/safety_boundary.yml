@@ -1,0 +1,25 @@
+name: Safety boundary question
+description: Ask whether a use case is within the project safety boundary.
+title: "[Safety Boundary]: "
+labels: ["safety", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Agent Failure Doctor does not support CAPTCHA bypass, anti-bot evasion, fingerprint spoofing, protected-signature cracking, IP/account pool guidance, or unauthorized platform scraping.
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      placeholder: I want to diagnose...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I am not asking for bypass, evasion, cracking, or unauthorized access.
+          required: true
