@@ -18,6 +18,7 @@ PILLAR_FILES = {
     "ai_handoff_patch_proposal": "ai_handoff_p98_validation.json",
     "batch_fleet_diagnosis": "batch_diagnosis_p98_validation.json",
     "sanitize_share_pack": "sanitize_share_p98_validation.json",
+    "auto_collector_one_click": "auto_collector_validation.json",
 }
 
 
@@ -90,7 +91,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.1.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.2.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -99,7 +100,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v3.1.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v3.2.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -107,7 +108,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.1.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.2.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -122,13 +123,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v3.1.0",
+        "version": "v3.2.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v3.1.0" if overall_status == "pass" else "v2.4.1",
-        "previous_stable_line": "v2.4.1",
+        "current_stable_line": "v3.2.0" if overall_status == "pass" else "v3.1.0",
+        "previous_stable_line": "v3.1.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,

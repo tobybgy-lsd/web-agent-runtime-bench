@@ -4,12 +4,13 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.1.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.2.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.1.0 P98 Master Gate | pass | Current package stable line after P98 master gate completion. |
-| v2.4.1 P95 Alignment & Missing Tracks | previous stable | Published GitHub Release and previous P95 stable line. |
+| v3.2.0 Auto Collector P98 Gate | pass | Current package stable line with one-click local failure collection. |
+| v3.1.0 P98 Master Gate | previous stable | Previous P98 master gate completion line. |
+| v2.4.1 P95 Alignment & Missing Tracks | previous P95 stable | Published GitHub Release and previous P95 stable line. |
 
 ## 2. P95 Completed Gates
 
@@ -34,8 +35,9 @@ Agent Failure Doctor v3.1.0 is the current controlled-maturity stable line.
 | AI Handoff P98 | 100 | 100/100 task packs, 92 patch proposals, proposal-only | 0 | pass | `python -m tools.validation.run_ai_handoff_p98_validation` |
 | Batch / Fleet P98 | 30 batch sets | 30/30 processed, 200-run batch covered | 0 | pass | `python -m tools.validation.run_batch_diagnosis_p98_validation` |
 | Sanitize / Share P98 | 120 | 100% secrets redacted, 0 raw secrets in output | 0 | pass | `python -m tools.validation.run_sanitize_share_p98_validation` |
+| Auto Collector / One-Click P98 | 95 | 95/95 collected, 95/95 preset detected, 0 raw secrets in sanitized output | 0 | pass | `python -m tools.validation.run_auto_collector_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 11 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 12 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 
@@ -79,3 +81,4 @@ These tracks remain part of the public validation record. They are not the P98 m
 `validation/external_public_reference_ledger.json` adds 62 external public reference seeds from official docs, public issues, and Q&A sources. These are not external user submissions to this repository.
 External held-out public-source set results are tracked separately from template and synthetic validation records.
 `validation/external_heldout_10.json` and `validation/external_heldout_20.json` store held-out validation outputs.
+

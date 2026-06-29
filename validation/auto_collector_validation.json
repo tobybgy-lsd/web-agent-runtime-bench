@@ -1,0 +1,20 @@
+{
+  "schema_version": "auto_collector_validation/v1",
+  "version": "v3.2.0",
+  "status": "pass",
+  "total_cases": 95,
+  "collection_success": 95,
+  "preset_detection_correct": 95,
+  "manifest_schema_valid": 95,
+  "out_of_scope_files_collected": 0,
+  "browser_profile_files_collected": 0,
+  "raw_secret_in_sanitized_output": 0,
+  "auto_diagnose_success": 90,
+  "ai_handoff_generated": 95,
+  "open_this_first_generated": 95,
+  "one_click_launcher_smoke": "pass",
+  "watch_mode_smoke": "pass",
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0,
+  "real_platform_access_count": 0
+}

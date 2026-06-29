@@ -1,11 +1,11 @@
 {
-  "version": "v3.1.0",
+  "version": "v3.2.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.1.0",
-  "previous_stable_line": "v2.4.1",
+  "current_stable_line": "v3.2.0",
+  "previous_stable_line": "v3.1.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -80,6 +80,14 @@
       "private_solution_leak_count": 0,
       "real_platform_access_count": 0
     },
+    "auto_collector_one_click": {
+      "status": "pass",
+      "validation_file": "auto_collector_validation.json",
+      "total_cases": 95,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -88,7 +96,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.1.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v3.2.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

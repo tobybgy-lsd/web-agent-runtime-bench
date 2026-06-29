@@ -1,7 +1,18 @@
 # Changelog
 
-> Current package stable line: v3.1.0.
-> v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.2.0.
+> v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.0
+
+- Completed the Auto Collector & One-Click Diagnosis Pack.
+- Added `failure-doctor collect --project <dir> --preset auto --out <report> --auto-diagnose --auto-handoff --auto-sanitize`.
+- Added `failure-doctor watch --project <dir> --out <reports> --once --auto-diagnose` for polling-based local failure capture.
+- Added authorized project-scoped collection manifests, `open_this_first.md`, raw-local-only storage, sanitized packs, diagnosis reports, fix plans, and AI handoff packs.
+- Added Windows one-click launchers under `scripts/windows/`.
+- Added `tools.validation.run_auto_collector_validation` with 95 local fixture cases, 0 out-of-scope files collected, 0 browser profile files collected, 0 raw secrets in sanitized output, and 0 forbidden outputs.
+- Added Auto Collector as a P98 master gate pillar.
+- Kept collection local-only: no uploads, no whole-computer scan, no browser profiles, no credential stores, no dependency folders, and no Git internals.
 
 ## v3.1.0
 
@@ -224,3 +235,4 @@
 - input_summary.json
 - missing_evidence
 - evidence_priority
+

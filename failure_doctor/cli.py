@@ -10,6 +10,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
+from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
 from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_framework_failure
@@ -46,6 +47,10 @@ def main(argv: list[str] | None = None) -> int:
         return verify_inputs(args)
     if args.command == "collect-playwright":
         return collect_playwright_inputs(args)
+    if args.command == "collect":
+        return collect_project_inputs(args)
+    if args.command == "watch":
+        return watch_project_inputs(args)
     if args.command == "adapt":
         return adapt_framework_inputs(args)
     if args.command == "pack-logs":
@@ -93,6 +98,38 @@ def build_parser() -> argparse.ArgumentParser:
     collect = sub.add_parser("collect-playwright", help="Collect Playwright test-results into a failure pack")
     collect.add_argument("test_results", help="Path to Playwright test-results or a failed test artifact folder")
     collect.add_argument("--out", required=True, help="Output failure pack directory")
+    auto_collect = sub.add_parser("collect", help="Collect local project failure evidence into a one-click diagnosis pack")
+    auto_collect.add_argument("--project", required=True, help="Authorized project folder to collect from")
+    auto_collect.add_argument(
+        "--preset",
+        default="auto",
+        choices=["auto", "playwright", "selenium", "scrapy", "requests_httpx", "node_browser", "generic_rpa"],
+        help="Collector preset",
+    )
+    auto_collect.add_argument("--out", required=True, help="Output auto report directory")
+    auto_collect.add_argument("--dry-run", action="store_true", help="Write manifest only without copying raw files")
+    auto_collect.add_argument("--auto-diagnose", action="store_true", help="Run diagnose and plan after collection")
+    auto_collect.add_argument("--auto-handoff", action="store_true", help="Generate Codex/Claude/Cursor handoff after diagnosis")
+    auto_collect.add_argument("--auto-sanitize", action="store_true", help="Generate sanitized failure pack")
+    auto_collect.add_argument("--open-report", action="store_true", help="Open the first report file when supported")
+    auto_collect.add_argument("--broad-scope", action="store_true", help="Allow broad scope folders after explicit user approval")
+    watch = sub.add_parser("watch", help="Watch a project folder and create diagnosis packs for new failure evidence")
+    watch.add_argument("--project", required=True, help="Authorized project folder to watch")
+    watch.add_argument("--out", required=True, help="Output folder for watch reports")
+    watch.add_argument(
+        "--preset",
+        default="auto",
+        choices=["auto", "playwright", "selenium", "scrapy", "requests_httpx", "node_browser", "generic_rpa"],
+        help="Collector preset",
+    )
+    watch.add_argument("--auto-diagnose", action="store_true")
+    watch.add_argument("--auto-handoff", action="store_true")
+    watch.add_argument("--auto-sanitize", action="store_true")
+    watch.add_argument("--debounce-seconds", type=float, default=5.0)
+    watch.add_argument("--max-events", type=int, default=100)
+    watch.add_argument("--once", action="store_true")
+    watch.add_argument("--poll-interval", type=float, default=2.0)
+    watch.add_argument("--ignore", default="node_modules,.git,.venv,__pycache__")
     adapt = sub.add_parser("adapt", help="Normalize Selenium/Puppeteer/Cypress/Scrapy/requests/httpx logs into a failure pack")
     adapt.add_argument("input", help="Path to a framework failure log folder or file")
     adapt.add_argument("--framework", required=True, choices=sorted(SUPPORTED_FRAMEWORKS), help="Source framework or auto")
@@ -104,6 +141,7 @@ def build_parser() -> argparse.ArgumentParser:
     sanitize.add_argument("failed_run", help="Path to a failed run folder or input file")
     sanitize.add_argument("--out", required=True, help="Output shareable failure pack directory")
     run = sub.add_parser("run", help="Run a command and auto-capture a local failure pack")
+    run.add_argument("--capture", action="store_true", help="Compatibility flag: capture the wrapped command output")
     run.add_argument("--workspace", default=".failure-doctor", help="Workspace root for captured runs")
     run.add_argument("--run-id", default=None, help="Stable run identifier")
     run.add_argument("--cwd", default=None, help="Working directory for the wrapped command")
@@ -279,6 +317,62 @@ def handoff_report(args: argparse.Namespace) -> int:
     print(f"Target: {result['selected_target']}")
     print(f"Output: {result['out_dir']}")
     print(f"Bundle: {result['zip_path']}")
+    return 0
+
+
+def collect_project_inputs(args: argparse.Namespace) -> int:
+    try:
+        manifest = collect_project(
+            Path(args.project),
+            Path(args.out),
+            preset=str(args.preset),
+            dry_run=bool(args.dry_run),
+            auto_diagnose=bool(args.auto_diagnose),
+            auto_handoff=bool(args.auto_handoff),
+            auto_sanitize=bool(args.auto_sanitize),
+            open_report=bool(args.open_report),
+            broad_scope=bool(args.broad_scope),
+        )
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Auto Collector")
+    print(f"Preset: {manifest.get('preset')}")
+    print(f"Frameworks: {', '.join(manifest.get('detected_frameworks', []))}")
+    print(f"Signals: {', '.join(manifest.get('detected_failure_signals', []))}")
+    print(f"Output: {args.out}")
+    print(f"Open first: {Path(args.out) / 'open_this_first.md'}")
+    return 0
+
+
+def watch_project_inputs(args: argparse.Namespace) -> int:
+    try:
+        summary = watch_project(
+            Path(args.project),
+            Path(args.out),
+            preset=str(args.preset),
+            auto_diagnose=bool(args.auto_diagnose),
+            auto_handoff=bool(args.auto_handoff),
+            auto_sanitize=bool(args.auto_sanitize),
+            debounce_seconds=float(args.debounce_seconds),
+            max_events=int(args.max_events),
+            once=bool(args.once),
+            poll_interval=float(args.poll_interval),
+            ignore=str(args.ignore),
+        )
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Watch")
+    print(f"Events seen: {summary.get('events_seen')}")
+    print(f"Runs created: {summary.get('runs_created')}")
+    print(f"Output: {args.out}")
     return 0
 
 

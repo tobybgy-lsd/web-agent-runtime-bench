@@ -8,14 +8,13 @@
 
 Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.
 
-- Current milestone: Agent Failure Doctor v3.1 P98 Master Gate
-- Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+- Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate
+- Previous stable line: Agent Failure Doctor v3.1.0 P98 Master Gate.
+- Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Input:** trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 **Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-
-**Core commands:** `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
 
 ## Quickstart
 
@@ -25,29 +24,24 @@ cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 failure-doctor plan .\report --out .\fix_plan
-failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
+failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize
 ```
 
-**Validation:** P98 master gate passed. See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
+See [validation/dashboard.md](validation/dashboard.md), [docs/P98_LIMITS.md](docs/P98_LIMITS.md), and [docs/safety_boundary.md](docs/safety_boundary.md).
+
+P98 master gate passed with the auto collector pillar included.
 
 Advanced commands include `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
-- Lifecycle: `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
-- P98 gate: `knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize -> master gate`
-- Composite diagnosis: primary, secondary, blocking, downstream failures, evidence graph, and repair order.
+**Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` / `watch` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
 
-## Show The Local Failure Lifecycle
+**Classic lifecycle:** `diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
 
-```powershell
-failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --out .\report
-failure-doctor plan .\report --out .\fix_plan
-failure-doctor handoff .\report --target codex --out .\ai_handoff
-failure-doctor propose-patch --repo . --report .\report --out .\patch_plan
-failure-doctor batch .\.failure-doctor\runs --out .\batch_report
-failure-doctor verify --before .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --after .\examples\applied_scenarios\03_ecommerce_listing_automation\rerun_after_fix --out .\verification
-failure-doctor sanitize .\report --out .\shareable_pack
-failure-doctor run -- python .\examples\mock_script_fails.py
-```
+**P98 gate:** `knowledge base -> coverage matrix -> trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector -> master gate`
+
+For non-technical Windows users, double-click `scripts/windows/Start-FailureDoctor-Diagnosis.bat` or drag a failed project folder onto it.
+
+Advanced v3.2 commands include `failure-doctor collect` and `failure-doctor watch`.
 
 Agent Failure Doctor uses a deterministic evidence-based diagnostic engine. It does not claim to solve arbitrary failures, but it provides explainable classification, evidence, fix plans, and before/after verification for known automation failure patterns.
 
@@ -375,7 +369,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.1 P98 Master Gate.
+Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate.
 
 Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
@@ -487,3 +481,4 @@ Run smoke and safety checks:
 scripts\smoke_test.ps1
 scripts\local_safety_scan.ps1
 ```
+

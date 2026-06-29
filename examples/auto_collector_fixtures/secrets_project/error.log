@@ -1,0 +1,3 @@
+Authorization: Bearer DUMMY_SECRET_TOKEN_1234567890
+Cookie: sessionid=secret
+HTTP 401 while opening the authorized test page
