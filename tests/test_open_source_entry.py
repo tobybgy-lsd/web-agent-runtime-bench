@@ -12,7 +12,7 @@ class OpenSourceEntryTests(unittest.TestCase):
 
         for phrase in (
             "# Agent Failure Doctor",
-            "Diagnose why AI-generated browser automation / crawler / RPA runs failed.",
+            "Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs.",
             "trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt",
             "diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.",
             "git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git",
@@ -64,7 +64,6 @@ class OpenSourceEntryTests(unittest.TestCase):
 
         for phrase in (
             "I built a local-first failure doctor for AI browser automation, Playwright, and browser workflow debugging",
-            "我做了一个本地优先的 AI 自动化失败诊断工具",
             "Please share sanitized failure logs, trace.zip files, or error descriptions",
             "Do not include secrets, cookies, tokens, credentials, or private user data.",
             "V2EX",

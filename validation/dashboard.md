@@ -4,19 +4,11 @@ Agent Failure Doctor tracks validation in separate lanes. The lanes are not aver
 
 | Track | Samples | Reasonable Classification | Exact Subtype Match | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Forbidden Output | Tests |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Template fixtures | 150 | 97.3% | n/a | 94.7% | 4 | 21 | 0 | 170+ |
+| Template fixtures | 150 | 97.3% | n/a | 94.7% | 4 | 21 | 0 | 210+ |
 | Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |
 | Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
 | Website-change / anti-bot routing | 50 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
-
-Legacy compatibility row:
-
-| Template/synthetic validation | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
-| Public-inspired independent validation | 50 | 78% | 90% | 4 | 7 | n/a |
-| Real Playwright trace semantic fixtures | 20 | 100% | n/a | 0 | 0 | 198 |
-| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 198 |
-
-The v0.6 addendum is tracked in `validation/website_antibot_validation_50.json`.
+| External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
 
 ## Source Ledger
 
@@ -51,13 +43,23 @@ Current result:
 0 forbidden outputs
 ```
 
+## External Held-Out Track
+
+`validation/external_heldout_10_cases.json` contains 10 public-source records not used to tune the v0.8 rules in this pass. `scripts/validate_external_heldout.py` reruns them and writes `validation/external_heldout_10.json`.
+
+Current result:
+
+```text
+9/10 reasonable classifications
+10/10 actionable next actions
+0 forbidden outputs
+```
+
 ## Notes
 
-- Template/synthetic validation records are sanitized fixtures, not full real-world failure packages.
 - Template fixtures are sanitized regression fixtures, not full real-world private failure packages.
-- public-inspired independent validation remains separate from template metrics.
-- Public-inspired independent validation is a stricter, lower-evidence track and should not be blended into template metrics.
-- Public-inspired independent validation has a conservative shorthand rate of 78%.
+- Public-inspired independent validation remains separate from template metrics.
+- The external held-out set is intentionally small and conservative; it is a trust check, not a broad accuracy claim.
 - Real Playwright trace fixtures use native Playwright trace records and resource snapshots.
 - Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
 - Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.

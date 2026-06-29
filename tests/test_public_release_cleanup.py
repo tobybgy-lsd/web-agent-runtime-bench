@@ -70,10 +70,12 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "0.6.0"',
+            'version = "0.8.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
+            "[project.optional-dependencies]",
+            'trace-gen = ["playwright>=1.45"]',
             "[tool.ruff]",
             "[tool.black]",
         ):
@@ -105,13 +107,14 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "![CI]",
             "![License: MIT]",
             "![Python 3.10+]",
+            "Local-first failure diagnosis",
             "python -m pip install -e .",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
             "GitHub issue draft",
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
             self.assertIn(phrase, top)
-        for marker in ("閳", "鏀", "娑", "閸", "缁"):
+        for marker in ("闁", "閺", "濞", "缂", "涓"):
             self.assertNotIn(marker, readme)
 
     def test_readme_zh_cn_links_back_to_english(self):
@@ -124,14 +127,12 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
         for phrase in (
             "# Validation Dashboard",
-            "| Template/synthetic validation | 150 | 97.3% | 94.7% | 4 | 21 | 170 |",
-            "| Public-inspired independent validation | 50 | 78% | 90% | 4 | 7 | n/a |",
-            "| Real Playwright trace semantic fixtures | 20 | 100% | n/a | 0 | 0 | 198 |",
-            "| v0.6.0 website-change / anti-bot routing | 50 | 100% | 100% | 0 | 0 | 198 |",
-            "validation/website_antibot_validation_50.json",
-            "public-inspired independent validation",
-            "Template/synthetic validation records",
-            "not full real-world failure packages",
+            "| Template fixtures | 150 | 97.3% | n/a | 94.7% | 4 | 21 | 0 | 210+ |",
+            "| Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |",
+            "| Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |",
+            "| External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |",
+            "validation/external_heldout_10.json",
+            "not full real-world private failure packages",
         ):
             self.assertIn(phrase, text)
 

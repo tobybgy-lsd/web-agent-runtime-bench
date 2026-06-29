@@ -33,13 +33,14 @@ report/
 `-- failure_doctor_report.zip
 ```
 
-## v0.8 验证状态
+## v0.8.0 验证状态
 
 - 131 条 source ledger 记录，并区分真实公开 issue、官方文档行为边界、public-inspired sanitized 记录
 - 50 条可追溯真实公开 issue 记录
 - 30 个由 Playwright 原生生成的 `trace.zip` fixtures
 - 真实 trace 验证：30/30 合理分类
 - 真实 trace 验证：30/30 精确 subtype
+- external held-out 验证：10 条公开来源记录，9/10 合理分类，10/10 可执行下一步
 - 生成报告和 Prompt 的 forbidden output 为 0
 
 详见 [validation/dashboard.md](validation/dashboard.md) 和 [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md)。
@@ -50,6 +51,7 @@ report/
 python -m pip install -e .[trace-gen]
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
+python scripts\validate_external_heldout.py
 ```
 
 ## 安全边界
@@ -81,3 +83,5 @@ python -m tools.validation.run_real_trace_validation
 - 是否可以变成公开测试案例
 
 不要提交密码、cookie、token、authorization header、API key、私有 URL、个人数据或客户数据。
+
+欢迎提交脱敏后的失败日志、trace.zip 或错误描述；适合公开的案例会加入 validation corpus。

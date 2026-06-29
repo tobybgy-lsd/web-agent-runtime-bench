@@ -1,0 +1,96 @@
+{
+  "schema_version": "external-heldout/v0.8-cases",
+  "method": "Public-source held-out records. Sanitized summaries only; not copied private traces. These records were not used to tune rules in this pass.",
+  "cases": [
+    {
+      "case_id": "HOLD_001",
+      "source_url": "https://github.com/microsoft/playwright/issues/41449",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "toolchain_environment",
+      "raw_error_excerpt": "Docker image NodeJS version mismatch; browser executable missing; playwright install needed",
+      "notes": "Docker/runtime mismatch should route to environment/toolchain."
+    },
+    {
+      "case_id": "HOLD_002",
+      "source_url": "https://github.com/microsoft/playwright/issues/41428",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "toolchain_environment",
+      "raw_error_excerpt": "npx playwright install freezes after extracting browser archive; executable does not exist",
+      "notes": "Install/executable failure should not be treated as page failure."
+    },
+    {
+      "case_id": "HOLD_003",
+      "source_url": "https://github.com/microsoft/playwright/issues/41441",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "playwright_browser_context_closed",
+      "raw_error_excerpt": "Target page, context or browser has been closed after Edge crashed before finishing test execution",
+      "notes": "Browser lifecycle crash."
+    },
+    {
+      "case_id": "HOLD_004",
+      "source_url": "https://github.com/microsoft/playwright/issues/41422",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "cdp_websocket_disconnected",
+      "raw_error_excerpt": "connectOverCDP timeout; CDP WebSocket silent disconnect; cannot list tabs",
+      "notes": "CDP transport/session failure."
+    },
+    {
+      "case_id": "HOLD_005",
+      "source_url": "https://github.com/browser-use/browser-use/issues/5033",
+      "source_family": "browser-use GitHub Issues",
+      "input_type": "log",
+      "expected_category": "toolchain_environment",
+      "raw_error_excerpt": "CLI installer prepends private virtualenv to PATH and shadows Python; ModuleNotFoundError",
+      "notes": "PATH/runtime environment issue."
+    },
+    {
+      "case_id": "HOLD_006",
+      "source_url": "https://github.com/browser-use/browser-use/issues/5017",
+      "source_family": "browser-use GitHub Issues",
+      "input_type": "log",
+      "expected_category": "insufficient_evidence",
+      "raw_error_excerpt": "Invalid JSON from model output while browser agent is running",
+      "notes": "Model-output parse issue without browser evidence should be downgraded or unknown rather than guessed."
+    },
+    {
+      "case_id": "HOLD_007",
+      "source_url": "https://github.com/microsoft/playwright/issues/41447",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "playwright_route_mock_har",
+      "raw_error_excerpt": "Browser cookie store ignored when intercepting requests using page.route; route mock request missing session cookie",
+      "notes": "Known current limit: mixed route interception and cookie-store symptom is not confidently diagnosed from a short log."
+    },
+    {
+      "case_id": "HOLD_008",
+      "source_url": "https://github.com/microsoft/playwright/issues/41493",
+      "source_family": "Playwright GitHub Issues",
+      "input_type": "log",
+      "expected_category": "website_change",
+      "raw_error_excerpt": "locator.click: TimeoutError button not found after layout release; old selector resolved to 0 elements",
+      "notes": "Layout/rendering change causing stale locator."
+    },
+    {
+      "case_id": "HOLD_009",
+      "source_url": "https://stackoverflow.com/search?q=Playwright+download.saveAs+ENOENT",
+      "source_family": "Stack Overflow search",
+      "input_type": "log",
+      "expected_category": "playwright_download",
+      "raw_error_excerpt": "download.saveAs ENOENT no such file or directory; download path missing",
+      "notes": "Download persistence/path failure."
+    },
+    {
+      "case_id": "HOLD_010",
+      "source_url": "https://stackoverflow.com/search?q=Playwright+HTTP+429+too+many+requests",
+      "source_family": "Stack Overflow search",
+      "input_type": "log",
+      "expected_category": "anti_bot_risk",
+      "raw_error_excerpt": "HTTP 429 too many requests after repeated automated requests; rate limit",
+      "notes": "Rate-limit / platform-risk routing."
+    }
+  ]
+}

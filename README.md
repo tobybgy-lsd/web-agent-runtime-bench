@@ -6,30 +6,13 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 
-Diagnose why AI-generated browser automation / crawler / RPA runs failed.
-
-diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-
-```powershell
-git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
-cd web-agent-runtime-bench
-python -m pip install -e .
-failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
-```
+Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
-`trace.zip` / `error.log` / `console.txt` / `network.json` / screenshot metadata / `user_description.txt`
-
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-
-diagnosis, evidence, next action, repair suggestions, GitHub issue draft, and Codex fix prompt.
-
-See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics.
-
-## Quickstart
 
 ```powershell
 git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git
@@ -37,6 +20,8 @@ cd web-agent-runtime-bench
 python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
+
+See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics.
 
 ## What You Get
 
@@ -52,7 +37,7 @@ report/
 `-- failure_doctor_report.zip
 ```
 
-Agent Failure Doctor is local-first. It turns sanitized automation failure materials into a report that explains what likely failed, what evidence supports the diagnosis, what evidence is missing, and what to ask Codex or another coding assistant to change next.
+Agent Failure Doctor turns sanitized automation failure materials into a report that explains what likely failed, what evidence supports the diagnosis, what evidence is missing, and what to ask Codex or another coding assistant to change next.
 
 ## One-Minute Start
 
@@ -128,24 +113,27 @@ Codex fix prompt: add trace/log capture and make proxy configuration explicit.
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v0.8 Real Data & Real Trace Validation Pack.
+Current milestone: Agent Failure Doctor v0.8.0 Real Data & Native Playwright Trace Validation.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
 - 30 native Playwright-generated `trace.zip` fixtures
 - 30/30 real trace reasonable classifications
 - 30/30 real trace exact subtype matches
+- 10 external held-out public-source records
+- 9/10 external held-out reasonable classifications
+- 10/10 external held-out actionable next actions
 - 0 forbidden outputs in generated reports/prompts
-- smoke test and local safety scan passing
+- GitHub Actions green across Ubuntu, macOS, Windows, plus Windows benchmark/smoke/safety
 
-See [validation/dashboard.md](validation/dashboard.md) and [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for validation metrics, limits, and boundaries.
+See [docs/VALIDATION_REPORT.md](docs/VALIDATION_REPORT.md) for validation metrics, limits, and boundaries.
 
-## Reproduce Real Trace Validation
+## Reproduce Validation
 
 ```powershell
-python -m pip install -e .[trace-gen]
 python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
 python -m tools.validation.run_real_trace_validation
+python scripts\validate_external_heldout.py
 ```
 
 ## Safety Boundary
@@ -175,6 +163,8 @@ Open a Failure case issue and remove secrets before posting:
 - authorization headers
 - private screenshots
 - personal data
+
+Welcome sanitized failure logs, trace.zip files, or error descriptions. Suitable public cases may be added to the validation corpus.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/REAL_TRACE_CONTRIBUTION_GUIDE.md](docs/REAL_TRACE_CONTRIBUTION_GUIDE.md), and [docs/REAL_DATA_SOURCES.md](docs/REAL_DATA_SOURCES.md).
 

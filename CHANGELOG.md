@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.8.0
+
+- Added a 131-record source ledger:
+  - 50 `real_public_issue`
+  - 10 `official_doc_pattern`
+  - 71 `public_inspired_sanitized`
+- Added 30 native Playwright-generated `trace.zip` fixtures.
+- Added real trace semantic validation runner.
+- Added native-trace validation coverage for storage/context, route/HAR, shadow DOM, website-change, environment, and anti-bot risk routing.
+- Real trace validation:
+  - 30/30 reasonable classification
+  - 30/30 exact subtype match
+  - 0 forbidden outputs
+- Added external held-out validation:
+  - 10 public-source held-out records
+  - 9/10 reasonable classification
+  - 10/10 actionable next action
+  - 0 forbidden outputs
+- GitHub Actions:
+  - Ubuntu / macOS / Windows unit tests
+  - Windows benchmark / smoke / safety
+
 ## v0.6.0
 
 - Added Website Change diagnosis layer.

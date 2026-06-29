@@ -108,6 +108,37 @@ Covered paths:
 - website response/API/login/download changes
 - rate limit, challenge page, dynamic signature risk
 
+## v0.8 External Held-Out Validation
+
+The held-out track is intentionally small. It uses 10 public-source records that were not used to tune rules in this pass. Inputs are sanitized summaries derived from public issue symptoms; they are not copied private traces.
+
+Artifacts:
+
+- `validation/external_heldout_10_cases.json`
+- `validation/external_heldout_10.json`
+- `scripts/validate_external_heldout.py`
+
+Reproduce:
+
+```powershell
+python scripts\validate_external_heldout.py
+```
+
+Current result:
+
+| Metric | Result |
+|---|---:|
+| Held-out records | 10 |
+| Reasonable classifications | 9 |
+| Reasonable classification rate | 90.0% |
+| Actionable next actions | 10 |
+| Actionable next action rate | 100.0% |
+| Severe misclassifications | 0 |
+| Insufficient evidence cases | 2 |
+| Forbidden outputs | 0 |
+
+The non-reasonable held-out case is retained to show a real current limit: a mixed route-interception + cookie-store symptom does not yet produce a confident route/storage diagnosis from a short log-only summary.
+
 ## Website Change + Anti-Bot Risk Addendum
 
 The v0.6 addendum is tracked separately in `validation/website_antibot_validation_50.json`.
