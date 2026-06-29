@@ -69,4 +69,10 @@ All integrations are local-first artifact normalizers. They read local files and
 
 ## CI
 
-Pending push and GitHub Actions verification.
+GitHub Actions passed after push:
+
+- Workflow: `benchmark`
+- Run id: `28346515943`
+- Branch: `main`
+- Commit: `0f0895c`
+- Result: success
