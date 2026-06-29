@@ -8,17 +8,19 @@
 
 Local-first failure diagnosis, repair planning, and fix verification for AI browser automation, Playwright, crawler, RPA, and business automation runs.
 
-Current stable milestone: Agent Failure Doctor v3.0.0 P98 Controlled Maturity Pack
+Current milestone: Agent Failure Doctor v3.0.1 Public Alignment & P98 Track Separation Pack
+
+Development track: v3.0 P98 Controlled Maturity Pack. P98 is in progress, not a final passed master gate.
 
 Input:
 trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt
 
 Output:
 diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
-v2.5: AI handoff. v2.6: batch/fleet reports. v3.0: P98 controlled maturity gates.
+Additional outputs include AI handoff task packs and batch/fleet reports.
 
 Core commands:
-`diagnose` / `batch` / `plan` / `handoff` / `propose-patch` / `verify` / `run` / `sanitize` / `adapt`
+`diagnose` / `plan` / `verify` / `run` / `sanitize` / `adapt` / `handoff` / `propose-patch` / `batch`
 
 Lifecycle:
 `capture/adapt -> diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share`
@@ -30,17 +32,17 @@ python -m pip install -e .
 failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report
 ```
 
-Full command names include `failure-doctor diagnose`, `failure-doctor batch`, `failure-doctor plan`, `failure-doctor handoff`, `failure-doctor propose-patch`, `failure-doctor verify`, `failure-doctor run`, `failure-doctor sanitize`, and `failure-doctor adapt`.
+See [validation/dashboard.md](validation/dashboard.md) for stable/P95/P98 validation tracks, [docs/safety_boundary.md](docs/safety_boundary.md) for safety boundaries, and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
 
-See [validation/dashboard.md](validation/dashboard.md) for release-level validation metrics and [validation/external_validation_dashboard.md](validation/external_validation_dashboard.md) for accepted external failure cases.
+Full command names include `failure-doctor diagnose`, `failure-doctor plan`, `failure-doctor verify`, `failure-doctor run`, `failure-doctor sanitize`, `failure-doctor adapt`, `failure-doctor handoff`, `failure-doctor propose-patch`, and `failure-doctor batch`.
 
-P98 gates:
-`scorecard -> knowledge base -> coverage matrix -> trace/cross-framework/counterfactual hardening`
+P98 development gates:
+`scorecard -> knowledge base -> coverage matrix -> future P98 master gate`
 
 Composite diagnosis:
 Agent Failure Doctor can report primary, secondary, blocking, and downstream failures for complex cases. It keeps legacy single-failure fields for compatibility, while exposing an evidence graph and repair order for advanced diagnosis.
 
-Show the v2.1 lifecycle:
+Show the local failure lifecycle:
 
 ```powershell
 failure-doctor diagnose .\examples\applied_scenarios\03_ecommerce_listing_automation\failed_run --out .\report

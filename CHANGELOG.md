@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.0.1
+
+- Aligned public project positioning around Agent Failure Doctor v3.0.1.
+- Separated stable validation tracks, completed P95 gates, and P98 development tracks in the validation dashboard.
+- Added release-note drafts for v3.0.1 and a release publication checklist for historical v2.4.1, v2.5.0, v2.6.0, v3.0.0, and v3.0.1 milestones.
+- Added `validation/p98_master_gate.json` as an explicit in-progress P98 master gate placeholder instead of claiming a final P98 pass.
+- Added tests that lock version/readme/dashboard/release-note/P98-gate alignment.
+
 ## v3.0.0
 
 - Started the P98 Controlled Maturity Pack.

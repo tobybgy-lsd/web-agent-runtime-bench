@@ -1,369 +1,71 @@
 # Validation Dashboard
 
-Agent Failure Doctor tracks validation in separate lanes. The lanes are not averaged together because they measure different evidence quality levels.
+Agent Failure Doctor keeps validation lanes separate. Stable tracks, completed P95 gates, and P98 development tracks measure different levels of evidence, so there is no single averaged accuracy score.
 
-| Track | Samples | Reasonable Classification | Exact Subtype Match | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Forbidden Output | Tests |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Template fixtures | 150 | 97.3% | n/a | 94.7% | 4 | 21 | 0 | 210+ |
-| Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |
-| Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
-| Website-change / anti-bot routing | 50 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |
-| External public reference validation | 20 | 100.0% | n/a | 100.0% | 0 | 0 | 0 | 210+ |
-| External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |
-| Resolution validation | 12 | 100.0% status correct | n/a | 100.0% | 0 | 0 | 0 | 220+ |
-| Applied scenario validation | 18 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 230+ |
-| Integration adapters | 4 adapters | smoke-tested | n/a | diagnosable failure packs | 0 | n/a | 0 | 240+ |
-| Cross-framework adapter validation | 42 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 270+ |
-| Cross-framework P95 validation | 100 | 100.0% | n/a | 100.0% + valid fix plans | 0 | 0 | 0 | 290+ |
-| Spiderbuf-inspired validation | 10 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 280+ |
-| Training challenge P95 validation | 40 | 100.0% | n/a | 100.0% fix plan + verification | 0 | 0 | 0 | 290+ |
-| Playwright Trace Doctor P95 validation | 100 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 290+ |
-| Composite Diagnosis P95 Strict | 160 | 100.0% primary | 100.0% repair order | 100.0% evidence graph | 0 | 0 | 0 | 290+ |
-| P95 Core Triad Gate | 5 pillars | pass | pass | pass | 0 | 0 | 0 | 290+ |
-| AI Handoff & Patch Proposal | 20 | 20/20 task packs | 18/20 patch proposals | 20/20 required sections + token budgets | 0 | 0 | 0 | 290+ |
-| Batch Diagnosis / Fleet Mode | CLI fixture | 4/4 diagnosed | repeated failures detected | regression + repair priority generated | 0 | 0 | 0 | 300+ |
-| P98 Controlled Maturity Skeleton | Scorecard + knowledge base + coverage matrix | 140 knowledge patterns | 20 crawler categories / 200 mapped cases | P98 gates documented | 0 | 0 | 0 | 300+ |
+## A. Stable Core Tracks
+
+| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
+|---|---:|---|---:|---|---|---|
+| Template fixtures | 150 | 97.3% reasonable, 94.7% actionable | 0 | pass | `python -m unittest tests.test_sanitized_failure_pack_templates` | Sanitized template coverage with 4 severe misclassifications and 21 insufficient-evidence cases tracked separately. |
+| Public-inspired independent set | 50 | 78.0% reasonable, 90.0% actionable | 0 | pass | `python -m tools.validation.run_validation_hardening` | Public-inspired sanitized records, not raw public traces. |
+| Real Playwright trace semantic fixtures | 30 | 30/30 reasonable, 30/30 exact subtype | 0 | pass | `python -m tools.validation.run_real_trace_validation` | Native local `trace.zip` fixtures without synthetic classifier-only fields. |
+| Website-change / anti-bot routing | 50 | 50/50 reasonable, 50/50 safe next actions | 0 | pass | `python scripts/validate_website_antibot.py` | Anti-bot risk is detection, routing, and compliant next action only. |
+| External public reference validation | 20 | 20/20 reasonable, 20/20 actionable | 0 | pass | `python -m tools.validation.run_external_public_reference_validation` | Traceable public reference records selected from the external source ledger. |
+| External held-out public-source set | 10 | 9/10 reasonable, 10/10 actionable | 0 | pass | `python scripts/validate_external_heldout.py` | Held-out short records; remaining miss is kept visible instead of hidden. |
+| Resolution validation | 12 | 12/12 verification statuses correct | 0 | pass | `python -m tools.validation.run_resolution_validation` | Before/after local fixtures for resolved, unresolved, partial, and changed-failure outcomes. |
+| Applied scenario validation | 18 | 18/18 diagnosis, fix plan, and verification checks | 0 | pass | `python -m tools.validation.run_applied_scenario_validation` | Local-only applied automation scenarios; not real platform workflows. |
+| Integration adapters | 4 adapters | Collector/packer/browser-agent adapters smoke-tested | 0 | pass | `python -m unittest tests.test_playwright_collector tests.test_generic_log_pack_adapter tests.test_browser_use_adapter` | Workflow entrypoint adapters produce diagnosable local failure packs. |
+| Cross-framework adapter validation | 42 | 42/42 reasonable, 42/42 actionable, 42/42 fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_validation` | Selenium, Puppeteer, Cypress, Scrapy, requests, httpx, browser-use, and generic RPA logs. |
+| Spiderbuf-inspired validation | 10 | 10/10 reasonable, 10/10 fix plan, 10/10 verification | 0 | pass | `python -m tools.validation.run_spiderbuf_inspired_validation` | Local-only public-training-inspired mock failures; no real spiderbuf.cn access or private solution logic. |
+
+## B. P95 Completed Gates
+
+| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
+|---|---:|---|---:|---|---|---|
+| Playwright Trace Doctor P95 validation | 100 | 100/100 reasonable, 100/100 exact subtype, 100/100 actionable | 0 | pass | `python -m tools.validation.run_playwright_trace_p95_validation` | Deepest native backend remains Playwright trace semantics. |
+| Cross-framework P95 validation | 100 | 100/100 reasonable, 100/100 actionable, 100/100 valid fix plans | 0 | pass | `python -m tools.validation.run_cross_framework_p95_validation` | Broad adapter coverage through normalized logs/failure packs. |
+| Training challenge P95 validation | 40 | 40/40 reasonable, 40/40 fix plan, 40/40 verification, 0 private leaks | 0 | pass | `python -m tools.validation.run_training_challenge_validation` | Training challenge sedimentation without publishing private solutions. |
+| Composite Diagnosis P95 Strict | 160 | 160/160 primary, repair order, and evidence graph checks | 0 | pass | `python -m tools.validation.run_composite_diagnosis_p95_strict_validation` | Primary/secondary/blocking/downstream/evidence-graph validation. |
+| P95 Core Triad Gate | 5 pillars | `overall_status=pass` | 0 | pass | `python -m tools.validation.run_p95_core_triage_gate` | Machine-readable P95 summary gate. |
+| AI Handoff & Patch Proposal | 20 | 20/20 Codex tasks, 20/20 Claude Code tasks, 20/20 Cursor tasks, 18/20 patch proposals | 0 | pass | `python -m tools.validation.run_ai_handoff_validation` | Proposal-only AI coding assistant handoff; does not edit source files. |
+| Batch Diagnosis / Fleet Mode | CLI fixture | repeated failures detected, regression suggestions, repair priority generated | 0 | pass | `python -m unittest tests.test_batch_diagnosis_fleet_mode` | Fleet summary for local folders of failed runs. |
+
+## C. P98 Development Tracks
+
+| Track | Samples / Cases | Key Metric | Forbidden Output | Status | Reproduce Command | Notes |
+|---|---:|---|---:|---|---|---|
+| P98 Controlled Maturity Skeleton | scorecard + KB + matrix | 140 knowledge patterns, 20 crawler categories, 200 mapped crawler cases | 0 | in_progress | `python -m unittest tests.test_p98_scorecard tests.test_knowledge_base_patterns tests.test_crawler_failure_coverage_matrix` | Development track only; not the final P98 master gate. |
+| Failure Knowledge Base | 140 patterns | schema-valid, searchable, anti-bot safety declared | 0 | in_progress | `python -m tools.knowledge_base.validate_patterns` | Local-only diagnostic knowledge; no bypass or credential guidance. |
+| Crawler Failure Coverage Matrix | 20 categories / 200 mapped cases | matrix generated and documented | 0 | in_progress | `python -m tools.validation.run_crawler_failure_coverage_matrix` | Coverage taxonomy, not a crawler execution system. |
+| Future P98 Master Gate | pending | `overall_status=in_progress` | 0 | in_progress | `type validation\p98_master_gate.json` | Placeholder gate until the P98 completion pack produces final pass metrics. |
+
+## Machine-Readable Gates
+
+- v1.3 Validation Hardening Gate: `validation/v1_3_validation_hardening.json` keeps evidence tiers separate and does not publish a single averaged score.
+- P95 gate: `validation/p95_core_triage_gate.json` currently has `overall_status=pass`.
+- P98 gate: `validation/p98_master_gate.json` currently has `overall_status=in_progress`.
 
 ## Source Ledger
 
 `validation/source_ledger_real_failures.json` separates real public sources from sanitized validation records.
 `validation/external_public_reference_ledger.json` adds 62 external public reference seeds from official docs, public issues, and Q&A sources. These are not external user submissions to this repository.
+`validation/external_heldout_10.json` and `validation/external_heldout_20.json` store the current held-out validation outputs.
 
 | Source Type | Count | Meaning |
 |---|---:|---|
 | `real_public_issue` | 50 | Public GitHub issue URLs used as traceable symptoms and category evidence |
 | `official_doc_pattern` | 10 | Official documentation URLs used as behavior boundaries |
 | `public_inspired_sanitized` | 71 | Sanitized regression records inspired by public patterns, not claimed as raw public issues |
-| Total | 131 | Mixed source ledger for v0.8 evidence tracking |
+| Total | 131 | Mixed source ledger for evidence tracking |
 
-## Real Trace Track
+## Release Notes
 
-The real trace track is generated by `tools/real_trace_generation/generate_real_trace_fixtures.py` using Python Playwright against a local-only HTTP server. The generated artifacts are native `trace.zip` files and do not contain custom classifier observation fields such as `storageStateExpected`, `routeRegistered`, or `shadowHost`.
+Prepared release-note drafts:
 
-Reproduce:
+- `docs/RELEASE_NOTES_v2.4.1.md`
+- `docs/RELEASE_NOTES_v2.5.0.md`
+- `docs/RELEASE_NOTES_v2.6.0.md`
+- `docs/RELEASE_NOTES_v3.0.0.md`
+- `docs/RELEASE_NOTES_v3.0.1.md`
 
-```powershell
-python -m tools.real_trace_generation.generate_real_trace_fixtures --out .\examples\realistic_playwright_traces --count 30 --clean
-python -m tools.validation.run_real_trace_validation
-```
-
-Current result:
-
-```text
-30/30 reasonable classifications
-30/30 exact subtype matches
-30/30 actionable next actions
-0 severe misclassifications
-0 insufficient-evidence cases
-0 forbidden outputs
-```
-
-## External Held-Out Track
-
-`validation/external_heldout_10_cases.json` contains 10 public-source records not used to tune the v0.8 rules in this pass. `scripts/validate_external_heldout.py` reruns them and writes `validation/external_heldout_10.json`.
-`validation/external_heldout_20_cases.json` contains 20 v0.9 external public reference records selected from the 62-source seed ledger. `tools.validation.run_external_public_reference_validation` reruns them and writes `validation/external_heldout_20.json`.
-
-Current result:
-
-```text
-20/20 external public reference reasonable classifications
-20/20 external public reference actionable next actions
-0 external public reference forbidden outputs
-
-9/10 reasonable classifications
-10/10 actionable next actions
-0 forbidden outputs
-```
-
-## Composite Diagnosis Track
-
-`examples/composite_failure_cases_p95/` and `examples/composite_adversarial_cases/` contain local-only mock composite failures. They validate primary, secondary, blocking, downstream, repair-order, and evidence-graph behavior without accessing real sites or publishing private challenge solutions.
-
-Current result:
-
-```text
-Composite Diagnosis P95 Strict:
-160/160 primary classifications correct
-160/160 repair-order checks correct
-160/160 evidence graphs valid
-0 forbidden outputs
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_composite_diagnosis_p95_strict_validation
-```
-
-## P95 Core Triad Gate
-
-`validation/p95_core_triage_gate.json` is the machine-readable entry point for the current P95 alignment pack. It aggregates Playwright Trace Doctor P95, Cross-Framework P95, Training Challenge P95, Composite Diagnosis P95 Strict, and the safety boundary.
-
-Current result:
-
-```text
-overall_status=pass
-playwright_trace_doctor=pass
-cross_framework_adapters=pass
-training_challenge_sedimentation=pass
-composite_diagnosis=pass
-safety_boundary=pass
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_p95_core_triage_gate
-```
-
-## AI Handoff & Patch Proposal
-
-v2.5 adds a proposal-only repair handoff layer. It converts existing diagnosis, fix plan, repair order, and evidence graph outputs into AI coding assistant task packs and dry-run patch proposals.
-
-Current result:
-
-```text
-20/20 Codex task files generated
-20/20 Claude Code task files generated
-20/20 Cursor task files generated
-18/20 patch proposals generated
-20/20 required sections present
-20/20 concise token budget checks pass
-0 forbidden outputs
-```
-
-Reproduce:
-
-```powershell
-failure-doctor handoff .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --target codex --out .\tmp\ai_handoff
-failure-doctor propose-patch --repo . --report .\sample_reports\composite_showcase\auth_redirect_plus_selector_timeout --out .\tmp\patch_plan
-python -m tools.validation.run_ai_handoff_validation
-python -m unittest tests.test_ai_handoff_patch_proposal
-```
-
-Safety boundary: this track does not edit source files, apply patches, run tests on behalf of the user, open pull requests, or provide bypass-oriented actions.
-
-## Batch Diagnosis / Fleet Mode
-
-v2.6 adds `failure-doctor batch <runs_dir> --out <batch_report>` for local folders of failed runs. It writes a fleet-level summary, repeated-failure groups, top root causes, repair priority, suggested regression cases, and per-run reports.
-
-Reproduce:
-
-```powershell
-python -m unittest tests.test_batch_diagnosis_fleet_mode
-```
-
-## P98 Controlled Maturity
-
-v3.0 starts the P98 controlled maturity track with machine-checkable gates for scorecard, failure knowledge base, and crawler failure coverage matrix.
-
-Reproduce:
-
-```powershell
-python -m unittest tests.test_p98_scorecard tests.test_knowledge_base_patterns tests.test_crawler_failure_coverage_matrix
-python -m tools.knowledge_base.validate_patterns
-python -m tools.validation.run_crawler_failure_coverage_matrix
-```
-
-Current metrics:
-
-```text
-knowledge patterns: 140
-crawler matrix categories: 20
-mapped crawler cases: 200
-forbidden output count: 0
-```
-
-## Playwright Trace Doctor P95 Validation
-
-`validation/playwright_trace_p95_validation.json` records the 100-case P95 trace-doctor gate. This track is local and sanitized; it does not claim private user traces.
-
-Current result:
-
-```text
-100 Playwright trace fixtures
-100/100 reasonable classifications
-100/100 exact subtype checks
-100/100 actionable next actions
-0 forbidden outputs
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_playwright_trace_p95_validation
-```
-
-## Resolution Validation Track
-
-`examples/resolution_validation_cases/` contains 12 local before/after cases. `tools.validation.run_resolution_validation` runs `failure-doctor verify` for each case and writes `validation/resolution_validation_12.json`.
-
-Current result:
-
-```text
-12/12 verification statuses correct
-12/12 actionable next steps
-0 forbidden outputs
-```
-
-## Applied Scenario Validation Track
-
-`examples/applied_scenarios/` contains six local-only mock scenario families with 18 before/after cases. `tools.validation.run_applied_scenario_validation` runs `failure-doctor diagnose`, `failure-doctor plan`, and `failure-doctor verify` for each case and writes `validation/applied_scenario_validation.json`.
-
-Current result:
-
-```text
-18/18 reasonable classifications
-18/18 valid fix plans
-18/18 correct verification statuses
-0 forbidden outputs
-```
-
-## Integration Adapter Track
-
-The v1.2 integration track adds local adapters for workflow entrypoints:
-
-- Playwright test-results collector: `failure-doctor collect-playwright`
-- Generic raw log folder packer: `failure-doctor pack-logs`
-- browser-use / browser-agent log adapter
-- GitHub Actions usage documentation
-
-Current result:
-
-```text
-Playwright collector produces a diagnosable failure pack
-Generic log packer produces a diagnosable failure pack
-browser-use adapter produces diagnosable failure packs for download and repeated-action failures
-GitHub Actions docs include local-first diagnosis usage
-0 forbidden outputs in integration docs/adapters
-```
-
-## Cross-Framework Adapter Track
-
-`failure-doctor adapt <input> --framework <framework> --out <failure_pack>` normalizes local failure logs from Selenium, Puppeteer, Cypress, Scrapy, requests, and httpx into the same diagnosis, plan, verify, and sanitize lifecycle.
-
-Current result:
-
-```text
-42 cross-framework fixtures
-42/42 reasonable classifications
-42/42 actionable next actions
-42/42 valid fix plans
-0 severe misclassifications
-0 forbidden outputs
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_cross_framework_validation
-python -m tools.validation.run_cross_framework_p95_validation
-```
-
-P95 result:
-
-```text
-100 cross-framework fixtures
-Selenium 25 / Puppeteer 25 / Cypress 20 / Scrapy+requests+httpx 20 / browser-use+generic RPA 10
-100/100 reasonable classifications
-100/100 valid fix plans
-0 forbidden outputs
-```
-
-## Spiderbuf-Inspired Challenge Validation Track
-
-`examples/spiderbuf_inspired_challenges/` contains local-only mock failure packs inspired by public crawler-training challenge categories. The cases validate diagnosis, fix-plan generation, before/after verification, and safety boundaries without accessing spiderbuf.cn or publishing private solution logic.
-
-Current result:
-
-```text
-10 Spiderbuf-inspired fixtures
-10/10 reasonable classifications
-10/10 valid fix plans
-10/10 correct verification statuses
-0 forbidden outputs
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_spiderbuf_inspired_validation
-python -m tools.validation.run_training_challenge_validation
-```
-
-P95 result:
-
-```text
-40 training challenge fixtures
-20 Spiderbuf-inspired local-only cases
-20 generic crawler-training local-only cases
-40/40 reasonable classifications
-40/40 valid fix plans
-40/40 verification statuses correct
-0 forbidden outputs
-0 private solution leaks
-```
-
-## v1.3 Validation Hardening Gate
-
-`tools.validation.run_validation_hardening` aggregates the validation tracks into `validation/v1_3_validation_hardening.json`.
-
-This gate is intentionally a multi-track summary with no single averaged accuracy score. Template fixtures, public-inspired records, native Playwright traces, resolution fixtures, applied scenarios, external public references, and workflow integration smoke tests keep separate evidence tiers and thresholds.
-
-Current result:
-
-```text
-10/10 validation tracks pass
-0 forbidden outputs across gated tracks
-regression backlog entries are marked safe_to_publish=false by default
-```
-
-Reproduce:
-
-```powershell
-python -m tools.validation.run_validation_hardening
-```
-
-## v2.0 Auto Capture Smoke
-
-`failure-doctor run -- <command>` captures local command output into `.failure-doctor/runs/<run_id>/`.
-
-Current smoke behavior:
-
-```text
-failed command keeps original child exit code
-stdout.log and stderr.log are written
-diagnosis/ and fix_plan/ are generated for failed commands
-safe_to_share.json defaults to false
-basic bearer-token redaction is covered by tests
-```
-
-## v2.1 Sanitize & Share Smoke
-
-`failure-doctor sanitize <failed_run> --out <shareable_failure_pack>` creates a conservative redacted pack for external review.
-
-Current smoke behavior:
-
-```text
-sanitized_error.log and sanitized_network.json are written
-redaction_report.json records category counts
-sanitized_trace_metadata.json records trace metadata only
-raw trace.zip is not copied into the shareable pack
-safe_to_share.json defaults to false
-shareable_failure_pack.zip is generated from sanitized files only
-```
-
-## Notes
-
-- Template fixtures are sanitized regression fixtures, not full real-world private failure packages.
-- Public-inspired independent validation remains separate from template metrics.
-- The external held-out set is intentionally small and conservative; it is a trust check, not a broad accuracy claim.
-- Real Playwright trace fixtures use native Playwright trace records and resource snapshots.
-- Applied scenario demos are local-only mock failure packs, not production business systems.
-- Integration adapters normalize local artifacts into failure packs; they do not upload artifacts or connect to third-party platforms.
-- Cross-framework adapters are log/metadata adapters, not Selenium, Puppeteer, Cypress, Scrapy, requests, or httpx runners.
-- Spiderbuf-inspired demos are local-only mock diagnostic fixtures, not public challenge solutions.
-- Reasonable Classification means the diagnosis matches the expected broad category, or safely downgrades to insufficient evidence where evidence is thin.
-- Actionable Next Action means the report gives a concrete next debugging step or a safe compliance-oriented route.
-- Severe Misclassification means the diagnosis points to the wrong broad layer.
-- Forbidden Output checks generated reports/prompts for disallowed circumvention guidance.
+Manual publication steps are tracked in `docs/GITHUB_RELEASE_TODO.md`.

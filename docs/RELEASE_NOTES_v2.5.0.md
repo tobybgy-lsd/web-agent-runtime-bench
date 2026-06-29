@@ -40,7 +40,22 @@ patch_plan/
 
 This release does not automatically edit source files, apply patches, run tests, open pull requests, solve challenges, bypass access controls, extract credentials, or add bot-evasion behavior.
 
-## Verification
+## Validation metrics
+
+```text
+20/20 Codex task files
+20/20 Claude Code task files
+20/20 Cursor task files
+18/20 patch proposals
+0 forbidden outputs
+```
+
+## Known limits
+
+- Patch proposal is dry-run only; it does not modify repository files.
+- Generated handoff tasks still require human review before execution.
+
+## Reproduce commands
 
 ```powershell
 python -m unittest tests.test_ai_handoff_patch_proposal

@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "3.0.0"',
+            'version = "3.0.1"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -127,12 +127,15 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
         for phrase in (
             "# Validation Dashboard",
-            "| Template fixtures | 150 | 97.3% | n/a | 94.7% | 4 | 21 | 0 | 210+ |",
-            "| Public-inspired independent set | 50 | 78.0% | n/a | 90.0% | 4 | 7 | 0 | n/a |",
-            "| Real Playwright trace semantic fixtures | 30 | 100.0% | 100.0% | 100.0% | 0 | 0 | 0 | 210+ |",
-            "| External held-out public-source set | 10 | 90.0% | n/a | 100.0% | 0 | 2 | 0 | 210+ |",
+            "## A. Stable Core Tracks",
+            "## B. P95 Completed Gates",
+            "## C. P98 Development Tracks",
+            "| Template fixtures | 150 | 97.3% reasonable, 94.7% actionable | 0 | pass |",
+            "| Public-inspired independent set | 50 | 78.0% reasonable, 90.0% actionable | 0 | pass |",
+            "| Real Playwright trace semantic fixtures | 30 | 30/30 reasonable, 30/30 exact subtype | 0 | pass |",
+            "| External held-out public-source set | 10 | 9/10 reasonable, 10/10 actionable | 0 | pass |",
             "validation/external_heldout_10.json",
-            "not full real-world private failure packages",
+            "not raw public traces",
         ):
             self.assertIn(phrase, text)
 
