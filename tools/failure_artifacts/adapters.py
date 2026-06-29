@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+import fnmatch
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -72,6 +73,7 @@ def artifact_from_playwright_trace(trace_zip: Path | str, *, run_id: str | None 
     missing_selectors = [failed_action["selector"]] if failed_action.get("selector") else []
     snapshot_excerpts = _link_snapshot_excerpts(snapshot_refs, text_resources)
     dom_hint_source = " ".join(item.get("excerpt", "") for item in snapshot_excerpts) or html_snapshot
+    shadow_dom = _enrich_shadow_dom_from_html(shadow_dom, dom_hint_source)
     dom_hints = _extract_dom_hints(dom_hint_source, missing_selectors)
 
     return _base_artifact(
@@ -392,6 +394,7 @@ def _extract_exception_details(records: list[dict[str, Any]]) -> list[dict[str, 
 
 
 def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """Infer storageState and auth-context signals from Playwright trace records."""
     observations: dict[str, Any] = {}
     field_map = {
         "storageStateExpected": "storage_state_expected",
@@ -410,23 +413,85 @@ def _extract_storage_context_observations(records: list[dict[str, Any]]) -> dict
         "redirectedToLogin": "redirected_to_login",
     }
     for record in records:
-        candidates = [record]
-        params = record.get("params")
-        if isinstance(params, dict):
-            candidates.append(params)
-        metadata = record.get("metadata")
-        if isinstance(metadata, dict):
-            candidates.append(metadata)
-        for source in candidates:
+        for source in _candidate_sources(record):
             for raw_key, normalized_key in field_map.items():
                 if raw_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[raw_key]
                 elif normalized_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[normalized_key]
+
+    if "storage_state_expected" in observations or "storage_state_loaded" in observations:
+        return observations
+
+    auth_path_markers = ("/login", "/signin", "/sign-in", "/auth", "/account/login", "/session/new")
+
+    def is_auth_url(value: str) -> bool:
+        lowered = value.lower()
+        return any(marker in lowered for marker in auth_path_markers)
+
+    new_page_seen = False
+    new_page_has_storage_state = False
+    auth_redirect_url = ""
+    auth_status_seen = False
+
+    for record in records:
+        record_type = str(record.get("type") or "").lower()
+        method = str(record.get("method") or "").lower()
+        params = record.get("params") if isinstance(record.get("params"), dict) else {}
+        api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
+
+        if record_type == "before" and "context.newpage" in api_name:
+            new_page_seen = True
+            if "storageState" in params or "storage_state" in params:
+                new_page_has_storage_state = True
+
+        if record_type == "event" and "network.responsereceived" in method:
+            response = params.get("response") if isinstance(params.get("response"), dict) else {}
+            headers = response.get("headers") if isinstance(response.get("headers"), dict) else {}
+            response_url = str(response.get("url") or "")
+            status = _as_int(response.get("status"))
+            location = str(headers.get("location") or headers.get("Location") or "")
+            if is_auth_url(response_url) or (status in (301, 302, 307, 308) and is_auth_url(location)):
+                auth_redirect_url = location or response_url
+                auth_status_seen = True
+            if status == 401:
+                auth_status_seen = True
+
+        if record_type == "event" and "page.framenavigated" in method:
+            frame = params.get("frame") if isinstance(params.get("frame"), dict) else {}
+            frame_url = str(frame.get("url") or "")
+            if is_auth_url(frame_url):
+                auth_redirect_url = frame_url
+                auth_status_seen = True
+
+        if record_type == "event" and "runtime.consoleapicalled" in method:
+            args = params.get("args") if isinstance(params.get("args"), list) else []
+            for arg in args:
+                if not isinstance(arg, dict):
+                    continue
+                value = str(arg.get("value") or "").lower()
+                if any(marker in value for marker in ("not authenticated", "session expired", "unauthorized", "please log in")):
+                    auth_status_seen = True
+
+        if record_type == "after" and "goto" in api_name:
+            error = record.get("error") if isinstance(record.get("error"), dict) else {}
+            error_message = str(error.get("message") or "").lower()
+            if is_auth_url(error_message) or "redirect" in error_message:
+                auth_status_seen = True
+
+    if auth_status_seen:
+        if new_page_seen and not new_page_has_storage_state:
+            observations["storage_state_expected"] = True
+            observations["storage_state_loaded"] = False
+            observations.setdefault("final_url", auth_redirect_url)
+        else:
+            observations.setdefault("final_url", auth_redirect_url)
+            observations.setdefault("redirected_to_login", True)
     return observations
 
 
 def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """Infer route/mock/HAR signals from Playwright trace records."""
     observations: dict[str, Any] = {}
     field_map = {
         "routeRegistered": "route_registered",
@@ -451,23 +516,92 @@ def _extract_route_mock_har_observations(records: list[dict[str, Any]]) -> dict[
         "mockResponseShapeMismatch": "mock_response_shape_mismatch",
     }
     for record in records:
-        candidates = [record]
-        params = record.get("params")
-        if isinstance(params, dict):
-            candidates.append(params)
-        metadata = record.get("metadata")
-        if isinstance(metadata, dict):
-            candidates.append(metadata)
-        for source in candidates:
+        for source in _candidate_sources(record):
             for raw_key, normalized_key in field_map.items():
                 if raw_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[raw_key]
                 elif normalized_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[normalized_key]
+
+    if "route_registered" in observations or "har_expected" in observations:
+        return observations
+
+    route_patterns: list[str] = []
+    route_registered_at_ms: float | None = None
+    first_request_url = ""
+    first_request_at_ms: float | None = None
+    live_network_urls: list[str] = []
+    har_load_failed = False
+
+    for record in records:
+        record_type = str(record.get("type") or "").lower()
+        method = str(record.get("method") or "").lower()
+        params = record.get("params") if isinstance(record.get("params"), dict) else {}
+        api_name = str(record.get("apiName") or record.get("api_name") or "").lower()
+        start_time = _as_float(record.get("startTime") or record.get("start_time"))
+
+        if record_type == "before" and "page.route" in api_name and "fromhar" not in api_name:
+            pattern = str(params.get("url") or params.get("pattern") or "")
+            if pattern:
+                route_patterns.append(pattern)
+                observations["route_registered"] = True
+                observations["route_pattern"] = pattern
+                if start_time is not None and route_registered_at_ms is None:
+                    route_registered_at_ms = start_time
+
+        if record_type == "before" and "routefromhar" in api_name:
+            har_path = str(params.get("har") or params.get("harPath") or "")
+            observations["har_expected"] = True
+            observations["har_loaded"] = True
+            if har_path:
+                observations["har_path"] = har_path
+            observations["har_not_found_policy"] = str(params.get("notFound") or "abort")
+
+        if record_type == "event" and "network.requestwillbesent" in method:
+            request = params.get("request") if isinstance(params.get("request"), dict) else {}
+            request_url = str(request.get("url") or "")
+            request_time = _as_float(params.get("timestamp"))
+            if request_url:
+                if not first_request_url:
+                    first_request_url = request_url
+                    first_request_at_ms = request_time * 1000 if request_time is not None else None
+                live_network_urls.append(request_url)
+
+        if record_type == "event" and "network.loadingfailed" in method:
+            error_text = str(params.get("errorText") or "").lower()
+            if "file_not_found" in error_text or "err_file_not_found" in error_text:
+                har_load_failed = True
+                observations["har_loaded"] = False
+                observations["har_error"] = params.get("errorText", "")
+
+        if record_type == "after" and "route.fulfill" in api_name and record.get("error"):
+            observations.setdefault("har_miss_url", first_request_url)
+
+    if route_registered_at_ms is not None and first_request_at_ms is not None:
+        if route_registered_at_ms > first_request_at_ms:
+            observations["route_registered_after_request"] = True
+            observations["first_request_url"] = first_request_url
+            observations["route_registered_at_ms"] = route_registered_at_ms
+            observations["first_request_at_ms"] = first_request_at_ms
+        elif route_patterns and live_network_urls:
+            for url in live_network_urls:
+                matched = any(fnmatch.fnmatch(url, pattern.replace("**", "*")) for pattern in route_patterns)
+                if not matched:
+                    observations.setdefault("request_url", url)
+                    observations["route_matched"] = False
+                    observations["live_network_request"] = True
+                    break
+            else:
+                observations["route_matched"] = True
+
+    if har_load_failed:
+        observations["har_loaded"] = False
+
     return observations
 
 
 def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """Infer shadow DOM signals from Playwright trace records."""
     observations: dict[str, Any] = {}
     field_map = {
         "shadowHost": "shadow_host",
@@ -489,20 +623,79 @@ def _extract_shadow_dom_observations(records: list[dict[str, Any]]) -> dict[str,
         "missingShadowStrategy": "missing_shadow_strategy",
     }
     for record in records:
-        candidates = [record]
-        params = record.get("params")
-        if isinstance(params, dict):
-            candidates.append(params)
-        metadata = record.get("metadata")
-        if isinstance(metadata, dict):
-            candidates.append(metadata)
-        for source in candidates:
+        for source in _candidate_sources(record):
             for raw_key, normalized_key in field_map.items():
                 if raw_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[raw_key]
                 elif normalized_key in source and normalized_key not in observations:
                     observations[normalized_key] = source[normalized_key]
+
+    if "shadow_host" in observations or "shadow_root_mode" in observations:
+        return observations
+
+    failed_selector = ""
+    failed_error_message = ""
+    failed_error_stack = ""
+    for record in records:
+        record_type = str(record.get("type") or "").lower()
+        params = record.get("params") if isinstance(record.get("params"), dict) else {}
+        if record_type == "before":
+            selector = str(params.get("selector") or params.get("locator") or "")
+            if selector:
+                failed_selector = selector
+        elif record_type == "after":
+            error = record.get("error") if isinstance(record.get("error"), dict) else {}
+            message = str(error.get("message") or "").lower()
+            stack = str(error.get("stack") or "").lower()
+            if message:
+                failed_error_message = message
+                failed_error_stack = stack
+
+    selector_lower = failed_selector.lower()
+    has_shadow_selector = any(marker in selector_lower for marker in ("pierce", ">>", "shadow-root", "#shadow"))
+    has_shadow_error = any(
+        marker in failed_error_message for marker in ("cannot query field", "shadowroot", "shadow root", "closed shadow")
+    )
+    has_zero_elements_error = "resolved to 0 elements" in failed_error_message
+
+    if has_shadow_error and "cannot query field" in failed_error_message:
+        observations["shadow_root_mode"] = "closed"
+        observations["ordinary_locator_failed"] = True
+    elif has_shadow_selector and (has_zero_elements_error or failed_error_message or "shadow" in failed_error_stack):
+        observations["element_exists_in_shadow_dom"] = True
+        observations["ordinary_locator_failed"] = True
+        parts = [part.strip() for part in failed_selector.split(">>")]
+        if len(parts) >= 2:
+            observations["shadow_host"] = parts[0]
+            observations["inner_selector"] = parts[-1]
+
     return observations
+
+
+def _candidate_sources(record: dict[str, Any]) -> list[dict[str, Any]]:
+    sources = [record]
+    params = record.get("params")
+    if isinstance(params, dict):
+        sources.append(params)
+    metadata = record.get("metadata")
+    if isinstance(metadata, dict):
+        sources.append(metadata)
+    return sources
+
+
+def _enrich_shadow_dom_from_html(shadow_obs: dict[str, Any], html: str) -> dict[str, Any]:
+    if not html:
+        return shadow_obs
+    html_lower = html.lower()
+    has_shadow_html = "#shadow-root" in html_lower or "shadowroot" in html_lower
+    if not has_shadow_html:
+        return shadow_obs
+    enriched = dict(shadow_obs)
+    enriched.setdefault("element_exists_in_shadow_dom", True)
+    custom_elements = re.findall(r"<([a-z][a-z0-9]*-[a-z0-9-]+)", html_lower)
+    if custom_elements and "shadow_host" not in enriched:
+        enriched["shadow_host"] = custom_elements[0]
+    return enriched
 
 
 def _extract_snapshot_ref(record: dict[str, Any]) -> dict[str, str] | None:
@@ -615,5 +808,12 @@ def _extract_status(text: str) -> int | None:
 def _as_int(value: Any) -> int | None:
     try:
         return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _as_float(value: Any) -> float | None:
+    try:
+        return float(value)
     except (TypeError, ValueError):
         return None

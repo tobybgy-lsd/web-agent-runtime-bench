@@ -574,6 +574,169 @@ class FailureArtifactExpansionTests(unittest.TestCase):
             self.assertEqual(artifact["observations"]["shadow_host"], "my-component")
             self.assertEqual(artifact["observations"]["inner_selector"], "button.submit")
 
+    def test_real_trace_infers_storage_state_from_network_redirect(self):
+        """Real Playwright traces use Network.responseReceived, not custom fields."""
+        with tempfile.TemporaryDirectory() as tmp:
+            trace_zip = Path(tmp) / "real_storage_trace.zip"
+            records = [
+                {
+                    "type": "before",
+                    "callId": "call@1",
+                    "apiName": "browserContext.newPage",
+                    "params": {},
+                    "startTime": 1000.0,
+                },
+                {"type": "after", "callId": "call@1"},
+                {
+                    "type": "before",
+                    "callId": "call@2",
+                    "apiName": "page.goto",
+                    "params": {"url": "https://example.test/dashboard"},
+                    "startTime": 1001.0,
+                },
+                {
+                    "type": "event",
+                    "method": "Network.responseReceived",
+                    "params": {
+                        "response": {
+                            "url": "https://example.test/dashboard",
+                            "status": 302,
+                            "headers": {"location": "https://example.test/login"},
+                            "request": {"method": "GET"},
+                        }
+                    },
+                },
+                {
+                    "type": "event",
+                    "method": "Page.frameNavigated",
+                    "params": {"frame": {"id": "main", "url": "https://example.test/login"}},
+                },
+                {"type": "after", "callId": "call@2"},
+            ]
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
+
+            artifact = artifact_from_playwright_trace(trace_zip)
+            observations = artifact["observations"]
+            self.assertTrue(observations.get("storage_state_expected"))
+            self.assertFalse(observations.get("storage_state_loaded"))
+            diagnosis = classify_failure_artifact(artifact)
+            self.assertEqual(diagnosis["failure_type"], "playwright_storage_state_context")
+
+    def test_real_trace_infers_route_registered_too_late(self):
+        """Route registered after first network request is inferred from native timestamps."""
+        with tempfile.TemporaryDirectory() as tmp:
+            trace_zip = Path(tmp) / "real_route_trace.zip"
+            records = [
+                {
+                    "type": "event",
+                    "method": "Network.requestWillBeSent",
+                    "params": {
+                        "request": {"url": "https://api.example.test/products", "method": "GET"},
+                        "timestamp": 1.0,
+                    },
+                },
+                {
+                    "type": "before",
+                    "callId": "call@5",
+                    "apiName": "page.route",
+                    "params": {"url": "**/api/products"},
+                    "startTime": 2000.0,
+                },
+                {"type": "after", "callId": "call@5"},
+            ]
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
+
+            artifact = artifact_from_playwright_trace(trace_zip)
+            observations = artifact["observations"]
+            self.assertTrue(observations.get("route_registered_after_request"))
+            self.assertTrue(observations.get("route_registered"))
+            diagnosis = classify_failure_artifact(artifact)
+            self.assertEqual(diagnosis["failure_type"], "playwright_route_mock_har")
+            self.assertEqual(diagnosis["subtype"], "route_registered_too_late")
+
+    def test_real_trace_infers_shadow_dom_from_snapshot_html(self):
+        """Shadow DOM boundary is inferred from selector syntax and snapshot HTML."""
+        with tempfile.TemporaryDirectory() as tmp:
+            trace_zip = Path(tmp) / "real_shadow_trace.zip"
+            page_html = """<html><body>
+<product-card>
+  #shadow-root (open)
+    <button class="add-to-cart">Add</button>
+</product-card>
+</body></html>"""
+            records = [
+                {
+                    "type": "before",
+                    "callId": "call@3",
+                    "apiName": "locator.click",
+                    "params": {"selector": "product-card >> button.add-to-cart"},
+                    "beforeSnapshot": "before@3",
+                    "startTime": 1000.0,
+                },
+                {
+                    "type": "after",
+                    "callId": "call@3",
+                    "error": {"message": "locator.click: Error: resolved to 0 elements", "stack": "..."},
+                },
+                {"type": "snapshot", "snapshotName": "before@3", "sha1": "page.html"},
+            ]
+            with ZipFile(trace_zip, "w") as archive:
+                archive.writestr("trace.trace", "\n".join(json.dumps(record) for record in records))
+                archive.writestr("page.html", page_html)
+
+            artifact = artifact_from_playwright_trace(trace_zip)
+            observations = artifact["observations"]
+            self.assertTrue(
+                observations.get("element_exists_in_shadow_dom")
+                or observations.get("shadow_host")
+                or observations.get("ordinary_locator_failed"),
+                f"should detect shadow DOM signal, got obs={observations}",
+            )
+            diagnosis = classify_failure_artifact(artifact)
+            self.assertEqual(diagnosis["failure_type"], "playwright_shadow_dom_locator")
+
+    def test_network_keyword_in_unrelated_metadata_does_not_trigger_proxy_error(self):
+        artifact = {
+            "schema_version": "failure-artifact/v1",
+            "run_id": "proxy_false_positive",
+            "tool": "playwright",
+            "target_type": "sanitized_real_failure",
+            "summary": "Variable named proxyConfig appears in test metadata",
+            "error": {"message": "Timeout waiting for selector .submit", "status_code": 200},
+            "artifacts": {},
+            "observations": {"missing_selectors": [".submit"], "metadata_note": "proxyConfig is set in setup"},
+            "expected": {"required_fields": []},
+            "actual": {"fields": {}, "array_length": None},
+            "labels": {"failure_type": "unknown", "confidence": 0.0},
+            "safety": {"sanitized": True},
+        }
+
+        diagnosis = classify_failure_artifact(artifact)
+
+        self.assertNotEqual(diagnosis["failure_type"], "network_http_error")
+
+    def test_captcha_keyword_in_non_error_metadata_does_not_trigger_bot_wall(self):
+        artifact = {
+            "schema_version": "failure-artifact/v1",
+            "run_id": "captcha_false_positive",
+            "tool": "playwright",
+            "target_type": "sanitized_real_failure",
+            "summary": "Test includes a no-captcha variable name in metadata",
+            "error": {"message": "Timeout waiting for selector .submit", "status_code": 200},
+            "artifacts": {},
+            "observations": {"missing_selectors": [".submit"], "metadata_note": "noCaptchaMode=false"},
+            "expected": {"required_fields": []},
+            "actual": {"fields": {}, "array_length": None},
+            "labels": {"failure_type": "unknown", "confidence": 0.0},
+            "safety": {"sanitized": True},
+        }
+
+        diagnosis = classify_failure_artifact(artifact)
+
+        self.assertNotIn(diagnosis["failure_type"], {"anti_bot_risk", "captcha_or_bot_wall"})
+
     def test_generate_synthetic_fixture_writes_replay_metadata(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

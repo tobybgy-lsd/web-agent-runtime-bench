@@ -125,8 +125,10 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         for phrase in (
             "# Validation Dashboard",
             "| v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |",
-            "| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 192 |",
+            "| v0.4.0 strict independent evaluation | 50 | 78% | 90% | 4 | 7 | n/a |",
+            "| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 197 |",
             "validation/website_antibot_validation_50.json",
+            "strict independent evaluation",
             "public-inspired sanitized validation records",
             "not full real-world failure packages",
         ):

@@ -2,8 +2,9 @@
 
 | Version | Samples | Reasonable Classification | Actionable Next Action | Severe Misclassification | Insufficient Evidence | Tests |
 |---|---:|---:|---:|---:|---:|---:|
-| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 192 |
+| v0.6.0 | 150 + 50 v0.6 routing records | 98.0% | 96.0% | 4 | 21 | 197 |
 | v0.4.0 | 150 | 97.3% | 94.7% | 4 | 21 | 170 |
+| v0.4.0 strict independent evaluation | 50 | 78% | 90% | 4 | 7 | n/a |
 
 ## Notes
 
@@ -13,6 +14,7 @@
 - Severe Misclassification means the diagnosis points to the wrong broad layer.
 - Insufficient Evidence means the tool avoids guessing and asks for more material.
 - Tests are the current local unit-test count at the time of the dashboard update.
+- The 150-record row uses a broad "reasonable classification" criterion. The 50-record strict independent evaluation uses a narrower correctness criterion, so it is the more conservative estimate for production-like precision.
 
 ## v0.6.0 Website Change / Anti-Bot Addendum
 

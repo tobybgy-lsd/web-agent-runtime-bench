@@ -13,6 +13,26 @@ def _combined_text(artifact: Mapping[str, Any]) -> str:
     return json.dumps(artifact, ensure_ascii=False).lower()
 
 
+def _error_focused_text(artifact: Mapping[str, Any]) -> str:
+    """Return a narrower text blob focused on direct failure signals."""
+    parts: list[str] = []
+    error = artifact.get("error")
+    if isinstance(error, Mapping):
+        parts.append(str(error.get("message") or ""))
+        parts.append(str(error.get("stack") or ""))
+    observations = artifact.get("observations")
+    if isinstance(observations, Mapping):
+        parts.append(str(observations.get("log_excerpt") or ""))
+        parts.append(str(observations.get("user_description") or ""))
+        network_events = observations.get("network_events")
+        if isinstance(network_events, list):
+            for event in network_events[:10]:
+                if isinstance(event, Mapping):
+                    parts.append(json.dumps(event, ensure_ascii=False))
+        parts.append(str(observations.get("body_text") or ""))
+    return " ".join(parts).lower()
+
+
 def _result(
     failure_type: str,
     confidence: float,
@@ -63,8 +83,9 @@ def _classify_runtime_api_missing(artifact: Mapping[str, Any], text: str) -> dic
 
 
 def _classify_captcha_or_bot_wall(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    focused = _error_focused_text(artifact)
     markers = ("captcha", "verify you are human", "are you human", "turnstile", "recaptcha", "cloudflare challenge", "just a moment")
-    found = [marker for marker in markers if marker in text]
+    found = [marker for marker in markers if marker in focused]
     if not found:
         return None
     return _result(
@@ -260,82 +281,83 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if not isinstance(observations, Mapping):
         observations = {}
     status = artifact.get("error", {}).get("status_code") or observations.get("status_code")
+    focused = _error_focused_text(artifact)
 
     evidence: list[str] = []
     subtype = ""
 
-    if status == 429 or "too many requests" in text or "rate limit" in text:
+    if status == 429 or "too many requests" in focused or "rate limit" in focused:
         subtype = "rate_limited"
         evidence.append("rate-limit marker found")
         if status:
             evidence.append(f"HTTP status code observed: {status}")
 
     challenge_markers = ("captcha", "challenge", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
-    found_challenge = [marker for marker in challenge_markers if marker in text]
+    found_challenge = [marker for marker in challenge_markers if marker in focused]
     if not subtype and found_challenge:
         subtype = "captcha_or_challenge_page"
         evidence.extend(f"challenge marker found: {marker}" for marker in found_challenge[:4])
 
     if not subtype and (
         observations.get("headless_headed_mismatch") is True
-        or ("headless" in text and "headed" in text and ("blocked" in text or "succeeds" in text))
+        or ("headless" in focused and "headed" in focused and ("blocked" in focused or "succeeds" in focused))
     ):
         subtype = "fingerprint_risk"
         evidence.append("headless/headed behavior differs, which suggests environment fingerprint risk")
 
     signature_markers = ("signature", "x-bogus", "x-s", "x-sign", "dynamic token")
-    found_signature = [marker for marker in signature_markers if marker in text]
+    found_signature = [marker for marker in signature_markers if marker in focused]
     if not subtype and found_signature:
         subtype = "dynamic_signature_required"
         evidence.extend(f"dynamic request signature marker found: {marker}" for marker in found_signature[:3])
 
     if not subtype and (
         observations.get("ip_reputation_block") is True
-        or "ip reputation" in text
-        or ("current network" in text and "approved" in text)
+        or "ip reputation" in focused
+        or ("current network" in focused and "approved" in focused)
     ):
         subtype = "ip_reputation_block"
         evidence.append("access differs by network or source reputation")
 
     if not subtype and (
         observations.get("behavioral_risk") is True
-        or "unusual traffic" in text
-        or ("request burst" in text and "triggered" in text)
-        or "high-frequency" in text
-        or "after burst" in text
-        or "same query returns empty data" in text
-        or "temporarily blocked" in text
-        or "slow down" in text
-        or "security verification" in text
-        or "repeated attempts" in text
-        or "temporary hold" in text
+        or "unusual traffic" in focused
+        or ("request burst" in focused and "triggered" in focused)
+        or "high-frequency" in focused
+        or "after burst" in focused
+        or "same query returns empty data" in focused
+        or "temporarily blocked" in focused
+        or "slow down" in focused
+        or "security verification" in focused
+        or "repeated attempts" in focused
+        or "temporary hold" in focused
     ):
         subtype = "behavioral_risk"
         evidence.append("behavioral risk marker found in request pattern or page text")
 
     if not subtype and (
         observations.get("ip_reputation_block") is True
-        or "risk control page" in text
-        or "risk page" in text
-        or "x-risk-action" in text
-        or "x-risk" in text
-        or "waiting room page" in text
+        or "risk control page" in focused
+        or "risk page" in focused
+        or "x-risk-action" in focused
+        or "x-risk" in focused
+        or "waiting room page" in focused
     ):
         subtype = "ip_reputation_block"
         evidence.append("platform risk or waiting-room page suggests source/access reputation review")
 
     if not subtype and (
         status == 403
-        or "lacks permission" in text
-        or "permission block" in text
-        or "access denied" in text
-        or "access warning" in text
-        or "action requires manual review" in text
-        or "manual review" in text
-        or "action denied" in text
-        or "role lacks" in text
-        or "policy warning" in text
-        or "automated export not allowed" in text
+        or "lacks permission" in focused
+        or "permission block" in focused
+        or "access denied" in focused
+        or "access warning" in focused
+        or "action requires manual review" in focused
+        or "manual review" in focused
+        or "action denied" in focused
+        or "role lacks" in focused
+        or "policy warning" in focused
+        or "automated export not allowed" in focused
     ):
         subtype = "auth_or_permission_block"
         evidence.append("authorization or permission block marker found")
@@ -742,6 +764,7 @@ def _classify_rate_limit_or_soft_block(artifact: Mapping[str, Any], text: str) -
 
 
 def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    focused = _error_focused_text(artifact)
     status = artifact.get("error", {}).get("status_code") or artifact.get("observations", {}).get("status_code")
     if status in (401, 403) or (isinstance(status, int) and status >= 500):
         subtype = f"http_{status}"
@@ -778,7 +801,7 @@ def _classify_network_http_error(artifact: Mapping[str, Any], text: str) -> dict
         "connection reset",
         "empty response",
     )
-    found = [marker for marker in transport_markers if marker in text]
+    found = [marker for marker in transport_markers if marker in focused]
     if not found:
         return None
     subtype = "transport_error"
