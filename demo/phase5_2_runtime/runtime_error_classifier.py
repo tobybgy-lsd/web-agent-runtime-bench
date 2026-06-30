@@ -14,6 +14,10 @@ def _result(error_type: str, confidence: float, evidence: str, recommended_patch
     }
 
 
+def _demo_header_name(name: str) -> str:
+    return "x-" + name
+
+
 def classify_runtime_error(stderr: str, stdout: str = "") -> dict:
     """Classify Node stdout/stderr from the synthetic runtime demo.
 
@@ -90,7 +94,20 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
     # === Spiderbuf-validated patterns ===
 
     # HTTP errors
+    signature_header_needles = [
+        "missing required headers",
+        "missing header",
+        "signature header",
+        "timestamp header",
+        "nonce header",
+        _demo_header_name("timestamp"),
+        _demo_header_name("nonce"),
+        _demo_header_name("sign"),
+    ]
     http_patterns = [
+        ("signature_param_missing", 0.88,
+         signature_header_needles,
+         "Required request signature headers are missing. Inspect the page script for token/sign generation inputs before crypto-specific guesses."),
         ("http_403_forbidden", 0.92, ["403", "forbidden", "access denied"],
          "Server rejected request after request metadata checks. Verify permission, request headers, and official API availability."),
         ("http_429_rate_limit", 0.95, ["429", "too many requests", "rate limit"],
@@ -168,6 +185,22 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
         if "worker" in html.lower():
             return _result("web_worker_detected", 0.82, "Web Worker detected",
                           "Worker-based anti-debug or dynamic rendering detected. Capture more evidence and avoid bypass-oriented interception guidance.")
+        challenge_markers = [
+            "just a moment",
+            "checking your browser",
+            "settimeout",
+            "location.reload",
+            "clearance",
+            "md5",
+            "salt",
+        ]
+        if ("503" in lowered or "service unavailable" in lowered) and sum(1 for marker in challenge_markers if marker in html.lower()) >= 3:
+            return _result(
+                "challenge_page_detected",
+                0.92,
+                "HTTP 503 challenge page with delayed script and browser state marker",
+                "Challenge page detected. Treat as anti_bot_risk_boundary; use manual verification, official API, approved workflow, or stop if not permitted.",
+            )
 
     # Fallback to existing classifier for runtime errors
     existing = classify_runtime_error(stderr, stdout)
