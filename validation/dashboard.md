@@ -4,11 +4,11 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.2.3 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.2.4 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.2.3 Complex Scraper Diagnostic Patch | pass | Current package stable line with safe composite-risk diagnostics. |
+| v3.2.4 Offline Probe Evidence Boundary Patch | pass | Current package stable line with user-supplied probe_report.json evidence and no default active network probes. |
 | v3.1.0 P98 Master Gate | previous stable | Previous P98 master gate completion line. |
 | v2.4.1 P95 Alignment & Missing Tracks | previous P95 stable | Published GitHub Release and previous P95 stable line. |
 
@@ -81,4 +81,3 @@ These tracks remain part of the public validation record. They are not the P98 m
 `validation/external_public_reference_ledger.json` adds 62 external public reference seeds from official docs, public issues, and Q&A sources. These are not external user submissions to this repository.
 External held-out public-source set results are tracked separately from template and synthetic validation records.
 `validation/external_heldout_10.json` and `validation/external_heldout_20.json` store held-out validation outputs.
-

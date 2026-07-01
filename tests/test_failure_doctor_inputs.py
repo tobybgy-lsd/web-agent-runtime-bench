@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from failure_doctor.cli import build_artifact, collect_inputs, enrich_for_users, user_category_for
+from failure_doctor.cli import build_artifact, collect_inputs, enrich_for_users, input_summary_for, user_category_for
 from tools.failure_artifacts.classifier import classify_failure_artifact
 
 
@@ -32,6 +32,39 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(evidence["network_events"][0]["status"], 429)
             self.assertIn("rate limited", evidence["descriptions"][0]["text"])
             self.assertEqual(evidence["screenshot_metadata"][0]["image_understanding"], "metadata_only")
+
+    def test_user_supplied_probe_report_is_offline_transport_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "probe_report.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": "failure-doctor/probe-report/v1",
+                        "network_access": "performed_by_user_before_diagnosis",
+                        "transport": {
+                            "tls_alpn_fingerprint_mismatch": True,
+                            "alpn": "http/1.1",
+                            "browser_alpn": "h2",
+                            "http_version": "1.1",
+                            "browser_http_version": "2",
+                        },
+                        "ip_reputation": {"classification": "uncertain"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            evidence = collect_inputs(root)
+            summary = input_summary_for(evidence)
+            artifact = build_artifact(evidence, run_id="probe_report")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(summary["observed_evidence"]["probe_reports"], 1)
+            self.assertEqual(summary["evidence_priority"], ["probe_report"])
+            self.assertIn("probe_report.json", summary["recognized_files"]["probe_reports"])
+            self.assertFalse(artifact["safety"]["external_network_required"])
+            self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+            self.assertEqual(diagnosis["subtype"], "tls_alpn_fingerprint_mismatch")
 
     def test_error_log_outranks_large_console_html_for_diagnosis(self):
         with tempfile.TemporaryDirectory() as tmp:

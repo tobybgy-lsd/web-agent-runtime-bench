@@ -1,6 +1,6 @@
 # Agent Failure Doctor
 
-[涓枃鏂囨。](README.zh-CN.md)
+[中文文档](README.zh-CN.md)
 
 ![CI](https://github.com/tobybgy-lsd/web-agent-runtime-bench/actions/workflows/benchmark.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
@@ -14,7 +14,7 @@ Playwright, crawler, RPA, and business automation failures.
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Input:** trace.zip / error.log / console.txt / network.json /
-screenshot metadata / user_description.txt
+probe_report.json / screenshot metadata / user_description.txt
 
 **Output:** diagnosis, evidence, next action, repair suggestions,
 GitHub issue draft, Codex fix prompt.
@@ -57,10 +57,11 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.2.3 is the current stable technical baseline. The next phase is distribution
+v3.2.4 is the current stable technical baseline. The next phase is distribution
 and real user feedback, not more synthetic feature expansion.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
+- Active probe boundary: [docs/ACTIVE_PROBE_BOUNDARY.md](docs/ACTIVE_PROBE_BOUNDARY.md)
 - 2-minute demo script: [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
 - Technical article draft: [docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
 - Real user feedback loop: [docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)

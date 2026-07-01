@@ -14,7 +14,7 @@ class OpenSourceEntryTests(unittest.TestCase):
         for phrase in (
             "# Agent Failure Doctor",
             "Local-first failure diagnosis lifecycle tool for AI browser automation, Playwright, crawler, RPA, and business automation failures.",
-            "trace.zip / error.log / console.txt / network.json / screenshot metadata / user_description.txt",
+            "trace.zip / error.log / console.txt / network.json / probe_report.json / screenshot metadata / user_description.txt",
             "diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.",
             "git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git",
             "cd web-agent-runtime-bench",

@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.3.
+> Current package stable line: v3.2.4.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.4
+
+- Added `probe_report.json` as a recognized offline evidence input for user-supplied active-probe summaries.
+- Mapped sanitized TLS/ALPN/HTTP-version probe evidence into `tls_alpn_fingerprint_mismatch` and `transport_fingerprint_risk` without adding default network probing.
+- Added `docs/ACTIVE_PROBE_BOUNDARY.md` to keep active probes opt-in, external, and diagnosis-only.
+- Fixed the README language-switch link and documented `probe_report.json` in the accepted input list.
+- Kept private local probe tools, flags, transport impersonation details, and solver code out of the public package and Git tracking boundary.
 
 ## v3.2.3
 

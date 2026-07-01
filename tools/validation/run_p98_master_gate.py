@@ -91,7 +91,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.2.3.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.2.4.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -100,7 +100,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v3.2.3.md",
+        "release_notes": "docs/RELEASE_NOTES_v3.2.4.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -108,7 +108,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.2.3.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.2.4.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -123,12 +123,12 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v3.2.3",
+        "version": "v3.2.4",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v3.2.3" if overall_status == "pass" else "v3.1.0",
+        "current_stable_line": "v3.2.4" if overall_status == "pass" else "v3.1.0",
         "previous_stable_line": "v3.1.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,

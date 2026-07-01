@@ -452,6 +452,7 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         "trace_zip": None,
         "logs": [],
         "network_events": [],
+        "probe_reports": [],
         "descriptions": [],
         "screenshot_metadata": [],
         "unrecognized_files": [],
@@ -460,6 +461,8 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         lower = file_path.name.lower()
         if lower.endswith(".zip") and "trace" in lower:
             evidence["trace_zip"] = str(file_path)
+        elif lower.endswith(".json") and "probe" in lower:
+            evidence["probe_reports"].extend(_read_probe_reports(file_path))
         elif lower.endswith(".json") and "network" in lower:
             evidence["network_events"].extend(_read_network_events(file_path))
         elif lower.endswith((".png", ".jpg", ".jpeg")):
@@ -480,6 +483,7 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "trace_zip": 1 if evidence.get("trace_zip") else 0,
         "logs": len(evidence.get("logs", [])),
         "network_events": len(evidence.get("network_events", [])),
+        "probe_reports": len(evidence.get("probe_reports", [])),
         "descriptions": len(evidence.get("descriptions", [])),
         "screenshots": len(evidence.get("screenshot_metadata", [])),
         "unrecognized_files": len(evidence.get("unrecognized_files", [])),
@@ -491,6 +495,8 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         priority.append("log")
     if observed["network_events"]:
         priority.append("network")
+    if observed["probe_reports"]:
+        priority.append("probe_report")
     if observed["descriptions"]:
         priority.append("description")
     if observed["screenshots"]:
@@ -529,7 +535,16 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
         return artifact
 
     log_entries = [item for item in evidence.get("logs", []) if isinstance(item, Mapping)]
-    log_text = "\n".join(str(item.get("text", "")) for item in _prioritized_log_entries(log_entries))
+    probe_reports = evidence.get("probe_reports", [])
+    probe_text = _probe_reports_to_text(probe_reports)
+    log_text = "\n".join(
+        part
+        for part in [
+            "\n".join(str(item.get("text", "")) for item in _prioritized_log_entries(log_entries)),
+            probe_text,
+        ]
+        if part
+    )
     description_text = "\n".join(str(item.get("text", "")) for item in evidence.get("descriptions", []) if isinstance(item, Mapping))
     network_events = evidence.get("network_events", [])
     status_code = _first_status(network_events) or _extract_status_from_text(log_text)
@@ -547,6 +562,7 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
             "log_excerpt": log_text[:1000],
             "user_description": description_text[:1000],
             "network_events": network_events[:20],
+            "probe_reports": probe_reports[:5] if isinstance(probe_reports, list) else [],
             "missing_selectors": diagnosis_hint.get("missing_selectors", []),
             "screenshot_metadata": evidence.get("screenshot_metadata", []),
             **diagnosis_hint,
@@ -1111,7 +1127,12 @@ def _is_low_evidence(input_summary: Mapping[str, Any]) -> bool:
     observed = input_summary.get("observed_evidence", {})
     if not isinstance(observed, Mapping):
         return True
-    return not observed.get("trace_zip") and not observed.get("logs") and not observed.get("network_events")
+    return (
+        not observed.get("trace_zip")
+        and not observed.get("logs")
+        and not observed.get("network_events")
+        and not observed.get("probe_reports")
+    )
 
 
 def _doctor_summary(diagnosis: Mapping[str, Any]) -> dict[str, Any]:
@@ -1129,6 +1150,7 @@ def _recognized_files(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "trace_zip": evidence.get("trace_zip"),
         "logs": [item.get("name") for item in evidence.get("logs", []) if isinstance(item, Mapping)],
         "network_events": len(evidence.get("network_events", [])),
+        "probe_reports": [item.get("name") for item in evidence.get("probe_reports", []) if isinstance(item, Mapping)],
         "descriptions": [item.get("name") for item in evidence.get("descriptions", []) if isinstance(item, Mapping)],
         "screenshots": [item.get("name") for item in evidence.get("screenshot_metadata", []) if isinstance(item, Mapping)],
     }
@@ -1141,6 +1163,8 @@ def _input_guidance(priority: list[str], missing: list[str]) -> str:
         return "Evidence is weak; this run only supports low-confidence triage until trace.zip, error.log, or network.json is provided."
     if "trace_zip" in priority:
         return "trace.zip was recognized and will be used as the strongest evidence source."
+    if "probe_report" in priority:
+        return "User-supplied probe_report.json was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
     return "Logs or network evidence were recognized; add trace.zip to improve evidence quality when available."
 
 
@@ -1154,6 +1178,43 @@ def _read_network_events(path: Path) -> list[dict[str, Any]]:
     if isinstance(parsed, list):
         return [item for item in parsed if isinstance(item, dict)]
     return []
+
+
+def _read_probe_reports(path: Path) -> list[dict[str, Any]]:
+    try:
+        parsed = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    if isinstance(parsed, dict):
+        return [{**parsed, "name": path.name}]
+    if isinstance(parsed, list):
+        return [{**item, "name": path.name} for item in parsed if isinstance(item, dict)]
+    return []
+
+
+def _probe_reports_to_text(reports: Any) -> str:
+    if not isinstance(reports, list):
+        return ""
+    parts: list[str] = []
+    for report in reports[:5]:
+        if not isinstance(report, Mapping):
+            continue
+        transport = report.get("transport")
+        if isinstance(transport, Mapping):
+            if transport.get("tls_alpn_fingerprint_mismatch") is True:
+                parts.append("TLS ALPN fingerprint mismatch: standard HTTP client and browser transport evidence differ.")
+            if transport.get("transport_fingerprint_risk") is True:
+                parts.append("transport fingerprint risk: TLS handshake, ALPN, HTTP version, and browser evidence differ.")
+            for key in ("alpn", "browser_alpn", "http_version", "browser_http_version", "ja3_string", "ja3_hash"):
+                value = transport.get(key)
+                if value:
+                    parts.append(f"{key}={value}")
+        ip_reputation = report.get("ip_reputation")
+        if isinstance(ip_reputation, Mapping):
+            classification = str(ip_reputation.get("classification") or "")
+            if classification in {"hosting_or_vpn_risk", "low_hosting_ip", "uncertain"}:
+                parts.append(f"ip reputation classification={classification}")
+    return "\n".join(parts)[:1000]
 
 
 def _first_status(events: Any) -> int | None:
