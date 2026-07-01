@@ -454,6 +454,7 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         "network_events": [],
         "probe_reports": [],
         "runtime_reports": [],
+        "script_reports": [],
         "descriptions": [],
         "screenshot_metadata": [],
         "unrecognized_files": [],
@@ -462,6 +463,10 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         lower = file_path.name.lower()
         if lower.endswith(".zip") and "trace" in lower:
             evidence["trace_zip"] = str(file_path)
+        elif lower.endswith(".json") and (
+            "js_integrity" in lower or "script_integrity" in lower or "bundle" in lower or "obfuscat" in lower
+        ):
+            evidence["script_reports"].extend(_read_script_reports(file_path))
         elif lower.endswith(".json") and (
             "runtime" in lower or "timing" in lower or "client_hint" in lower or "client-hint" in lower
         ):
@@ -490,6 +495,7 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "network_events": len(evidence.get("network_events", [])),
         "probe_reports": len(evidence.get("probe_reports", [])),
         "runtime_reports": len(evidence.get("runtime_reports", [])),
+        "script_reports": len(evidence.get("script_reports", [])),
         "descriptions": len(evidence.get("descriptions", [])),
         "screenshots": len(evidence.get("screenshot_metadata", [])),
         "unrecognized_files": len(evidence.get("unrecognized_files", [])),
@@ -505,6 +511,8 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         priority.append("probe_report")
     if observed["runtime_reports"]:
         priority.append("runtime_report")
+    if observed["script_reports"]:
+        priority.append("script_report")
     if observed["descriptions"]:
         priority.append("description")
     if observed["screenshots"]:
@@ -547,12 +555,15 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
     probe_text = _probe_reports_to_text(probe_reports)
     runtime_reports = evidence.get("runtime_reports", [])
     runtime_text = _runtime_reports_to_text(runtime_reports)
+    script_reports = evidence.get("script_reports", [])
+    script_text = _script_reports_to_text(script_reports)
     log_text = "\n".join(
         part
         for part in [
             "\n".join(str(item.get("text", "")) for item in _prioritized_log_entries(log_entries)),
             probe_text,
             runtime_text,
+            script_text,
         ]
         if part
     )
@@ -575,6 +586,7 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
             "network_events": network_events[:20],
             "probe_reports": probe_reports[:5] if isinstance(probe_reports, list) else [],
             "runtime_reports": runtime_reports[:5] if isinstance(runtime_reports, list) else [],
+            "script_reports": script_reports[:5] if isinstance(script_reports, list) else [],
             "missing_selectors": diagnosis_hint.get("missing_selectors", []),
             "screenshot_metadata": evidence.get("screenshot_metadata", []),
             **diagnosis_hint,
@@ -1145,6 +1157,7 @@ def _is_low_evidence(input_summary: Mapping[str, Any]) -> bool:
         and not observed.get("network_events")
         and not observed.get("probe_reports")
         and not observed.get("runtime_reports")
+        and not observed.get("script_reports")
     )
 
 
@@ -1165,6 +1178,7 @@ def _recognized_files(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "network_events": len(evidence.get("network_events", [])),
         "probe_reports": [item.get("name") for item in evidence.get("probe_reports", []) if isinstance(item, Mapping)],
         "runtime_reports": [item.get("name") for item in evidence.get("runtime_reports", []) if isinstance(item, Mapping)],
+        "script_reports": [item.get("name") for item in evidence.get("script_reports", []) if isinstance(item, Mapping)],
         "descriptions": [item.get("name") for item in evidence.get("descriptions", []) if isinstance(item, Mapping)],
         "screenshots": [item.get("name") for item in evidence.get("screenshot_metadata", []) if isinstance(item, Mapping)],
     }
@@ -1181,6 +1195,8 @@ def _input_guidance(priority: list[str], missing: list[str]) -> str:
         return "User-supplied probe_report.json was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
     if "runtime_report" in priority:
         return "User-supplied browser/runtime or input-timing report was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
+    if "script_report" in priority:
+        return "User-supplied JavaScript/request-integrity report was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
     return "Logs or network evidence were recognized; add trace.zip to improve evidence quality when available."
 
 
@@ -1209,6 +1225,18 @@ def _read_probe_reports(path: Path) -> list[dict[str, Any]]:
 
 
 def _read_runtime_reports(path: Path) -> list[dict[str, Any]]:
+    try:
+        parsed = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    if isinstance(parsed, dict):
+        return [{**parsed, "name": path.name}]
+    if isinstance(parsed, list):
+        return [{**item, "name": path.name} for item in parsed if isinstance(item, dict)]
+    return []
+
+
+def _read_script_reports(path: Path) -> list[dict[str, Any]]:
     try:
         parsed = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
@@ -1277,6 +1305,32 @@ def _runtime_reports_to_text(reports: Any) -> str:
     return "\n".join(parts)[:1000]
 
 
+def _script_reports_to_text(reports: Any) -> str:
+    if not isinstance(reports, list):
+        return ""
+    parts: list[str] = []
+    for report in reports[:5]:
+        if not isinstance(report, Mapping):
+            continue
+        integrity = report.get("script_integrity")
+        if isinstance(integrity, Mapping):
+            if integrity.get("obfuscated_js_integrity_required") is True:
+                parts.append("obfuscated JS integrity required: protected script evidence gates request acceptance.")
+            if integrity.get("js_ast_obfuscation_detected") is True:
+                parts.append("JS AST obfuscation detected: sanitized bundle summary shows obfuscated request-integrity logic.")
+            if integrity.get("rotated_string_array_detected") is True:
+                parts.append("rotated string array detected: sanitized bundle summary shows string-array indirection.")
+            if integrity.get("client_generated_token_missing") is True:
+                parts.append("client generated token missing: request was rejected because script-produced integrity evidence is absent.")
+            if integrity.get("request_integrity_algorithm_changed") is True:
+                parts.append("request integrity algorithm changed: authorized regression shows token validation drift after a script update.")
+            for key in ("http_status", "bundle_hash_prefix", "script_url_host", "evidence_source"):
+                value = integrity.get(key)
+                if value:
+                    parts.append(f"{key}={value}")
+    return "\n".join(parts)[:1000]
+
+
 def _first_status(events: Any) -> int | None:
     if not isinstance(events, list):
         return None
@@ -1303,6 +1357,7 @@ def _input_summary(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "log_count": len(evidence.get("logs", [])),
         "network_event_count": len(evidence.get("network_events", [])),
         "runtime_report_count": len(evidence.get("runtime_reports", [])),
+        "script_report_count": len(evidence.get("script_reports", [])),
         "description_count": len(evidence.get("descriptions", [])),
         "screenshot_count": len(evidence.get("screenshot_metadata", [])),
     }

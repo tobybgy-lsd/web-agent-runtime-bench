@@ -113,6 +113,37 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
             self.assertEqual(diagnosis["subtype"], "client_hints_platform_mismatch")
 
+    def test_user_supplied_js_integrity_report_is_offline_script_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "js_integrity_report.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": "failure-doctor/js-integrity-report/v1",
+                        "network_access": "none",
+                        "script_integrity": {
+                            "js_ast_obfuscation_detected": True,
+                            "rotated_string_array_detected": True,
+                            "client_generated_token_missing": True,
+                            "request_integrity_algorithm_changed": False,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            evidence = collect_inputs(root)
+            summary = input_summary_for(evidence)
+            artifact = build_artifact(evidence, run_id="js_integrity_report")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(summary["observed_evidence"]["script_reports"], 1)
+            self.assertEqual(summary["evidence_priority"], ["script_report"])
+            self.assertIn("js_integrity_report.json", summary["recognized_files"]["script_reports"])
+            self.assertFalse(artifact["safety"]["external_network_required"])
+            self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+            self.assertEqual(diagnosis["subtype"], "js_ast_obfuscation_detected")
+
     def test_error_log_outranks_large_console_html_for_diagnosis(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

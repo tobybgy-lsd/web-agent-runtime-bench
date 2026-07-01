@@ -219,6 +219,29 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
                 "behavioral input risk: fixed interval input timing detected by authorized test telemetry",
                 {"log_excerpt": "do not treat this as selector storage or proxy problem"},
             ),
+            "obfuscated_js_integrity_required": artifact(
+                "obfuscated JS integrity required: protected script generates request token before API call",
+                {"log_excerpt": "front-end script integrity boundary detected after HTTP 403"},
+                status_code=403,
+            ),
+            "js_ast_obfuscation_detected": artifact(
+                "JS AST obfuscation detected: sanitized bundle summary shows control-flow flattening and computed property access",
+                {"log_excerpt": "do not output deobfuscation steps; collect sanitized bundle metadata only"},
+            ),
+            "rotated_string_array_detected": artifact(
+                "rotated string array detected in sanitized JavaScript bundle summary",
+                {"log_excerpt": "string-array rotation evidence suggests client-generated request integrity token"},
+            ),
+            "client_generated_token_missing": artifact(
+                "client generated token missing: request rejected because browser script did not produce integrity parameter",
+                {"log_excerpt": "missing client-generated token after script integrity check"},
+                status_code=403,
+            ),
+            "request_integrity_algorithm_changed": artifact(
+                "request integrity algorithm changed: previously valid client token is now rejected after JS bundle update",
+                {"log_excerpt": "authorized regression shows request integrity algorithm drift"},
+                status_code=403,
+            ),
         }
 
         for expected_subtype, sample in samples.items():

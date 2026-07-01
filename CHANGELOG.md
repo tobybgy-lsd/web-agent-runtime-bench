@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.5.
+> Current package stable line: v3.2.6.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.6
+
+- Added `js_integrity_report.json` as a recognized offline evidence input for sanitized JavaScript/request-integrity summaries.
+- Added public-safe JavaScript integrity subtypes: `obfuscated_js_integrity_required`, `js_ast_obfuscation_detected`, `rotated_string_array_detected`, `client_generated_token_missing`, and `request_integrity_algorithm_changed`.
+- Added safe next-action guidance for sanitized JS bundle metadata, function-name summaries, request-parameter diffs, HTTP rejection evidence, authorized APIs/SDKs/test hooks, and stopping automation when authorization is unclear.
+- Added `docs/JS_INTEGRITY_BOUNDARY.md` to keep local AST recovery, signature formulas, constants, flags, and solver code out of the public package.
+- Kept the package diagnosis-only: no deobfuscation recipes, no signature reconstruction, no anti-bot evasion logic, and no private solution leaks.
 
 ## v3.2.5
 

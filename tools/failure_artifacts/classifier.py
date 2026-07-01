@@ -427,6 +427,47 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("WebAssembly/request-integrity signature verification failed")
 
     if not subtype and (
+        "obfuscated js integrity required" in focused
+        or ("protected script" in focused and "request acceptance" in focused)
+        or ("front-end script integrity boundary" in focused and "403" in focused)
+    ):
+        subtype = "obfuscated_js_integrity_required"
+        evidence.append("obfuscated JavaScript request-integrity boundary evidence found")
+
+    if not subtype and (
+        "js ast obfuscation detected" in focused
+        or ("ast obfuscation" in focused and "bundle summary" in focused)
+        or ("control-flow flattening" in focused and "computed property access" in focused)
+        or ("obfuscated request-integrity logic" in focused and "bundle summary" in focused)
+    ):
+        subtype = "js_ast_obfuscation_detected"
+        evidence.append("sanitized JavaScript bundle summary shows AST-level obfuscation evidence")
+
+    if not subtype and (
+        "rotated string array detected" in focused
+        or ("string-array rotation" in focused and "request integrity" in focused)
+        or ("string-array indirection" in focused and "bundle summary" in focused)
+    ):
+        subtype = "rotated_string_array_detected"
+        evidence.append("sanitized JavaScript bundle summary shows rotated string-array evidence")
+
+    if not subtype and (
+        "client generated token missing" in focused
+        or ("script-produced integrity evidence is absent" in focused)
+        or ("browser script did not produce integrity parameter" in focused)
+    ):
+        subtype = "client_generated_token_missing"
+        evidence.append("request is missing client-generated integrity evidence")
+
+    if not subtype and (
+        "request integrity algorithm changed" in focused
+        or ("request integrity algorithm drift" in focused)
+        or ("previously valid client token" in focused and "rejected" in focused)
+    ):
+        subtype = "request_integrity_algorithm_changed"
+        evidence.append("authorized regression indicates request-integrity algorithm drift")
+
+    if not subtype and (
         "client-side signature required" in focused
         or "client side signature required" in focused
         or "x-client-sign" in focused
@@ -597,6 +638,8 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         or "ja4" in focused
         or "http/2" in focused
         or "client hints" in focused
+        or "webgl" in focused
+        or "webrtc" in focused
     ):
         subtype = "fingerprint_risk"
         evidence.append("environment protocol or fingerprint mismatch detected")
@@ -674,6 +717,11 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "keystroke_telemetry_anomaly",
             "zero_interval_input_detected",
             "behavioral_input_risk",
+            "obfuscated_js_integrity_required",
+            "js_ast_obfuscation_detected",
+            "rotated_string_array_detected",
+            "client_generated_token_missing",
+            "request_integrity_algorithm_changed",
         }
         else 0.93
         if subtype == "dynamic_signature_required"
@@ -702,6 +750,19 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
 
 
 def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
+    if subtype in {
+        "obfuscated_js_integrity_required",
+        "js_ast_obfuscation_detected",
+        "rotated_string_array_detected",
+        "client_generated_token_missing",
+        "request_integrity_algorithm_changed",
+    }:
+        return [
+            "treat this as a protected JavaScript/request-integrity boundary, not a selector/storage/proxy bug",
+            "collect sanitized JS bundle metadata, function-name summaries, request-parameter diffs, and HTTP rejection evidence before changing automation code",
+            "use an official API, authorized SDK, documented export, or platform-approved test hook when available",
+            "stop automation when authorization or platform terms are unclear",
+        ]
     if subtype in {"dynamic_signature_required", "client_side_signature_required", "wasm_signature_verification_failed"}:
         return [
             "treat this as a protected request-integrity boundary, not a selector/storage/proxy bug",
