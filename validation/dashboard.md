@@ -4,11 +4,11 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.2.1 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.2.2 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.2.1 Complex Scraper Diagnostic Patch | pass | Current package stable line with safe composite-risk diagnostics. |
+| v3.2.2 Complex Scraper Diagnostic Patch | pass | Current package stable line with safe composite-risk diagnostics. |
 | v3.1.0 P98 Master Gate | previous stable | Previous P98 master gate completion line. |
 | v2.4.1 P95 Alignment & Missing Tracks | previous P95 stable | Published GitHub Release and previous P95 stable line. |
 

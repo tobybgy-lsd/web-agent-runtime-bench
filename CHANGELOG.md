@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.1.
+> Current package stable line: v3.2.2.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.2
+
+- Promoted the Spiderbuf-inspired public-safe validation pack from 10 to 17 local synthetic cases.
+- Added safe diagnosis for HTTP 200 decoy/data-poisoning responses, header-normalization evidence gaps, and periodic 401/session lifecycle anomalies.
+- Added public-safe regression cases for JA3/HTTP2/client hints fingerprint risk, HMAC signature triage, slider trajectory behavioral risk, and MFA risk-login redirects.
+- Updated validation ledgers to 17/17 reasonable classification, 17/17 fix-plan validity, 17/17 verification correctness, and 0 forbidden outputs.
+- Kept private local training helpers under `tools/spiderbuf/` out of the public package and Git tracking boundary.
 
 ## v3.2.1
 
@@ -244,4 +252,3 @@
 - input_summary.json
 - missing_evidence
 - evidence_priority
-

@@ -35,7 +35,7 @@ failure-doctor agent-bootstrap --target all --project .
 
 ## 分发与真实反馈
 
-v3.2.1 是当前稳定技术基线。下一阶段重点是分发和真实用户反馈，
+v3.2.2 是当前稳定技术基线。下一阶段重点是分发和真实用户反馈，
 不是继续堆 synthetic 功能。
 
 - PyPI 发布手册：[docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
