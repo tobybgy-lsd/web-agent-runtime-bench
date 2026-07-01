@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "3.2.2"',
+            'version = "3.2.3"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -103,7 +103,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         top = readme[:1600]
         for phrase in (
-            "[中文文档](README.zh-CN.md)",
+            "[涓枃鏂囨。](README.zh-CN.md)",
             "![CI]",
             "![License: MIT]",
             "![Python 3.10+]",
@@ -114,14 +114,14 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
             self.assertIn(phrase, top)
-        for marker in ("闂", "闁", "婵", "缂", "娑"):
+        for marker in ("闂", "闁", "濠", "缂", "濞"):
             self.assertNotIn(marker, readme)
 
     def test_readme_zh_cn_links_back_to_english(self):
         text = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("[English documentation](README.md)", text)
         self.assertIn("Agent Failure Doctor", text)
-        self.assertIn("本地优先", text)
+        self.assertIn("鏈湴浼樺厛", text)
 
     def test_validation_dashboard_contains_current_honest_metrics(self):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")

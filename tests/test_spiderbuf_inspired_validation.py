@@ -36,6 +36,8 @@ EXPECTED_CASES = {
     "23_decoy_response_or_data_poisoning",
     "24_session_device_binding_risk",
     "25_header_protocol_mismatch",
+    "26_tls_alpn_fingerprint_mismatch",
+    "27_transport_fingerprint_risk",
 }
 
 class SpiderbufInspiredValidationTests(unittest.TestCase):

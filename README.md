@@ -1,6 +1,6 @@
 # Agent Failure Doctor
 
-[中文文档](README.zh-CN.md)
+[涓枃鏂囨。](README.zh-CN.md)
 
 ![CI](https://github.com/tobybgy-lsd/web-agent-runtime-bench/actions/workflows/benchmark.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
@@ -57,7 +57,7 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.2.2 is the current stable technical baseline. The next phase is distribution
+v3.2.3 is the current stable technical baseline. The next phase is distribution
 and real user feedback, not more synthetic feature expansion.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)

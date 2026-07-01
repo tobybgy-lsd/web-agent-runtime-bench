@@ -113,7 +113,7 @@ class AutoCaptureRunCliTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        self.assertIn('version = "3.2.2"', pyproject)
+        self.assertIn('version = "3.2.3"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("## v2.0.0", changelog)
         self.assertIn("failure-doctor run --", readme)

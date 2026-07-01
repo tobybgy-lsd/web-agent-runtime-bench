@@ -485,6 +485,22 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         subtype = "header_protocol_mismatch"
         evidence.append("raw transport/header evidence conflicts with app-level framework logs")
 
+    if not subtype and (
+        "tls alpn fingerprint mismatch" in focused
+        or ("alpn" in focused and "http/1.1" in focused and "h2" in focused)
+        or ("standard http client" in focused and "browser path" in focused and "h2" in focused)
+    ):
+        subtype = "tls_alpn_fingerprint_mismatch"
+        evidence.append("standard HTTP client and browser TLS/ALPN evidence differ")
+
+    if not subtype and (
+        "transport fingerprint risk" in focused
+        or ("tls handshake" in focused and "alpn" in focused and "http version" in focused)
+        or ("tls/alpn/http version" in focused and "evidence" in focused)
+    ):
+        subtype = "transport_fingerprint_risk"
+        evidence.append("transport-layer fingerprint evidence differs from browser/runtime evidence")
+
     if not subtype and (status == 429 or "too many requests" in focused or "rate limit" in focused):
         subtype = "rate_limited"
         evidence.append("rate-limit marker found")
@@ -611,6 +627,8 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "rate_limit_scheduler_needed",
             "session_device_binding_risk",
             "header_protocol_mismatch",
+            "tls_alpn_fingerprint_mismatch",
+            "transport_fingerprint_risk",
         }
         else 0.93
         if subtype == "dynamic_signature_required"
@@ -680,6 +698,13 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "capture sanitized raw transport evidence and compare it with framework-normalized logs",
             "verify HTTP version, client hints, and header normalization in an authorized reproduction",
             "stop the run if authorization or platform terms are unclear",
+        ]
+    if subtype in {"tls_alpn_fingerprint_mismatch", "transport_fingerprint_risk"}:
+        return [
+            "standard HTTP client and browser transport fingerprints are inconsistent; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, or platform-approved integration exists",
+            "collect sanitized TLS, ALPN, HTTP version, and transport metadata evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
         ]
     if subtype == "stateful_session_lifecycle_anomaly":
         return [

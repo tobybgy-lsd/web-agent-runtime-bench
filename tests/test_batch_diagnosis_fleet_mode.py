@@ -76,7 +76,7 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        self.assertIn('version = "3.2.2"', pyproject)
+        self.assertIn('version = "3.2.3"', pyproject)
         self.assertIn("v3.2 Auto Collector P98 Gate", readme)
         self.assertIn("v2.4.1 P95 Alignment & Missing Tracks Pack", readme)
         self.assertIn("Batch Diagnosis / Fleet Mode", readme)

@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.2.
+> Current package stable line: v3.2.3.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.3
+
+- Added public-safe transport-layer diagnostics for `tls_alpn_fingerprint_mismatch` and `transport_fingerprint_risk`.
+- Added safe next-action guidance for TLS/ALPN/HTTP-version evidence collection, official API / SDK / compliant export checks, and stopping automation when authorization is unclear.
+- Expanded the Spiderbuf-inspired public-safe validation pack from 25 to 27 local synthetic cases.
+- Updated validation ledgers to 27/27 reasonable classification, 27/27 fix-plan validity, 27/27 verification correctness, and 0 forbidden outputs.
+- Kept private local training helpers, flags, transport impersonation details, and solver code out of the public package and Git tracking boundary.
 
 ## v3.2.2
 

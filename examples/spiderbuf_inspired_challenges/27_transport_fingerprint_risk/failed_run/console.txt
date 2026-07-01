@@ -1,0 +1,1 @@
+collect TLS/ALPN/HTTP version evidence before changing selectors or proxy settings.

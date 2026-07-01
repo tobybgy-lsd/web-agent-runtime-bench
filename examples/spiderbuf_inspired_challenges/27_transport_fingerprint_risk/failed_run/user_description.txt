@@ -1,0 +1,1 @@
+Local synthetic run shows transport-layer evidence drift; do not treat it as DOM or proxy-only failure.

@@ -1,0 +1,1 @@
+standard HTTP client and browser transport fingerprint are inconsistent.

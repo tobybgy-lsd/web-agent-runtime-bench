@@ -191,6 +191,14 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
                 "header protocol mismatch: HTTP/2 lowercase pseudo-header evidence conflicts with app-level logs",
                 {"log_excerpt": "client hints and h2 header casing differ from captured transport metadata"},
             ),
+            "tls_alpn_fingerprint_mismatch": artifact(
+                "TLS ALPN fingerprint mismatch: standard HTTP client negotiated http/1.1 while browser path uses h2",
+                {"log_excerpt": "standard HTTP client and browser transport fingerprint are inconsistent"},
+            ),
+            "transport_fingerprint_risk": artifact(
+                "transport fingerprint risk: TLS handshake, ALPN, HTTP version, and client hints differ from browser evidence",
+                {"log_excerpt": "collect TLS/ALPN/HTTP version evidence before changing selectors or proxy settings"},
+            ),
         }
 
         for expected_subtype, sample in samples.items():

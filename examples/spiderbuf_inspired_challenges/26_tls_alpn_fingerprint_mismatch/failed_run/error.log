@@ -1,0 +1,1 @@
+TLS ALPN fingerprint mismatch: standard HTTP client negotiated http/1.1 while browser path uses h2.
