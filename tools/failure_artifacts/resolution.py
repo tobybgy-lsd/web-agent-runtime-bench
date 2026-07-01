@@ -236,6 +236,14 @@ PLAN_TEMPLATES: dict[str, dict[str, Any]] = {
         "strategy": "Verify the after run uses the expected viewport and the element is visible.",
         "risk": "low",
     },
+    "visual_agent_vlm": {
+        "fix_intent": "Resolve visual, scaling, delay, or transmission blockers for screenshot/VLM agent.",
+        "area": ["visual stability", "DPR scaling", "screenshot compression", "overlay dismissal"],
+        "disappear": ["payload too large", "dpr_drift", "skeleton_loading", "overlay_blocked", "coordinate_drift"],
+        "appear": ["compressed screenshot sent", "scaled coordinates clicked", "overlay dismissed", "stable page analyzed", "flag obtained", "success"],
+        "strategy": "Verify the after run has resolved screenshot size, DPR scaling, skeletons, or overlays and successfully clicked target.",
+        "risk": "medium",
+    },
 }
 
 
