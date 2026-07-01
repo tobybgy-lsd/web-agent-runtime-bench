@@ -643,6 +643,9 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         or "security verification" in focused
         or "repeated attempts" in focused
         or "temporary hold" in focused
+        or "deviation detected" in focused
+        or "mathematical trajectory" in focused
+        or "entropy audit failed" in focused
     ):
         subtype = "behavioral_risk"
         evidence.append("behavioral risk marker found in request pattern or page text")

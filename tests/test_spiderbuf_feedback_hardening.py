@@ -90,6 +90,21 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         self.assertIn("parameter ordering", combined)
         self.assertFalse(forbidden_output_hits(combined))
 
+    def test_entropy_audit_failure_is_safe_behavioral_risk(self):
+        sample = artifact(
+            "input telemetry rejected: entropy audit failed in authorized browser interaction summary",
+            {"log_excerpt": "do not output mimicry steps; classify the risk boundary and collect sanitized evidence"},
+            status_code=403,
+        )
+
+        diagnosis = classify_failure_artifact(sample)
+        combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+        self.assertEqual(diagnosis["subtype"], "behavioral_risk")
+        self.assertIn("authorization", combined)
+        self.assertFalse(forbidden_output_hits(combined))
+
     def test_http_200_decoy_data_poisoning_is_not_treated_as_success(self):
         sample = artifact(
             "HTTP 200 OK but product rows are synthetic decoy data",
