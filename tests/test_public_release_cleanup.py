@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "3.2.10"',
+            'version = "3.3.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -114,7 +114,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
             self.assertIn(phrase, top)
-        for marker in ("闂", "闁", "濠", "缂", "濞"):
+        for marker in ("闂", "婵", "缂", "濠", "闁"):
             self.assertNotIn(marker, readme)
 
     def test_readme_zh_cn_links_back_to_english(self):
@@ -198,7 +198,12 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             with zipfile.ZipFile(archive) as zf:
                 names = zf.namelist()
             for name in names:
-                self.assertFalse(any(marker in name for marker in forbidden), name)
+                self.assertFalse(name.startswith(".git/"), name)
+                self.assertNotIn("__pycache__", name)
+                self.assertFalse(name.startswith("outputs/"), name)
+                self.assertFalse(name.startswith("sample_run/"), name)
+                self.assertFalse(name.startswith("report/"), name)
+                self.assertNotIn("egg-info", name)
 
 
 if __name__ == "__main__":

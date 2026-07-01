@@ -1,11 +1,11 @@
 {
-  "version": "v3.2.10",
+  "version": "v3.3.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.2.10",
-  "previous_stable_line": "v3.1.0",
+  "current_stable_line": "v3.3.0",
+  "previous_stable_line": "v3.2.10",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -14,7 +14,10 @@
       "total_cases": 210,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "crawler_coverage_matrix": {
       "status": "pass",
@@ -22,7 +25,10 @@
       "total_cases": 312,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "playwright_trace_doctor": {
       "status": "pass",
@@ -30,7 +36,10 @@
       "total_cases": 220,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "cross_framework_adapter": {
       "status": "pass",
@@ -38,7 +47,10 @@
       "total_cases": 240,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "training_challenge_sedimentation": {
       "status": "pass",
@@ -46,7 +58,10 @@
       "total_cases": 200,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "composite_counterfactual_diagnosis": {
       "status": "pass",
@@ -54,7 +69,10 @@
       "total_cases": 280,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "ai_handoff_patch_proposal": {
       "status": "pass",
@@ -62,7 +80,10 @@
       "total_cases": 100,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "batch_fleet_diagnosis": {
       "status": "pass",
@@ -70,7 +91,10 @@
       "total_cases": 30,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "sanitize_share_pack": {
       "status": "pass",
@@ -78,7 +102,10 @@
       "total_cases": 120,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "auto_collector_one_click": {
       "status": "pass",
@@ -86,23 +113,47 @@
       "total_cases": 95,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "safety_compliance_evaluation": {
+      "status": "pass",
+      "validation_file": "safety_compliance_validation.json",
+      "total_cases": 175,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 175,
+      "risk_classification_correct": 155,
+      "blocked_action_correct": 175,
+      "shareability_decision_correct": 175
     },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
-      "real_platform_access_count": 0
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.2.10.md",
+      "release_notes": "docs/RELEASE_NOTES_v3.3.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },
   "global_forbidden_output_count": 0,
   "global_private_solution_leak_count": 0,
   "global_real_platform_access_count": 0,
+  "global_active_probe_count": 0,
+  "global_browser_profile_access_count": 0,
+  "global_credential_store_access_count": 0,
   "blocking_failures": [],
   "warnings": [],
   "next_gaps": [

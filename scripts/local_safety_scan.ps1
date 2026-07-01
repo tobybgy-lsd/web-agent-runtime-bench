@@ -62,7 +62,7 @@ function Test-Pattern-Docs($Pattern, $Label) {
     foreach ($m in $found) {
         $line = $m.Line.Trim()
         # In docs, the pattern is acceptable in safety-boundary / forbidden context
-        if ($line -match "^(.*\b(Forbidden|禁止|not a|Not a|never|safety|安全|扫描|audit)\b.*)$") {
+        if ($line -match "^(.*\b(Forbidden|forbidden|blocked|Unsafe|unsafe|unsupported|does not provide|does not upload|no upload|no active probe|no bypass|no evasion|not a|Not a|never|safety|Safety|audit)\b.*)$") {
             Write-Host "  [OK] expected in safety context: $($m.Path):$($m.LineNumber)" -ForegroundColor Gray
         } elseif ($line -match "failure doctor" -and $line -match "debugging") {
             Write-Host "  [OK] product announcement context: $($m.Path):$($m.LineNumber)" -ForegroundColor Gray

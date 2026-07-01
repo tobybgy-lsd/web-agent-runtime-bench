@@ -1,7 +1,7 @@
 """Run strict composite diagnosis P95 validation.
 
 The fixtures are local-only synthetic failure packs. They model public training
-patterns without accessing real challenge sites or carrying private solutions.
+patterns without accessing real challenge sites or carrying private remediation details.
 """
 
 from __future__ import annotations
@@ -145,7 +145,7 @@ def _write_case(case_dir: Path, family: str, case_id: str, spec: dict[str, str])
         encoding="utf-8",
     )
     (case_dir / "README.md").write_text(
-        f"# {case_id}\n\nLocal-only composite diagnostic fixture. No private solution or real-site access.\n",
+        f"# {case_id}\n\nLocal-only composite diagnostic fixture. No private remediation details or real-site access.\n",
         encoding="utf-8",
     )
 

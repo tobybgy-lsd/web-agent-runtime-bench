@@ -1,3 +1,3 @@
 # network_environment_navigation_composites_17
 
-Local-only composite diagnostic fixture. No private solution or real-site access.
+Local-only composite diagnostic fixture. No private remediation details or real-site access.

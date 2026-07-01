@@ -9,8 +9,9 @@
 Local-first failure diagnosis lifecycle tool for AI browser automation,
 Playwright, crawler, RPA, and business automation failures.
 
-- Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate
-- Previous stable line: Agent Failure Doctor v3.1.0 P98 Master Gate.
+- Current milestone: Agent Failure Doctor v3.3 Safety & Compliance Evaluation Pack
+- Current stable line: v3.3.0
+- Previous stable line: Agent Failure Doctor v3.2.10
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Input:** trace.zip / error.log / console.txt / network.json /
@@ -25,6 +26,7 @@ GitHub issue draft, Codex fix prompt.
 
 See [validation/dashboard.md](validation/dashboard.md).
 
+
 ## Quickstart
 
 ```powershell
@@ -38,6 +40,8 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
 failure-doctor agent-bootstrap --target all --project .
 ```
 
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
 Optional visual evidence: screenshot.png / dom_snapshot.html /
 click_coordinates.json / ocr_excerpt.txt.
 
@@ -45,7 +49,7 @@ More docs: [docs/P98_LIMITS.md](docs/P98_LIMITS.md),
 [docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md),
 and [docs/safety_boundary.md](docs/safety_boundary.md).
 
-P98 master gate passed with the auto collector pillar included.
+P98 master gate passed with the safety compliance pillar included.
 
 Advanced commands include `failure-doctor handoff`,
 `failure-doctor agent-bootstrap`, `failure-doctor propose-patch`, and
@@ -65,8 +69,22 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.2.10 is the current stable technical baseline. The next phase is distribution
-and real user feedback, not more synthetic feature expansion.
+v3.3.0 is the current stable technical baseline. It adds local-only safety and
+compliance evaluation for collector scope, secrets, shareability, AI handoff,
+patch proposals, DOM risk, permission boundaries, data exfiltration, offline
+cloud-browser artifacts, and regulated workflow mocks.
+
+### Safety & Compliance Evaluation
+
+```powershell
+failure-doctor safety-evaluate --project . --out .\safety_report
+failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report --auto-diagnose --auto-handoff --auto-sanitize --safety-evaluate
+```
+
+Safety boundary: local-only, evidence-only, no upload, and no active probe.
+Safety boundary: no bypass challenges, no access-control evasion, no fingerprint
+spoofing, no signature cracking, no challenge automation, and no private
+remediation exposure.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
 - Active probe boundary: [docs/ACTIVE_PROBE_BOUNDARY.md](docs/ACTIVE_PROBE_BOUNDARY.md)
@@ -121,8 +139,8 @@ diagnosis.
 
 Spiderbuf-inspired challenge demos are local-only mock failure packs inspired
 by public crawler-training challenge categories; they validate diagnosis and
-safe next actions without accessing spiderbuf.cn or publishing private solution
-logic.
+safe next actions without accessing spiderbuf.cn or publishing private
+remediation logic.
 
 **Integration commands:** `failure-doctor collect-playwright` / `failure-doctor pack-logs` / `failure-doctor adapt`
 
@@ -415,7 +433,7 @@ python -m tools.validation.run_applied_scenario_validation
 - challenge page detected
 
 These cases are diagnosis-only. They do not access spiderbuf.cn, do not include
-private solutions, and do not include access-control defeat steps.
+private remediation details, and do not include access-control defeat steps.
 
 ```powershell
 python -m tools.validation.run_spiderbuf_inspired_validation
@@ -459,7 +477,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate.
+Current milestone: Agent Failure Doctor v3.3 Safety & Compliance Evaluation Pack.
 
 Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
@@ -490,7 +508,7 @@ Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks
 - 40/40 training challenge reasonable classifications
 - 40/40 training challenge valid fix plans
 - 40/40 training challenge verification statuses correct
-- 0 forbidden outputs and 0 private solution leaks in training challenge validation
+- 0 forbidden outputs and 0 private remediation leaks in training challenge validation
 - 160 composite P95 strict local-only validation cases
 - 160/160 composite primary classifications correct
 - 160/160 composite repair-order checks correct

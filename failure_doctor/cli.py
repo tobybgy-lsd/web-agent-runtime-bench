@@ -14,6 +14,7 @@ from failure_doctor.agent_invocation import AGENT_TARGETS, bootstrap_agent_front
 from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
+from failure_doctor.safety.evaluator import evaluate_safety
 from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_framework_failure
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
@@ -71,6 +72,8 @@ def main(argv: list[str] | None = None) -> int:
         return batch_diagnose(args)
     if args.command == "visual-diagnose":
         return visual_diagnose_inputs(args)
+    if args.command == "safety-evaluate":
+        return safety_evaluate_inputs(args)
     parser.print_help()
     return 1
 
@@ -117,8 +120,19 @@ def build_parser() -> argparse.ArgumentParser:
     auto_collect.add_argument("--auto-diagnose", action="store_true", help="Run diagnose and plan after collection")
     auto_collect.add_argument("--auto-handoff", action="store_true", help="Generate Codex/Claude/Cursor handoff after diagnosis")
     auto_collect.add_argument("--auto-sanitize", action="store_true", help="Generate sanitized failure pack")
+    auto_collect.add_argument("--safety-evaluate", action="store_true", help="Run local safety and compliance evaluation after collection")
     auto_collect.add_argument("--open-report", action="store_true", help="Open the first report file when supported")
     auto_collect.add_argument("--broad-scope", action="store_true", help="Allow broad scope folders after explicit user approval")
+    safety = sub.add_parser("safety-evaluate", help="Evaluate local artifacts for safety, shareability, and compliance risks")
+    safety_inputs = safety.add_mutually_exclusive_group(required=True)
+    safety_inputs.add_argument("--project", help="Authorized project folder to evaluate")
+    safety_inputs.add_argument("--report", help="Failure Doctor report directory to evaluate")
+    safety_inputs.add_argument("--failure-pack", help="Failure pack directory to evaluate")
+    safety_inputs.add_argument("--ai-handoff", help="AI handoff directory to evaluate without executing it")
+    safety_inputs.add_argument("--patch-proposal", help="Patch proposal directory to evaluate without applying it")
+    safety_inputs.add_argument("--cloud-artifact", help="Offline cloud browser artifact directory to evaluate")
+    safety.add_argument("--out", required=True, help="Output safety report directory")
+    safety.add_argument("--allow-broad-scope", action="store_true", help="Allow broad project scope, while still blocking sensitive paths")
     watch = sub.add_parser("watch", help="Watch a project folder and create diagnosis packs for new failure evidence")
     watch.add_argument("--project", required=True, help="Authorized project folder to watch")
     watch.add_argument("--out", required=True, help="Output folder for watch reports")
@@ -362,6 +376,13 @@ def collect_project_inputs(args: argparse.Namespace) -> int:
             open_report=bool(args.open_report),
             broad_scope=bool(args.broad_scope),
         )
+        if bool(getattr(args, "safety_evaluate", False)):
+            safety_report = evaluate_safety(
+                report=Path(args.out),
+                out_dir=Path(args.out) / "safety_report",
+                allow_broad_scope=bool(args.broad_scope),
+            )
+            _append_safety_summary(Path(args.out) / "open_this_first.md", safety_report)
     except FileNotFoundError as exc:
         print(str(exc))
         return 1
@@ -375,6 +396,48 @@ def collect_project_inputs(args: argparse.Namespace) -> int:
     print(f"Output: {args.out}")
     print(f"Open first: {Path(args.out) / 'open_this_first.md'}")
     return 0
+
+
+def safety_evaluate_inputs(args: argparse.Namespace) -> int:
+    try:
+        report = evaluate_safety(
+            project=Path(args.project) if args.project else None,
+            report=Path(args.report) if args.report else None,
+            failure_pack=Path(args.failure_pack) if args.failure_pack else None,
+            ai_handoff=Path(args.ai_handoff) if args.ai_handoff else None,
+            patch_proposal=Path(args.patch_proposal) if args.patch_proposal else None,
+            cloud_artifact=Path(args.cloud_artifact) if args.cloud_artifact else None,
+            out_dir=Path(args.out),
+            allow_broad_scope=bool(args.allow_broad_scope),
+        )
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor Safety Evaluation")
+    print(f"Status: {report.get('overall_status')}")
+    print(f"Risk: {report.get('risk_level')}")
+    print(f"Shareability: {report.get('shareability', {}).get('decision')}")
+    print(f"Output: {args.out}")
+    return 0 if report.get("overall_status") != "blocked" else 3
+
+
+def _append_safety_summary(open_first: Path, report: Mapping[str, Any]) -> None:
+    summary = "\n".join(
+        [
+            "",
+            "## Safety evaluation",
+            "",
+            f"- Status: `{report.get('overall_status')}`",
+            f"- Risk level: `{report.get('risk_level')}`",
+            f"- Shareability decision: `{report.get('shareability', {}).get('decision')}`",
+            f"- Safety report: `{open_first.parent / 'safety_report' / 'open_this_first_safety.md'}`",
+        ]
+    )
+    if open_first.exists():
+        open_first.write_text(open_first.read_text(encoding="utf-8") + summary + "\n", encoding="utf-8")
 
 
 def watch_project_inputs(args: argparse.Namespace) -> int:

@@ -1,0 +1,6 @@
+{
+    "additionalProperties":  true,
+    "title":  "blocked_action",
+    "$schema":  "https://json-schema.org/draft/2020-12/schema",
+    "type":  "object"
+}

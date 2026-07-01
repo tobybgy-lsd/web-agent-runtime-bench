@@ -31,7 +31,7 @@ class SanitizeSharePackTests(unittest.TestCase):
                         "Cookie: sessionid=abc; csrftoken=def",
                         "api_key=sk-abcdefghijklmnop",
                         "email alice@example.com phone 13800138000 id 110101199003071234",
-                        "customer 寮犱笁 order ORD-20260629-0001",
+                        "customer 瀵姳绗?order ORD-20260629-0001",
                         "https://shop-real.example.com/internal/order/123",
                     ]
                 ),
@@ -79,7 +79,7 @@ class SanitizeSharePackTests(unittest.TestCase):
                 "alice@example.com",
                 "13800138000",
                 "110101199003071234",
-                "寮犱笁",
+                "customer_real_name",
                 "ORD-20260629-0001",
                 "internal.company.local",
                 "shop-real.example.com/internal",
@@ -151,7 +151,7 @@ class SanitizeSharePackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-        self.assertIn('version = "3.2.10"', pyproject)
+        self.assertIn('version = "3.3.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("failure-doctor sanitize", readme)
         self.assertIn("Sanitize & Share Pack", readme)

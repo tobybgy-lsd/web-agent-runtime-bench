@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v3.2.10.
-> v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.3.0.
+> v3.2.10 remains the previous data-engineering stable release, v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.3.0
+
+- Added `failure-doctor safety-evaluate` for local-only safety and compliance evaluation.
+- Added safety evaluation reports for collector scope, secret leakage, shareability, AI handoff safety, patch proposal safety, DOM risks, runtime permission boundaries, page data exfiltration, offline cloud-browser artifacts, and regulated workflow mocks.
+- Added `collect --safety-evaluate` so one-click collection can append a safety summary and produce `safety_report/`.
+- Added `safety_compliance_evaluation` to the P98 master gate with 175 local-only synthetic/mock validation cases.
+- Added package private-content scanning to keep Spiderbuf, solver, FLAG, hook, VMP, mock server, and private challenge content out of wheel/sdist artifacts.
+- Kept all anti-bot/challenge/fingerprint/signature/runtime evidence output diagnosis-only and compliance-oriented: no bypass, evasion, spoofing, cracking, solver, or private solution guidance.
 
 ## v3.2.10
 

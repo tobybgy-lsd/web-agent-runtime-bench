@@ -14,12 +14,12 @@ class ReleaseTrustPackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         dashboard = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
-        self.assertIn('version = "3.2.10"', pyproject)
+        self.assertIn('version = "3.3.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("## v2.0.0", changelog)
-        self.assertIn("v3.2 Auto Collector P98 Gate", readme)
+        self.assertIn("v3.3 Safety & Compliance Evaluation Pack", readme)
         self.assertIn("v2.4.1 P95 Alignment & Missing Tracks Pack", readme)
-        self.assertIn("Current package stable line: v3.2.10", changelog)
+        self.assertIn("Current package stable line: v3.3.0", changelog)
         self.assertIn("P98 master gate passed", readme)
         self.assertIn("v2.0 Auto Capture", readme)
         self.assertIn("62 external public reference seeds", readme)
@@ -34,8 +34,8 @@ class ReleaseTrustPackTests(unittest.TestCase):
         self.assertIn("diagnosis, evidence, next action, repair suggestions", top)
         self.assertIn("GitHub issue draft, Codex fix prompt.", top)
         self.assertEqual(top.count("diagnosis, evidence, next action"), 1)
-        self.assertNotIn("娑", top)
-        self.assertNotIn("閺", top)
+        self.assertNotIn("mojibake marker", top)
+        self.assertNotIn("another mojibake marker", top)
 
     def test_external_heldout_validation_is_reproducible(self):
         result = subprocess.run(
