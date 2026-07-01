@@ -2069,6 +2069,79 @@ def _classify_data_engineering_failure(artifact: Mapping[str, Any], text: str) -
             evidence_level="confirmed",
         )
 
+
+    return None
+
+
+def _classify_vlm_agent_failure(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    """Classify pure-visual VLM Agent (Skyvern, Claude Computer Use) specific failures.
+    
+    Subtypes:
+    - vlm_payload_limit_exceeded: screenshot size exceeds VLM API limit (HTTP 413)
+    - vlm_coordinate_scaling_drift: coordinate drift due to DPR/viewport mismatch
+    - vlm_unstable_skeleton_state: VLM call made on unstable loading/skeleton placeholder
+    - vlm_overlay_interception: target elements blocked by transparent overlays/backdrops
+    """
+    if "payload too large" in text or "http_413_payload_too_large" in text or "413 payload too large" in text:
+        return _result(
+            "visual_agent_vlm",
+            0.92,
+            ["Screenshot payload exceeded VLM API size limit (HTTP 413)."],
+            [
+                "compress the screenshot before VLM transmission (reduce resolution, scale down, or reduce quality)",
+                "convert PNG to highly compressed JPEG/WebP or palette-based PNG to reduce byte size below threshold",
+                "monitor transmission cost and payload size metrics in VLM telemetry"
+            ],
+            can_auto_fix=True,
+            subtype="vlm_payload_limit_exceeded",
+            evidence_level="confirmed"
+        )
+        
+    if "dpr_drift" in text or ("device_scale_factor" in text and "coordinate_drift" in text):
+        return _result(
+            "visual_agent_vlm",
+            0.90,
+            ["Coordinate drift detected due to DPR/device scale factor mismatch."],
+            [
+                "apply Device Pixel Ratio (DPR) scaling scaling_factor to logical coordinate conversions",
+                "normalize all click coordinates to physical screen coordinates (x * dpr, y * dpr) or use browser-native selector fallback",
+                "verify window scaling parameters at startup before performing visual clicks"
+            ],
+            can_auto_fix=True,
+            subtype="vlm_coordinate_scaling_drift",
+            evidence_level="confirmed"
+        )
+        
+    if "skeleton_loading" in text or "skeleton" in text or "loading/skeleton" in text or "neutral_gray" in text:
+        return _result(
+            "visual_agent_vlm",
+            0.89,
+            ["VLM screenshot captured during unstable loading/skeleton state."],
+            [
+                "implement a visual feedback stability check using image brightness/entropy variance",
+                "wait until page color hint stabilizes (e.g. shifts from neutral_gray skeleton to colorful page)",
+                "add a minimum polling interval or network idle event listener before capturing screenshot for VLM analysis"
+            ],
+            can_auto_fix=True,
+            subtype="vlm_unstable_skeleton_state",
+            evidence_level="confirmed"
+        )
+        
+    if "overlay_blocked" in text or "backdrop" in text or "intercepted by transparent modal" in text:
+        return _result(
+            "visual_agent_vlm",
+            0.91,
+            ["Click interaction intercepted by a transparent overlay or backdrop."],
+            [
+                "detect and close transparent overlay/modal before clicking the main target",
+                "identify close buttons visually (e.g., cross icons or modal close coordinates) and dismiss the blocker first",
+                "prefer an accessibility role, visible locator, or documented UI close control instead of synthetic hidden event injection",
+            ],
+            can_auto_fix=True,
+            subtype="vlm_overlay_interception",
+            evidence_level="confirmed"
+        )
+        
     return None
 
 
@@ -2076,6 +2149,7 @@ CLASSIFIERS = (
     _classify_cross_framework_adapter_hint,
     _classify_runtime_api_missing,
     _classify_header_normalization_evidence_gap,
+    _classify_vlm_agent_failure,
     _classify_data_engineering_failure,
     _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,
