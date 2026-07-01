@@ -1,6 +1,6 @@
 # Visual and Data Quality Boundary
 
-Agent Failure Doctor v3.2.9 adds public-safe diagnostics for local data quality
+Agent Failure Doctor v3.2.10 adds public-safe diagnostics for local data quality
 and visual browser automation failures.
 
 ## Public scope

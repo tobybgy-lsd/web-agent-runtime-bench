@@ -1,7 +1,14 @@
 # Changelog
 
-> Current package stable line: v3.2.9.
+> Current package stable line: v3.2.10.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.10
+
+- Added data-engineering closed-loop triage for `schema_validation_failure`, `duplicate_submission`, `checkpoint_missing`, `dead_letter_overflow`, and `pagination_data_loss`.
+- Added safe fix-plan coverage for `SchemaValidator`, `BloomDedupeChecker`, `CheckpointManager`, `RetryPolicy`, `DeadLetterQueue`, `FieldQualityReporter`, and `RunManifest`.
+- Fixed pagination-vs-dedup precedence so adjacent-page duplicate records are classified as pagination boundary/data-loss evidence instead of duplicate submission.
+- Kept the package diagnosis and repair-planning only: no private training solvers, flags, challenge defeat code, or access-control circumvention guidance.
 
 ## v3.2.9
 

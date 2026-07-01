@@ -1897,10 +1897,186 @@ def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> d
     )
 
 
+def _classify_data_engineering_failure(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
+    """Classify public-safe data pipeline stability failures.
+
+    This covers internal crawler/RPA/data-pipeline quality failures, not target
+    platform access-control behavior:
+    - schema_validation_failure
+    - duplicate_submission
+    - checkpoint_missing
+    - dead_letter_overflow
+    - pagination_data_loss
+    """
+    # Ordering matters: more specific pipeline failures must win over generic
+    # duplicate or retry wording.
+    website_contract_markers = (
+        "response shape",
+        "response_shape_change",
+        "response_shape_changed",
+        "response now contains",
+        "response contains",
+        "payload changed shape",
+        "shape_change",
+        "json key",
+        "json path",
+        "api response",
+        "endpoint changed",
+        "old endpoint",
+        "new endpoint",
+        "graphql",
+        "cannot query field",
+    )
+    labels = artifact.get("labels") if isinstance(artifact.get("labels"), Mapping) else {}
+    observations = artifact.get("observations") if isinstance(artifact.get("observations"), Mapping) else {}
+    if (
+        any(marker in text for marker in website_contract_markers)
+        or str(labels.get("failure_type", "")).lower() in {"response_shape_change", "website_change"}
+        or any(key in observations for key in ("response_shape_changed", "shape_change", "api_endpoint_changed", "graphql_error"))
+    ):
+        return None
+    success_markers = (
+        "schema matched",
+        "required field present",
+        "extracted field present",
+        "field quality ok",
+        "checkpoint saved",
+        "checkpoint restored",
+    )
+    if any(marker in text for marker in success_markers):
+        return None
+
+    schema_markers = (
+        "schema validation", "schema_error", "schema error",
+        "type mismatch", "type_mismatch", "field type",
+        "expected float got str", "expected int got", "expected str got",
+        "missing required field", "field missing", "required key",
+        "schema_validation_failure", "field validation failed",
+        "invalid field type", "cannot cast", "type casting error",
+    )
+    found_schema = [m for m in schema_markers if m in text]
+    if found_schema:
+        return _result(
+            "data_engineering",
+            0.91,
+            [f"data engineering schema marker found: {found_schema[0]!r}"],
+            [
+                "use SchemaValidator to enforce field types before processing: SchemaValidator({'price': float}).validate(record)",
+                "add type coercion in the scraper: record['price'] = float(record.get('price', 0))",
+                "log schema errors to FieldQualityReporter and DeadLetterQueue for audit",
+                "check FieldQualityReporter.report() for fill_rate and type_error_rate per field",
+            ],
+            can_auto_fix=True,
+            subtype="schema_validation_failure",
+            evidence_level="confirmed",
+        )
+
+    # Pagination overlap is more specific than generic dedupe. Phrases such as
+    # "duplicate records on pages 4-5" describe page boundary drift, not a
+    # duplicate write/submission bug.
+    pagination_markers = (
+        "pagination", "page missing", "missing records",
+        "data loss", "records lost", "skipped page",
+        "page overlap", "duplicate page", "stale page",
+        "total count mismatch", "expected records",
+        "split page", "page boundary", "duplicate records on page",
+        "duplicate records on pages", "adjacent pages",
+    )
+    found_page = [m for m in pagination_markers if m in text]
+    if found_page:
+        return _result(
+            "data_engineering",
+            0.88,
+            [f"pagination data loss marker found: {found_page[0]!r}"],
+            [
+                "use CheckpointManager.mark_page_done(n) to track which pages were fully scraped",
+                "validate total record count: compare scraped count vs server-reported total",
+                "use DedupeChecker to detect page overlap (same URL appearing on page N and N+1)",
+                "add FieldQualityReporter.ingest() per page to detect sudden fill_rate drops signaling page issues",
+            ],
+            can_auto_fix=True,
+            subtype="pagination_data_loss",
+            evidence_level="inferred",
+        )
+
+    dedup_markers = (
+        "duplicate submission", "duplicate_submission", "duplicate key",
+        "already submitted", "idempotent", "idempotency",
+        "duplicate url", "already exists", "constraint violated",
+        "submitted twice", "retry caused duplicate",
+        "dedup", "dedupe", "deduplication",
+    )
+    found_dedup = [m for m in dedup_markers if m in text]
+    if found_dedup:
+        return _result(
+            "data_engineering",
+            0.90,
+            [f"duplicate submission marker found: {found_dedup[0]!r}"],
+            [
+                "use DedupeChecker or BloomDedupeChecker with key_fields=['url'] to skip duplicates before submitting",
+                "add idempotent submit: check server response for duplicate key error, skip on 409/422",
+                "use RetryPolicy with exponential backoff and idempotency key header",
+                "store submitted IDs in CheckpointManager to survive restarts without re-submitting",
+            ],
+            can_auto_fix=True,
+            subtype="duplicate_submission",
+            evidence_level="confirmed",
+        )
+
+    checkpoint_markers = (
+        "checkpoint not found", "checkpoint missing", "checkpoint_missing",
+        "cannot resume", "resume failed", "no checkpoint",
+        "restart from page", "checkpoint file", "checkpoint.json",
+        "lost progress", "state not saved", "failed at page",
+    )
+    found_ckpt = [m for m in checkpoint_markers if m in text]
+    if found_ckpt:
+        return _result(
+            "data_engineering",
+            0.89,
+            [f"checkpoint/resume marker found: {found_ckpt[0]!r}"],
+            [
+                "initialize CheckpointManager(checkpoint_file='checkpoint.json') and call mark_page_done(n) after each page",
+                "at startup call checkpoint.load() and skip pages where is_page_done(n) is True",
+                "save checkpoint immediately after each successful page, not only at run end",
+                "store checkpoint in a persistent location (not /tmp) that survives process restarts",
+            ],
+            can_auto_fix=True,
+            subtype="checkpoint_missing",
+            evidence_level="confirmed",
+        )
+
+    dlq_markers = (
+        "dead letter", "dead_letter", "dlq",
+        "exceeded max retries", "max retry", "max_retries",
+        "records could not be processed", "failed records",
+        "unprocessable", "permanently failed",
+    )
+    found_dlq = [m for m in dlq_markers if m in text]
+    if found_dlq:
+        return _result(
+            "data_engineering",
+            0.88,
+            [f"dead letter queue marker found: {found_dlq[0]!r}"],
+            [
+                "inspect DeadLetterQueue contents: dlq.load_all() to see which URLs and errors triggered DLQ",
+                "classify DLQ errors: network errors vs schema errors vs auth errors need different fixes",
+                "increase RetryPolicy.max_retries for transient errors, do NOT retry permanent failures (404, schema)",
+                "add RunManifest to track DLQ count per run and alert when dlq_rate > threshold",
+            ],
+            can_auto_fix=False,
+            subtype="dead_letter_overflow",
+            evidence_level="confirmed",
+        )
+
+    return None
+
+
 CLASSIFIERS = (
     _classify_cross_framework_adapter_hint,
     _classify_runtime_api_missing,
     _classify_header_normalization_evidence_gap,
+    _classify_data_engineering_failure,
     _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,

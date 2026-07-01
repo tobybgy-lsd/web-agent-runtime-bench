@@ -20,6 +20,7 @@ from tools.failure_artifacts.data_quality_checker import (
     compute_source_hash,
 )
 from tools.failure_artifacts.guardrails import forbidden_output_hits
+from tools.failure_artifacts.resolution import generate_fix_plan
 from tools.failure_artifacts.structured_logger import TraceContext, create_logger
 from tools.failure_artifacts.visual_failure_doctor import diagnose_visual_failure
 from tools.failure_artifacts.vlm_visual_analyzer import (
@@ -283,6 +284,80 @@ class PublicSafeRuntimeSubtypeTests(unittest.TestCase):
                 self.assertEqual(diagnosis["subtype"], expected_subtype)
                 self.assertIn("authorization", combined)
                 self.assertFalse(forbidden_output_hits(combined))
+
+
+class DataEngineeringClosedLoopTriageTests(unittest.TestCase):
+    def test_data_engineering_failures_have_precise_subtypes_and_safe_fix_plans(self):
+        samples = {
+            "schema_validation_failure": (
+                artifact(
+                    "Schema validation failed: missing required field price; expected float got str",
+                    {"log_excerpt": "field validation failed before persistence"},
+                    status_code=0,
+                ),
+                "SchemaValidator",
+            ),
+            "duplicate_submission": (
+                artifact(
+                    "Retry caused duplicate submission: duplicate key already exists for url",
+                    {"log_excerpt": "idempotency key missing, submitted twice"},
+                    status_code=409,
+                ),
+                "BloomDedupeChecker",
+            ),
+            "checkpoint_missing": (
+                artifact(
+                    "Cannot resume: checkpoint file checkpoint.json not found after restart from page 42",
+                    {"log_excerpt": "state not saved before process restart"},
+                    status_code=0,
+                ),
+                "CheckpointManager",
+            ),
+            "dead_letter_overflow": (
+                artifact(
+                    "Dead letter queue overflow: exceeded max retries for many failed records",
+                    {"log_excerpt": "DLQ contains permanently failed records"},
+                    status_code=0,
+                ),
+                "DeadLetterQueue",
+            ),
+            "pagination_data_loss": (
+                artifact(
+                    "Pagination data loss: duplicate records on pages 4-5 and expected records count mismatch",
+                    {"log_excerpt": "page overlap with missing records at page boundary"},
+                    status_code=0,
+                ),
+                "FieldQualityReporter",
+            ),
+        }
+
+        for expected_subtype, (sample, expected_tool) in samples.items():
+            with self.subTest(expected_subtype=expected_subtype):
+                diagnosis = classify_failure_artifact(sample)
+                self.assertEqual(diagnosis["failure_type"], "data_engineering")
+                self.assertEqual(diagnosis["subtype"], expected_subtype)
+
+                plan = generate_fix_plan(diagnosis)
+                combined = json.dumps(plan, ensure_ascii=False)
+                self.assertEqual(plan["failure_type"], "data_engineering")
+                self.assertIn(expected_tool, combined)
+                advisory_plan = dict(plan)
+                advisory_plan.pop("forbidden_actions", None)
+                self.assertFalse(forbidden_output_hits(json.dumps(advisory_plan, ensure_ascii=False).lower()))
+                assert_no_mojibake(self, diagnosis)
+                assert_no_mojibake(self, plan)
+
+    def test_pagination_overlap_wins_over_duplicate_submission(self):
+        diagnosis = classify_failure_artifact(
+            artifact(
+                "duplicate records on pages 4-5; pagination boundary drift caused expected records mismatch",
+                {"log_excerpt": "duplicate records were observed across adjacent pages, not duplicate submission"},
+                status_code=0,
+            )
+        )
+
+        self.assertEqual(diagnosis["failure_type"], "data_engineering")
+        self.assertEqual(diagnosis["subtype"], "pagination_data_loss")
 
 
 if __name__ == "__main__":
