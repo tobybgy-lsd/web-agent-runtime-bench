@@ -105,6 +105,21 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         self.assertIn("authorization", combined)
         self.assertFalse(forbidden_output_hits(combined))
 
+    def test_runtime_sandbox_leak_is_safe_fingerprint_risk(self):
+        sample = artifact(
+            "browser runtime sandbox leak detected: prototype hook and toString output differ from expected runtime metadata",
+            {"log_excerpt": "classify the browser runtime boundary; do not output evasion code"},
+            status_code=403,
+        )
+
+        diagnosis = classify_failure_artifact(sample)
+        combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+        self.assertEqual(diagnosis["subtype"], "fingerprint_risk")
+        self.assertIn("authorization", combined)
+        self.assertFalse(forbidden_output_hits(combined))
+
     def test_http_200_decoy_data_poisoning_is_not_treated_as_success(self):
         sample = artifact(
             "HTTP 200 OK but product rows are synthetic decoy data",

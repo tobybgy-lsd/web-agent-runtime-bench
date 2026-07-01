@@ -660,6 +660,9 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         or "client hints" in focused
         or "webgl" in focused
         or "webrtc" in focused
+        or "prototype hook" in focused
+        or "tostring output" in focused
+        or "sandbox leak" in focused
     ):
         subtype = "fingerprint_risk"
         evidence.append("environment protocol or fingerprint mismatch detected")
