@@ -1,0 +1,54 @@
+{
+  "text_blocks": [
+    {
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.92,
+      "language": "en",
+      "reading_order": 1
+    }
+  ],
+  "tables": [
+    {
+      "cells": [
+        [
+          "SKU",
+          "Price",
+          "Qty"
+        ],
+        [
+          "SKU-10",
+          "19.90",
+          "2"
+        ]
+      ],
+      "confidence": 0.9,
+      "warnings": []
+    }
+  ],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [],
+  "confidence_summary": {
+    "overall": 0.92,
+    "text": 0.92,
+    "table": 0.9,
+    "form": 0.0
+  }
+}

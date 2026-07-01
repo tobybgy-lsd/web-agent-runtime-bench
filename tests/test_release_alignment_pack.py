@@ -11,8 +11,8 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         opening = readme[:2200]
 
-        self.assertIn("Current milestone: Agent Failure Doctor v3.4 Visual Agent Runtime Observability Pack", opening)
-        self.assertIn("Previous stable line: Agent Failure Doctor v3.3.0", opening)
+        self.assertIn("Current milestone: Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack", opening)
+        self.assertIn("Previous stable line: Agent Failure Doctor v3.4.0", opening)
         self.assertIn("P98 gate:", opening)
         self.assertNotIn("Current milestone: v0.8", opening)
         for phrase in (

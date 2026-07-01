@@ -1,7 +1,22 @@
 # Changelog
 
-> Current package stable line: v3.4.0.
-> v3.3.0 remains the previous safety-compliance stable release, v3.1.0 remains the previous P98 core stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.5.0.
+> v3.4.0 remains the previous visual-runtime stable release, v3.3.0 remains the previous safety-compliance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.5.0
+
+- Added `failure-doctor ocr-evidence extract/compare/compare-vlm/validate`.
+- Added local-first OCR/document evidence normalization for screenshots, PDFs,
+  forms, tables, reports, RPA exports, ecommerce SKU tables, and ERP exports.
+- Added mock/local provider policy, optional PaddleOCR/PaddleOCR-VL stubs, and
+  disabled-by-default Baidu cloud OCR/doc parser provider guards.
+- Added OCR-DOM consistency, OCR-VLM consistency, OCR data-quality integration,
+  OCR safety reports, redacted AI handoff summaries, schemas, docs, tests, and
+  148 local-only validation cases.
+- Added `ocr_document_evidence_adapter` to the P98 master gate.
+- Preserved the safety boundary: no cloud OCR by default, no screenshot/PDF
+  upload by default, no raw sensitive OCR text in AI handoff, and no private
+  training or challenge content in wheel/sdist.
 
 ## v3.4.0
 

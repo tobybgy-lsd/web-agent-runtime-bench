@@ -1,11 +1,11 @@
 {
-  "version": "v3.4.0",
+  "version": "v3.5.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.4.0",
-  "previous_stable_line": "v3.3.0",
+  "current_stable_line": "v3.5.0",
+  "previous_stable_line": "v3.4.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -144,6 +144,23 @@
       "browser_profile_access_count": 0,
       "credential_store_access_count": 0
     },
+    "ocr_document_evidence_adapter": {
+      "status": "pass",
+      "validation_file": "ocr_document_evidence_validation.json",
+      "total_cases": 148,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 148,
+      "ocr_evidence_generated": 148,
+      "diagnosis_reasonable": 138,
+      "sensitive_data_blocked": 10,
+      "external_ocr_call_count": 0,
+      "document_upload_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -155,7 +172,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.4.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v3.5.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

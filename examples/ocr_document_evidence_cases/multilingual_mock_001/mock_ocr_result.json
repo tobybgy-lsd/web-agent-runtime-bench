@@ -1,0 +1,39 @@
+{
+  "text_blocks": [
+    {
+      "text": "保存 Save",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.64,
+      "language": "en",
+      "reading_order": 1
+    }
+  ],
+  "tables": [],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [
+    "multilingual_confidence_drop"
+  ],
+  "confidence_summary": {
+    "overall": 0.64,
+    "text": 0.64,
+    "table": 0.0,
+    "form": 0.0
+  }
+}

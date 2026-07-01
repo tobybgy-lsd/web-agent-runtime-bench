@@ -9,18 +9,24 @@
 Local-first failure diagnosis lifecycle tool for AI browser automation,
 Playwright, crawler, RPA, and business automation failures.
 
-- Current milestone: Agent Failure Doctor v3.4 Visual Agent Runtime Observability Pack
-- Current stable line: v3.4.0
+**Input:** trace.zip / error.log / console.txt / network.json / probe_report.json / screenshot metadata / user_description.txt / visual_run / OCR or document evidence.
 
-**Input:** trace.zip / error.log / console.txt / network.json /
-probe_report.json / screenshot metadata / user_description.txt / visual_run
+**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
-**Output:** diagnosis, evidence, next action, repair suggestions,
-GitHub issue draft, Codex fix prompt.
+Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
+
+- Current milestone: Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack
+- Current stable line: v3.5.0
+- Previous stable line: Agent Failure Doctor v3.4.0 Visual Agent Runtime Observability
+- Previous P95 stable line: Agent Failure Doctor v2.4.1
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
+
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
 See [validation/dashboard.md](validation/dashboard.md).
 
@@ -35,18 +41,37 @@ failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\repor
 failure-doctor plan .\report --out .\fix_plan
 failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report `
   --auto-diagnose --auto-handoff --auto-sanitize
+failure-doctor ocr-evidence extract --input .\screenshot.png --out .\ocr_report --provider mock_ocr
+failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html --out .\ocr_compare
 failure-doctor visual-runtime diagnose --input .\visual_run --out .\visual_report --no-dom
 failure-doctor visual-runtime compare --baseline .\dom_agent_run --candidate .\vlm_agent_run --out .\compare_report
 failure-doctor agent-bootstrap --target all --project .
 ```
 
-Release tracks: Previous stable line: Agent Failure Doctor v3.3.0; previous P95
-stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Release tracks: Previous stable line: Agent Failure Doctor v3.4.0 Visual Agent
+Runtime Observability; previous P95 stable line: Agent Failure Doctor v2.4.1
+P95 Alignment & Missing Tracks Pack.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `visual-runtime`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
 
 Optional visual evidence: screenshot.png / dom_snapshot.html /
 click_coordinates.json / ocr_excerpt.txt.
+
+### OCR & Document Evidence
+
+Use OCR evidence for screenshots, PDFs, forms, tables, reports, RPA exports,
+ecommerce SKU tables, ERP exports, and document-heavy automation failures.
+
+```powershell
+failure-doctor ocr-evidence extract --input .\screenshot.png --out .\ocr_report --provider mock_ocr
+failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html --out .\ocr_compare
+failure-doctor ocr-evidence compare-vlm --ocr .\ocr_report --vlm .\vlm_responses.jsonl --out .\ocr_vlm_compare
+```
+
+Default provider is mock/local. No cloud OCR and no screenshot/PDF upload happen
+by default. Cloud OCR requires explicit `--allow-cloud-ocr` and safety
+evaluation. Sensitive documents are blocked or require sanitization. OCR
+evidence is supporting evidence, not ground truth.
 
 ### Visual Agent Runtime Observability
 
@@ -91,8 +116,8 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.4.0 is the current stable technical baseline. It adds offline visual agent
-runtime observability on top of local-only safety and
+v3.5.0 is the current stable technical baseline. It adds OCR/document evidence
+adapters on top of offline visual agent runtime observability and local-only safety and
 compliance evaluation for collector scope, secrets, shareability, AI handoff,
 patch proposals, DOM risk, permission boundaries, data exfiltration, offline
 cloud-browser artifacts, and regulated workflow mocks.
@@ -500,7 +525,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.4 Visual Agent Runtime Observability Pack.
+Current milestone: Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack.
 
 Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 

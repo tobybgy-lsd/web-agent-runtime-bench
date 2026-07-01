@@ -1,6 +1,6 @@
 # P98 Controlled Maturity Results
 
-Agent Failure Doctor v3.4.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
+Agent Failure Doctor v3.5.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
 
 | Pillar | Result |
 |---|---|
@@ -16,6 +16,7 @@ Agent Failure Doctor v3.4.0 uses local-only, public-safe validation ledgers and 
 | Auto Collector / One-Click Diagnosis P98 | 95 cases, pass |
 | Safety & Compliance Evaluation P98 | 175 cases, pass |
 | Visual Agent Runtime Observability P98 | 170 cases, pass |
+| OCR & Document Evidence Adapter P98 | 148 cases, pass |
 | Safety Boundary P98 | forbidden output count 0, pass |
 
 See `validation/p98_master_gate.json` for the machine-readable gate.

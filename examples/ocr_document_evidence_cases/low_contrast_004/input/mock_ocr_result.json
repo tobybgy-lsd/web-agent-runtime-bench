@@ -1,0 +1,39 @@
+{
+  "text_blocks": [
+    {
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.6,
+      "language": "en",
+      "reading_order": 1
+    }
+  ],
+  "tables": [],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [
+    "low_contrast"
+  ],
+  "confidence_summary": {
+    "overall": 0.6,
+    "text": 0.6,
+    "table": 0.0,
+    "form": 0.0
+  }
+}

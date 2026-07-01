@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"OCR DOM Consistency","type":"object","required":["schema_version","status","findings"],"properties":{"schema_version":{"const":"ocr_dom_consistency/v1"},"status":{"enum":["pass","warning"]},"findings":{"type":"array"},"confidence":{"type":"number"}}}

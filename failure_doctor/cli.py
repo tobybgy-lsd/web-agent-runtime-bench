@@ -15,6 +15,8 @@ from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
 from failure_doctor.safety.evaluator import evaluate_safety
+from failure_doctor.ocr_evidence.cli import handle_ocr_evidence
+from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
 from failure_doctor.visual_runtime.adapter import adapt_visual_artifacts
 from failure_doctor.visual_runtime.compare import compare_visual_runs
 from failure_doctor.visual_runtime.loader import load_visual_run, validate_visual_run
@@ -79,6 +81,8 @@ def main(argv: list[str] | None = None) -> int:
         return visual_diagnose_inputs(args)
     if args.command == "visual-runtime":
         return visual_runtime_inputs(args)
+    if args.command == "ocr-evidence":
+        return handle_ocr_evidence(args)
     if args.command == "safety-evaluate":
         return safety_evaluate_inputs(args)
     parser.print_help()
@@ -190,6 +194,7 @@ def build_parser() -> argparse.ArgumentParser:
     visual = sub.add_parser("visual-diagnose", help="Diagnose visual/screenshot/DOM-based failures from evidence directory")
     visual.add_argument("input", help="Directory containing screenshot.png, dom_snapshot.html, click_coordinates.json, ocr_excerpt.txt")
     visual.add_argument("--out", required=True, help="Output visual diagnosis report directory")
+    visual.add_argument("--ocr-provider", default=None, choices=["mock_ocr", "paddleocr_local", "paddleocr_vl_local", "baidu_cloud_ocr", "baidu_cloud_doc_parser", "external_json_import"], help="Optional OCR evidence provider")
     visual_runtime = sub.add_parser("visual-runtime", help="Offline observability for screenshot-driven visual agent runtimes")
     visual_runtime_sub = visual_runtime.add_subparsers(dest="visual_runtime_command", required=True)
     visual_diag = visual_runtime_sub.add_parser("diagnose", help="Diagnose an offline visual runtime artifact")
@@ -200,6 +205,7 @@ def build_parser() -> argparse.ArgumentParser:
     visual_diag.add_argument("--dom-optional", action="store_true", help="Use DOM snapshots when present, otherwise degrade to pure visual")
     visual_diag.add_argument("--redact-images", action="store_true", help="Reserved for adapters; diagnosis never uploads images")
     visual_diag.add_argument("--safety-evaluate", action="store_true", help="Evaluate shareability and block sensitive visual artifacts")
+    visual_diag.add_argument("--ocr-provider", default=None, choices=["mock_ocr", "paddleocr_local", "paddleocr_vl_local", "external_json_import"], help="Optional local OCR evidence provider")
     visual_profile = visual_runtime_sub.add_parser("profile", help="Profile an offline visual runtime artifact")
     visual_profile.add_argument("--input", required=True)
     visual_profile.add_argument("--out", required=True)
@@ -219,6 +225,31 @@ def build_parser() -> argparse.ArgumentParser:
     visual_validate.add_argument("--out", required=True)
     visual_validate.add_argument("--no-dom", action="store_true")
     visual_validate.add_argument("--dom-optional", action="store_true")
+    ocr = sub.add_parser("ocr-evidence", help="Extract and compare local OCR/document evidence")
+    ocr_sub = ocr.add_subparsers(dest="ocr_command", required=True)
+    ocr_extract = ocr_sub.add_parser("extract", help="Extract local OCR/document evidence")
+    ocr_extract.add_argument("--input", required=True, help="Input image/PDF/folder or mock OCR fixture directory")
+    ocr_extract.add_argument("--out", required=True, help="Output OCR report directory")
+    ocr_extract.add_argument("--provider", default="mock_ocr", choices=["mock_ocr", "paddleocr_local", "paddleocr_vl_local", "baidu_cloud_ocr", "baidu_cloud_doc_parser", "external_json_import"])
+    ocr_extract.add_argument("--model-dir", default=None, help="Local model directory for optional local OCR providers")
+    ocr_extract.add_argument("--allow-cloud-ocr", action="store_true", help="Explicitly allow cloud OCR after safety evaluation")
+    ocr_extract.add_argument("--no-cloud", action="store_true", help="Block all cloud OCR providers")
+    ocr_extract.add_argument("--redact-before-cloud", action="store_true", help="Require redaction before any cloud OCR attempt")
+    ocr_extract.add_argument("--safety-evaluate", action="store_true", help="Evaluate local safety before provider use")
+    ocr_extract.add_argument("--max-file-mb", type=int, default=50)
+    ocr_extract.add_argument("--max-total-mb", type=int, default=500)
+    ocr_extract.add_argument("--document-mode", default="mixed", choices=["image", "pdf", "table", "form", "mixed"])
+    ocr_compare = ocr_sub.add_parser("compare", help="Compare OCR evidence with DOM text")
+    ocr_compare.add_argument("--ocr", required=True, help="OCR report directory")
+    ocr_compare.add_argument("--dom", required=True, help="DOM snapshot HTML")
+    ocr_compare.add_argument("--out", required=True, help="Output comparison report directory")
+    ocr_compare_vlm = ocr_sub.add_parser("compare-vlm", help="Compare OCR evidence with offline VLM responses")
+    ocr_compare_vlm.add_argument("--ocr", required=True, help="OCR report directory")
+    ocr_compare_vlm.add_argument("--vlm", required=True, help="Offline vlm_responses.jsonl")
+    ocr_compare_vlm.add_argument("--out", required=True, help="Output comparison report directory")
+    ocr_validate = ocr_sub.add_parser("validate", help="Validate OCR evidence report")
+    ocr_validate.add_argument("--input", required=True, help="OCR report directory")
+    ocr_validate.add_argument("--out", required=True, help="Output validation report directory")
     return parser
 
 
@@ -581,6 +612,19 @@ def visual_diagnose_inputs(args: argparse.Namespace) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     report_path = out_dir / "visual_diagnosis.json"
     write_json(report_path, result)
+    if getattr(args, "ocr_provider", None):
+        ocr_result = extract_ocr_evidence(
+            input_path,
+            out_dir / "ocr_evidence",
+            provider=args.ocr_provider,
+            safety_evaluate=True,
+        )
+        result["ocr_evidence"] = {
+            "provider": ocr_result["ocr"].get("provider"),
+            "shareability_decision": ocr_result["ocr"].get("safety", {}).get("shareability_decision"),
+            "text_blocks": len(ocr_result["ocr"].get("text_blocks", [])),
+        }
+        write_json(report_path, result)
     print(f"\nReport: {report_path}")
     return 0
 
@@ -597,6 +641,25 @@ def visual_runtime_inputs(args: argparse.Namespace) -> int:
                 safety_evaluate=bool(args.safety_evaluate),
             )
             diagnosis = result["diagnosis"]
+            if getattr(args, "ocr_provider", None):
+                ocr_result = extract_ocr_evidence(
+                    Path(args.input),
+                    Path(args.out) / "ocr_evidence",
+                    provider=args.ocr_provider,
+                    safety_evaluate=bool(args.safety_evaluate),
+                )
+                write_json(
+                    Path(args.out) / "ocr_runtime_summary.json",
+                    {
+                        "provider": ocr_result["ocr"].get("provider"),
+                        "shareability_decision": ocr_result["ocr"].get("safety", {}).get("shareability_decision"),
+                        "ocr_step_confidence": ocr_result["ocr"].get("confidence_summary", {}).get("overall", 0.0),
+                        "ocr_target_persistence": "available_if_text_repeats_across_steps",
+                        "ocr_text_drift": "available_if_step_ocr_changes",
+                        "ocr_vlm_conflict_rate": "available_when_vlm_responses_present",
+                        "ocr_compression_loss_score": "available_when_screenshot_quality_metadata_present",
+                    },
+                )
             print("Agent Failure Doctor - Visual Runtime Diagnosis")
             print(f"Subtype: {diagnosis.get('subtype')} ({float(diagnosis.get('confidence', 0)):.0%})")
             print(f"Risk: {diagnosis.get('risk_level')}")

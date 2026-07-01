@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"OCR Data Quality","type":"object","required":["schema_version","status","finding_count","findings"],"properties":{"schema_version":{"const":"ocr_data_quality/v1"},"status":{"enum":["pass","warning"]},"finding_count":{"type":"integer"},"findings":{"type":"array"}}}

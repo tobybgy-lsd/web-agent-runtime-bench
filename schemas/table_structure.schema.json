@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Table Structure","type":"object","required":["schema_version","tables","table_count"],"properties":{"schema_version":{"const":"table_structure/v1"},"tables":{"type":"array"},"table_count":{"type":"integer"},"warnings":{"type":"array"}}}

@@ -35,7 +35,7 @@ class IssueTemplateDistributionTests(unittest.TestCase):
             self.assertTrue((issue_dir / name).exists(), f"{name} should exist")
 
     def test_release_notes_and_about_docs_include_pypi_install(self):
-        release_notes = (ROOT / "docs" / "RELEASE_NOTES_v3.4.0.md").read_text(
+        release_notes = (ROOT / "docs" / "RELEASE_NOTES_v3.5.0.md").read_text(
             encoding="utf-8"
         )
         about_doc = ROOT / "docs" / "manual_update_github_about.md"

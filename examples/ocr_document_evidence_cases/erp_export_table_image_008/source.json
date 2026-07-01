@@ -1,0 +1,11 @@
+{
+  "local_only": true,
+  "synthetic_or_mock": true,
+  "does_not_access_real_platform": true,
+  "does_not_call_external_ocr": true,
+  "does_not_upload_documents": true,
+  "contains_private_solution": false,
+  "diagnosis_only_no_bypass": true,
+  "public_safe": true,
+  "category": "erp_export_table_image"
+}

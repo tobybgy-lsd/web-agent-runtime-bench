@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "3.4.0"
+PACK_VERSION = "3.5.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -69,6 +69,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "safety_policy.md").write_text(_render_safety_policy(), encoding="utf-8")
         (target_dir / "safety_evaluation_workflow.md").write_text(_render_safety_evaluation_workflow(), encoding="utf-8")
         (target_dir / "visual_runtime_workflow.md").write_text(_render_visual_runtime_workflow(), encoding="utf-8")
+        (target_dir / "ocr_evidence_workflow.md").write_text(_render_ocr_evidence_workflow(), encoding="utf-8")
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -89,6 +90,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         },
         "recommended_command": "failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize --safety-evaluate",
         "visual_runtime_command": "failure-doctor visual-runtime diagnose --input .\\visual_run --out .\\visual_report --no-dom --safety-evaluate",
+        "ocr_evidence_command": "failure-doctor ocr-evidence extract --input .\\failure_evidence --out .\\ocr_report --provider mock_ocr --safety-evaluate",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -306,6 +308,39 @@ Do not provide challenge defeat, anti-detection, fingerprint modification,
 behavior imitation, pointer path generation for access-control defeat, or
 automated challenge-solving instructions. If evidence is insufficient, request
 manual review and a fuller local visual-run artifact.
+"""
+
+
+def _render_ocr_evidence_workflow() -> str:
+    return """# OCR Evidence Workflow
+
+Use this when screenshots, PDFs, forms, tables, scanned reports, RPA exports,
+ecommerce SKU tables, ERP exports, or document-heavy automation failures are
+involved.
+
+Run local/mock OCR evidence extraction first:
+
+```powershell
+failure-doctor ocr-evidence extract --input .\\failure_evidence --out .\\ocr_report --provider mock_ocr --safety-evaluate
+```
+
+Then compare local evidence when available:
+
+```powershell
+failure-doctor ocr-evidence compare --ocr .\\ocr_report --dom .\\dom_snapshot.html --out .\\ocr_dom_compare
+failure-doctor ocr-evidence compare-vlm --ocr .\\ocr_report --vlm .\\vlm_responses.jsonl --out .\\ocr_vlm_compare
+```
+
+Rules:
+
+1. Use OCR evidence as supporting evidence, not ground truth.
+2. Do not upload screenshots or PDFs to cloud OCR unless the user explicitly
+   authorized it and `failure-doctor safety-evaluate` has passed.
+3. Do not include raw sensitive OCR text in AI handoff.
+4. Use redacted OCR summaries and finding IDs.
+5. Prefer DOM/schema/export comparison before asking an AI agent to edit code.
+6. If sensitive customer, token, cookie, order, invoice, or personal data is
+   detected, stop and sanitize before sharing.
 """
 
 

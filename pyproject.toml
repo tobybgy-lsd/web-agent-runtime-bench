@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-failure-doctor"
-version = "3.4.0"
+version = "3.5.0"
 description = "Local-first failure diagnosis for AI browser automation, Playwright, crawler, and RPA runs."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -43,6 +43,9 @@ Issues = "https://github.com/tobybgy-lsd/web-agent-runtime-bench/issues"
 
 [project.optional-dependencies]
 trace-gen = ["playwright>=1.45"]
+ocr = []
+paddleocr = ["paddleocr>=3.0.0"]
+baidu-ocr = ["requests>=2.31.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]

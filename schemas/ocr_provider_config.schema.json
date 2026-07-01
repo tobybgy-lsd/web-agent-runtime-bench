@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"OCR Provider Config","type":"object","required":["provider","enabled_by_default"],"properties":{"provider":{"type":"string"},"enabled_by_default":{"type":"boolean"},"requires_explicit_cloud_allow":{"type":"boolean"}}}
