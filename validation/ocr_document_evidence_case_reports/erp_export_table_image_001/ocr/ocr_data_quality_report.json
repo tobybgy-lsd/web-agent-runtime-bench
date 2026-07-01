@@ -1,0 +1,17 @@
+{
+  "schema_version": "ocr_data_quality/v1",
+  "status": "warning",
+  "finding_count": 2,
+  "findings": [
+    {
+      "type": "ocr_table_column_shift",
+      "table_id": "table_001",
+      "severity": "medium"
+    },
+    {
+      "type": "sku_column_missing",
+      "table_id": "table_001",
+      "severity": "medium"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "ocr_vlm_consistency/v1",
+  "status": "pass",
+  "vlm_present": true,
+  "findings": [],
+  "confidence": 0.84
+}

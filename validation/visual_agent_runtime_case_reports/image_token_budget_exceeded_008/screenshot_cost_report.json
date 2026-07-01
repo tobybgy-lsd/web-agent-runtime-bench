@@ -1,0 +1,22 @@
+{
+  "schema_version": "screenshot_cost_report/v1",
+  "frame_count": 1,
+  "total_bytes": 69,
+  "total_estimated_image_tokens": 9000,
+  "image_token_budget_exceeded": true,
+  "transport_overhead_score": 0.0,
+  "frames": [
+    {
+      "step_id": 1,
+      "path": "frames/step_001.png",
+      "byte_size": 69,
+      "estimated_image_tokens": 9000,
+      "quality_score": 0.88,
+      "overcompressed": false,
+      "underloaded": false,
+      "capture_latency_ms": 0,
+      "encode_latency_ms": 0,
+      "decode_latency_ms": 0
+    }
+  ]
+}

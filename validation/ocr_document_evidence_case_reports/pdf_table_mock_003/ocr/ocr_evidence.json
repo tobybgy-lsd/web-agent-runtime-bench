@@ -1,0 +1,93 @@
+{
+  "schema_version": "ocr_evidence/v1",
+  "tool_version": "3.6.0",
+  "created_at": "2026-07-01T16:36:11.735562+00:00",
+  "provider": "mock_ocr",
+  "provider_mode": "mock",
+  "input": {
+    "path": "D:\\WebAgentRuntimeBench-GitHub\\examples\\ocr_document_evidence_cases\\pdf_table_mock_003\\input",
+    "kind": "mixed",
+    "sha256": "36f3bfeb10cd0547ef3710b7fbbd5f77fbfdf66d10054ff925bc8584fc2f9e09",
+    "size_bytes": 963
+  },
+  "safety": {
+    "local_only": true,
+    "cloud_upload_used": false,
+    "safety_evaluated": true,
+    "redaction_status": "redacted",
+    "shareability_decision": "sanitize_required",
+    "sensitive_findings": [
+      "order_data"
+    ]
+  },
+  "text_blocks": [
+    {
+      "id": "text_001",
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.92,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "tables": [
+    {
+      "id": "table_001",
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rows": 2,
+      "columns": 3,
+      "cells": [
+        [
+          "SKU",
+          "Price",
+          "Qty"
+        ],
+        [
+          "SKU-3",
+          "19.90",
+          "2"
+        ]
+      ],
+      "confidence": 0.9,
+      "warnings": []
+    }
+  ],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [],
+  "confidence_summary": {
+    "overall": 0.92,
+    "text": 0.92,
+    "table": 0.9,
+    "form": 0.0
+  },
+  "document_mode": "mixed",
+  "limits": {
+    "max_file_mb": 50,
+    "max_total_mb": 500
+  },
+  "redact_before_cloud": false
+}

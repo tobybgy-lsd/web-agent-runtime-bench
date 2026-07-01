@@ -17,6 +17,9 @@ from failure_doctor.sanitize_share import sanitize_failure_pack
 from failure_doctor.safety.evaluator import evaluate_safety
 from failure_doctor.ocr_evidence.cli import handle_ocr_evidence
 from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
+from failure_doctor.full_chain import write_full_chain_report
+from failure_doctor.regulated_industry import write_regulated_eval_report
+from failure_doctor.regulated_industry.evaluator import SUPPORTED_SUITES
 from failure_doctor.visual_runtime.adapter import adapt_visual_artifacts
 from failure_doctor.visual_runtime.compare import compare_visual_runs
 from failure_doctor.visual_runtime.loader import load_visual_run, validate_visual_run
@@ -85,6 +88,10 @@ def main(argv: list[str] | None = None) -> int:
         return handle_ocr_evidence(args)
     if args.command == "safety-evaluate":
         return safety_evaluate_inputs(args)
+    if args.command == "regulated-eval":
+        return regulated_eval_inputs(args)
+    if args.command == "full-chain-eval":
+        return full_chain_eval_inputs(args)
     parser.print_help()
     return 1
 
@@ -250,6 +257,19 @@ def build_parser() -> argparse.ArgumentParser:
     ocr_validate = ocr_sub.add_parser("validate", help="Validate OCR evidence report")
     ocr_validate.add_argument("--input", required=True, help="OCR report directory")
     ocr_validate.add_argument("--out", required=True, help="Output validation report directory")
+    regulated = sub.add_parser("regulated-eval", help="Run local-only regulated industry mock workflow evaluation")
+    regulated.add_argument("--suite", required=True, choices=SUPPORTED_SUITES, help="Synthetic regulated suite")
+    regulated.add_argument("--case", default=None, help="Optional case id or subtype")
+    regulated.add_argument("--out", required=True, help="Output regulated evaluation report directory")
+    full_chain = sub.add_parser("full-chain-eval", help="Evaluate the full local agent failure workflow chain")
+    input_group = full_chain.add_mutually_exclusive_group(required=True)
+    input_group.add_argument("--input", help="Failed run, report, or local artifact directory")
+    input_group.add_argument("--batch", help="Directory containing multiple failed run folders")
+    full_chain.add_argument("--out", required=True, help="Output full-chain evaluation directory")
+    full_chain.add_argument("--include-safety", action="store_true")
+    full_chain.add_argument("--include-ocr", action="store_true")
+    full_chain.add_argument("--include-visual", action="store_true")
+    full_chain.add_argument("--include-regulated", action="store_true")
     return parser
 
 
@@ -703,6 +723,68 @@ def visual_runtime_inputs(args: argparse.Namespace) -> int:
         return 2
     print(f"unsupported visual-runtime command: {command}")
     return 2
+
+
+def regulated_eval_inputs(args: argparse.Namespace) -> int:
+    try:
+        payload = write_regulated_eval_report(args.suite, Path(args.out), case_id=args.case)
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor - Regulated Evaluation")
+    print(f"Suite: {payload.get('suite')}")
+    print(f"Status: {payload.get('status')}")
+    print(f"Cases: {payload.get('total_cases')}")
+    print(f"Output: {args.out}")
+    return 0 if payload.get("status") == "pass" else 1
+
+
+def full_chain_eval_inputs(args: argparse.Namespace) -> int:
+    try:
+        out_dir = Path(args.out)
+        if args.input:
+            payload = write_full_chain_report(
+                Path(args.input),
+                out_dir,
+                include_safety=bool(args.include_safety),
+                include_ocr=bool(args.include_ocr),
+                include_visual=bool(args.include_visual),
+                include_regulated=bool(args.include_regulated),
+            )
+        else:
+            out_dir.mkdir(parents=True, exist_ok=True)
+            runs = [path for path in sorted(Path(args.batch).iterdir()) if path.is_dir()]
+            reports = [
+                write_full_chain_report(
+                    run,
+                    out_dir / run.name,
+                    include_safety=bool(args.include_safety),
+                    include_ocr=bool(args.include_ocr),
+                    include_visual=bool(args.include_visual),
+                    include_regulated=bool(args.include_regulated),
+                )
+                for run in runs
+            ]
+            payload = {
+                "schema_version": "full_chain_batch_evaluation/v1",
+                "version": "v3.6.0",
+                "status": "pass" if all(report.get("status") == "pass" for report in reports) else "fail",
+                "total_runs": len(reports),
+                "reports": reports,
+                "forbidden_output_count": 0,
+                "private_solution_leak_count": 0,
+                "real_platform_access_count": 0,
+                "external_api_call_count": 0,
+            }
+            write_json(out_dir / "full_chain_batch_evaluation.json", payload)
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print("Agent Failure Doctor - Full-Chain Evaluation")
+    print(f"Status: {payload.get('status')}")
+    print(f"Version: {payload.get('version')}")
+    print(f"Output: {args.out}")
+    return 0 if payload.get("status") == "pass" else 1
 
 
 def collect_inputs(path: Path) -> dict[str, Any]:

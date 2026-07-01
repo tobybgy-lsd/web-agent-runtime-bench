@@ -1,0 +1,67 @@
+{
+  "schema_version": "ocr_evidence/v1",
+  "tool_version": "3.6.0",
+  "created_at": "2026-07-01T16:36:12.052331+00:00",
+  "provider": "mock_ocr",
+  "provider_mode": "mock",
+  "input": {
+    "path": "D:\\WebAgentRuntimeBench-GitHub\\examples\\ocr_document_evidence_cases\\multilingual_mock_008\\input",
+    "kind": "mixed",
+    "sha256": "c063ecad8f442ef618ff66fcc5b52ad678bb3266a895a6f480c5050ddd34a171",
+    "size_bytes": 755
+  },
+  "safety": {
+    "local_only": true,
+    "cloud_upload_used": false,
+    "safety_evaluated": true,
+    "redaction_status": "not_needed",
+    "shareability_decision": "safe_to_share",
+    "sensitive_findings": []
+  },
+  "text_blocks": [
+    {
+      "id": "text_001",
+      "text": "保存 Save",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.64,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "tables": [],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [
+    "multilingual_confidence_drop"
+  ],
+  "confidence_summary": {
+    "overall": 0.64,
+    "text": 0.64,
+    "table": 0.0,
+    "form": 0.0
+  },
+  "document_mode": "mixed",
+  "limits": {
+    "max_file_mb": 50,
+    "max_total_mb": 500
+  },
+  "redact_before_cloud": false
+}

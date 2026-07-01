@@ -1,0 +1,21 @@
+{
+  "schema_version": "coordinate_drift_report/v1",
+  "clicks": [],
+  "dpr": [
+    {
+      "step_id": 1,
+      "device_scale_factor": 1,
+      "dpr_scale_error": 0
+    }
+  ],
+  "viewport": [
+    {
+      "step_id": 1,
+      "width": 1280,
+      "height": 720,
+      "scroll_y": 0,
+      "scroll_mismatch": false,
+      "resized_between_observation_action": false
+    }
+  ]
+}

@@ -1,7 +1,26 @@
 # Changelog
 
-> Current package stable line: v3.5.0.
-> v3.4.0 remains the previous visual-runtime stable release, v3.3.0 remains the previous safety-compliance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.6.0.
+> v3.5.0 remains the previous OCR/document stable release, v3.4.0 remains the previous visual-runtime stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.6.0
+
+- Added `failure-doctor regulated-eval` for local-only finance, government,
+  healthcare, and cross-industry synthetic mock workflow evaluation.
+- Added `failure-doctor full-chain-eval` for collect -> diagnose -> plan ->
+  handoff -> patch proposal -> verify -> sanitize/share -> safety/OCR/visual
+  regulated evaluation scoring.
+- Promoted the visual-runtime validation gate to the v3.6 threshold with 160+
+  local-only visual-agent cases and zero external VLM calls or screenshot
+  uploads.
+- Added `regulated_industry_workflow_pack` and `full_chain_agent_evaluation`
+  to the P98 master gate alongside the updated visual runtime pillar.
+- Added agent-bootstrap workflows for regulated evaluation and full-chain
+  evaluation.
+- Preserved the public safety boundary: synthetic/mock evidence only for
+  regulated suites, no real regulated-system access, no cloud upload by
+  default, no private Spiderbuf/solver/FLAG/challenge content, and no bypass,
+  evasion, spoofing, cracking, or behavioral recipe guidance.
 
 ## v3.5.0
 

@@ -1,0 +1,14 @@
+{
+  "schema_version": "ocr_dom_consistency/v1",
+  "status": "warning",
+  "ocr_text_count": 1,
+  "dom_present": true,
+  "findings": [
+    {
+      "type": "ocr_dom_text_conflict",
+      "ocr_text": "Customer email alice4@example.com order id ORD-0004",
+      "severity": "medium"
+    }
+  ],
+  "confidence": 0.94
+}

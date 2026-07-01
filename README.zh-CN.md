@@ -4,9 +4,9 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及文档/表格/表单密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack
-- 当前稳定版本：v3.5.0
-- 上一个稳定版本：v3.4.0
+- 当前里程碑：Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
+- 当前稳定版本：v3.6.0
+- 上一个稳定版本：v3.5.0
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -46,8 +46,24 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
   --auto-diagnose --auto-handoff --auto-sanitize
 failure-doctor ocr-evidence extract --input .\screenshot.png --out .\ocr_report --provider mock_ocr
 failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html --out .\ocr_compare
+failure-doctor regulated-eval --suite all --out .\regulated_report
+failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## Regulated Industry & Full-Chain Evaluation
+
+v3.6 新增本地 synthetic/mock 的强监管行业评测和全链路 Agent 评测：
+
+```powershell
+failure-doctor regulated-eval --suite finance --out .\regulated_report
+failure-doctor regulated-eval --suite government --out .\regulated_report
+failure-doctor regulated-eval --suite healthcare --out .\regulated_report
+failure-doctor regulated-eval --suite all --out .\regulated_report
+failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report --include-safety --include-ocr --include-visual --include-regulated
+```
+
+这些评测只使用本地 mock 证据，不访问真实金融、政务、医疗、患者、公民、银行或客户系统；它们用于证据质量、可分享性和 AI handoff 安全检查，不构成法律、医疗、金融或监管合规建议。
 
 ## OCR & Document Evidence
 

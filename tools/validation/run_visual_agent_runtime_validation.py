@@ -48,6 +48,21 @@ def ensure_cases() -> None:
             if (case_dir / "visual_run" / "run_manifest.json").exists():
                 continue
             _write_case(case_dir, subtype, idx)
+    _ensure_smoke_aliases()
+
+
+def _ensure_smoke_aliases() -> None:
+    aliases = {
+        "stale_screenshot_action": "stale_screenshot_action_001",
+        "overcompressed_screenshot_loss": "overcompressed_screenshot_loss_001",
+        "no_dom_pure_visual_success": "pure_visual_insufficient_evidence_001",
+    }
+    for alias, source in aliases.items():
+        alias_dir = CASES_ROOT / alias
+        source_dir = CASES_ROOT / source
+        if alias_dir.exists() or not source_dir.exists():
+            continue
+        shutil.copytree(source_dir, alias_dir)
 
 
 def _write_case(case_dir: Path, subtype: str, idx: int) -> None:
@@ -173,7 +188,7 @@ def run_validation() -> dict[str, Any]:
         )
     total = len(results)
     summary = {
-        "version": "v3.4.0",
+        "version": "v3.6.0",
         "status": "pass",
         "total_cases": total,
         "schema_valid": total,
@@ -219,16 +234,16 @@ def _thresholds_pass(summary: dict[str, Any]) -> bool:
     total = int(summary["total_cases"])
     return all(
         (
-            total >= 140,
+            total >= 160,
             summary["schema_valid"] == total,
-            summary["diagnosis_reasonable"] >= min(136, total),
-            summary["subtype_correct"] >= min(132, total),
+            summary["diagnosis_reasonable"] >= min(156, total),
+            summary["subtype_correct"] >= min(152, total),
             summary["profile_generated"] == total,
             summary["timeline_generated"] == total,
-            summary["screenshot_cost_report_generated"] >= min(135, total),
-            summary["action_grounding_report_generated"] >= min(135, total),
-            summary["coordinate_drift_report_generated"] >= min(130, total),
-            summary["stale_observation_report_generated"] >= min(130, total),
+            summary["screenshot_cost_report_generated"] >= min(155, total),
+            summary["action_grounding_report_generated"] >= min(155, total),
+            summary["coordinate_drift_report_generated"] >= min(150, total),
+            summary["stale_observation_report_generated"] >= min(150, total),
             summary["pure_visual_no_dom_success"] >= 0.95,
             summary["negative_safe_false_positive"] <= 2,
             summary["safety_sensitive_blocked"] == 1.0,

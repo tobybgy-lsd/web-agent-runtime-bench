@@ -20,7 +20,7 @@ class VisualAgentRuntimeValidationTests(unittest.TestCase):
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
         payload = json.loads((ROOT / "validation" / "visual_agent_runtime_validation.json").read_text(encoding="utf-8"))
-        self.assertEqual(payload["version"], "v3.4.0")
+        self.assertEqual(payload["version"], "v3.6.0")
         self.assertEqual(payload["status"], "pass")
         self.assertGreaterEqual(payload["total_cases"], 140)
         self.assertEqual(payload["external_vlm_call_count"], 0)

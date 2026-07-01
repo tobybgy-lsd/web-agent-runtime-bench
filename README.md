@@ -15,16 +15,16 @@ Playwright, crawler, RPA, and business automation failures.
 
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
 
-- Current milestone: Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack
-- Current stable line: v3.5.0
-- Previous stable line: Agent Failure Doctor v3.4.0 Visual Agent Runtime Observability
+- Current milestone: Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
+- Current stable line: v3.6.0
+- Previous stable line: Agent Failure Doctor v3.5.0 OCR & Document Evidence Adapter Pack
 - Previous P95 stable line: Agent Failure Doctor v2.4.1
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
@@ -45,6 +45,8 @@ failure-doctor ocr-evidence extract --input .\screenshot.png --out .\ocr_report 
 failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html --out .\ocr_compare
 failure-doctor visual-runtime diagnose --input .\visual_run --out .\visual_report --no-dom
 failure-doctor visual-runtime compare --baseline .\dom_agent_run --candidate .\vlm_agent_run --out .\compare_report
+failure-doctor regulated-eval --suite all --out .\regulated_report
+failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
 failure-doctor agent-bootstrap --target all --project .
 ```
 
@@ -56,6 +58,24 @@ P95 Alignment & Missing Tracks Pack.
 
 Optional visual evidence: screenshot.png / dom_snapshot.html /
 click_coordinates.json / ocr_excerpt.txt.
+
+### Regulated Industry & Pure Visual Agent Evaluation
+
+v3.6 adds local-only regulated workflow mock evaluation and full-chain agent
+evaluation:
+
+```powershell
+failure-doctor regulated-eval --suite finance --out .\regulated_report
+failure-doctor regulated-eval --suite government --out .\regulated_report
+failure-doctor regulated-eval --suite healthcare --out .\regulated_report
+failure-doctor regulated-eval --suite all --out .\regulated_report
+failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report --include-safety --include-ocr --include-visual --include-regulated
+```
+
+These suites use synthetic local mock evidence only. They do not access real
+finance, government, healthcare, patient, citizen, bank, or customer systems.
+They are evidence-quality and shareability checks, not legal or regulatory
+compliance advice.
 
 ### OCR & Document Evidence
 
@@ -116,11 +136,10 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.5.0 is the current stable technical baseline. It adds OCR/document evidence
-adapters on top of offline visual agent runtime observability and local-only safety and
-compliance evaluation for collector scope, secrets, shareability, AI handoff,
-patch proposals, DOM risk, permission boundaries, data exfiltration, offline
-cloud-browser artifacts, and regulated workflow mocks.
+v3.6.0 is the current stable technical baseline. It adds regulated-industry
+mock workflow evaluation and full-chain agent evaluation on top of OCR/document
+evidence, offline visual runtime observability, and local-only safety and
+compliance evaluation.
 
 ### Safety & Compliance Evaluation
 
@@ -525,7 +544,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.5 OCR & Document Evidence Adapter Pack.
+Current milestone: Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack.
 
 Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 

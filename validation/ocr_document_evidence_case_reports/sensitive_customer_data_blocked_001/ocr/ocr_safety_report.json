@@ -1,0 +1,12 @@
+{
+  "schema_version": "ocr_safety/v1",
+  "status": "sanitize_required",
+  "local_only": true,
+  "cloud_upload_used": false,
+  "redaction_status": "redacted",
+  "sensitive_findings": [
+    "customer_data",
+    "email",
+    "order_data"
+  ]
+}

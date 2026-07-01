@@ -1,0 +1,12 @@
+{
+  "schema_version": "stale_observation_report/v1",
+  "stale_count": 1,
+  "observations": [
+    {
+      "step_id": 1,
+      "summary": "stale_screenshot_action offline fixture",
+      "latency_ms": 120,
+      "stale": true
+    }
+  ]
+}

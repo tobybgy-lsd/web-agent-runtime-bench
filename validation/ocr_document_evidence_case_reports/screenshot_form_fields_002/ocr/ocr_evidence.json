@@ -1,0 +1,82 @@
+{
+  "schema_version": "ocr_evidence/v1",
+  "tool_version": "3.6.0",
+  "created_at": "2026-07-01T16:36:11.313773+00:00",
+  "provider": "mock_ocr",
+  "provider_mode": "mock",
+  "input": {
+    "path": "D:\\WebAgentRuntimeBench-GitHub\\examples\\ocr_document_evidence_cases\\screenshot_form_fields_002\\input",
+    "kind": "mixed",
+    "sha256": "5e49aecca70e381512602717e76b6b4be2dd8b47beef0f3359889659a85c8a7d",
+    "size_bytes": 969
+  },
+  "safety": {
+    "local_only": true,
+    "cloud_upload_used": false,
+    "safety_evaluated": true,
+    "redaction_status": "not_needed",
+    "shareability_decision": "safe_to_share",
+    "sensitive_findings": []
+  },
+  "text_blocks": [
+    {
+      "id": "text_001",
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.92,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "tables": [],
+  "forms": [
+    {
+      "id": "form_001",
+      "fields": [
+        {
+          "label": "Price",
+          "value": "19.90",
+          "bbox": [
+            1,
+            1,
+            20,
+            20
+          ],
+          "confidence": 0.9
+        }
+      ]
+    }
+  ],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [],
+  "confidence_summary": {
+    "overall": 0.92,
+    "text": 0.92,
+    "table": 0.0,
+    "form": 0.9
+  },
+  "document_mode": "mixed",
+  "limits": {
+    "max_file_mb": 50,
+    "max_total_mb": 500
+  },
+  "redact_before_cloud": false
+}

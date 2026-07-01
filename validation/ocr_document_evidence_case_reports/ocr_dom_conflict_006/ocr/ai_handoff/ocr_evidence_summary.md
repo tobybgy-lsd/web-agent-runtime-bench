@@ -1,0 +1,10 @@
+# OCR Evidence Summary
+
+OCR evidence is supporting evidence, not ground truth.
+
+- finding_id: text_001
+  text_redacted: Publish
+  bbox: [1, 2, 80, 28]
+  confidence: 0.92
+  related_failure_type: ocr_evidence
+  safe_next_action: compare OCR evidence with DOM, VLM, or schema locally.

@@ -1,0 +1,18 @@
+{
+  "schema_version": "visual_runtime_validation/v1",
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "run_id": "stale_screenshot_action_004",
+  "source": "cursor_agent",
+  "mode": "dom_optional",
+  "frame_count": 1,
+  "observation_count": 1,
+  "action_count": 1,
+  "click_count": 1,
+  "dom_snapshot_count": 0,
+  "local_only": true,
+  "external_vlm_call_count": 0,
+  "screenshot_upload_count": 0,
+  "real_platform_access_count": 0
+}

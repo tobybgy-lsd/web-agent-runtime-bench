@@ -1,0 +1,32 @@
+{
+  "schema_version": "table_structure/v1",
+  "tables": [
+    {
+      "id": "table_001",
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rows": 2,
+      "columns": 3,
+      "cells": [
+        [
+          "SKU",
+          "Price",
+          "Qty"
+        ],
+        [
+          "SKU-9",
+          "19.90",
+          "2"
+        ]
+      ],
+      "confidence": 0.9,
+      "warnings": []
+    }
+  ],
+  "table_count": 1,
+  "warnings": []
+}

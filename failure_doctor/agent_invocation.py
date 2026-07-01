@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "3.5.0"
+PACK_VERSION = "3.6.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -68,8 +68,10 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "forbidden_actions.md").write_text(_render_forbidden_actions(), encoding="utf-8")
         (target_dir / "safety_policy.md").write_text(_render_safety_policy(), encoding="utf-8")
         (target_dir / "safety_evaluation_workflow.md").write_text(_render_safety_evaluation_workflow(), encoding="utf-8")
+        (target_dir / "regulated_workflow.md").write_text(_render_regulated_workflow(), encoding="utf-8")
         (target_dir / "visual_runtime_workflow.md").write_text(_render_visual_runtime_workflow(), encoding="utf-8")
         (target_dir / "ocr_evidence_workflow.md").write_text(_render_ocr_evidence_workflow(), encoding="utf-8")
+        (target_dir / "full_chain_evaluation_workflow.md").write_text(_render_full_chain_evaluation_workflow(), encoding="utf-8")
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -89,8 +91,10 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
             "no_bot_evasion": True,
         },
         "recommended_command": "failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize --safety-evaluate",
+        "regulated_eval_command": "failure-doctor regulated-eval --suite all --out .\\regulated_report",
         "visual_runtime_command": "failure-doctor visual-runtime diagnose --input .\\visual_run --out .\\visual_report --no-dom --safety-evaluate",
         "ocr_evidence_command": "failure-doctor ocr-evidence extract --input .\\failure_evidence --out .\\ocr_report --provider mock_ocr --safety-evaluate",
+        "full_chain_eval_command": "failure-doctor full-chain-eval --input .\\failed_run --out .\\full_chain_report --include-safety --include-ocr --include-visual --include-regulated",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -277,6 +281,29 @@ Continue only when the report is pass or warning and the shareability decision i
 """
 
 
+def _render_regulated_workflow() -> str:
+    return """# Regulated Workflow Evaluation
+
+Use this for finance, government, healthcare, and other regulated-workflow mock
+failures. This workflow uses synthetic local cases only.
+
+```powershell
+failure-doctor regulated-eval --suite all --out .\\regulated_report
+```
+
+Read:
+
+1. `regulated_report\\regulated_eval_result.md`
+2. `regulated_report\\regulated_eval_result.json`
+3. `regulated_report\\regulated_cases.json`
+
+This is not legal, medical, financial, or regulatory compliance advice. It is a
+local evidence quality and shareability check. Do not connect to real regulated
+systems, submit real forms, or include real patient, citizen, bank, or customer
+data.
+"""
+
+
 def _render_visual_runtime_workflow() -> str:
     return """# Visual Runtime Workflow
 
@@ -308,6 +335,28 @@ Do not provide challenge defeat, anti-detection, fingerprint modification,
 behavior imitation, pointer path generation for access-control defeat, or
 automated challenge-solving instructions. If evidence is insufficient, request
 manual review and a fuller local visual-run artifact.
+"""
+
+
+def _render_full_chain_evaluation_workflow() -> str:
+    return """# Full-Chain Evaluation Workflow
+
+Use this after local evidence has been collected and before asking an AI coding
+assistant to make changes.
+
+```powershell
+failure-doctor full-chain-eval --input .\\failed_run --out .\\full_chain_report --include-safety --include-ocr --include-visual --include-regulated
+```
+
+Read:
+
+1. `full_chain_report\\full_chain_evaluation.md`
+2. `full_chain_report\\full_chain_evaluation.json`
+3. `full_chain_report\\stage_results.json`
+
+If unsafe handoff or unsafe sharing is blocked, sanitize first and do not paste
+raw logs, screenshots, OCR text, cookies, tokens, or private data into any AI
+frontend.
 """
 
 

@@ -110,7 +110,7 @@ def main() -> int:
     results = [run_case(case) for case in cases]
     total = len(results)
     payload = {
-        "version": "v3.5.0",
+        "version": "v3.6.0",
         "status": "pass",
         "total_cases": total,
         "schema_valid": sum(r["schema_valid"] for r in results),

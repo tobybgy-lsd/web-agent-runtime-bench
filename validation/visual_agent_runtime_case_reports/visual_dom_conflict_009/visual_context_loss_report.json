@@ -1,0 +1,12 @@
+{
+  "schema_version": "visual_context_loss_report/v1",
+  "context_conflict_count": 0,
+  "vlm_responses": [
+    {
+      "step_id": 1,
+      "summary": "visual_dom_conflict dom conflict",
+      "confidence": 0.9,
+      "context_conflict": false
+    }
+  ]
+}

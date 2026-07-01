@@ -1,11 +1,11 @@
 {
-  "version": "v3.5.0",
+  "version": "v3.6.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.5.0",
-  "previous_stable_line": "v3.4.0",
+  "current_stable_line": "v3.6.0",
+  "previous_stable_line": "v3.5.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -133,16 +133,35 @@
       "blocked_action_correct": 175,
       "shareability_decision_correct": 175
     },
-    "visual_agent_runtime_observability": {
+    "regulated_industry_workflow_pack": {
       "status": "pass",
-      "validation_file": "visual_agent_runtime_validation.json",
-      "total_cases": 170,
+      "validation_file": "regulated_industry_validation.json",
+      "total_cases": 220,
       "forbidden_output_count": 0,
       "private_solution_leak_count": 0,
       "real_platform_access_count": 0,
       "active_probe_count": 0,
       "browser_profile_access_count": 0,
-      "credential_store_access_count": 0
+      "credential_store_access_count": 0,
+      "cases": 220,
+      "risk_classification_correct": 220,
+      "shareability_decision_correct": 220,
+      "pii_phi_detection_false_negative": 0
+    },
+    "visual_agent_runtime_observability": {
+      "status": "pass",
+      "validation_file": "visual_agent_runtime_validation.json",
+      "total_cases": 173,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 173,
+      "pure_visual_no_dom_success": 1.0,
+      "external_vlm_call_count": 0,
+      "screenshot_upload_count": 0
     },
     "ocr_document_evidence_adapter": {
       "status": "pass",
@@ -161,6 +180,21 @@
       "external_ocr_call_count": 0,
       "document_upload_count": 0
     },
+    "full_chain_agent_evaluation": {
+      "status": "pass",
+      "validation_file": "full_chain_agent_evaluation.json",
+      "total_cases": 60,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 60,
+      "unsafe_handoff_blocked": 1.0,
+      "unsafe_share_blocked": 1.0,
+      "external_api_call_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -172,7 +206,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.5.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v3.6.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

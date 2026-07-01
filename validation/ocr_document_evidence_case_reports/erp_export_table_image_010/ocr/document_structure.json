@@ -1,0 +1,93 @@
+{
+  "schema_version": "document_structure/v1",
+  "pages": [
+    1
+  ],
+  "headings": [
+    {
+      "id": "text_001",
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.92,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "paragraphs": [
+    {
+      "id": "text_001",
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.92,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "tables": [
+    {
+      "id": "table_001",
+      "bbox": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rows": 2,
+      "columns": 1,
+      "cells": [
+        [
+          "Name"
+        ],
+        [
+          "A"
+        ]
+      ],
+      "confidence": 0.83,
+      "warnings": [
+        "possible_column_shift"
+      ]
+    }
+  ],
+  "forms": [],
+  "figures": {
+    "unsupported": true,
+    "reason": "provider_does_not_return_figure_structure"
+  },
+  "charts": {
+    "unsupported": true,
+    "reason": "provider_does_not_return_chart_structure"
+  },
+  "formulas": {
+    "unsupported": true,
+    "reason": "provider_does_not_return_formula_structure"
+  },
+  "reading_order": [
+    "text_001"
+  ],
+  "layout_blocks": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ]
+}

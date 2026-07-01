@@ -1,0 +1,8 @@
+{
+  "schema_version": "ocr_safety/v1",
+  "status": "safe_to_share",
+  "local_only": true,
+  "cloud_upload_used": false,
+  "redaction_status": "not_needed",
+  "sensitive_findings": []
+}

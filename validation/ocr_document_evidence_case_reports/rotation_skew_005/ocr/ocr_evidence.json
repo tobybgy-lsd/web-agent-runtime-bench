@@ -1,0 +1,67 @@
+{
+  "schema_version": "ocr_evidence/v1",
+  "tool_version": "3.6.0",
+  "created_at": "2026-07-01T16:36:11.942893+00:00",
+  "provider": "mock_ocr",
+  "provider_mode": "mock",
+  "input": {
+    "path": "D:\\WebAgentRuntimeBench-GitHub\\examples\\ocr_document_evidence_cases\\rotation_skew_005\\input",
+    "kind": "mixed",
+    "sha256": "b82c17e2685e26cfd417a408d38003a6c0873aed353b8d6b338c8b2a6de24ef8",
+    "size_bytes": 742
+  },
+  "safety": {
+    "local_only": true,
+    "cloud_upload_used": false,
+    "safety_evaluated": true,
+    "redaction_status": "not_needed",
+    "shareability_decision": "safe_to_share",
+    "sensitive_findings": []
+  },
+  "text_blocks": [
+    {
+      "id": "text_001",
+      "text": "Save draft",
+      "bbox": [
+        1,
+        2,
+        80,
+        28
+      ],
+      "confidence": 0.62,
+      "language": "en",
+      "source_page": 1,
+      "reading_order": 1,
+      "redacted": false
+    }
+  ],
+  "tables": [],
+  "forms": [],
+  "layout": [
+    {
+      "id": "block_001",
+      "type": "text",
+      "bbox": [
+        0,
+        0,
+        100,
+        40
+      ]
+    }
+  ],
+  "warnings": [
+    "rotation_or_skew"
+  ],
+  "confidence_summary": {
+    "overall": 0.62,
+    "text": 0.62,
+    "table": 0.0,
+    "form": 0.0
+  },
+  "document_mode": "mixed",
+  "limits": {
+    "max_file_mb": 50,
+    "max_total_mb": 500
+  },
+  "redact_before_cloud": false
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "stale_observation_report/v1",
+  "stale_count": 0,
+  "observations": [
+    {
+      "step_id": 1,
+      "summary": "coordinate_click_drift offline fixture",
+      "latency_ms": 120,
+      "stale": false
+    }
+  ]
+}

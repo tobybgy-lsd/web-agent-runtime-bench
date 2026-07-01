@@ -1,0 +1,13 @@
+{
+  "schema_version": "ocr_vlm_consistency/v1",
+  "status": "warning",
+  "vlm_present": true,
+  "findings": [
+    {
+      "type": "ocr_vlm_semantic_conflict",
+      "ocr_text": "Customer email alice3@example.com order id ORD-0003",
+      "severity": "medium"
+    }
+  ],
+  "confidence": 0.93
+}

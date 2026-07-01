@@ -1,0 +1,80 @@
+{
+  "schema_version": "visual_runtime_diagnosis/v1",
+  "failure_type": "overcompressed_screenshot_loss",
+  "subtype": "overcompressed_screenshot_loss",
+  "evidence": [
+    "screenshot quality score is low or compression artifacts were reported"
+  ],
+  "risk_level": "medium",
+  "confidence": 0.87,
+  "safe_next_action": "Inspect the offline visual timeline and repair the capture/grounding/coordinate pipeline with local evidence only.",
+  "suggested_fix_plan": [
+    "Re-run with the same offline artifact capture settings.",
+    "Check screenshot freshness, viewport/DPR metadata, and action-coordinate mapping before changing app code.",
+    "If evidence is insufficient, request a fuller local visual-run pack and manual review."
+  ],
+  "verification_strategy": "Capture a new local visual-run artifact and compare profile, grounding, coordinate, and stale-observation reports.",
+  "profile_summary": {
+    "schema_version": "visual_runtime_profile/v1",
+    "run_id": "overcompressed_screenshot_loss_009",
+    "source": "playwright_screenshot",
+    "mode": "dom_optional",
+    "local_only": true,
+    "no_external_upload": true,
+    "counts": {
+      "frames": 1,
+      "observations": 1,
+      "actions": 1,
+      "clicks": 1,
+      "dom_snapshots": 0
+    },
+    "latency": {
+      "max_observation_latency_ms": 120.0,
+      "max_vlm_response_latency_ms": 0.0,
+      "average_action_delay_ms": 100.0
+    },
+    "screenshot_cost": {
+      "schema_version": "screenshot_cost_report/v1",
+      "frame_count": 1,
+      "total_bytes": 69,
+      "total_estimated_image_tokens": 1200,
+      "image_token_budget_exceeded": false,
+      "transport_overhead_score": 0.0,
+      "frames": [
+        {
+          "step_id": 1,
+          "path": "frames/step_001.png",
+          "byte_size": 69,
+          "estimated_image_tokens": 1200,
+          "quality_score": 0.2,
+          "overcompressed": true,
+          "underloaded": false,
+          "capture_latency_ms": 0,
+          "encode_latency_ms": 0,
+          "decode_latency_ms": 0
+        }
+      ]
+    },
+    "grounding": {
+      "max_click_point_error_px": 2.0,
+      "actions_inside_bbox": 1,
+      "actions_outside_bbox": 0
+    },
+    "viewport": {
+      "max_dpr_scale_error": 0.0,
+      "viewport_scroll_mismatch_count": 0,
+      "resize_between_observation_action_count": 0
+    },
+    "safety": {
+      "external_vlm_call_count": 0,
+      "screenshot_upload_count": 0,
+      "real_platform_access_count": 0
+    }
+  },
+  "shareability": "safe_to_share",
+  "external_vlm_call_count": 0,
+  "screenshot_upload_count": 0,
+  "real_platform_access_count": 0,
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0
+}

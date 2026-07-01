@@ -1,0 +1,3771 @@
+{
+  "schema_version": "regulated_eval_result/v1",
+  "version": "v3.6.0",
+  "suite": "all",
+  "status": "pass",
+  "cases": 220,
+  "total_cases": 220,
+  "schema_valid": 220,
+  "risk_classification_correct": 220,
+  "shareability_decision_correct": 220,
+  "pii_phi_detection_false_negative": 0,
+  "audit_chain_detection_correct": 1.0,
+  "ai_handoff_safety_correct": 1.0,
+  "ocr_document_safety_correct": 1.0,
+  "regulated_data_quality_correct": 1.0,
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0,
+  "real_platform_access_count": 0,
+  "external_api_call_count": 0,
+  "source": {
+    "local_only": true,
+    "synthetic_or_mock": true,
+    "does_not_access_real_platform": true,
+    "contains_private_solution": false,
+    "diagnosis_only_no_bypass": true,
+    "public_safe": true
+  },
+  "legal_disclaimer": "This is a synthetic local evaluation aid, not legal, medical, financial, or regulatory compliance advice.",
+  "cases_detail": [
+    {
+      "case_id": "finance_finance_report_export_pii_leak_001",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_002",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_003",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_004",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_005",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_006",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_007",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_008",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_009",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_010",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_011",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_012",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_013",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_014",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_015",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_016",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_017",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_018",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_019",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_020",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_021",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_022",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_023",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_024",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_025",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_026",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_027",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_028",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_029",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_030",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_031",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_032",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_033",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_034",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_035",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_036",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_037",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_038",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_039",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_040",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_041",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_042",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_043",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_044",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_045",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_046",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_047",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_048",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_049",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_050",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_051",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_052",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_053",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_054",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_055",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_report_export_pii_leak_056",
+      "suite": "finance",
+      "subtype": "finance_report_export_pii_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "bank report export contains customer pii account fragment"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_audit_chain_missing_057",
+      "suite": "finance",
+      "subtype": "finance_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit chain missing reviewer timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_attachment_upload_failed_058",
+      "suite": "finance",
+      "subtype": "finance_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "loan attachment upload failed checksum mismatch"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ocr_amount_mismatch_059",
+      "suite": "finance",
+      "subtype": "finance_ocr_amount_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr parsed statement amount conflicts with export total"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "finance_finance_ai_handoff_sensitive_060",
+      "suite": "finance",
+      "subtype": "finance_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw customer token and account data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_001",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_002",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_003",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_004",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_005",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_006",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_007",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_008",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_009",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_010",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_011",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_012",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_013",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_014",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_015",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_016",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_017",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_018",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_019",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_020",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_021",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_022",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_023",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_024",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_025",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_026",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_027",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_028",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_029",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_030",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_031",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_032",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_033",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_034",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_035",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_036",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_037",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_038",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_039",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_040",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_041",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_042",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_043",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_044",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_045",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_046",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_047",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_048",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_049",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_050",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_051",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_052",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_053",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_054",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_055",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_hidden_field_mutation_056",
+      "suite": "government",
+      "subtype": "gov_hidden_field_mutation",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "government form hidden field changed approval status"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_citizen_data_leak_057",
+      "suite": "government",
+      "subtype": "gov_citizen_data_leak",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "citizen data id fragment appears in share pack"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_audit_chain_missing_058",
+      "suite": "government",
+      "subtype": "gov_audit_chain_missing",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "case approval audit chain missing agency reviewer"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_form_field_misaligned_059",
+      "suite": "government",
+      "subtype": "gov_form_field_misaligned",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "public service form field mapping shifted after layout change"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "government_gov_report_export_missing_field_060",
+      "suite": "government",
+      "subtype": "gov_report_export_missing_field",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "official report export missing required synthetic field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_001",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_002",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_003",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_004",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_005",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_006",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_007",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_008",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_009",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_010",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_011",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_012",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_013",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_014",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_015",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_016",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_017",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_018",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_019",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_020",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_021",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_022",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_023",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_024",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_025",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_026",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_027",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_028",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_029",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_030",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_031",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_032",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_033",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_034",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_035",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_036",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_037",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_038",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_039",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_040",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_041",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_042",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_043",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_044",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_045",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_046",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_047",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_048",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_049",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_050",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_051",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_052",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_053",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_054",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_055",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_export_contains_phi_056",
+      "suite": "healthcare",
+      "subtype": "healthcare_export_contains_phi",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "healthcare export contains patient phi and visit id"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ocr_patient_mismatch_057",
+      "suite": "healthcare",
+      "subtype": "healthcare_ocr_patient_mismatch",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr patient name conflicts with synthetic chart summary"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_approval_state_mismatch_058",
+      "suite": "healthcare",
+      "subtype": "healthcare_approval_state_mismatch",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "clinical approval state mismatch in workflow log"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_attachment_upload_failed_059",
+      "suite": "healthcare",
+      "subtype": "healthcare_attachment_upload_failed",
+      "risk_family": "attachment_workflow",
+      "evidence": [
+        "medical attachment upload failed size policy"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "healthcare_healthcare_ai_handoff_sensitive_060",
+      "suite": "healthcare",
+      "subtype": "healthcare_ai_handoff_sensitive",
+      "risk_family": "ai_handoff_safety",
+      "evidence": [
+        "ai handoff includes raw patient data and medical note"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_001",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_002",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_003",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_004",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_005",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_006",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_007",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_008",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_009",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_010",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_011",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_012",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_013",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_014",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_015",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_016",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_017",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_018",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_019",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_020",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_021",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_022",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_023",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_024",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_025",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_026",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_027",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_028",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_029",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_030",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_031",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_032",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_033",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_034",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_035",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_036",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_shareability_block_037",
+      "suite": "common",
+      "subtype": "cross_industry_shareability_block",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "sanitized share pack still includes private data"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_audit_gap_038",
+      "suite": "common",
+      "subtype": "cross_industry_audit_gap",
+      "risk_family": "audit_chain",
+      "evidence": [
+        "approval audit trail has missing actor and timestamp"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Rebuild the local audit trail evidence and verify actor, timestamp, and state-transition consistency.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_ocr_document_safety_039",
+      "suite": "common",
+      "subtype": "cross_industry_ocr_document_safety",
+      "risk_family": "ocr_document_safety",
+      "evidence": [
+        "ocr document evidence contains sensitive identifier"
+      ],
+      "contains_pii_phi": true,
+      "sensitive_data_blocked": true,
+      "risk_classification_correct": true,
+      "shareability_decision": "blocked",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Block sharing, redact synthetic sensitive fields, and rerun the local safety evaluation before AI handoff.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    },
+    {
+      "case_id": "common_cross_industry_data_quality_040",
+      "suite": "common",
+      "subtype": "cross_industry_data_quality",
+      "risk_family": "regulated_data_quality",
+      "evidence": [
+        "regulated export has schema drift and missing field"
+      ],
+      "contains_pii_phi": false,
+      "sensitive_data_blocked": false,
+      "risk_classification_correct": true,
+      "shareability_decision": "manual_review",
+      "shareability_decision_correct": true,
+      "safe_next_action": "Use synthetic local evidence to compare schema, OCR/document output, and workflow state before changing code.",
+      "forbidden_output_count": 0,
+      "real_platform_access_count": 0
+    }
+  ]
+}
