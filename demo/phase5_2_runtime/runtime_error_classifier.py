@@ -93,6 +93,39 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
 
     # === Spiderbuf-validated patterns ===
 
+    fingerprint_keywords = [
+        "fingerprint",
+        "navigator.webdriver",
+        "headless chrome mismatch",
+        "webgl",
+        "canvas",
+        "audiocontext",
+    ]
+    if any(kw in lowered for kw in fingerprint_keywords):
+        return _result(
+            "fingerprint_detected",
+            0.88,
+            combined,
+            "Browser fingerprint risk detected. Treat as anti_bot_risk_boundary; use authorized testing hooks, official API, manual review, or stop if not permitted.",
+        )
+
+    binary_keywords = [
+        "binary payload",
+        "protobuf",
+        "msgpack",
+        "zlib.error",
+        "decompressing data",
+        "incorrect header check",
+        "struct.error",
+    ]
+    if any(kw in lowered for kw in binary_keywords):
+        return _result(
+            "binary_protocol_detected",
+            0.88,
+            combined,
+            "Response is likely a binary or compressed protocol, not plain JSON/HTML. Capture format evidence and use authorized schema/docs before parser changes.",
+        )
+
     # HTTP errors
     signature_header_needles = [
         "missing required headers",
@@ -120,6 +153,14 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
             return _result(error_type, conf, combined, repair)
 
     # Selenium / browser automation
+    if "400" in lowered and "slider" in lowered:
+        return _result(
+            "slider_captcha_required",
+            0.88,
+            combined,
+            "Slider/human-verification challenge detected. Do not automate circumvention. Use manual verification, official API, approved test hook, or stop if not permitted.",
+        )
+
     selenium_patterns = [
         ("selenium_webdriver_detected", 0.92,
          ["navigator.webdriver", "webdriver detected", "automation detected",
@@ -170,6 +211,14 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
 
     # HTML content analysis (when stderr is empty but extraction failed)
     if html:
+        html_lower = html.lower()
+        if "<form" in html_lower and "captcha" in html_lower:
+            return _result(
+                "slider_captcha_required",
+                0.86,
+                "HTML verification form contains captcha marker",
+                "Captcha or human-verification form detected. Do not automate circumvention. Use manual verification, official API, approved test hook, or stop if not permitted.",
+            )
         if "::before" in html or "::after" in html:
             return _result("css_pseudo_element_detected", 0.90, "HTML contains ::before/::after rules",
                           "Parse CSS stylesheet for class→content mapping, then decode by class order")

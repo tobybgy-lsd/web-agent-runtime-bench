@@ -60,6 +60,50 @@ setTimeout(function() {
 
         self.assertNotEqual(result["error_type"], "css_random_class")
 
+    def test_browser_fingerprint_signal_is_classified_without_evasion_steps(self):
+        stderr = """
+HTTP 403 Forbidden
+browser fingerprint check failed: navigator.webdriver=true and headless chrome mismatch
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "fingerprint_detected")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+        self.assertIn("authorized", result["recommended_patch"].lower())
+
+    def test_binary_protocol_signal_is_classified(self):
+        stderr = """
+zlib.error: Error -3 while decompressing data: incorrect header check
+payload looks like binary protobuf/msgpack response, not JSON
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "binary_protocol_detected")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_slider_400_response_is_classified_as_challenge(self):
+        stderr = """
+HTTP 400 Bad Request
+slider verification failed; expected track payload before data response
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "slider_captcha_required")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_captcha_html_requires_form_context(self):
+        text_only = classify_scraper_error("extraction returned empty", html="<div>captcha status label only</div>")
+        form_case = classify_scraper_error(
+            "extraction returned empty",
+            html="<form id='verify'><input name='captcha'><button>submit</button></form>",
+        )
+
+        self.assertNotEqual(text_only["error_type"], "slider_captcha_required")
+        self.assertEqual(form_case["error_type"], "slider_captcha_required")
+
 
 if __name__ == "__main__":
     unittest.main()
