@@ -14,7 +14,7 @@ pip install agent-failure-doctor
 - PyPI package: `agent-failure-doctor`
 - CLI: `failure-doctor`
 - Compatibility CLI: `trace-doctor`
-- Current stable version: `3.2.0`
+- Current stable version: `3.2.1`
 - Repository: <https://github.com/tobybgy-lsd/web-agent-runtime-bench>
 
 ## Local Preflight
@@ -50,7 +50,7 @@ repository.
 .github/workflows/publish-pypi.yml
 ```
 
-4. Confirm the package page shows version `3.2.0`.
+4. Confirm the package page shows version `3.2.1`.
 5. Verify a clean install:
 
 ```powershell

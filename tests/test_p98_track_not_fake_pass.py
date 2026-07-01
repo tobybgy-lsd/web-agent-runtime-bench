@@ -10,12 +10,12 @@ class P98TrackNotFakePassTests(unittest.TestCase):
     def test_p98_master_gate_is_explicitly_final_and_evidence_backed(self):
         payload = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(payload["version"], "v3.2.0")
+        self.assertEqual(payload["version"], "v3.2.1")
         self.assertEqual(payload["overall_status"], "pass")
         self.assertTrue(payload["final_p98_gate"])
         self.assertTrue(payload["ecosystem_score_excluded"])
         self.assertGreaterEqual(payload["controlled_maturity_score"], 98)
-        self.assertEqual(payload["current_stable_line"], "v3.2.0")
+        self.assertEqual(payload["current_stable_line"], "v3.2.1")
         self.assertEqual(payload["previous_stable_line"], "v3.1.0")
         self.assertEqual(payload["global_forbidden_output_count"], 0)
         self.assertEqual(payload["global_private_solution_leak_count"], 0)

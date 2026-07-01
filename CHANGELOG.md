@@ -1,7 +1,14 @@
 # Changelog
 
-> Current package stable line: v3.2.0.
+> Current package stable line: v3.2.1.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.1
+
+- Added safe complex scraper diagnostic rules for Client Hints gaps, honeypot data mismatch, MFA/risk-login flows, Service Worker cache interference, SSE streams, and proxy header leakage.
+- Improved MD5-vs-HMAC signature triage for timestamp/salt signature failures.
+- Added regression tests for the Spiderbuf-inspired composite-risk cases while keeping public outputs diagnosis-only and safety-boundary aligned.
+- Kept private local training helpers under `tools/spiderbuf/` out of the public package and Git tracking boundary.
 
 ## v3.2.0
 

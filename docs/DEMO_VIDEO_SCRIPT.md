@@ -1,6 +1,6 @@
 # 2-Minute Demo Video Script
 
-This is the 2-minute demo for the v3.2.0 distribution phase.
+This is the 2-minute demo for the v3.2.1 distribution phase.
 
 Goal: show Agent Failure Doctor as a local diagnosis backend for a failed
 automation run, then hand the result to an AI coding assistant.
