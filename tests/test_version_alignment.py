@@ -14,11 +14,11 @@ class VersionAlignmentTests(unittest.TestCase):
 
         version = re.search(r'^version = "([^"]+)"$', pyproject, re.MULTILINE)
         self.assertIsNotNone(version)
-        self.assertEqual(version.group(1), "3.2.6")
+        self.assertEqual(version.group(1), "3.2.7")
         self.assertIn("Current milestone: Agent Failure Doctor v3.2 Auto Collector P98 Gate", readme[:2200])
         self.assertIn("Previous stable line: Agent Failure Doctor v3.1.0", readme[:2200])
-        self.assertIn("Current package stable line: v3.2.6", changelog)
-        self.assertIn("## v3.2.6", changelog)
+        self.assertIn("Current package stable line: v3.2.7", changelog)
+        self.assertIn("## v3.2.7", changelog)
 
     def test_readme_first_screen_explains_p98_and_previous_stable_tracks(self):
         opening = (ROOT / "README.md").read_text(encoding="utf-8")[:2200]

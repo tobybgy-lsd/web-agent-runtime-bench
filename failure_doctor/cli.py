@@ -1286,9 +1286,17 @@ def _runtime_reports_to_text(reports: Any) -> str:
                 parts.append("client hints platform mismatch: user-agent, Sec-CH-UA-Platform, and runtime platform evidence differ.")
             if runtime.get("browser_header_consistency_risk") is True:
                 parts.append("browser header consistency risk: browser headers and runtime metadata conflict.")
+            if runtime.get("canvas_fingerprint_collision") is True:
+                parts.append("canvas fingerprint collision: duplicate canvas hash evidence repeats across sanitized sessions.")
+            if runtime.get("browser_canvas_fingerprint_risk") is True:
+                parts.append("browser canvas fingerprint risk: canvas hash uniqueness audit failed in authorized test telemetry.")
             for key in ("user_agent_platform", "sec_ch_ua_platform", "navigator_platform", "user_agent", "language"):
                 value = runtime.get(key)
                 if value:
+                    parts.append(f"{key}={value}")
+            for key in ("duplicate_canvas_hash_count", "total_sessions", "evidence_source"):
+                value = runtime.get(key)
+                if value is not None:
                     parts.append(f"{key}={value}")
         timing = report.get("input_timing")
         if isinstance(timing, Mapping):

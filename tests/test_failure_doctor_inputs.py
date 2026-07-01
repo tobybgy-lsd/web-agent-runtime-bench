@@ -113,6 +113,37 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
             self.assertEqual(diagnosis["subtype"], "client_hints_platform_mismatch")
 
+    def test_user_supplied_canvas_runtime_report_is_offline_fingerprint_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "browser_runtime_report.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": "failure-doctor/browser-runtime-report/v1",
+                        "network_access": "none",
+                        "browser_runtime": {
+                            "canvas_fingerprint_collision": True,
+                            "duplicate_canvas_hash_count": 3,
+                            "total_sessions": 5,
+                            "evidence_source": "sanitized-authorized-test",
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            evidence = collect_inputs(root)
+            summary = input_summary_for(evidence)
+            artifact = build_artifact(evidence, run_id="canvas_runtime_report")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(summary["observed_evidence"]["runtime_reports"], 1)
+            self.assertEqual(summary["evidence_priority"], ["runtime_report"])
+            self.assertIn("browser_runtime_report.json", summary["recognized_files"]["runtime_reports"])
+            self.assertFalse(artifact["safety"]["external_network_required"])
+            self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+            self.assertEqual(diagnosis["subtype"], "canvas_fingerprint_collision")
+
     def test_user_supplied_js_integrity_report_is_offline_script_evidence(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

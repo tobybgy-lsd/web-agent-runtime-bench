@@ -543,6 +543,23 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("browser header, Client Hints, and runtime metadata consistency risk found")
 
     if not subtype and (
+        "canvas fingerprint collision" in focused
+        or "duplicate canvas fingerprint" in focused
+        or ("duplicate canvas hash" in focused and "session" in focused)
+        or ("headless cluster" in focused and "canvas fingerprint" in focused)
+    ):
+        subtype = "canvas_fingerprint_collision"
+        evidence.append("duplicate Canvas fingerprint evidence repeats across sessions")
+
+    if not subtype and (
+        "browser canvas fingerprint risk" in focused
+        or ("canvas hash uniqueness audit" in focused and "failed" in focused)
+        or ("canvas fingerprint" in focused and "authorized test telemetry" in focused)
+    ):
+        subtype = "browser_canvas_fingerprint_risk"
+        evidence.append("browser Canvas fingerprint consistency risk evidence found")
+
+    if not subtype and (
         "zero interval input detected" in focused
         or ("average key interval" in focused and "0" in focused and "variance 0" in focused)
         or ("impossible key intervals" in focused and "input timing" in focused)
@@ -714,6 +731,8 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "transport_fingerprint_risk",
             "client_hints_platform_mismatch",
             "browser_header_consistency_risk",
+            "canvas_fingerprint_collision",
+            "browser_canvas_fingerprint_risk",
             "keystroke_telemetry_anomaly",
             "zero_interval_input_detected",
             "behavioral_input_risk",
@@ -817,6 +836,13 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "browser headers, Client Hints, and runtime metadata are inconsistent; do not misclassify this as selector, storage, or proxy failure",
             "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
             "collect sanitized user-agent, Client Hints, navigator/runtime metadata, and HTTP-version evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"canvas_fingerprint_collision", "browser_canvas_fingerprint_risk"}:
+        return [
+            "browser Canvas fingerprint evidence is inconsistent or repeated across sessions; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
+            "collect sanitized Canvas hash/session-count evidence, browser/runtime metadata, and HTTP rejection evidence before changing automation code",
             "stop automation when authorization or platform terms are unclear",
         ]
     if subtype in {"keystroke_telemetry_anomaly", "zero_interval_input_detected", "behavioral_input_risk"}:

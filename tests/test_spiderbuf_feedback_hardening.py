@@ -242,6 +242,16 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
                 {"log_excerpt": "authorized regression shows request integrity algorithm drift"},
                 status_code=403,
             ),
+            "canvas_fingerprint_collision": artifact(
+                "Access blocked: headless cluster detected. Duplicate Canvas Fingerprint observed across sessions",
+                {"log_excerpt": "duplicate canvas fingerprint hash repeated in multiple sanitized sessions"},
+                status_code=403,
+            ),
+            "browser_canvas_fingerprint_risk": artifact(
+                "browser canvas fingerprint risk: canvas hash uniqueness audit failed in authorized test telemetry",
+                {"log_excerpt": "collect sanitized canvas hash/session counts before changing selectors or proxy settings"},
+                status_code=403,
+            ),
         }
 
         for expected_subtype, sample in samples.items():

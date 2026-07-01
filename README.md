@@ -59,7 +59,7 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.2.6 is the current stable technical baseline. The next phase is distribution
+v3.2.7 is the current stable technical baseline. The next phase is distribution
 and real user feedback, not more synthetic feature expansion.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
@@ -68,6 +68,8 @@ and real user feedback, not more synthetic feature expansion.
   [docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md](docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md)
 - JavaScript integrity boundary:
   [docs/JS_INTEGRITY_BOUNDARY.md](docs/JS_INTEGRITY_BOUNDARY.md)
+- Canvas fingerprint boundary:
+  [docs/CANVAS_FINGERPRINT_BOUNDARY.md](docs/CANVAS_FINGERPRINT_BOUNDARY.md)
 - 2-minute demo script: [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
 - Technical article draft: [docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
 - Real user feedback loop: [docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)
@@ -87,6 +89,8 @@ Advanced v3.2 commands include `failure-doctor collect` and `failure-doctor watc
 Advanced evidence inputs include `browser_runtime_report.json` and
 `input_timing_summary.json`.
 JavaScript/request-integrity evidence can be supplied as `js_integrity_report.json`.
+Sanitized Canvas hash/session-count evidence can be supplied in
+`browser_runtime_report.json`.
 
 Agent frontend invocation:
 
@@ -578,4 +582,3 @@ Run smoke and safety checks:
 scripts\smoke_test.ps1
 scripts\local_safety_scan.ps1
 ```
-

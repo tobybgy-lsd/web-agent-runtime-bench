@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.6.
+> Current package stable line: v3.2.7.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.7
+
+- Added public-safe Canvas fingerprint evidence subtypes: `canvas_fingerprint_collision` and `browser_canvas_fingerprint_risk`.
+- Extended `browser_runtime_report.json` handling so sanitized Canvas hash/session-count evidence can be supplied as offline runtime evidence.
+- Added safe next-action guidance for Canvas hash/session-count evidence, browser/runtime metadata, HTTP rejection evidence, authorized APIs/SDKs/test hooks, and stopping automation when authorization is unclear.
+- Added `docs/CANVAS_FINGERPRINT_BOUNDARY.md` to keep local Canvas challenge solvers, rendering-hook details, flags, and fingerprint-alteration techniques out of the public package.
+- Kept the package diagnosis-only: no Canvas manipulation recipes, no fingerprint spoofing, no anti-bot evasion logic, and no private solution leaks.
 
 ## v3.2.6
 
