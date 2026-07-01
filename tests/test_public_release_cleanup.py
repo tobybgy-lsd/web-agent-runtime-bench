@@ -121,7 +121,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
         text = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("[English documentation](README.md)", text)
         self.assertIn("Agent Failure Doctor", text)
-        self.assertIn("鏈湴浼樺厛", text)
+        self.assertIn("本地优先", text)
 
     def test_validation_dashboard_contains_current_honest_metrics(self):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
