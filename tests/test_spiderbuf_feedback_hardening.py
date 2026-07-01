@@ -199,6 +199,26 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
                 "transport fingerprint risk: TLS handshake, ALPN, HTTP version, and client hints differ from browser evidence",
                 {"log_excerpt": "collect TLS/ALPN/HTTP version evidence before changing selectors or proxy settings"},
             ),
+            "client_hints_platform_mismatch": artifact(
+                "client hints platform mismatch: user agent says macOS but sec-ch-ua-platform says Windows",
+                {"log_excerpt": "browser runtime report shows Sec-CH-UA-Platform and navigator.platform are inconsistent"},
+            ),
+            "browser_header_consistency_risk": artifact(
+                "browser header consistency risk: UA, Sec-CH-UA, language, and runtime metadata conflict",
+                {"log_excerpt": "collect sanitized client hints and runtime metadata before changing selectors"},
+            ),
+            "keystroke_telemetry_anomaly": artifact(
+                "keystroke telemetry anomaly: input timing summary has impossible key interval distribution",
+                {"log_excerpt": "input telemetry anomaly indicates bulk fill or non-interactive input path"},
+            ),
+            "zero_interval_input_detected": artifact(
+                "zero interval input detected: all key events have 0ms intervals",
+                {"log_excerpt": "input timing summary reports average key interval 0 and variance 0"},
+            ),
+            "behavioral_input_risk": artifact(
+                "behavioral input risk: fixed interval input timing detected by authorized test telemetry",
+                {"log_excerpt": "do not treat this as selector storage or proxy problem"},
+            ),
         }
 
         for expected_subtype, sample in samples.items():

@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v3.2.4.
+> Current package stable line: v3.2.5.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.5
+
+- Added `browser_runtime_report.json` and `input_timing_summary.json` as recognized offline evidence inputs.
+- Added public-safe behavioral and Client Hints subtypes: `client_hints_platform_mismatch`, `browser_header_consistency_risk`, `keystroke_telemetry_anomaly`, `zero_interval_input_detected`, and `behavioral_input_risk`.
+- Added safe next-action guidance for browser header/runtime consistency evidence, sanitized input-timing summaries, authorized APIs/SDKs/test hooks, compliant export paths, and stopping automation when authorization is unclear.
+- Added `docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md` to keep local challenge solvers, timing mimicry, flags, and browser-stealth implementation details out of the public package.
+- Kept the package diagnosis-only: no default active probes, no browser automation probes, no anti-bot evasion logic, and no private solution leaks.
 
 ## v3.2.4
 

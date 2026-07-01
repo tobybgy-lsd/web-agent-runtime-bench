@@ -19,6 +19,8 @@ probe_report.json / screenshot metadata / user_description.txt
 **Output:** diagnosis, evidence, next action, repair suggestions,
 GitHub issue draft, Codex fix prompt.
 
+**P98 gate:** passed.
+
 ## Quickstart
 
 ```powershell
@@ -51,17 +53,19 @@ Advanced commands include `failure-doctor handoff`,
 `sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal
 -> verify -> sanitize/share`
 
-**P98 gate:** `knowledge base -> coverage matrix ->
+**P98 gate details:** `knowledge base -> coverage matrix ->
 trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 -> master gate`
 
 ## Distribution & Feedback
 
-v3.2.4 is the current stable technical baseline. The next phase is distribution
+v3.2.5 is the current stable technical baseline. The next phase is distribution
 and real user feedback, not more synthetic feature expansion.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
 - Active probe boundary: [docs/ACTIVE_PROBE_BOUNDARY.md](docs/ACTIVE_PROBE_BOUNDARY.md)
+- Behavioral and Client Hints boundary:
+  [docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md](docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md)
 - 2-minute demo script: [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
 - Technical article draft: [docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
 - Real user feedback loop: [docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)
@@ -77,6 +81,9 @@ For non-technical Windows users, double-click
 folder onto it.
 
 Advanced v3.2 commands include `failure-doctor collect` and `failure-doctor watch`.
+
+Advanced evidence inputs include `browser_runtime_report.json` and
+`input_timing_summary.json`.
 
 Agent frontend invocation:
 

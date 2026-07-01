@@ -486,6 +486,46 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("raw transport/header evidence conflicts with app-level framework logs")
 
     if not subtype and (
+        "client hints platform mismatch" in focused
+        or ("sec-ch-ua-platform" in focused and "navigator.platform" in focused and "inconsistent" in focused)
+        or ("user-agent" in focused and "sec-ch-ua-platform" in focused and "platform evidence differ" in focused)
+    ):
+        subtype = "client_hints_platform_mismatch"
+        evidence.append("browser runtime and Client Hints platform evidence are inconsistent")
+
+    if not subtype and (
+        "browser header consistency risk" in focused
+        or ("ua" in focused and "sec-ch-ua" in focused and "runtime metadata conflict" in focused)
+        or ("browser headers" in focused and "runtime metadata" in focused and "conflict" in focused)
+    ):
+        subtype = "browser_header_consistency_risk"
+        evidence.append("browser header, Client Hints, and runtime metadata consistency risk found")
+
+    if not subtype and (
+        "zero interval input detected" in focused
+        or ("average key interval" in focused and "0" in focused and "variance 0" in focused)
+        or ("impossible key intervals" in focused and "input timing" in focused)
+    ):
+        subtype = "zero_interval_input_detected"
+        evidence.append("sanitized input timing evidence reports impossible zero-interval input")
+
+    if not subtype and (
+        "keystroke telemetry anomaly" in focused
+        or ("input timing summary" in focused and "impossible key interval distribution" in focused)
+        or ("input telemetry anomaly" in focused and "bulk fill" in focused)
+    ):
+        subtype = "keystroke_telemetry_anomaly"
+        evidence.append("sanitized keystroke/input telemetry evidence is anomalous")
+
+    if not subtype and (
+        "behavioral input risk" in focused
+        or ("fixed interval input timing" in focused and "authorized test telemetry" in focused)
+        or ("fixed interval input timing" in focused and "input timing summary" in focused)
+    ):
+        subtype = "behavioral_input_risk"
+        evidence.append("sanitized input timing evidence suggests a behavioral input consistency risk")
+
+    if not subtype and (
         "tls alpn fingerprint mismatch" in focused
         or ("alpn" in focused and "http/1.1" in focused and "h2" in focused)
         or ("standard http client" in focused and "browser path" in focused and "h2" in focused)
@@ -629,6 +669,11 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "header_protocol_mismatch",
             "tls_alpn_fingerprint_mismatch",
             "transport_fingerprint_risk",
+            "client_hints_platform_mismatch",
+            "browser_header_consistency_risk",
+            "keystroke_telemetry_anomaly",
+            "zero_interval_input_detected",
+            "behavioral_input_risk",
         }
         else 0.93
         if subtype == "dynamic_signature_required"
@@ -704,6 +749,20 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "standard HTTP client and browser transport fingerprints are inconsistent; do not misclassify this as selector, storage, or proxy failure",
             "confirm whether an authorized API, official SDK, compliant export, or platform-approved integration exists",
             "collect sanitized TLS, ALPN, HTTP version, and transport metadata evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"client_hints_platform_mismatch", "browser_header_consistency_risk"}:
+        return [
+            "browser headers, Client Hints, and runtime metadata are inconsistent; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
+            "collect sanitized user-agent, Client Hints, navigator/runtime metadata, and HTTP-version evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"keystroke_telemetry_anomaly", "zero_interval_input_detected", "behavioral_input_risk"}:
+        return [
+            "input timing telemetry is anomalous; do not misclassify this as selector, storage, or proxy failure",
+            "confirm the run is an authorized test or approved automation workflow before continuing",
+            "collect a sanitized input-timing summary and prefer official APIs, SDKs, test hooks, or compliant export paths when available",
             "stop automation when authorization or platform terms are unclear",
         ]
     if subtype == "stateful_session_lifecycle_anomaly":

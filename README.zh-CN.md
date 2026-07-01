@@ -14,7 +14,7 @@ AI Browser Agent、Playwright、RPA、爬虫自动化和数据采集脚本调试
 - 上一个 P95 稳定线：Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **输入：** `trace.zip` / `error.log` / `console.txt` / `network.json` /
-`probe_report.json` / 截图 metadata / `user_description.txt`
+`probe_report.json` / `browser_runtime_report.json` / `input_timing_summary.json` / 截图 metadata / `user_description.txt`
 
 **输出：** 诊断结论、证据、下一步、修复建议、GitHub issue 草稿、
 Codex 修复 Prompt、脱敏报告包。
@@ -35,11 +35,12 @@ failure-doctor agent-bootstrap --target all --project .
 
 ## 分发与真实反馈
 
-v3.2.4 是当前稳定技术基线。下一阶段重点是分发和真实用户反馈，
+v3.2.5 是当前稳定技术基线。下一阶段重点是分发和真实用户反馈，
 不是继续堆 synthetic 功能。
 
 - PyPI 发布手册：[docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
 - 主动探针边界：[docs/ACTIVE_PROBE_BOUNDARY.md](docs/ACTIVE_PROBE_BOUNDARY.md)
+- 行为与 Client Hints 边界：[docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md](docs/BEHAVIORAL_CLIENT_HINTS_BOUNDARY.md)
 - 2 分钟演示脚本：[docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
 - 技术文章草稿：[docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
 - 真实用户反馈闭环：[docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)

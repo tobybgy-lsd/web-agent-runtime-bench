@@ -66,6 +66,53 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
             self.assertEqual(diagnosis["subtype"], "tls_alpn_fingerprint_mismatch")
 
+    def test_user_supplied_browser_runtime_report_is_offline_behavioral_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "browser_runtime_report.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": "failure-doctor/browser-runtime-report/v1",
+                        "network_access": "none",
+                        "browser_runtime": {
+                            "client_hints_platform_mismatch": True,
+                            "user_agent_platform": "macOS",
+                            "sec_ch_ua_platform": "Windows",
+                            "navigator_platform": "Win32",
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "input_timing_summary.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": "failure-doctor/input-timing-summary/v1",
+                        "network_access": "none",
+                        "input_timing": {
+                            "zero_interval_input_detected": True,
+                            "fixed_interval_input_detected": True,
+                            "average_key_interval_ms": 0,
+                            "interval_variance_ms2": 0,
+                            "input_method": "bulk_fill",
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            evidence = collect_inputs(root)
+            summary = input_summary_for(evidence)
+            artifact = build_artifact(evidence, run_id="browser_runtime_report")
+            diagnosis = classify_failure_artifact(artifact)
+
+            self.assertEqual(summary["observed_evidence"]["runtime_reports"], 2)
+            self.assertIn("browser_runtime_report.json", summary["recognized_files"]["runtime_reports"])
+            self.assertIn("input_timing_summary.json", summary["recognized_files"]["runtime_reports"])
+            self.assertFalse(artifact["safety"]["external_network_required"])
+            self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+            self.assertEqual(diagnosis["subtype"], "client_hints_platform_mismatch")
+
     def test_error_log_outranks_large_console_html_for_diagnosis(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

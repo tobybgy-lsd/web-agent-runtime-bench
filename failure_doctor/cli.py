@@ -453,6 +453,7 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         "logs": [],
         "network_events": [],
         "probe_reports": [],
+        "runtime_reports": [],
         "descriptions": [],
         "screenshot_metadata": [],
         "unrecognized_files": [],
@@ -461,6 +462,10 @@ def collect_inputs(path: Path) -> dict[str, Any]:
         lower = file_path.name.lower()
         if lower.endswith(".zip") and "trace" in lower:
             evidence["trace_zip"] = str(file_path)
+        elif lower.endswith(".json") and (
+            "runtime" in lower or "timing" in lower or "client_hint" in lower or "client-hint" in lower
+        ):
+            evidence["runtime_reports"].extend(_read_runtime_reports(file_path))
         elif lower.endswith(".json") and "probe" in lower:
             evidence["probe_reports"].extend(_read_probe_reports(file_path))
         elif lower.endswith(".json") and "network" in lower:
@@ -484,6 +489,7 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "logs": len(evidence.get("logs", [])),
         "network_events": len(evidence.get("network_events", [])),
         "probe_reports": len(evidence.get("probe_reports", [])),
+        "runtime_reports": len(evidence.get("runtime_reports", [])),
         "descriptions": len(evidence.get("descriptions", [])),
         "screenshots": len(evidence.get("screenshot_metadata", [])),
         "unrecognized_files": len(evidence.get("unrecognized_files", [])),
@@ -497,6 +503,8 @@ def input_summary_for(evidence: Mapping[str, Any]) -> dict[str, Any]:
         priority.append("network")
     if observed["probe_reports"]:
         priority.append("probe_report")
+    if observed["runtime_reports"]:
+        priority.append("runtime_report")
     if observed["descriptions"]:
         priority.append("description")
     if observed["screenshots"]:
@@ -537,11 +545,14 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
     log_entries = [item for item in evidence.get("logs", []) if isinstance(item, Mapping)]
     probe_reports = evidence.get("probe_reports", [])
     probe_text = _probe_reports_to_text(probe_reports)
+    runtime_reports = evidence.get("runtime_reports", [])
+    runtime_text = _runtime_reports_to_text(runtime_reports)
     log_text = "\n".join(
         part
         for part in [
             "\n".join(str(item.get("text", "")) for item in _prioritized_log_entries(log_entries)),
             probe_text,
+            runtime_text,
         ]
         if part
     )
@@ -563,6 +574,7 @@ def build_artifact(evidence: Mapping[str, Any], *, run_id: str | None = None) ->
             "user_description": description_text[:1000],
             "network_events": network_events[:20],
             "probe_reports": probe_reports[:5] if isinstance(probe_reports, list) else [],
+            "runtime_reports": runtime_reports[:5] if isinstance(runtime_reports, list) else [],
             "missing_selectors": diagnosis_hint.get("missing_selectors", []),
             "screenshot_metadata": evidence.get("screenshot_metadata", []),
             **diagnosis_hint,
@@ -1132,6 +1144,7 @@ def _is_low_evidence(input_summary: Mapping[str, Any]) -> bool:
         and not observed.get("logs")
         and not observed.get("network_events")
         and not observed.get("probe_reports")
+        and not observed.get("runtime_reports")
     )
 
 
@@ -1151,6 +1164,7 @@ def _recognized_files(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "logs": [item.get("name") for item in evidence.get("logs", []) if isinstance(item, Mapping)],
         "network_events": len(evidence.get("network_events", [])),
         "probe_reports": [item.get("name") for item in evidence.get("probe_reports", []) if isinstance(item, Mapping)],
+        "runtime_reports": [item.get("name") for item in evidence.get("runtime_reports", []) if isinstance(item, Mapping)],
         "descriptions": [item.get("name") for item in evidence.get("descriptions", []) if isinstance(item, Mapping)],
         "screenshots": [item.get("name") for item in evidence.get("screenshot_metadata", []) if isinstance(item, Mapping)],
     }
@@ -1165,6 +1179,8 @@ def _input_guidance(priority: list[str], missing: list[str]) -> str:
         return "trace.zip was recognized and will be used as the strongest evidence source."
     if "probe_report" in priority:
         return "User-supplied probe_report.json was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
+    if "runtime_report" in priority:
+        return "User-supplied browser/runtime or input-timing report was recognized as offline evidence; add logs, network.json, or trace.zip to improve context."
     return "Logs or network evidence were recognized; add trace.zip to improve evidence quality when available."
 
 
@@ -1181,6 +1197,18 @@ def _read_network_events(path: Path) -> list[dict[str, Any]]:
 
 
 def _read_probe_reports(path: Path) -> list[dict[str, Any]]:
+    try:
+        parsed = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    if isinstance(parsed, dict):
+        return [{**parsed, "name": path.name}]
+    if isinstance(parsed, list):
+        return [{**item, "name": path.name} for item in parsed if isinstance(item, dict)]
+    return []
+
+
+def _read_runtime_reports(path: Path) -> list[dict[str, Any]]:
     try:
         parsed = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
@@ -1217,6 +1245,38 @@ def _probe_reports_to_text(reports: Any) -> str:
     return "\n".join(parts)[:1000]
 
 
+def _runtime_reports_to_text(reports: Any) -> str:
+    if not isinstance(reports, list):
+        return ""
+    parts: list[str] = []
+    for report in reports[:5]:
+        if not isinstance(report, Mapping):
+            continue
+        runtime = report.get("browser_runtime")
+        if isinstance(runtime, Mapping):
+            if runtime.get("client_hints_platform_mismatch") is True:
+                parts.append("client hints platform mismatch: user-agent, Sec-CH-UA-Platform, and runtime platform evidence differ.")
+            if runtime.get("browser_header_consistency_risk") is True:
+                parts.append("browser header consistency risk: browser headers and runtime metadata conflict.")
+            for key in ("user_agent_platform", "sec_ch_ua_platform", "navigator_platform", "user_agent", "language"):
+                value = runtime.get(key)
+                if value:
+                    parts.append(f"{key}={value}")
+        timing = report.get("input_timing")
+        if isinstance(timing, Mapping):
+            if timing.get("zero_interval_input_detected") is True:
+                parts.append("zero interval input detected: sanitized input timing summary reports impossible key intervals.")
+            if timing.get("fixed_interval_input_detected") is True:
+                parts.append("behavioral input risk: sanitized input timing summary reports fixed interval input timing.")
+            if timing.get("keystroke_telemetry_anomaly") is True:
+                parts.append("keystroke telemetry anomaly: sanitized input timing summary is inconsistent with interactive input.")
+            for key in ("average_key_interval_ms", "interval_variance_ms2", "input_method"):
+                value = timing.get(key)
+                if value is not None:
+                    parts.append(f"{key}={value}")
+    return "\n".join(parts)[:1000]
+
+
 def _first_status(events: Any) -> int | None:
     if not isinstance(events, list):
         return None
@@ -1242,6 +1302,7 @@ def _input_summary(evidence: Mapping[str, Any]) -> dict[str, Any]:
         "trace_zip": evidence.get("trace_zip"),
         "log_count": len(evidence.get("logs", [])),
         "network_event_count": len(evidence.get("network_events", [])),
+        "runtime_report_count": len(evidence.get("runtime_reports", [])),
         "description_count": len(evidence.get("descriptions", [])),
         "screenshot_count": len(evidence.get("screenshot_metadata", [])),
     }
