@@ -126,6 +126,48 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
             "Response is likely a binary or compressed protocol, not plain JSON/HTML. Capture format evidence and use authorized schema/docs before parser changes.",
         )
 
+    composite_patterns = [
+        (
+            "honeypot_data_mismatch",
+            0.86,
+            ["fake price", "honeypot", "does not match user-agent platform", "plausible but fake"],
+            "Plausible data may be a honeypot response caused by inconsistent browser metadata. Compare trusted evidence and use authorized data paths.",
+        ),
+        (
+            "client_hints_missing",
+            0.87,
+            ["missing sec-ch", "missing client hints", "sec-ch-ua-platform", "client hints headers"],
+            "Client Hints headers are missing. Align browser metadata in an authorized test setup or use official API/docs; do not spoof protected access.",
+        ),
+        (
+            "mfa_risk_login_required",
+            0.88,
+            ["risk login", "mfa verification", "mfa required", "rate-limit"],
+            "Risk login or MFA step detected after rate limiting. Use manual verification, official API, approved workflow, or stop if not permitted.",
+        ),
+        (
+            "service_worker_cache_interference",
+            0.86,
+            ["service worker", "cache storage", "intercepted fetch", "stale cached"],
+            "Service Worker or cache layer may be serving stale/intercepted content. Capture a clean browser context and compare network evidence.",
+        ),
+        (
+            "sse_stream_detected",
+            0.88,
+            ["text/event-stream", "eventsource", "sse", "code 1008"],
+            "Server-Sent Events stream detected. Treat this as streaming protocol evidence rather than binary payload or plain JSON.",
+        ),
+        (
+            "proxy_header_leak",
+            0.86,
+            ["via,", "via header", "x-forwarded-for", "proxy headers", "proxy header"],
+            "Proxy metadata appears in request evidence. Remove unintended forwarding metadata or use an approved network path.",
+        ),
+    ]
+    for error_type, conf, keywords, repair in composite_patterns:
+        if any(kw in lowered for kw in keywords):
+            return _result(error_type, conf, combined, repair)
+
     # HTTP errors
     signature_header_needles = [
         "missing required headers",

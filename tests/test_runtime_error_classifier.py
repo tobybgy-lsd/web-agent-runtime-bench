@@ -116,6 +116,73 @@ not an HMAC request signature
         self.assertEqual(result["error_type"], "md5_signature_failed")
         self.assertGreaterEqual(result["confidence"], 0.85)
 
+    def test_missing_client_hints_headers_are_classified(self):
+        stderr = """
+HTTP 200 returned blocked JSON
+server response: missing Sec-CH-UA-Platform and Client Hints headers
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "client_hints_missing")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_client_hints_honeypot_data_mismatch_is_classified(self):
+        stderr = """
+HTTP 200 returned plausible but fake price 99.99
+evidence: Sec-CH-UA-Platform does not match User-Agent platform
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "honeypot_data_mismatch")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_mfa_risk_login_downgrade_is_classified_safely(self):
+        stderr = """
+HTTP 429 Too Many Requests
+redirected to /risk-login for MFA verification after rate-limit
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "mfa_risk_login_required")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+        self.assertIn("manual verification", result["recommended_patch"].lower())
+
+    def test_service_worker_cache_hijack_is_classified(self):
+        stderr = """
+Data page returned stale cached response
+evidence: service worker intercepted fetch event and cache storage served old body
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "service_worker_cache_interference")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_sse_stream_is_not_binary_protocol(self):
+        stderr = """
+HTTP 200 text/event-stream
+EventSource stream closed with code 1008 policy violation
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "sse_stream_detected")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
+    def test_proxy_via_header_leak_is_classified(self):
+        stderr = """
+HTTP 200 but response body is a warning page
+request metadata leaked proxy headers: Via, X-Forwarded-For
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "proxy_header_leak")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
 
 if __name__ == "__main__":
     unittest.main()
