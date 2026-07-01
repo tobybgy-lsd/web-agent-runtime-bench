@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -31,7 +31,7 @@ class SanitizeSharePackTests(unittest.TestCase):
                         "Cookie: sessionid=abc; csrftoken=def",
                         "api_key=sk-abcdefghijklmnop",
                         "email alice@example.com phone 13800138000 id 110101199003071234",
-                        "customer 瀵姳绗?order ORD-20260629-0001",
+                        "customer 鐎殿喚濮崇粭?order ORD-20260629-0001",
                         "https://shop-real.example.com/internal/order/123",
                     ]
                 ),
@@ -151,7 +151,7 @@ class SanitizeSharePackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-        self.assertIn('version = "3.3.0"', pyproject)
+        self.assertIn('version = "3.4.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("failure-doctor sanitize", readme)
         self.assertIn("Sanitize & Share Pack", readme)
@@ -159,3 +159,4 @@ class SanitizeSharePackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,9 +1,9 @@
 {
-  "version": "v3.3.0",
+  "version": "v3.4.0",
   "status": "pass",
   "archives_scanned": [
-    "agent_failure_doctor-3.3.0-py3-none-any.whl",
-    "agent_failure_doctor-3.3.0.tar.gz"
+    "agent_failure_doctor-3.4.0-py3-none-any.whl",
+    "agent_failure_doctor-3.4.0.tar.gz"
   ],
   "private_content_found": 0,
   "findings": [],

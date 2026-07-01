@@ -15,6 +15,11 @@ from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
 from failure_doctor.safety.evaluator import evaluate_safety
+from failure_doctor.visual_runtime.adapter import adapt_visual_artifacts
+from failure_doctor.visual_runtime.compare import compare_visual_runs
+from failure_doctor.visual_runtime.loader import load_visual_run, validate_visual_run
+from failure_doctor.visual_runtime.profiler import profile_visual_run
+from failure_doctor.visual_runtime.report import write_visual_runtime_report
 from integrations.cross_framework.common import SUPPORTED_FRAMEWORKS, normalize_framework_failure
 from integrations.generic_log_pack.adapter import pack_generic_logs
 from integrations.playwright.collector import collect_playwright_artifacts
@@ -72,6 +77,8 @@ def main(argv: list[str] | None = None) -> int:
         return batch_diagnose(args)
     if args.command == "visual-diagnose":
         return visual_diagnose_inputs(args)
+    if args.command == "visual-runtime":
+        return visual_runtime_inputs(args)
     if args.command == "safety-evaluate":
         return safety_evaluate_inputs(args)
     parser.print_help()
@@ -183,6 +190,35 @@ def build_parser() -> argparse.ArgumentParser:
     visual = sub.add_parser("visual-diagnose", help="Diagnose visual/screenshot/DOM-based failures from evidence directory")
     visual.add_argument("input", help="Directory containing screenshot.png, dom_snapshot.html, click_coordinates.json, ocr_excerpt.txt")
     visual.add_argument("--out", required=True, help="Output visual diagnosis report directory")
+    visual_runtime = sub.add_parser("visual-runtime", help="Offline observability for screenshot-driven visual agent runtimes")
+    visual_runtime_sub = visual_runtime.add_subparsers(dest="visual_runtime_command", required=True)
+    visual_diag = visual_runtime_sub.add_parser("diagnose", help="Diagnose an offline visual runtime artifact")
+    visual_diag.add_argument("--input", required=True, help="visual_run directory")
+    visual_diag.add_argument("--out", required=True, help="Output visual report directory")
+    visual_diag.add_argument("--mock-vlm", action="store_true", help="Use deterministic local mock VLM responses when present")
+    visual_diag.add_argument("--no-dom", action="store_true", help="Do not require or inspect DOM snapshots")
+    visual_diag.add_argument("--dom-optional", action="store_true", help="Use DOM snapshots when present, otherwise degrade to pure visual")
+    visual_diag.add_argument("--redact-images", action="store_true", help="Reserved for adapters; diagnosis never uploads images")
+    visual_diag.add_argument("--safety-evaluate", action="store_true", help="Evaluate shareability and block sensitive visual artifacts")
+    visual_profile = visual_runtime_sub.add_parser("profile", help="Profile an offline visual runtime artifact")
+    visual_profile.add_argument("--input", required=True)
+    visual_profile.add_argument("--out", required=True)
+    visual_profile.add_argument("--no-dom", action="store_true")
+    visual_profile.add_argument("--dom-optional", action="store_true")
+    visual_compare = visual_runtime_sub.add_parser("compare", help="Compare two offline visual runtime artifacts")
+    visual_compare.add_argument("--baseline", required=True)
+    visual_compare.add_argument("--candidate", required=True)
+    visual_compare.add_argument("--out", required=True)
+    visual_adapt = visual_runtime_sub.add_parser("adapt", help="Normalize offline visual-agent artifacts into visual_run format")
+    visual_adapt.add_argument("--source", required=True, choices=["skyvern", "skyvern_mock", "claude_computer_use", "claude_computer_use_mock", "generic", "generic_screenshot_agent", "playwright_screenshot", "cursor_agent", "codex_agent"])
+    visual_adapt.add_argument("--input", required=True)
+    visual_adapt.add_argument("--out", required=True)
+    visual_adapt.add_argument("--redact-images", action="store_true")
+    visual_validate = visual_runtime_sub.add_parser("validate", help="Validate visual_run schema and safety counters")
+    visual_validate.add_argument("--input", required=True)
+    visual_validate.add_argument("--out", required=True)
+    visual_validate.add_argument("--no-dom", action="store_true")
+    visual_validate.add_argument("--dom-optional", action="store_true")
     return parser
 
 
@@ -547,6 +583,63 @@ def visual_diagnose_inputs(args: argparse.Namespace) -> int:
     write_json(report_path, result)
     print(f"\nReport: {report_path}")
     return 0
+
+
+def visual_runtime_inputs(args: argparse.Namespace) -> int:
+    command = args.visual_runtime_command
+    try:
+        if command == "diagnose":
+            result = write_visual_runtime_report(
+                Path(args.input),
+                Path(args.out),
+                no_dom=bool(args.no_dom),
+                dom_optional=bool(args.dom_optional),
+                safety_evaluate=bool(args.safety_evaluate),
+            )
+            diagnosis = result["diagnosis"]
+            print("Agent Failure Doctor - Visual Runtime Diagnosis")
+            print(f"Subtype: {diagnosis.get('subtype')} ({float(diagnosis.get('confidence', 0)):.0%})")
+            print(f"Risk: {diagnosis.get('risk_level')}")
+            print(f"Next: {diagnosis.get('safe_next_action')}")
+            print(f"Output: {args.out}")
+            return 0
+        if command == "profile":
+            run = load_visual_run(Path(args.input), no_dom=bool(args.no_dom), dom_optional=bool(args.dom_optional))
+            profile = profile_visual_run(run)
+            out_dir = Path(args.out)
+            out_dir.mkdir(parents=True, exist_ok=True)
+            write_json(out_dir / "visual_runtime_profile.json", profile)
+            print("Agent Failure Doctor - Visual Runtime Profile")
+            print(f"Frames: {profile.get('counts', {}).get('frames')}")
+            print(f"Output: {out_dir}")
+            return 0
+        if command == "compare":
+            report = compare_visual_runs(Path(args.baseline), Path(args.candidate), Path(args.out))
+            print("Agent Failure Doctor - Visual Runtime Compare")
+            print(report.get("recommendation"))
+            print(f"Output: {args.out}")
+            return 0
+        if command == "adapt":
+            summary = adapt_visual_artifacts(str(args.source), Path(args.input), Path(args.out), redact_images=bool(args.redact_images))
+            print("Agent Failure Doctor - Visual Runtime Adapter")
+            print(f"Source: {summary.get('source')}")
+            print(f"Frames: {summary.get('frames')}")
+            print(f"Output: {args.out}")
+            return 0
+        if command == "validate":
+            report = validate_visual_run(Path(args.input), no_dom=bool(args.no_dom), dom_optional=bool(args.dom_optional))
+            out_dir = Path(args.out)
+            out_dir.mkdir(parents=True, exist_ok=True)
+            write_json(out_dir / "visual_runtime_validation.json", report)
+            print("Agent Failure Doctor - Visual Runtime Validate")
+            print(f"Status: {report.get('status')}")
+            print(f"Output: {out_dir}")
+            return 0 if report.get("status") in {"pass", "warning"} else 1
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print(f"unsupported visual-runtime command: {command}")
+    return 2
 
 
 def collect_inputs(path: Path) -> dict[str, Any]:

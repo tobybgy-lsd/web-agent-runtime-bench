@@ -96,6 +96,9 @@ Test-Pattern -Pattern "http://|https://|fetch\(|axios|XMLHttpRequest|WebSocket" 
 # 5. Credential patterns — demo code only
 Test-Pattern -Pattern "Cookie|Authorization|Bearer " -Label "Credential patterns" -Paths @("demo")
 
+# 6. Visual runtime recommendation surfaces
+Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dynamic signature cracking|proxy rotation|account pool|ip pool|solve captcha|stealth recipe|human-like mouse|trajectory generator|VMP reconstruction|challenge solver|FLAG\\{" -Label "Visual runtime forbidden recommendations" -Paths @("failure_doctor\visual_runtime")
+
 # 6. Docs audit: check overclaim phrases
 Test-Pattern-Docs -Pattern "auto.*scraper|auto.*crawler|production.*crawl|bypass.*captcha|evade.*anti" -Label "Overclaim in docs"
 

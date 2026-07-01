@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "visual_runtime_diagnosis",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "failure_type",
+    "subtype",
+    "evidence",
+    "safe_next_action"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "failure_type": {},
+    "subtype": {},
+    "evidence": {},
+    "safe_next_action": {}
+  }
+}

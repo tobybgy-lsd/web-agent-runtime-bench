@@ -22,17 +22,20 @@ The repository has release-note drafts prepared for the public alignment line. P
 | v3.2.8 | `docs/RELEASE_NOTES_v3.2.8.md` | Agent Failure Doctor v3.2.8 - Deep Runtime Evidence Patch | published |
 | v3.2.9 | `docs/RELEASE_NOTES_v3.2.9.md` | Agent Failure Doctor v3.2.9 - Visual and Data Quality Diagnostics Patch | published |
 | v3.2.10 | `docs/RELEASE_NOTES_v3.2.10.md` | Agent Failure Doctor v3.2.10 - Data Engineering Closed-Loop Triage Patch | published |
-| v3.3.0 | `docs/RELEASE_NOTES_v3.3.0.md` | Agent Failure Doctor v3.3.0 - Safety & Compliance Evaluation Pack | ready for publication after gates pass |
+| v3.3.0 | `docs/RELEASE_NOTES_v3.3.0.md` | Agent Failure Doctor v3.3.0 - Safety & Compliance Evaluation Pack | published |
+| v3.4.0 | `docs/RELEASE_NOTES_v3.4.0.md` | Agent Failure Doctor v3.4.0 - Visual Agent Runtime Observability Pack | ready for publication after gates pass |
 
 ## Published release
 
-`v3.3.0` is the next release candidate for the latest stable GitHub Release.
+`v3.4.0` is the next release candidate for the latest stable GitHub Release.
 
 After publication, the release URL should be:
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.2.10
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.3.0
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.4.0
 
 `v3.2.0` is the previous stable GitHub Release:
 

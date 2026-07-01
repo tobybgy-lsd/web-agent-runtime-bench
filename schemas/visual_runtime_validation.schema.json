@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "visual_runtime_validation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "status": {}
+  }
+}

@@ -9,18 +9,16 @@
 Local-first failure diagnosis lifecycle tool for AI browser automation,
 Playwright, crawler, RPA, and business automation failures.
 
-- Current milestone: Agent Failure Doctor v3.3 Safety & Compliance Evaluation Pack
-- Current stable line: v3.3.0
-- Previous stable line: Agent Failure Doctor v3.2.10
-- Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+- Current milestone: Agent Failure Doctor v3.4 Visual Agent Runtime Observability Pack
+- Current stable line: v3.4.0
 
 **Input:** trace.zip / error.log / console.txt / network.json /
-probe_report.json / screenshot metadata / user_description.txt
+probe_report.json / screenshot metadata / user_description.txt / visual_run
 
 **Output:** diagnosis, evidence, next action, repair suggestions,
 GitHub issue draft, Codex fix prompt.
 
-**P98 gate:** passed.
+**P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
@@ -37,13 +35,37 @@ failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\repor
 failure-doctor plan .\report --out .\fix_plan
 failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_report `
   --auto-diagnose --auto-handoff --auto-sanitize
+failure-doctor visual-runtime diagnose --input .\visual_run --out .\visual_report --no-dom
+failure-doctor visual-runtime compare --baseline .\dom_agent_run --candidate .\vlm_agent_run --out .\compare_report
 failure-doctor agent-bootstrap --target all --project .
 ```
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `failure-doctor propose-patch`; `failure-doctor batch`.
+Release tracks: Previous stable line: Agent Failure Doctor v3.3.0; previous P95
+stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `visual-runtime`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Optional visual evidence: screenshot.png / dom_snapshot.html /
 click_coordinates.json / ocr_excerpt.txt.
+
+### Visual Agent Runtime Observability
+
+`failure-doctor visual-runtime` diagnoses offline screenshot-driven agent runs:
+screenshot capture, image payload cost, VLM observation metadata, action
+grounding, coordinate clicks, DPR/viewport mapping, stale observations, OCR
+semantics, and optional DOM/visual conflict.
+
+It is local-only by default: no external VLM calls, no screenshot upload, no real
+platform access, and no access-control defeat, identity-masking, protected
+challenge automation, or behavior/pointer-path recipes.
+
+```powershell
+failure-doctor visual-runtime diagnose --input .\visual_run --out .\visual_report --no-dom
+failure-doctor visual-runtime profile --input .\visual_run --out .\visual_profile
+failure-doctor visual-runtime compare --baseline .\run_a --candidate .\run_b --out .\compare_report
+failure-doctor visual-runtime adapt --source generic --input .\artifact_dir --out .\visual_run
+failure-doctor visual-runtime validate --input .\visual_run --out .\validation_report
+```
 
 More docs: [docs/P98_LIMITS.md](docs/P98_LIMITS.md),
 [docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md),
@@ -69,7 +91,8 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.3.0 is the current stable technical baseline. It adds local-only safety and
+v3.4.0 is the current stable technical baseline. It adds offline visual agent
+runtime observability on top of local-only safety and
 compliance evaluation for collector scope, secrets, shareability, AI handoff,
 patch proposals, DOM risk, permission boundaries, data exfiltration, offline
 cloud-browser artifacts, and regulated workflow mocks.
@@ -477,7 +500,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.3 Safety & Compliance Evaluation Pack.
+Current milestone: Agent Failure Doctor v3.4 Visual Agent Runtime Observability Pack.
 
 Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 

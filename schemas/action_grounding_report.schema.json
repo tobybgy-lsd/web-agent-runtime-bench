@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "action_grounding_report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "clicks"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "clicks": {}
+  }
+}

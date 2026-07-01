@@ -1,0 +1,16 @@
+{
+  "schema_version": "screenshot_manifest/v1",
+  "frames": [
+    {
+      "step_id": 1,
+      "path": "frames/step_001.png",
+      "width": 1280,
+      "height": 720,
+      "byte_size": 69,
+      "quality_score": 0.88,
+      "estimated_image_tokens": 9000,
+      "overcompressed": false,
+      "underloaded": false
+    }
+  ]
+}

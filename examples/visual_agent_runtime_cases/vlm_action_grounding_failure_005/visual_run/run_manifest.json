@@ -1,0 +1,11 @@
+{
+  "schema_version": "visual_run/v1",
+  "run_id": "vlm_action_grounding_failure_005",
+  "source": "codex_agent",
+  "mode": "dom_optional",
+  "local_only": true,
+  "no_external_upload": true,
+  "no_real_platform_access": true,
+  "created_at": "2026-07-01T00:00:00+00:00",
+  "image_token_budget": 8000
+}

@@ -1,7 +1,23 @@
 # Changelog
 
-> Current package stable line: v3.3.0.
-> v3.2.10 remains the previous data-engineering stable release, v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.4.0.
+> v3.3.0 remains the previous safety-compliance stable release, v3.1.0 remains the previous P98 core stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.4.0
+
+- Added `failure-doctor visual-runtime diagnose/profile/compare/adapt/validate`.
+- Added offline visual-agent runtime observability for screenshot capture,
+  image payload cost, VLM observation metadata, action grounding,
+  coordinate-click drift, DPR/viewport mismatch, stale screenshots, OCR
+  mismatch, visual context drift, and optional DOM/visual conflict.
+- Added `failure_doctor.visual_runtime` modules, schemas, docs, release notes,
+  and local-only synthetic fixtures.
+- Added `visual_agent_runtime_observability` to the P98 master gate.
+- Added agent-bootstrap `visual_runtime_workflow.md` guidance for supported AI
+  agent frontends.
+- Preserved the safety boundary: no external VLM calls, no screenshot upload, no
+  real-platform access, no bypass/evasion/spoofing guidance, and no private
+  solution leakage.
 
 ## v3.3.0
 

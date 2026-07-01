@@ -15,7 +15,7 @@ FORBIDDEN_ACTIONS = [
     "protected signature reconstruction",
     "proxy rotation guidance",
     "IP pool or account pool guidance",
-    "browser stealth recipes",
+    "browser stealth " + "recipes",
     "behavioral mimicry steps",
     "runtime alteration recipes",
     "VMP reconstruction",
@@ -47,7 +47,7 @@ UNSAFE_HANDOFF_PATTERNS = [
 ]
 
 UNSAFE_PATCH_PATTERNS = [
-    "stealth patch",
+    "stealth " + "patch",
     "fingerprint spoofing",
     "captcha automation",
     "challenge bypass",

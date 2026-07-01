@@ -4,12 +4,13 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.3.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.4.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.3.0 Safety & Compliance Evaluation Pack | pass | Current package stable line with local-only safety evaluation, shareability decisions, AI handoff and patch safety gates, DOM/exfiltration/cloud/regulated-workflow mock checks, and no bypass guidance. |
-| v3.2.10 Data Engineering Closed-Loop Triage Patch | previous stable | Previous package stable line with visual failure diagnosis, data-quality helpers, data-engineering closed-loop triage, Bloom dedupe, optional mock VLM helpers, and no bypass guidance. |
+| v3.4.0 Visual Agent Runtime Observability Pack | pass | Current package stable line with offline visual runtime diagnosis, screenshot cost, stale observation, coordinate/DPR/viewport drift, optional DOM conflict, local mock VLM support, and no upload or bypass guidance. |
+| v3.3.0 Safety & Compliance Evaluation Pack | previous stable | Previous package stable line with local-only safety evaluation, shareability decisions, AI handoff and patch safety gates, DOM/exfiltration/cloud/regulated-workflow mock checks, and no bypass guidance. |
+| v3.2.10 Data Engineering Closed-Loop Triage Patch | previous stable | Data-engineering stable line with visual failure diagnosis, data-quality helpers, data-engineering closed-loop triage, Bloom dedupe, optional mock VLM helpers, and no bypass guidance. |
 | v3.1.0 P98 Master Gate | previous stable | Previous P98 master gate completion line. |
 | v2.4.1 P95 Alignment & Missing Tracks | previous P95 stable | Published GitHub Release and previous P95 stable line. |
 
@@ -37,8 +38,9 @@ Agent Failure Doctor v3.3.0 is the current controlled-maturity stable line.
 | Batch / Fleet P98 | 30 batch sets | 30/30 processed, 200-run batch covered | 0 | pass | `python -m tools.validation.run_batch_diagnosis_p98_validation` |
 | Sanitize / Share P98 | 120 | 100% secrets redacted, 0 raw secrets in output | 0 | pass | `python -m tools.validation.run_sanitize_share_p98_validation` |
 | Auto Collector / One-Click P98 | 95 | 95/95 collected, 95/95 preset detected, 0 raw secrets in sanitized output | 0 | pass | `python -m tools.validation.run_auto_collector_validation` |
+| Visual Agent Runtime P98 | 170 | offline visual-run cases, pure visual no-DOM supported, zero VLM upload | 0 | pass | `python -m tools.validation.run_visual_agent_runtime_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 12 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 13 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 

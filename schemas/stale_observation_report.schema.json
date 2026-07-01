@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "stale_observation_report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "stale_count"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "stale_count": {}
+  }
+}

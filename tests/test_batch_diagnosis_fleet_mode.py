@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import json
 import subprocess
 import sys
@@ -76,8 +76,8 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        self.assertIn('version = "3.3.0"', pyproject)
-        self.assertIn("v3.3 Safety & Compliance Evaluation Pack", readme)
+        self.assertIn('version = "3.4.0"', pyproject)
+        self.assertIn("v3.4 Visual Agent Runtime Observability Pack", readme)
         self.assertIn("v2.4.1 P95 Alignment & Missing Tracks Pack", readme)
         self.assertIn("Batch Diagnosis / Fleet Mode", readme)
         self.assertIn("failure-doctor batch", readme)
@@ -90,3 +90,4 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

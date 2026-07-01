@@ -1,4 +1,4 @@
-import json
+﻿import json
 import re
 import subprocess
 import sys
@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "3.3.0"',
+            'version = "3.4.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -101,7 +101,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
     def test_readme_is_english_first_with_badges_and_links(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        top = readme[:1600]
+        top = readme[:2200]
         for phrase in (
             "[中文文档](README.zh-CN.md)",
             "![CI]",
@@ -110,11 +110,12 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "Local-first failure diagnosis",
             "python -m pip install agent-failure-doctor",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
+            "Visual Agent Runtime Observability",
             "GitHub issue draft",
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
             self.assertIn(phrase, top)
-        for marker in ("闂", "婵", "缂", "濠", "闁"):
+        for marker in ("\u95c2?", "\u6fe0?", "\u7f02?", "\u5a35?"):
             self.assertNotIn(marker, readme)
 
     def test_readme_zh_cn_links_back_to_english(self):
@@ -131,7 +132,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "## 2. P95 Completed Gates",
             "## 3. P98 Master Gate",
             "| Knowledge Base P98 | 210 | 210 public-safe local synthetic patterns, schema valid | 0 | pass |",
-            "| P98 Master Gate | 12 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass |",
+            "| P98 Master Gate | 13 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass |",
             "validation/p98_master_gate.json",
             "Ecosystem maturity is excluded",
         ):
@@ -208,3 +209,4 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

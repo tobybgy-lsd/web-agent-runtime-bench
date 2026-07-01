@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "visual_run",
+  "type": "object",
+  "required": [
+    "run_manifest.json",
+    "screenshots_manifest.json"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "run_manifest.json": {},
+    "screenshots_manifest.json": {}
+  }
+}

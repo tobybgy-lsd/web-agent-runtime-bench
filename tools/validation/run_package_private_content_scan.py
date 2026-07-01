@@ -19,6 +19,12 @@ PRIVATE_MARKERS = [
     "VMP " + "restore",
     "private " + "solution",
     "challenge " + "pass",
+    "sol" + "ver",
+    "hook " + "bypass",
+    "human-like " + "mouse generator",
+    "trajectory " + "generator",
+    "stealth " + "recipe",
+    "private training " + "solution",
 ]
 
 
@@ -66,7 +72,7 @@ def main() -> int:
     for archive in archives:
         hits.extend(scan_archive(archive))
     payload = {
-        "version": "v3.3.0",
+        "version": "v3.4.0",
         "status": "pass" if not hits else "fail",
         "archives_scanned": [archive.name for archive in archives],
         "private_content_found": len(hits),

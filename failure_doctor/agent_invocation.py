@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "3.3.0"
+PACK_VERSION = "3.4.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -68,6 +68,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "forbidden_actions.md").write_text(_render_forbidden_actions(), encoding="utf-8")
         (target_dir / "safety_policy.md").write_text(_render_safety_policy(), encoding="utf-8")
         (target_dir / "safety_evaluation_workflow.md").write_text(_render_safety_evaluation_workflow(), encoding="utf-8")
+        (target_dir / "visual_runtime_workflow.md").write_text(_render_visual_runtime_workflow(), encoding="utf-8")
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -87,6 +88,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
             "no_bot_evasion": True,
         },
         "recommended_command": "failure-doctor collect --project . --preset auto --auto-diagnose --auto-handoff --auto-sanitize --safety-evaluate",
+        "visual_runtime_command": "failure-doctor visual-runtime diagnose --input .\\visual_run --out .\\visual_report --no-dom --safety-evaluate",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -270,6 +272,40 @@ Read:
 3. `safety_report/shareability_decision.json`
 
 Continue only when the report is pass or warning and the shareability decision is not blocked.
+"""
+
+
+def _render_visual_runtime_workflow() -> str:
+    return """# Visual Runtime Workflow
+
+Use this when an AI browser agent, RPA flow, Computer Use run, or screenshot-driven
+automation fails after seeing a page.
+
+Do not guess from the final screenshot only. First run an offline artifact check:
+
+```powershell
+failure-doctor visual-runtime diagnose --input .\\visual_run --out .\\visual_report --no-dom --safety-evaluate
+```
+
+Then inspect:
+
+1. `visual_report\\open_this_first_visual.md`
+2. `visual_report\\diagnosis.md`
+3. `visual_report\\visual_timeline.md`
+4. `visual_report\\coordinate_drift_report.json`
+5. `visual_report\\stale_observation_report.json`
+6. `visual_report\\screenshot_cost_report.json`
+
+Check stale screenshots, DPR scaling, viewport scroll state, click coordinate
+mapping, OCR/visual grounding, screenshot payload cost, and optional DOM conflict.
+
+No screenshot upload unless the user has explicitly configured and authorized a
+provider outside this local workflow.
+
+Do not provide challenge defeat, anti-detection, fingerprint modification,
+behavior imitation, pointer path generation for access-control defeat, or
+automated challenge-solving instructions. If evidence is insufficient, request
+manual review and a fuller local visual-run artifact.
 """
 
 
