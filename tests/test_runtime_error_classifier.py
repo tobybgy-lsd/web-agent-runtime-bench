@@ -104,6 +104,18 @@ slider verification failed; expected track payload before data response
         self.assertNotEqual(text_only["error_type"], "slider_captcha_required")
         self.assertEqual(form_case["error_type"], "slider_captcha_required")
 
+    def test_timestamp_salt_signature_failure_prefers_md5_over_hmac(self):
+        stderr = """
+signature verification failed
+client script evidence: md5(timestamp + static salt)
+not an HMAC request signature
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "md5_signature_failed")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+
 
 if __name__ == "__main__":
     unittest.main()
