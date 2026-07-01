@@ -123,8 +123,15 @@ class SafetyComplianceCliTests(unittest.TestCase):
                 "--out",
                 str(report),
             ]
-            result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True)
-            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            result = subprocess.run(
+                cmd,
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            self.assertEqual(result.returncode, 0, (result.stderr or "") + (result.stdout or ""))
             payload = json.loads((report / "safety_evaluation_report.json").read_text(encoding="utf-8"))
             self.assertEqual(payload["schema_version"], "safety_evaluation/v1")
 
@@ -145,8 +152,15 @@ class SafetyComplianceCliTests(unittest.TestCase):
                 "--auto-sanitize",
                 "--safety-evaluate",
             ]
-            result = subprocess.run(collect_cmd, cwd=ROOT, text=True, capture_output=True)
-            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            result = subprocess.run(
+                collect_cmd,
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            self.assertEqual(result.returncode, 0, (result.stderr or "") + (result.stdout or ""))
             self.assertTrue((collect_out / "safety_report" / "safety_evaluation_report.json").exists())
             first = (collect_out / "open_this_first.md").read_text(encoding="utf-8")
             self.assertIn("Safety evaluation", first)
