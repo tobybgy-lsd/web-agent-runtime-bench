@@ -1,10 +1,10 @@
 {
-  "version": "v3.2.8",
+  "version": "v3.2.9",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.2.8",
+  "current_stable_line": "v3.2.9",
   "previous_stable_line": "v3.1.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
@@ -96,7 +96,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.2.8.md",
+      "release_notes": "docs/RELEASE_NOTES_v3.2.9.md",
       "dashboard": "validation/dashboard.md"
     }
   },

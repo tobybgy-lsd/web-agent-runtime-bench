@@ -21,6 +21,10 @@ GitHub issue draft, Codex fix prompt.
 
 **P98 gate:** passed.
 
+**Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
+
+See [validation/dashboard.md](validation/dashboard.md).
+
 ## Quickstart
 
 ```powershell
@@ -34,8 +38,10 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
 failure-doctor agent-bootstrap --target all --project .
 ```
 
-See [validation/dashboard.md](validation/dashboard.md),
-[docs/P98_LIMITS.md](docs/P98_LIMITS.md),
+Optional visual evidence: screenshot.png / dom_snapshot.html /
+click_coordinates.json / ocr_excerpt.txt.
+
+More docs: [docs/P98_LIMITS.md](docs/P98_LIMITS.md),
 [docs/AGENT_FRONTEND_INVOCATION.md](docs/AGENT_FRONTEND_INVOCATION.md),
 and [docs/safety_boundary.md](docs/safety_boundary.md).
 
@@ -47,7 +53,7 @@ Advanced commands include `failure-doctor handoff`,
 
 **Core commands:** `collect` / `diagnose` / `plan` / `verify` / `run` /
 `watch` / `sanitize` / `adapt` / `handoff` / `agent-bootstrap` /
-`propose-patch` / `batch`
+`propose-patch` / `batch` / `visual-diagnose`
 
 **Classic lifecycle:** `diagnose` / `plan` / `verify` / `run` /
 `sanitize` / `adapt` -> `diagnose -> plan -> AI handoff / patch proposal
@@ -59,7 +65,7 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.2.8 is the current stable technical baseline. The next phase is distribution
+v3.2.9 is the current stable technical baseline. The next phase is distribution
 and real user feedback, not more synthetic feature expansion.
 
 - PyPI release runbook: [docs/PYPI_RELEASE.md](docs/PYPI_RELEASE.md)
@@ -70,6 +76,8 @@ and real user feedback, not more synthetic feature expansion.
   [docs/JS_INTEGRITY_BOUNDARY.md](docs/JS_INTEGRITY_BOUNDARY.md)
 - Canvas fingerprint boundary:
   [docs/CANVAS_FINGERPRINT_BOUNDARY.md](docs/CANVAS_FINGERPRINT_BOUNDARY.md)
+- Visual and data-quality boundary:
+  [docs/VISUAL_DATA_QUALITY_BOUNDARY.md](docs/VISUAL_DATA_QUALITY_BOUNDARY.md)
 - 2-minute demo script: [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md)
 - Technical article draft: [docs/TECH_ARTICLE_DRAFT.md](docs/TECH_ARTICLE_DRAFT.md)
 - Real user feedback loop: [docs/REAL_USER_FEEDBACK_LOOP.md](docs/REAL_USER_FEEDBACK_LOOP.md)

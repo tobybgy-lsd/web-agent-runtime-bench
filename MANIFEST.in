@@ -3,4 +3,5 @@ prune build
 prune dist
 prune outputs
 prune sample_run
+prune tests
 global-exclude __pycache__ *.py[cod]

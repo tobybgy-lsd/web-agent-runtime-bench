@@ -468,6 +468,15 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("authorized regression indicates request-integrity algorithm drift")
 
     if not subtype and (
+        "ast dynamic token required" in focused
+        or ("ast rotation" in focused and "dynamic token" in focused)
+        or ("rotated string array" in focused and "dynamic token" in focused)
+        or ("sanitized ast rotation" in focused and "client-generated request integrity token" in focused)
+    ):
+        subtype = "ast_dynamic_token_required"
+        evidence.append("sanitized AST/token evidence indicates a client-generated request-integrity boundary")
+
+    if not subtype and (
         "client-side signature required" in focused
         or "client side signature required" in focused
         or "x-client-sign" in focused
@@ -561,6 +570,24 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     ):
         subtype = "browser_canvas_fingerprint_risk"
         evidence.append("browser Canvas fingerprint consistency risk evidence found")
+
+    if not subtype and (
+        "audio fingerprint risk" in focused
+        or "audio fingerprint" in focused
+        or "virtualized audio" in focused
+        or "audio hardware detected" in focused
+    ):
+        subtype = "audio_fingerprint_risk"
+        evidence.append("sanitized browser audio-fingerprint evidence indicates a runtime consistency risk")
+
+    if not subtype and (
+        "tcp/ip os fingerprint mismatch" in focused
+        or ("p0f" in focused and "os mismatch" in focused)
+        or ("tcp/ip" in focused and "os mismatch" in focused)
+        or ("tcp/ip" in focused and "browser metadata" in focused and "claims" in focused)
+    ):
+        subtype = "tcp_ip_os_fingerprint_mismatch"
+        evidence.append("sanitized TCP/IP OS fingerprint evidence differs from browser/runtime metadata")
 
     if not subtype and (
         "webgl virtual renderer detected" in focused
@@ -867,6 +894,9 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "rotated_string_array_detected",
             "client_generated_token_missing",
             "request_integrity_algorithm_changed",
+            "ast_dynamic_token_required",
+            "audio_fingerprint_risk",
+            "tcp_ip_os_fingerprint_mismatch",
         }
         else 0.93
         if subtype == "dynamic_signature_required"
@@ -908,7 +938,12 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "use an official API, authorized SDK, documented export, or platform-approved test hook when available",
             "stop automation when authorization or platform terms are unclear",
         ]
-    if subtype in {"dynamic_signature_required", "client_side_signature_required", "wasm_signature_verification_failed"}:
+    if subtype in {
+        "dynamic_signature_required",
+        "client_side_signature_required",
+        "wasm_signature_verification_failed",
+        "ast_dynamic_token_required",
+    }:
         return [
             "treat this as a protected request-integrity boundary, not a selector/storage/proxy bug",
             "use an official API, authorized SDK, documented export, or platform-approved integration when available",
@@ -969,6 +1004,13 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "browser Canvas fingerprint evidence is inconsistent or repeated across sessions; do not misclassify this as selector, storage, or proxy failure",
             "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
             "collect sanitized Canvas hash/session-count evidence, browser/runtime metadata, and HTTP rejection evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"audio_fingerprint_risk", "tcp_ip_os_fingerprint_mismatch"}:
+        return [
+            "browser or transport fingerprint evidence is inconsistent; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
+            "collect sanitized audio/runtime or TCP/IP OS-fingerprint evidence before changing automation code",
             "stop automation when authorization or platform terms are unclear",
         ]
     if subtype in {

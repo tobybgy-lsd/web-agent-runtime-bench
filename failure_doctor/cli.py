@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -30,6 +30,7 @@ from tools.failure_artifacts.resolution import (
     verify_resolution,
     write_json,
 )
+from tools.failure_artifacts.visual_failure_doctor import diagnose_visual_failure
 from trace_doctor.cli import _render_repair_suggestions
 
 
@@ -68,6 +69,8 @@ def main(argv: list[str] | None = None) -> int:
         return propose_patch(args)
     if args.command == "batch":
         return batch_diagnose(args)
+    if args.command == "visual-diagnose":
+        return visual_diagnose_inputs(args)
     parser.print_help()
     return 1
 
@@ -163,6 +166,9 @@ def build_parser() -> argparse.ArgumentParser:
     batch = sub.add_parser("batch", help="Diagnose a folder of failed runs and write a fleet-level report")
     batch.add_argument("runs", help="Directory containing failed run folders")
     batch.add_argument("--out", required=True, help="Output batch report directory")
+    visual = sub.add_parser("visual-diagnose", help="Diagnose visual/screenshot/DOM-based failures from evidence directory")
+    visual.add_argument("input", help="Directory containing screenshot.png, dom_snapshot.html, click_coordinates.json, ocr_excerpt.txt")
+    visual.add_argument("--out", required=True, help="Output visual diagnosis report directory")
     return parser
 
 
@@ -192,6 +198,7 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print(f"Next: {public.get('next_action')}")
     print(f"Report: {out_dir}")
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
+
     return 0
 
 
@@ -442,6 +449,40 @@ def batch_diagnose(args: argparse.Namespace) -> int:
     print(f"Runs: {summary['diagnosed_runs']}/{summary['total_runs']}")
     print(f"Repeated failure groups: {summary['repeated_failures_count']}")
     print(f"Output: {out_dir}")
+    return 0
+
+
+def visual_diagnose_inputs(args: argparse.Namespace) -> int:
+    """Handle the 'visual-diagnose' subcommand."""
+    input_path = Path(args.input)
+    out_dir = Path(args.out)
+    if not input_path.exists():
+        print(f"input not found: {input_path}")
+        return 1
+
+    result = diagnose_visual_failure(input_path)
+    confidence = result.get("confidence", 0.0)
+    primary = result.get("primary_failure_type", "unknown")
+    description = result.get("description", "")
+
+    print("Agent Failure Doctor - Visual Diagnosis")
+    print(f"Category: visual failure ({confidence:.0%})")
+    print(f"Technical: visual_failure / {primary}")
+    print(f"Description: {description}")
+    print(f"\nFindings ({len(result.get('findings', []))}):")
+    for finding in result.get("findings", []):
+        print(f"  {finding}")
+    if result.get("recommendations"):
+        print(f"\nRecommendations ({len(result['recommendations'])}):")
+        for rec in result["recommendations"]:
+            print(f"  {rec}")
+    if result.get("missing_evidence"):
+        print(f"\nMissing evidence: {', '.join(result['missing_evidence'])}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    report_path = out_dir / "visual_diagnosis.json"
+    write_json(report_path, result)
+    print(f"\nReport: {report_path}")
     return 0
 
 

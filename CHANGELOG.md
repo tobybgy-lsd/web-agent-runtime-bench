@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v3.2.8.
+> Current package stable line: v3.2.9.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.9
+
+- Added public-safe data engineering stability helpers for schema validation, deduplication, checkpointing, retry bookkeeping, dead-letter queues, run manifests, source hashes, field-quality reports, structured JSONL logging, and Bloom-filter dedupe.
+- Added `failure-doctor visual-diagnose` for local screenshot/DOM/OCR/click-coordinate visual failure diagnosis.
+- Added optional local-first VLM visual analyzer helpers with mock mode by default and no automatic network calls.
+- Added precise public-safe subtypes for `audio_fingerprint_risk`, `tcp_ip_os_fingerprint_mismatch`, and `ast_dynamic_token_required`.
+- Added `docs/VISUAL_DATA_QUALITY_BOUNDARY.md` to keep local challenge solvers, flags, anti-bot bypass instructions, and private training scripts out of the public package.
+- Kept the package diagnosis-only: no solver code, no challenge defeat, no fingerprint spoofing instructions, no behavioral mimicry recipes, and no private solution leaks.
 
 ## v3.2.8
 

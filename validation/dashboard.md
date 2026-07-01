@@ -4,11 +4,11 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.2.8 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.2.9 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.2.8 Deep Runtime Evidence Patch | pass | Current package stable line with sanitized runtime, protocol, client-VM, and behavioral evidence, no bypass guidance. |
+| v3.2.9 Visual and Data Quality Diagnostics Patch | pass | Current package stable line with visual failure diagnosis, data-quality helpers, Bloom dedupe, optional mock VLM helpers, and no bypass guidance. |
 | v3.1.0 P98 Master Gate | previous stable | Previous P98 master gate completion line. |
 | v2.4.1 P95 Alignment & Missing Tracks | previous P95 stable | Published GitHub Release and previous P95 stable line. |
 
