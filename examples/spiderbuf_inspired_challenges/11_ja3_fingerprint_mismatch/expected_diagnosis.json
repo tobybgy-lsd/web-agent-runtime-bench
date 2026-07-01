@@ -3,7 +3,7 @@
     "anti_bot_risk"
   ],
   "accepted_subtypes": [
-    "fingerprint_risk"
+    "webgl_virtual_renderer_detected"
   ],
   "expected_failure_layer": "anti_bot_risk"
 }

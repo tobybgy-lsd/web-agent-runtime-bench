@@ -105,7 +105,7 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         self.assertIn("authorization", combined)
         self.assertFalse(forbidden_output_hits(combined))
 
-    def test_runtime_sandbox_leak_is_safe_fingerprint_risk(self):
+    def test_runtime_sandbox_leak_is_safe_precise_runtime_boundary(self):
         sample = artifact(
             "browser runtime sandbox leak detected: prototype hook and toString output differ from expected runtime metadata",
             {"log_excerpt": "classify the browser runtime boundary; do not output evasion code"},
@@ -116,7 +116,7 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         combined = json.dumps(diagnosis, ensure_ascii=False).lower()
 
         self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
-        self.assertEqual(diagnosis["subtype"], "fingerprint_risk")
+        self.assertEqual(diagnosis["subtype"], "runtime_sandbox_leak_detected")
         self.assertIn("authorization", combined)
         self.assertFalse(forbidden_output_hits(combined))
 
@@ -280,6 +280,66 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
             "browser_canvas_fingerprint_risk": artifact(
                 "browser canvas fingerprint risk: canvas hash uniqueness audit failed in authorized test telemetry",
                 {"log_excerpt": "collect sanitized canvas hash/session counts before changing selectors or proxy settings"},
+                status_code=403,
+            ),
+            "webgl_virtual_renderer_detected": artifact(
+                "WebGL virtual renderer detected: sanitized runtime report shows SwiftShader or Mesa renderer family",
+                {"log_excerpt": "collect sanitized WebGL renderer/vendor evidence without publishing spoofing steps"},
+                status_code=403,
+            ),
+            "webrtc_private_ip_leak_detected": artifact(
+                "WebRTC private IP leak detected: sanitized ICE candidate summary includes private network ranges",
+                {"log_excerpt": "runtime network topology evidence should not be treated as selector or proxy failure"},
+                status_code=403,
+            ),
+            "automation_global_scope_leak_detected": artifact(
+                "automation global scope leak detected: sanitized runtime summary found automation globals",
+                {"log_excerpt": "global namespace evidence should stay diagnostic-only"},
+                status_code=403,
+            ),
+            "js_vmp_integrity_check_failed": artifact(
+                "JS VMP integrity check failed: client VM signature mismatch in sanitized runtime report",
+                {"log_excerpt": "collect VM integrity summary without bytecode or reconstruction logic"},
+                status_code=403,
+            ),
+            "numeric_semantics_mismatch": artifact(
+                "numeric semantics mismatch: JavaScript numeric coercion differs from local verifier",
+                {"log_excerpt": "client VM arithmetic semantics mismatch in authorized fixture"},
+                status_code=403,
+            ),
+            "http2_settings_fingerprint_mismatch": artifact(
+                "HTTP/2 SETTINGS fingerprint mismatch: standard client SETTINGS differ from browser protocol stack",
+                {"log_excerpt": "collect sanitized HTTP/2 settings summary without protocol impersonation guidance"},
+                status_code=403,
+            ),
+            "ja4_h2_fingerprint_mismatch": artifact(
+                "JA4 H2 fingerprint mismatch: ALPN h2 accepted but HTTP/2 frame/settings evidence differs",
+                {"log_excerpt": "protocol stack mismatch should not be treated as selector storage or proxy failure"},
+                status_code=403,
+            ),
+            "pointer_trajectory_entropy_anomaly": artifact(
+                "pointer trajectory entropy anomaly: sanitized movement summary reports low vertical deviation",
+                {"log_excerpt": "collect movement entropy summary without outputting trajectory generation steps"},
+                status_code=403,
+            ),
+            "mathematical_trajectory_detected": artifact(
+                "mathematical trajectory detected: sanitized pointer acceleration profile is too deterministic",
+                {"log_excerpt": "behavioral evidence should stay diagnostic-only"},
+                status_code=403,
+            ),
+            "debugger_timing_anomaly": artifact(
+                "debugger timing anomaly: sanitized runtime timing summary exceeds expected execution threshold",
+                {"log_excerpt": "collect debugger timing evidence without anti-debugging recipes"},
+                status_code=403,
+            ),
+            "native_function_integrity_mismatch": artifact(
+                "native function integrity mismatch: Function.prototype reflection output differs from expected browser runtime",
+                {"log_excerpt": "native reflection evidence should not include spoofing code"},
+                status_code=403,
+            ),
+            "runtime_sandbox_leak_detected": artifact(
+                "runtime sandbox leak detected: Node/process globals exposed inside browser runtime summary",
+                {"log_excerpt": "sandbox boundary evidence should not include cleanup/evasion code"},
                 status_code=403,
             ),
         }

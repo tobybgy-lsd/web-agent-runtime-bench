@@ -175,6 +175,171 @@ class FailureDoctorInputTests(unittest.TestCase):
             self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
             self.assertEqual(diagnosis["subtype"], "js_ast_obfuscation_detected")
 
+    def test_user_supplied_deep_runtime_report_maps_webgl_webrtc_and_sandbox_evidence(self):
+        cases = {
+            "webgl_virtual_renderer_detected": {
+                "browser_runtime": {
+                    "webgl_virtual_renderer_detected": True,
+                    "webgl_renderer_family": "virtualized",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+            "webrtc_private_ip_leak_detected": {
+                "browser_runtime": {
+                    "webrtc_private_ip_leak_detected": True,
+                    "ice_candidate_summary": "private-range-candidate-present",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+            "automation_global_scope_leak_detected": {
+                "browser_runtime": {
+                    "automation_global_scope_leak_detected": True,
+                    "global_scope_summary": "automation-globals-present",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+            "runtime_sandbox_leak_detected": {
+                "browser_runtime": {
+                    "runtime_sandbox_leak_detected": True,
+                    "sandbox_summary": "server-runtime-global-present",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+            "native_function_integrity_mismatch": {
+                "browser_runtime": {
+                    "native_function_integrity_mismatch": True,
+                    "native_reflection_summary": "browser-native-reflection-mismatch",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+            "debugger_timing_anomaly": {
+                "browser_runtime": {
+                    "debugger_timing_anomaly": True,
+                    "debugger_timing_bucket": "threshold-exceeded",
+                    "evidence_source": "sanitized-authorized-test",
+                }
+            },
+        }
+        for expected_subtype, report in cases.items():
+            with self.subTest(expected_subtype=expected_subtype):
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    (root / "browser_runtime_report.json").write_text(
+                        json.dumps(
+                            {
+                                "schema_version": "failure-doctor/browser-runtime-report/v1",
+                                "network_access": "none",
+                                **report,
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
+
+                    artifact = build_artifact(collect_inputs(root), run_id=expected_subtype)
+                    diagnosis = classify_failure_artifact(artifact)
+
+                    self.assertFalse(artifact["safety"]["external_network_required"])
+                    self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+                    self.assertEqual(diagnosis["subtype"], expected_subtype)
+
+    def test_user_supplied_protocol_report_maps_http2_and_ja4_evidence(self):
+        cases = {
+            "http2_settings_fingerprint_mismatch": {
+                "transport": {
+                    "http2_settings_fingerprint_mismatch": True,
+                    "http2_settings_summary": "settings-family-differs",
+                    "alpn": "h2",
+                }
+            },
+            "ja4_h2_fingerprint_mismatch": {
+                "transport": {
+                    "ja4_h2_fingerprint_mismatch": True,
+                    "ja4_h2_summary": "browser-protocol-stack-differs",
+                    "alpn": "h2",
+                }
+            },
+        }
+        for expected_subtype, report in cases.items():
+            with self.subTest(expected_subtype=expected_subtype):
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    (root / "probe_report.json").write_text(
+                        json.dumps(
+                            {
+                                "schema_version": "failure-doctor/probe-report/v1",
+                                "network_access": "performed_by_user_before_diagnosis",
+                                **report,
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
+
+                    artifact = build_artifact(collect_inputs(root), run_id=expected_subtype)
+                    diagnosis = classify_failure_artifact(artifact)
+
+                    self.assertFalse(artifact["safety"]["external_network_required"])
+                    self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+                    self.assertEqual(diagnosis["subtype"], expected_subtype)
+
+    def test_user_supplied_behavior_and_vm_reports_map_precise_evidence(self):
+        cases = {
+            "pointer_trajectory_entropy_anomaly": (
+                "input_timing_summary.json",
+                {
+                    "input_timing": {
+                        "pointer_trajectory_entropy_anomaly": True,
+                        "vertical_deviation_bucket": "too-low",
+                        "evidence_source": "sanitized-authorized-test",
+                    }
+                },
+            ),
+            "mathematical_trajectory_detected": (
+                "input_timing_summary.json",
+                {
+                    "input_timing": {
+                        "mathematical_trajectory_detected": True,
+                        "acceleration_profile": "too-deterministic",
+                        "evidence_source": "sanitized-authorized-test",
+                    }
+                },
+            ),
+            "js_vmp_integrity_check_failed": (
+                "js_integrity_report.json",
+                {
+                    "script_integrity": {
+                        "js_vmp_integrity_check_failed": True,
+                        "client_vm_summary": "signature-mismatch",
+                        "evidence_source": "sanitized-authorized-test",
+                    }
+                },
+            ),
+            "numeric_semantics_mismatch": (
+                "js_integrity_report.json",
+                {
+                    "script_integrity": {
+                        "numeric_semantics_mismatch": True,
+                        "numeric_semantics_summary": "runtime-arithmetic-differs",
+                        "evidence_source": "sanitized-authorized-test",
+                    }
+                },
+            ),
+        }
+        for expected_subtype, (filename, report) in cases.items():
+            with self.subTest(expected_subtype=expected_subtype):
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    (root / filename).write_text(
+                        json.dumps({"schema_version": "failure-doctor/offline-report/v1", "network_access": "none", **report}),
+                        encoding="utf-8",
+                    )
+
+                    artifact = build_artifact(collect_inputs(root), run_id=expected_subtype)
+                    diagnosis = classify_failure_artifact(artifact)
+
+                    self.assertFalse(artifact["safety"]["external_network_required"])
+                    self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+                    self.assertEqual(diagnosis["subtype"], expected_subtype)
+
     def test_error_log_outranks_large_console_html_for_diagnosis(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

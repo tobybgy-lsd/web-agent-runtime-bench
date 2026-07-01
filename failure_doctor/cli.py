@@ -1261,7 +1261,20 @@ def _probe_reports_to_text(reports: Any) -> str:
                 parts.append("TLS ALPN fingerprint mismatch: standard HTTP client and browser transport evidence differ.")
             if transport.get("transport_fingerprint_risk") is True:
                 parts.append("transport fingerprint risk: TLS handshake, ALPN, HTTP version, and browser evidence differ.")
-            for key in ("alpn", "browser_alpn", "http_version", "browser_http_version", "ja3_string", "ja3_hash"):
+            if transport.get("http2_settings_fingerprint_mismatch") is True:
+                parts.append("HTTP/2 SETTINGS fingerprint mismatch: standard client settings differ from browser protocol stack.")
+            if transport.get("ja4_h2_fingerprint_mismatch") is True:
+                parts.append("JA4 H2 fingerprint mismatch: protocol stack evidence differs from browser H2 evidence.")
+            for key in (
+                "alpn",
+                "browser_alpn",
+                "http_version",
+                "browser_http_version",
+                "ja3_string",
+                "ja3_hash",
+                "ja4_h2_summary",
+                "http2_settings_summary",
+            ):
                 value = transport.get(key)
                 if value:
                     parts.append(f"{key}={value}")
@@ -1290,7 +1303,31 @@ def _runtime_reports_to_text(reports: Any) -> str:
                 parts.append("canvas fingerprint collision: duplicate canvas hash evidence repeats across sanitized sessions.")
             if runtime.get("browser_canvas_fingerprint_risk") is True:
                 parts.append("browser canvas fingerprint risk: canvas hash uniqueness audit failed in authorized test telemetry.")
-            for key in ("user_agent_platform", "sec_ch_ua_platform", "navigator_platform", "user_agent", "language"):
+            if runtime.get("webgl_virtual_renderer_detected") is True:
+                parts.append("WebGL virtual renderer detected: sanitized renderer/vendor evidence suggests virtualized browser runtime.")
+            if runtime.get("webrtc_private_ip_leak_detected") is True:
+                parts.append("WebRTC private IP leak detected: sanitized ICE candidate summary includes private network evidence.")
+            if runtime.get("automation_global_scope_leak_detected") is True:
+                parts.append("automation global scope leak detected: sanitized runtime summary found automation globals.")
+            if runtime.get("runtime_sandbox_leak_detected") is True:
+                parts.append("runtime sandbox leak detected: browser runtime summary exposes sandbox/global boundary leakage.")
+            if runtime.get("native_function_integrity_mismatch") is True:
+                parts.append("native function integrity mismatch: browser native reflection summary differs from expected runtime.")
+            if runtime.get("debugger_timing_anomaly") is True:
+                parts.append("debugger timing anomaly: sanitized runtime timing summary crosses the configured threshold.")
+            for key in (
+                "user_agent_platform",
+                "sec_ch_ua_platform",
+                "navigator_platform",
+                "user_agent",
+                "language",
+                "webgl_renderer_family",
+                "ice_candidate_summary",
+                "global_scope_summary",
+                "sandbox_summary",
+                "native_reflection_summary",
+                "debugger_timing_bucket",
+            ):
                 value = runtime.get(key)
                 if value:
                     parts.append(f"{key}={value}")
@@ -1306,7 +1343,18 @@ def _runtime_reports_to_text(reports: Any) -> str:
                 parts.append("behavioral input risk: sanitized input timing summary reports fixed interval input timing.")
             if timing.get("keystroke_telemetry_anomaly") is True:
                 parts.append("keystroke telemetry anomaly: sanitized input timing summary is inconsistent with interactive input.")
-            for key in ("average_key_interval_ms", "interval_variance_ms2", "input_method"):
+            if timing.get("pointer_trajectory_entropy_anomaly") is True:
+                parts.append("pointer trajectory entropy anomaly: sanitized movement summary reports low vertical deviation.")
+            if timing.get("mathematical_trajectory_detected") is True:
+                parts.append("mathematical trajectory detected: sanitized pointer acceleration profile is too deterministic.")
+            for key in (
+                "average_key_interval_ms",
+                "interval_variance_ms2",
+                "input_method",
+                "vertical_deviation_bucket",
+                "acceleration_profile",
+                "evidence_source",
+            ):
                 value = timing.get(key)
                 if value is not None:
                     parts.append(f"{key}={value}")
@@ -1332,7 +1380,18 @@ def _script_reports_to_text(reports: Any) -> str:
                 parts.append("client generated token missing: request was rejected because script-produced integrity evidence is absent.")
             if integrity.get("request_integrity_algorithm_changed") is True:
                 parts.append("request integrity algorithm changed: authorized regression shows token validation drift after a script update.")
-            for key in ("http_status", "bundle_hash_prefix", "script_url_host", "evidence_source"):
+            if integrity.get("js_vmp_integrity_check_failed") is True:
+                parts.append("JS VMP integrity check failed: client VM signature mismatch in sanitized runtime report.")
+            if integrity.get("numeric_semantics_mismatch") is True:
+                parts.append("numeric semantics mismatch: client VM arithmetic semantics differ from the local verifier.")
+            for key in (
+                "http_status",
+                "bundle_hash_prefix",
+                "script_url_host",
+                "evidence_source",
+                "client_vm_summary",
+                "numeric_semantics_summary",
+            ):
                 value = integrity.get(key)
                 if value:
                     parts.append(f"{key}={value}")

@@ -18,15 +18,16 @@ The repository has release-note drafts prepared for the public alignment line. P
 | v3.2.4 | `docs/RELEASE_NOTES_v3.2.4.md` | Agent Failure Doctor v3.2.4 - Offline Probe Evidence Boundary Patch | published |
 | v3.2.5 | `docs/RELEASE_NOTES_v3.2.5.md` | Agent Failure Doctor v3.2.5 - Behavioral and Client Hints Evidence Patch | published |
 | v3.2.6 | `docs/RELEASE_NOTES_v3.2.6.md` | Agent Failure Doctor v3.2.6 - JavaScript Integrity Evidence Patch | published |
-| v3.2.7 | `docs/RELEASE_NOTES_v3.2.7.md` | Agent Failure Doctor v3.2.7 - Canvas Fingerprint Evidence Patch | ready for patch publication |
+| v3.2.7 | `docs/RELEASE_NOTES_v3.2.7.md` | Agent Failure Doctor v3.2.7 - Canvas Fingerprint Evidence Patch | published |
+| v3.2.8 | `docs/RELEASE_NOTES_v3.2.8.md` | Agent Failure Doctor v3.2.8 - Deep Runtime Evidence Patch | ready for patch publication |
 
 ## Published release
 
-`v3.2.7` is the next patch release candidate for the latest stable GitHub Release.
+`v3.2.8` is the next patch release candidate for the latest stable GitHub Release.
 
 After publication, the release URL should be:
 
-https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.2.7
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.2.8
 
 `v3.2.0` is the previous stable GitHub Release:
 

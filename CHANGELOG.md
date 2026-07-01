@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v3.2.7.
+> Current package stable line: v3.2.8.
 > v3.1.0 remains the previous P98 stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.2.8
+
+- Added public-safe deep runtime evidence subtypes for sanitized WebGL/WebRTC runtime evidence, browser global-scope leakage, runtime sandbox leakage, native reflection mismatch, and debugger timing anomalies.
+- Added public-safe protocol and client-VM evidence subtypes for HTTP/2 SETTINGS mismatch, JA4/H2 mismatch, client VM integrity failures, and numeric-semantics mismatch.
+- Added public-safe behavioral telemetry subtypes for pointer trajectory entropy anomalies and mathematical trajectory evidence.
+- Extended offline `browser_runtime_report.json`, `probe_report.json`, `js_integrity_report.json`, and `input_timing_summary.json` handling for these sanitized evidence summaries.
+- Added `docs/DEEP_RUNTIME_PROTOCOL_BEHAVIOR_BOUNDARY.md` to keep local challenge solvers, flags, browser runtime alteration recipes, protocol impersonation values, VMP reconstruction logic, and behavioral mimicry steps out of the public package.
+- Kept the package diagnosis-only: no runtime alteration recipes, no protocol impersonation guidance, no behavioral bypass steps, no anti-bot evasion logic, and no private solution leaks.
 
 ## v3.2.7
 

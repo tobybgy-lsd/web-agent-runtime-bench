@@ -472,6 +472,9 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         or "client side signature required" in focused
         or "x-client-sign" in focused
         or ("request integrity token" in focused and ("missing" in focused or "absent" in focused))
+        or "ast deobfuscation" in focused
+        or "decryption failed" in focused
+        or "key decryption" in focused
     ):
         subtype = "client_side_signature_required"
         evidence.append("client-side request-integrity signature appears required")
@@ -560,6 +563,64 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("browser Canvas fingerprint consistency risk evidence found")
 
     if not subtype and (
+        "webgl virtual renderer detected" in focused
+        or ("webgl" in focused and "virtual renderer" in focused)
+        or ("webgl renderer" in focused and ("swiftshader" in focused or "mesa" in focused or "virtualized" in focused))
+    ):
+        subtype = "webgl_virtual_renderer_detected"
+        evidence.append("sanitized WebGL renderer/vendor evidence suggests a virtualized browser runtime")
+
+    if not subtype and (
+        "webrtc private ip leak detected" in focused
+        or ("webrtc" in focused and "private ip" in focused)
+        or ("ice candidate" in focused and "private network" in focused)
+        or ("ice candidate" in focused and "private-range" in focused)
+    ):
+        subtype = "webrtc_private_ip_leak_detected"
+        evidence.append("sanitized WebRTC/ICE evidence indicates a private network topology leak")
+
+    if not subtype and (
+        "automation global scope leak detected" in focused
+        or ("global scope" in focused and "automation globals" in focused)
+        or ("global namespace" in focused and "automation" in focused)
+    ):
+        subtype = "automation_global_scope_leak_detected"
+        evidence.append("sanitized browser global-scope evidence contains automation namespace leakage")
+
+    if not subtype and (
+        "js vmp integrity check failed" in focused
+        or "client vm signature mismatch" in focused
+        or ("client vm" in focused and "integrity" in focused and "mismatch" in focused)
+    ):
+        subtype = "js_vmp_integrity_check_failed"
+        evidence.append("sanitized client-VM integrity evidence failed verification")
+
+    if not subtype and (
+        "numeric semantics mismatch" in focused
+        or ("javascript numeric coercion" in focused and "differs" in focused)
+        or ("runtime arithmetic" in focused and "differs" in focused)
+    ):
+        subtype = "numeric_semantics_mismatch"
+        evidence.append("sanitized runtime arithmetic evidence differs across client/server semantics")
+
+    if not subtype and (
+        "http/2 settings fingerprint mismatch" in focused
+        or "http2 settings fingerprint mismatch" in focused
+        or ("http/2 settings" in focused and "browser protocol stack" in focused)
+        or ("http2 settings" in focused and "settings-family-differs" in focused)
+    ):
+        subtype = "http2_settings_fingerprint_mismatch"
+        evidence.append("sanitized HTTP/2 SETTINGS evidence differs from browser protocol-stack evidence")
+
+    if not subtype and (
+        "ja4 h2 fingerprint mismatch" in focused
+        or ("ja4" in focused and "h2" in focused and "mismatch" in focused)
+        or ("protocol stack mismatch" in focused and "ja4" in focused)
+    ):
+        subtype = "ja4_h2_fingerprint_mismatch"
+        evidence.append("sanitized JA4/H2 evidence differs from the expected browser protocol stack")
+
+    if not subtype and (
         "zero interval input detected" in focused
         or ("average key interval" in focused and "0" in focused and "variance 0" in focused)
         or ("impossible key intervals" in focused and "input timing" in focused)
@@ -584,6 +645,22 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         evidence.append("sanitized input timing evidence suggests a behavioral input consistency risk")
 
     if not subtype and (
+        "pointer trajectory entropy anomaly" in focused
+        or ("movement summary" in focused and "low vertical deviation" in focused)
+        or ("vertical deviation" in focused and "too-low" in focused)
+    ):
+        subtype = "pointer_trajectory_entropy_anomaly"
+        evidence.append("sanitized pointer trajectory evidence reports low movement entropy")
+
+    if not subtype and (
+        "mathematical trajectory detected" in focused
+        or ("pointer acceleration" in focused and "too deterministic" in focused)
+        or ("acceleration profile" in focused and "too-deterministic" in focused)
+    ):
+        subtype = "mathematical_trajectory_detected"
+        evidence.append("sanitized pointer trajectory evidence appears overly deterministic")
+
+    if not subtype and (
         "tls alpn fingerprint mismatch" in focused
         or ("alpn" in focused and "http/1.1" in focused and "h2" in focused)
         or ("standard http client" in focused and "browser path" in focused and "h2" in focused)
@@ -598,6 +675,31 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     ):
         subtype = "transport_fingerprint_risk"
         evidence.append("transport-layer fingerprint evidence differs from browser/runtime evidence")
+
+    if not subtype and (
+        "debugger timing anomaly" in focused
+        or ("debugger timing" in focused and "threshold" in focused)
+        or ("runtime timing" in focused and "execution threshold" in focused)
+    ):
+        subtype = "debugger_timing_anomaly"
+        evidence.append("sanitized runtime timing evidence indicates a debugger/timing anomaly")
+
+    if not subtype and (
+        "native function integrity mismatch" in focused
+        or ("function.prototype" in focused and "reflection" in focused)
+        or ("native reflection" in focused and "mismatch" in focused)
+    ):
+        subtype = "native_function_integrity_mismatch"
+        evidence.append("sanitized native-function reflection evidence differs from browser runtime expectations")
+
+    if not subtype and (
+        "runtime sandbox leak detected" in focused
+        or ("sandbox leak" in focused and "browser runtime" in focused)
+        or ("node/process globals" in focused and "browser runtime" in focused)
+        or ("server-runtime-global" in focused and "browser runtime" in focused)
+    ):
+        subtype = "runtime_sandbox_leak_detected"
+        evidence.append("sanitized runtime evidence indicates a browser sandbox/global leakage boundary")
 
     if not subtype and (status == 429 or "too many requests" in focused or "rate limit" in focused):
         subtype = "rate_limited"
@@ -658,11 +760,17 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         or "ja4" in focused
         or "http/2" in focused
         or "client hints" in focused
-        or "webgl" in focused
         or "webrtc" in focused
+        or "webgl" in focused
         or "prototype hook" in focused
         or "tostring output" in focused
         or "sandbox leak" in focused
+        or "virtualized audio" in focused
+        or "audio fingerprint" in focused
+        or "audio hardware detected" in focused
+        or "p0f" in focused
+        or "tcp/ip" in focused
+        or "os mismatch" in focused
     ):
         subtype = "fingerprint_risk"
         evidence.append("environment protocol or fingerprint mismatch detected")
@@ -739,9 +847,21 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
             "browser_header_consistency_risk",
             "canvas_fingerprint_collision",
             "browser_canvas_fingerprint_risk",
+            "webgl_virtual_renderer_detected",
+            "webrtc_private_ip_leak_detected",
+            "automation_global_scope_leak_detected",
+            "js_vmp_integrity_check_failed",
+            "numeric_semantics_mismatch",
+            "http2_settings_fingerprint_mismatch",
+            "ja4_h2_fingerprint_mismatch",
             "keystroke_telemetry_anomaly",
             "zero_interval_input_detected",
             "behavioral_input_risk",
+            "pointer_trajectory_entropy_anomaly",
+            "mathematical_trajectory_detected",
+            "debugger_timing_anomaly",
+            "native_function_integrity_mismatch",
+            "runtime_sandbox_leak_detected",
             "obfuscated_js_integrity_required",
             "js_ast_obfuscation_detected",
             "rotated_string_array_detected",
@@ -851,7 +971,41 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "collect sanitized Canvas hash/session-count evidence, browser/runtime metadata, and HTTP rejection evidence before changing automation code",
             "stop automation when authorization or platform terms are unclear",
         ]
-    if subtype in {"keystroke_telemetry_anomaly", "zero_interval_input_detected", "behavioral_input_risk"}:
+    if subtype in {
+        "webgl_virtual_renderer_detected",
+        "webrtc_private_ip_leak_detected",
+        "automation_global_scope_leak_detected",
+        "debugger_timing_anomaly",
+        "native_function_integrity_mismatch",
+        "runtime_sandbox_leak_detected",
+    }:
+        return [
+            "browser runtime evidence indicates a fingerprint or sandbox boundary; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, documented test hook, or platform-approved integration exists",
+            "collect sanitized WebGL/WebRTC/runtime metadata, timing summaries, and HTTP rejection evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"http2_settings_fingerprint_mismatch", "ja4_h2_fingerprint_mismatch"}:
+        return [
+            "browser protocol-stack evidence is inconsistent with the standard client path; do not misclassify this as selector, storage, or proxy failure",
+            "confirm whether an authorized API, official SDK, compliant export, or platform-approved integration exists",
+            "collect sanitized ALPN, HTTP version, HTTP/2 SETTINGS, and protocol-stack evidence before changing automation code",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {"js_vmp_integrity_check_failed", "numeric_semantics_mismatch"}:
+        return [
+            "treat this as a protected client-VM/request-integrity boundary, not a selector/storage/proxy bug",
+            "collect sanitized client-VM summaries, numeric-semantics evidence, request metadata, and HTTP rejection evidence",
+            "use an official API, authorized SDK, documented export, or platform-approved test hook when available",
+            "stop automation when authorization or platform terms are unclear",
+        ]
+    if subtype in {
+        "keystroke_telemetry_anomaly",
+        "zero_interval_input_detected",
+        "behavioral_input_risk",
+        "pointer_trajectory_entropy_anomaly",
+        "mathematical_trajectory_detected",
+    }:
         return [
             "input timing telemetry is anomalous; do not misclassify this as selector, storage, or proxy failure",
             "confirm the run is an authorized test or approved automation workflow before continuing",
