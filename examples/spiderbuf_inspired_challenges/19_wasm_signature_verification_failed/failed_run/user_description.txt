@@ -1,0 +1,1 @@
+Local synthetic request was rejected by a WASM-backed request-integrity check.

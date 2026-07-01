@@ -154,6 +154,55 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         self.assertIn("canvas spoofing", hits)
         self.assertIn("residential proxy rotation", hits)
 
+    def test_public_safe_expert_signals_use_precise_subtypes(self):
+        samples = {
+            "automation_descriptor_detected": artifact(
+                "automation descriptor detected: navigator.webdriver property descriptor exposed on Navigator prototype",
+                {"log_excerpt": "webdriver descriptor check failed; automation descriptor boundary detected"},
+            ),
+            "wasm_signature_verification_failed": artifact(
+                "WASM signature verification failed for protected request integrity check",
+                {"log_excerpt": "webassembly module returned invalid signature for sanitized local fixture"},
+            ),
+            "client_side_signature_required": artifact(
+                "client-side signature required before API request can be accepted",
+                {"log_excerpt": "missing x-client-sign header; request integrity token absent"},
+            ),
+            "distributed_rate_limit_detected": artifact(
+                "distributed token bucket rate limit detected across worker nodes",
+                {"log_excerpt": "shared quota exhausted by concurrent workers; retry-after present"},
+                status_code=429,
+            ),
+            "rate_limit_scheduler_needed": artifact(
+                "crawler run needs rate limit scheduler: repeated 429 after burst traffic",
+                {"log_excerpt": "add backoff, circuit breaker, and queue-level pacing in authorized environment"},
+                status_code=429,
+            ),
+            "decoy_response_or_data_poisoning": artifact(
+                "HTTP 200 OK contains decoy response or data poisoning markers",
+                {"body_text": "schema valid but values are canary rows and poisoned totals"},
+            ),
+            "session_device_binding_risk": artifact(
+                "session device binding risk: same account fails when device id or network binding changes",
+                {"log_excerpt": "session/device/ip binding mismatch after authenticated request"},
+                status_code=401,
+            ),
+            "header_protocol_mismatch": artifact(
+                "header protocol mismatch: HTTP/2 lowercase pseudo-header evidence conflicts with app-level logs",
+                {"log_excerpt": "client hints and h2 header casing differ from captured transport metadata"},
+            ),
+        }
+
+        for expected_subtype, sample in samples.items():
+            with self.subTest(expected_subtype=expected_subtype):
+                diagnosis = classify_failure_artifact(sample)
+                combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+                self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+                self.assertEqual(diagnosis["subtype"], expected_subtype)
+                self.assertIn("authorization", combined)
+                self.assertFalse(forbidden_output_hits(combined))
+
 
 if __name__ == "__main__":
     unittest.main()

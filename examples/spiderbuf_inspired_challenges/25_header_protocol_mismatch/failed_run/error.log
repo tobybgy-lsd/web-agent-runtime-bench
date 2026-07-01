@@ -1,0 +1,1 @@
+header protocol mismatch: HTTP/2 lowercase pseudo-header evidence conflicts with app-level logs.

@@ -1,0 +1,1 @@
+Local synthetic authenticated run degraded after session/device binding mismatch.

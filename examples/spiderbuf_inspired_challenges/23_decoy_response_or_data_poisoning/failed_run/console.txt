@@ -1,0 +1,1 @@
+schema valid but values are canary rows and poisoned totals.

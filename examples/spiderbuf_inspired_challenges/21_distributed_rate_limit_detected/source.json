@@ -1,0 +1,7 @@
+{
+  "source_project": "hhuayuan/spiderbuf",
+  "challenge_type": "distributed rate limit detected",
+  "local_only": true,
+  "does_not_access_real_spiderbuf_site": true,
+  "safe_boundary": "diagnosis_only_no_bypass"
+}

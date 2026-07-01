@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "status": 401,
+      "url": "https://local.test/account-bound-data"
+    }
+  ]
+}

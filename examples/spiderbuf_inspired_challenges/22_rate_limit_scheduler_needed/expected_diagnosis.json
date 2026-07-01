@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "anti_bot_risk"
+  ],
+  "accepted_subtypes": [
+    "rate_limit_scheduler_needed"
+  ],
+  "expected_failure_layer": "anti_bot_risk"
+}

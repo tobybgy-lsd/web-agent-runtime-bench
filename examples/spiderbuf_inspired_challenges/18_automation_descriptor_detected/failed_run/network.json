@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "status": 403,
+      "url": "https://local.test/descriptor-check"
+    }
+  ]
+}

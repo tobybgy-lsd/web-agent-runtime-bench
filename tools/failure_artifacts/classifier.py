@@ -409,7 +409,83 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     evidence: list[str] = []
     subtype = ""
 
-    if status == 429 or "too many requests" in focused or "rate limit" in focused:
+    if (
+        "automation descriptor" in focused
+        or "webdriver descriptor" in focused
+        or ("navigator.webdriver" in focused and "descriptor" in focused)
+        or ("navigator prototype" in focused and "webdriver" in focused)
+    ):
+        subtype = "automation_descriptor_detected"
+        evidence.append("automation descriptor evidence found at the browser/runtime boundary")
+
+    if not subtype and (
+        "wasm signature" in focused
+        or "webassembly" in focused and "signature" in focused
+        or "wasm" in focused and "verification failed" in focused
+    ):
+        subtype = "wasm_signature_verification_failed"
+        evidence.append("WebAssembly/request-integrity signature verification failed")
+
+    if not subtype and (
+        "client-side signature required" in focused
+        or "client side signature required" in focused
+        or "x-client-sign" in focused
+        or ("request integrity token" in focused and ("missing" in focused or "absent" in focused))
+    ):
+        subtype = "client_side_signature_required"
+        evidence.append("client-side request-integrity signature appears required")
+
+    if not subtype and (
+        "distributed token bucket" in focused
+        or "distributed rate limit" in focused
+        or ("shared quota" in focused and "worker" in focused)
+        or ("concurrent workers" in focused and "retry-after" in focused)
+    ):
+        subtype = "distributed_rate_limit_detected"
+        evidence.append("distributed/shared-quota rate-limit evidence found")
+        if status:
+            evidence.append(f"HTTP status code observed: {status}")
+
+    if not subtype and (
+        "rate limit scheduler" in focused
+        or "scheduler needed" in focused
+        or ("circuit breaker" in focused and "pacing" in focused)
+        or ("backoff" in focused and "queue-level pacing" in focused)
+    ):
+        subtype = "rate_limit_scheduler_needed"
+        evidence.append("rate-limit evidence indicates scheduler/backoff handling is needed")
+        if status:
+            evidence.append(f"HTTP status code observed: {status}")
+
+    if not subtype and (
+        "decoy response or data poisoning" in focused
+        or ("decoy response" in focused and "data poisoning" in focused)
+        or ("canary rows" in focused and "poisoned" in focused)
+    ):
+        subtype = "decoy_response_or_data_poisoning"
+        evidence.append("HTTP response may be syntactically valid but untrustworthy due to decoy/poisoning evidence")
+
+    if not subtype and (
+        "session device binding" in focused
+        or "device binding risk" in focused
+        or "session/device/ip binding" in focused
+        or ("same account" in focused and "device id" in focused and "binding" in focused)
+    ):
+        subtype = "session_device_binding_risk"
+        evidence.append("session/device/network binding risk marker found")
+        if status:
+            evidence.append(f"HTTP status code observed: {status}")
+
+    if not subtype and (
+        "header protocol mismatch" in focused
+        or ("http/2" in focused and "pseudo-header" in focused and "app-level logs" in focused)
+        or ("client hints" in focused and "transport metadata" in focused)
+        or ("h2 header casing" in focused and "captured transport" in focused)
+    ):
+        subtype = "header_protocol_mismatch"
+        evidence.append("raw transport/header evidence conflicts with app-level framework logs")
+
+    if not subtype and (status == 429 or "too many requests" in focused or "rate limit" in focused):
         subtype = "rate_limited"
         evidence.append("rate-limit marker found")
         if status:
@@ -523,7 +599,19 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
 
     confidence = (
         0.94
-        if subtype in {"data_poisoning_decoy_response", "stateful_session_lifecycle_anomaly"}
+        if subtype
+        in {
+            "data_poisoning_decoy_response",
+            "decoy_response_or_data_poisoning",
+            "stateful_session_lifecycle_anomaly",
+            "automation_descriptor_detected",
+            "wasm_signature_verification_failed",
+            "client_side_signature_required",
+            "distributed_rate_limit_detected",
+            "rate_limit_scheduler_needed",
+            "session_device_binding_risk",
+            "header_protocol_mismatch",
+        }
         else 0.93
         if subtype == "dynamic_signature_required"
         else (
@@ -551,19 +639,47 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
 
 
 def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
-    if subtype == "dynamic_signature_required":
+    if subtype in {"dynamic_signature_required", "client_side_signature_required", "wasm_signature_verification_failed"}:
         return [
             "treat this as a protected request-integrity boundary, not a selector/storage/proxy bug",
             "use an official API, authorized SDK, documented export, or platform-approved integration when available",
             "verify local clock skew, nonce freshness, parameter ordering, canonical serialization, and URL encoding against authorized documentation",
             "capture sanitized request metadata and stop the run if authorization or platform terms are unclear",
         ]
-    if subtype == "data_poisoning_decoy_response":
+    if subtype == "automation_descriptor_detected":
+        return [
+            "treat browser automation descriptor evidence as an access-policy signal, not a parser or selector bug",
+            "confirm the automation is authorized and use documented test or partner integrations where available",
+            "capture sanitized browser/runtime metadata for diagnosis without adding evasion logic",
+            "stop the run if authorization or platform terms are unclear",
+        ]
+    if subtype in {"data_poisoning_decoy_response", "decoy_response_or_data_poisoning"}:
         return [
             "treat HTTP 200 decoy data as a trust-boundary signal, not a successful scrape",
             "compare trusted evidence, canary records, and authorized export/API output before changing parsers",
             "add data-integrity assertions so plausible but poisoned rows do not silently pass",
             "stop the run if authorization or data-access terms are unclear",
+        ]
+    if subtype in {"distributed_rate_limit_detected", "rate_limit_scheduler_needed"}:
+        return [
+            "treat distributed rate-limit evidence as a capacity and authorization boundary, not a transient selector bug",
+            "add conservative pacing, retry-after handling, circuit breakers, and queue-level backoff in authorized environments",
+            "prefer official bulk export, API quota negotiation, or platform-approved scheduling when available",
+            "stop the run if authorization or data-access terms are unclear",
+        ]
+    if subtype == "session_device_binding_risk":
+        return [
+            "treat session/device binding evidence as an authorization and account-state boundary",
+            "verify the run uses an authorized account, stable approved environment, and documented session lifecycle",
+            "add fail-closed checkpoints for repeated auth degradation instead of increasing retries",
+            "stop the run if authorization or data-access terms are unclear",
+        ]
+    if subtype == "header_protocol_mismatch":
+        return [
+            "treat header/protocol mismatch as an evidence-quality issue before changing request behavior",
+            "capture sanitized raw transport evidence and compare it with framework-normalized logs",
+            "verify HTTP version, client hints, and header normalization in an authorized reproduction",
+            "stop the run if authorization or platform terms are unclear",
         ]
     if subtype == "stateful_session_lifecycle_anomaly":
         return [

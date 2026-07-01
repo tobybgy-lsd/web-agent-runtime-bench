@@ -1,0 +1,1 @@
+Local synthetic run needs scheduler diagnosis, not selector changes.

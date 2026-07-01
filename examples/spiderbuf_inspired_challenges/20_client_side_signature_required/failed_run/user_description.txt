@@ -1,0 +1,1 @@
+Local synthetic run failed at a client-side request-integrity boundary.

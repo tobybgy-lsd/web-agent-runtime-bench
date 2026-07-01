@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "status": 429,
+      "url": "https://local.test/shared-quota"
+    }
+  ]
+}

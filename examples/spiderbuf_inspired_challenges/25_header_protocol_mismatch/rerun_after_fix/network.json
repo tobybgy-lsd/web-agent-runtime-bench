@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "status": 200,
+      "url": "https://local.test/header-protocol-audit"
+    }
+  ]
+}

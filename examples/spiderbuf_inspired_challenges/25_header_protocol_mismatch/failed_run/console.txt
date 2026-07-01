@@ -1,0 +1,1 @@
+client hints and h2 header casing differ from captured transport metadata.

@@ -28,6 +28,14 @@ EXPECTED_CASES = {
     "15_data_poisoning_decoy_response",
     "16_header_normalization_evidence_gap",
     "17_stateful_session_lifecycle_anomaly",
+    "18_automation_descriptor_detected",
+    "19_wasm_signature_verification_failed",
+    "20_client_side_signature_required",
+    "21_distributed_rate_limit_detected",
+    "22_rate_limit_scheduler_needed",
+    "23_decoy_response_or_data_poisoning",
+    "24_session_device_binding_risk",
+    "25_header_protocol_mismatch",
 }
 
 class SpiderbufInspiredValidationTests(unittest.TestCase):
