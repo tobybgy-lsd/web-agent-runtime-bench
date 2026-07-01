@@ -1,0 +1,2 @@
+401 Unauthorized appears every 100 requests, then refresh token recovers.
+Stateful anomaly: token lifecycle degrades periodically, not a single login failure.

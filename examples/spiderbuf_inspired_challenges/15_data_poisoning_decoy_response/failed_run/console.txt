@@ -1,0 +1,1 @@
+extractor accepted plausible rows before integrity validation; fake prices found in result set.

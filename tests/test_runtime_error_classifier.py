@@ -183,6 +183,45 @@ request metadata leaked proxy headers: Via, X-Forwarded-For
         self.assertEqual(result["error_type"], "proxy_header_leak")
         self.assertGreaterEqual(result["confidence"], 0.85)
 
+    def test_http_200_decoy_data_poisoning_is_classified(self):
+        stderr = """
+HTTP 200 OK
+extraction succeeded but every product row is synthetic decoy data
+trusted canary comparison failed; schema looks valid but values are poisoned
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "data_poisoning_decoy_response")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+        self.assertIn("trusted evidence", result["recommended_patch"].lower())
+
+    def test_wsgi_header_normalization_limitation_is_classified(self):
+        stderr = """
+Header validation inconclusive
+Werkzeug WSGI normalized Host and User-Agent to Title-Case before app logging
+raw HTTP/2 lowercase header evidence was lost at the framework boundary
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "header_normalization_evidence_gap")
+        self.assertGreaterEqual(result["confidence"], 0.8)
+        self.assertIn("raw transport", result["recommended_patch"].lower())
+
+    def test_periodic_401_session_lifecycle_anomaly_is_classified(self):
+        stderr = """
+Fetched 1000 pages with repeated session refreshes
+401 Unauthorized appears every 100 requests, then refresh token recovers
+stateful anomaly: token lifecycle degrades periodically, not a single login failure
+"""
+
+        result = classify_scraper_error(stderr)
+
+        self.assertEqual(result["error_type"], "stateful_session_lifecycle_anomaly")
+        self.assertGreaterEqual(result["confidence"], 0.85)
+        self.assertIn("request timeline", result["recommended_patch"].lower())
+
 
 if __name__ == "__main__":
     unittest.main()

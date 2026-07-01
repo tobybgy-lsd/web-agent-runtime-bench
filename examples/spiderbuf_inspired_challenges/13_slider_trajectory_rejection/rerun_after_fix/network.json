@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/captcha/verify",
+    "status": 200,
+    "body": "SUCCESS"
+  }
+]

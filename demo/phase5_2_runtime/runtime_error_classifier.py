@@ -163,6 +163,24 @@ def classify_scraper_error(stderr: str, stdout: str = "", html: str = "") -> dic
             ["via,", "via header", "x-forwarded-for", "proxy headers", "proxy header"],
             "Proxy metadata appears in request evidence. Remove unintended forwarding metadata or use an approved network path.",
         ),
+        (
+            "data_poisoning_decoy_response",
+            0.87,
+            ["decoy data", "poisoned", "trusted canary", "schema looks valid", "values are poisoned"],
+            "HTTP 200 data may be a decoy/poisoned response. Compare trusted evidence, add canary validation, and use approved data sources before parser changes.",
+        ),
+        (
+            "header_normalization_evidence_gap",
+            0.84,
+            ["wsgi normalized", "werkzeug", "title-case", "raw http/2", "raw transport", "header evidence was lost"],
+            "Application logs lost raw transport header evidence. Capture raw transport evidence or proxy-level logs before judging header casing.",
+        ),
+        (
+            "stateful_session_lifecycle_anomaly",
+            0.87,
+            ["every 100 requests", "periodically", "session refreshes", "token lifecycle", "stateful anomaly"],
+            "Session failures look periodic rather than one-off. Build a request timeline, track refresh boundaries, and validate token/session lifecycle handling.",
+        ),
     ]
     for error_type, conf, keywords, repair in composite_patterns:
         if any(kw in lowered for kw in keywords):

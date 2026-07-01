@@ -1,0 +1,1 @@
+Resolved by collecting raw transport evidence and documenting framework header normalization.

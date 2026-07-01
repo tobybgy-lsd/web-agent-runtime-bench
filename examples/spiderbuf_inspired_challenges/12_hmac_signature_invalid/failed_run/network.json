@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/api/protected",
+    "status": 403,
+    "body": "Forbidden: Signature verification failed."
+  }
+]

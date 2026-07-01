@@ -1,0 +1,3 @@
+Header validation inconclusive after framework logging.
+Werkzeug WSGI normalized Host and User-Agent to Title-Case.
+Raw HTTP/2 lowercase header evidence was lost at the application boundary.

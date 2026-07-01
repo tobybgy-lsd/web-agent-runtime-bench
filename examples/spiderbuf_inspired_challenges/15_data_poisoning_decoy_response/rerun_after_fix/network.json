@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/authorized-export/products",
+    "status": 200,
+    "body": "trusted canary records match authorized export"
+  }
+]

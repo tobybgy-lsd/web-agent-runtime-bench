@@ -1,0 +1,1 @@
+Crawler failed with HTTP 403. The server detected an uppercase header key and mismatched client hints.

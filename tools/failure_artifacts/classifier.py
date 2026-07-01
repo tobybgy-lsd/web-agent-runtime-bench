@@ -367,6 +367,38 @@ def _has_local_environment_error(artifact: Mapping[str, Any]) -> bool:
     return any(marker in focused for marker in local_markers)
 
 
+def _classify_header_normalization_evidence_gap(
+    artifact: Mapping[str, Any], text: str
+) -> dict[str, Any] | None:
+    focused = _error_focused_text(artifact, include_user_description=False)
+    markers = (
+        "wsgi normalized",
+        "werkzeug",
+        "title-case",
+        "raw http/2",
+        "raw transport",
+        "header evidence lost",
+        "application boundary",
+    )
+    if not any(marker in focused for marker in markers):
+        return None
+    return _result(
+        "insufficient_evidence",
+        0.94,
+        [
+            "application/framework logs may have normalized request header names",
+            "raw transport/header evidence is missing or inconclusive",
+        ],
+        [
+            "capture raw transport evidence, proxy-level logs, or a packet-level reproduction before changing request code",
+            "record the framework boundary that normalized headers so later diagnosis does not confuse logging artifacts with protocol behavior",
+            "rerun diagnosis with sanitized raw request/response metadata if available",
+        ],
+        subtype="header_normalization_evidence_gap",
+        evidence_level="evidence_gap",
+    )
+
+
 def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str, Any] | None:
     observations = artifact.get("observations", {})
     if not isinstance(observations, Mapping):
@@ -383,35 +415,34 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
         if status:
             evidence.append(f"HTTP status code observed: {status}")
 
-    challenge_markers = ("captcha", "challenge page", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
-    found_challenge = [marker for marker in challenge_markers if marker in focused]
-    if not subtype and found_challenge:
-        subtype = "captcha_or_challenge_page"
-        evidence.extend(f"challenge marker found: {marker}" for marker in found_challenge[:4])
+    if not subtype and (
+        "decoy data" in focused
+        or "poisoned" in focused
+        or "trusted canary" in focused
+        or "schema looks valid" in focused
+        or "fake prices" in focused
+        or "valid looking product list" in focused
+    ):
+        subtype = "data_poisoning_decoy_response"
+        evidence.append("HTTP 200 response contains decoy/poisoning evidence instead of trustworthy data")
 
     if not subtype and (
-        observations.get("headless_headed_mismatch") is True
-        or ("headless" in focused and "headed" in focused and ("blocked" in focused or "succeeds" in focused))
+        "every 100 requests" in focused
+        or ("401" in focused and "periodic" in focused)
+        or "token lifecycle" in focused
+        or "stateful anomaly" in focused
+        or "session refreshes" in focused
+        or "refresh token recovers" in focused
     ):
-        subtype = "fingerprint_risk"
-        evidence.append("headless/headed behavior differs, which suggests environment fingerprint risk")
-
-    signature_markers = ("signature", "x-bogus", "x-s", "x-sign", "dynamic token")
-    found_signature = [marker for marker in signature_markers if marker in focused]
-    if not subtype and found_signature:
-        subtype = "dynamic_signature_required"
-        evidence.extend(f"dynamic request signature marker found: {marker}" for marker in found_signature[:3])
-
-    if not subtype and (
-        observations.get("ip_reputation_block") is True
-        or "ip reputation" in focused
-        or ("current network" in focused and "approved" in focused)
-    ):
-        subtype = "ip_reputation_block"
-        evidence.append("access differs by network or source reputation")
+        subtype = "stateful_session_lifecycle_anomaly"
+        evidence.append("periodic auth/session failures suggest a stateful lifecycle anomaly")
 
     if not subtype and (
         observations.get("behavioral_risk") is True
+        or "behavioral" in focused
+        or "trajectory" in focused
+        or "mouse" in focused
+        or "slide" in focused
         or "unusual traffic" in focused
         or ("request burst" in focused and "triggered" in focused)
         or "high-frequency" in focused
@@ -425,6 +456,38 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     ):
         subtype = "behavioral_risk"
         evidence.append("behavioral risk marker found in request pattern or page text")
+
+    if not subtype and (
+        observations.get("headless_headed_mismatch") is True
+        or ("headless" in focused and "headed" in focused and ("blocked" in focused or "succeeds" in focused))
+        or "fingerprint" in focused
+        or "ja3" in focused
+        or "ja4" in focused
+        or "http/2" in focused
+        or "client hints" in focused
+    ):
+        subtype = "fingerprint_risk"
+        evidence.append("environment protocol or fingerprint mismatch detected")
+
+    signature_markers = ("signature", "x-bogus", "x-s", "x-sign", "dynamic token")
+    found_signature = [marker for marker in signature_markers if marker in focused]
+    if not subtype and found_signature:
+        subtype = "dynamic_signature_required"
+        evidence.extend(f"dynamic request signature marker found: {marker}" for marker in found_signature[:3])
+
+    challenge_markers = ("captcha", "challenge page", "verify you are human", "cf-ray", "cloudflare", "akamai", "datadome", "perimeterx", "kasada")
+    found_challenge = [marker for marker in challenge_markers if marker in focused]
+    if not subtype and found_challenge:
+        subtype = "captcha_or_challenge_page"
+        evidence.extend(f"challenge marker found: {marker}" for marker in found_challenge[:4])
+
+    if not subtype and (
+        observations.get("ip_reputation_block") is True
+        or "ip reputation" in focused
+        or ("current network" in focused and "approved" in focused)
+    ):
+        subtype = "ip_reputation_block"
+        evidence.append("access differs by network or source reputation")
 
     if not subtype and (
         observations.get("ip_reputation_block") is True
@@ -458,8 +521,24 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if not subtype:
         return None
 
-    confidence = 0.93 if subtype == "dynamic_signature_required" else (
-        0.92 if subtype in {"rate_limited", "captcha_or_challenge_page", "ip_reputation_block", "auth_or_permission_block"} else 0.88
+    confidence = (
+        0.94
+        if subtype in {"data_poisoning_decoy_response", "stateful_session_lifecycle_anomaly"}
+        else 0.93
+        if subtype == "dynamic_signature_required"
+        else (
+            0.92
+            if subtype
+            in {
+                "rate_limited",
+                "captcha_or_challenge_page",
+                "ip_reputation_block",
+                "auth_or_permission_block",
+                "fingerprint_risk",
+                "behavioral_risk",
+            }
+            else 0.88
+        )
     )
     return _result(
         "anti_bot_risk",
@@ -478,6 +557,20 @@ def _anti_bot_risk_safe_suggestions(subtype: str) -> list[str]:
             "use an official API, authorized SDK, documented export, or platform-approved integration when available",
             "verify local clock skew, nonce freshness, parameter ordering, canonical serialization, and URL encoding against authorized documentation",
             "capture sanitized request metadata and stop the run if authorization or platform terms are unclear",
+        ]
+    if subtype == "data_poisoning_decoy_response":
+        return [
+            "treat HTTP 200 decoy data as a trust-boundary signal, not a successful scrape",
+            "compare trusted evidence, canary records, and authorized export/API output before changing parsers",
+            "add data-integrity assertions so plausible but poisoned rows do not silently pass",
+            "stop the run if authorization or data-access terms are unclear",
+        ]
+    if subtype == "stateful_session_lifecycle_anomaly":
+        return [
+            "build a request timeline that marks 401s, refresh events, session ids, and page indexes",
+            "verify token/session lifecycle handling in an authorized test environment before increasing volume",
+            "add checkpoints and resume logic that fail closed when repeated auth degradation appears",
+            "stop the run if authorization or data-access terms are unclear",
         ]
     return [
         f"treat this as possible access-control or anti-abuse risk ({subtype}), not a selector/storage/proxy bug",
@@ -1318,6 +1411,7 @@ def _classify_toolchain_environment(artifact: Mapping[str, Any], text: str) -> d
 CLASSIFIERS = (
     _classify_cross_framework_adapter_hint,
     _classify_runtime_api_missing,
+    _classify_header_normalization_evidence_gap,
     _classify_anti_bot_risk,
     _classify_captcha_or_bot_wall,
     _classify_js_bundle_obfuscation,

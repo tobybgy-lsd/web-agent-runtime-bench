@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/header-check",
+    "status": 200,
+    "body": "raw transport evidence captured and compared"
+  }
+]

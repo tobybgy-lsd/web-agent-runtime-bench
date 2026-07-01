@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/login",
+    "status": 302,
+    "body": "Redirect to risk-login"
+  }
+]

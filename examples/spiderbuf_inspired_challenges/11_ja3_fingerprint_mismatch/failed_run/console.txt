@@ -1,0 +1,1 @@
+navigator.webdriver is false; but WebGL renderer indicates SwiftShader.

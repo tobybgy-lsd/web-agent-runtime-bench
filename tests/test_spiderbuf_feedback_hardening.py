@@ -90,6 +90,61 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
         self.assertIn("parameter ordering", combined)
         self.assertFalse(forbidden_output_hits(combined))
 
+    def test_http_200_decoy_data_poisoning_is_not_treated_as_success(self):
+        sample = artifact(
+            "HTTP 200 OK but product rows are synthetic decoy data",
+            {
+                "log_excerpt": "trusted canary comparison failed; schema looks valid but values are poisoned",
+                "body_text": "valid looking product list with decoy data and fake prices",
+            },
+        )
+
+        diagnosis = classify_failure_artifact(sample)
+        combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+        self.assertEqual(diagnosis["subtype"], "data_poisoning_decoy_response")
+        self.assertIn("trusted evidence", combined)
+        self.assertFalse(forbidden_output_hits(combined))
+
+    def test_header_normalization_gap_requests_raw_transport_evidence(self):
+        sample = artifact(
+            "Header validation inconclusive after framework logging",
+            {
+                "log_excerpt": "Werkzeug WSGI normalized Host and User-Agent to Title-Case",
+                "body_text": "raw HTTP/2 lowercase header evidence lost at the application boundary",
+            },
+        )
+
+        diagnosis = classify_failure_artifact(sample)
+        combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "insufficient_evidence")
+        self.assertEqual(diagnosis["subtype"], "header_normalization_evidence_gap")
+        self.assertIn("raw transport", combined)
+        self.assertFalse(forbidden_output_hits(combined))
+
+    def test_periodic_401_session_lifecycle_anomaly_is_stateful_not_single_auth_expiry(self):
+        sample = artifact(
+            "401 Unauthorized appears every 100 requests then refresh token recovers",
+            {
+                "log_excerpt": "1000 page run had repeated session refreshes and periodic token lifecycle degradation",
+                "network_events": [
+                    {"status": 401, "url": "https://example.test/page/100"},
+                    {"status": 401, "url": "https://example.test/page/200"},
+                ],
+            },
+            status_code=401,
+        )
+
+        diagnosis = classify_failure_artifact(sample)
+        combined = json.dumps(diagnosis, ensure_ascii=False).lower()
+
+        self.assertEqual(diagnosis["failure_type"], "anti_bot_risk")
+        self.assertEqual(diagnosis["subtype"], "stateful_session_lifecycle_anomaly")
+        self.assertIn("request timeline", combined)
+        self.assertFalse(forbidden_output_hits(combined))
+
     def test_guardrails_catch_expanded_evasion_terms(self):
         text = "Try webdriver stealth with canvas spoofing and residential proxy rotation."
 

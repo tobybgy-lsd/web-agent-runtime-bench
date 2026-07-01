@@ -1,0 +1,12 @@
+[
+  {
+    "url": "https://local.test/page/100",
+    "status": 401,
+    "body": "session refresh required"
+  },
+  {
+    "url": "https://local.test/page/200",
+    "status": 401,
+    "body": "session refresh required"
+  }
+]

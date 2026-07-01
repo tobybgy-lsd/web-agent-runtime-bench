@@ -1,0 +1,2 @@
+HTTP 200 OK but product rows are synthetic decoy data.
+Trusted canary comparison failed; schema looks valid but values are poisoned.

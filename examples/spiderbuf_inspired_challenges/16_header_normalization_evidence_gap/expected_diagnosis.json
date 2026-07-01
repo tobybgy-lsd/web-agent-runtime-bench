@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "insufficient_evidence"
+  ],
+  "accepted_subtypes": [
+    "header_normalization_evidence_gap"
+  ],
+  "expected_failure_layer": "insufficient_evidence"
+}

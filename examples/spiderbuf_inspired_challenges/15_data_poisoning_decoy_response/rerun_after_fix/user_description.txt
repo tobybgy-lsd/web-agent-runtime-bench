@@ -1,0 +1,1 @@
+Resolved through authorized export and data-integrity assertions; no bypass logic added.

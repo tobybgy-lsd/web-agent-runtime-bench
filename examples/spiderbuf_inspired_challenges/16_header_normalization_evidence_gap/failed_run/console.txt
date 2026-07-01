@@ -1,0 +1,1 @@
+application log cannot prove whether the transport layer sent lowercase or normalized headers.

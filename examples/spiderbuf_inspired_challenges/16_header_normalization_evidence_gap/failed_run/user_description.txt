@@ -1,0 +1,1 @@
+WSGI app logs lost raw transport header evidence; need proxy-level or raw socket capture.

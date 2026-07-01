@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/header-check",
+    "status": 400,
+    "body": "header casing check inconclusive because app log normalized names"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/api/protected",
+    "status": 200,
+    "body": "SUCCESS"
+  }
+]

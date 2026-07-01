@@ -1,0 +1,9 @@
+{
+  "accepted_failure_types": [
+    "anti_bot_risk"
+  ],
+  "accepted_subtypes": [
+    "stateful_session_lifecycle_anomaly"
+  ],
+  "expected_failure_layer": "anti_bot_risk"
+}

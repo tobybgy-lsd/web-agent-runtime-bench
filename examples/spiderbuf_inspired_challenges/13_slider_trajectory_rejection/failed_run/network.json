@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/captcha/verify",
+    "status": 400,
+    "body": "Behavioral check failed."
+  }
+]

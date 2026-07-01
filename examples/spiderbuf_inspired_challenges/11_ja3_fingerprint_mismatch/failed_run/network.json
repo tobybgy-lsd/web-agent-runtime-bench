@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/api/data",
+    "status": 403,
+    "body": "Blocked: HTTP/2 protocol anomaly detected."
+  }
+]

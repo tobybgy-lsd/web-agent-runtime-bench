@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://local.test/api/products",
+    "status": 200,
+    "body": "valid looking product list with decoy data and fake prices"
+  }
+]

@@ -21,8 +21,14 @@ EXPECTED_CASES = {
     "08_browser_fingerprint_risk",
     "09_selenium_detection_risk",
     "10_challenge_page_detected",
+    "11_ja3_fingerprint_mismatch",
+    "12_hmac_signature_invalid",
+    "13_slider_trajectory_rejection",
+    "14_mfa_login_redirect",
+    "15_data_poisoning_decoy_response",
+    "16_header_normalization_evidence_gap",
+    "17_stateful_session_lifecycle_anomaly",
 }
-
 
 class SpiderbufInspiredValidationTests(unittest.TestCase):
     def test_pack_has_required_local_only_structure(self):
