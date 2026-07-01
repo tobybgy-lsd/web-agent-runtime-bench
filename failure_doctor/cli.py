@@ -1136,7 +1136,8 @@ def _diagnosis_hint_from_text(log_text: str, description_text: str, network_even
         if "not loaded" in text or "missing_cookie" in text or "missing session cookie" in text:
             hints["storage_state_loaded"] = False
     statuses = [item.get("status") for item in network_events if isinstance(item, Mapping)]
-    if 429 in statuses or "429" in text:
+    import re
+    if 429 in statuses or re.search(r"\b429\b", text):
         hints["rate_limit_marker"] = True
     return hints
 
@@ -1754,9 +1755,10 @@ def _first_status(events: Any) -> int | None:
 
 
 def _extract_status_from_text(text: str) -> int | None:
-    for status in (401, 403, 429, 500, 502, 503):
-        if str(status) in text:
-            return status
+    import re
+    m = re.search(r"\b(401|403|429|500|502|503)\b", text)
+    if m:
+        return int(m.group(1))
     return None
 
 
