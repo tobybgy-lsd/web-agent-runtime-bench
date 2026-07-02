@@ -1,6 +1,6 @@
 # P98 Controlled Maturity Results
 
-Agent Failure Doctor v4.1.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
+Agent Failure Doctor v4.2.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
 
 | Pillar | Result |
 |---|---|
@@ -27,6 +27,9 @@ Agent Failure Doctor v4.1.0 uses local-only, public-safe validation ledgers and 
 | Enterprise Governance P98 | 180 cases, pass |
 | Role-Based Console P98 | 180 cases, pass |
 | Audit Ledger P98 | 180 cases, pass |
+| Plugin SDK Ecosystem P98 | 235 cases, pass |
+| Plugin Security Sandbox P98 | 235 cases, pass |
+| Adapter Extension API P98 | 235 cases, pass |
 | Safety Boundary P98 | forbidden output count 0, pass |
 
 See `validation/p98_master_gate.json` for the machine-readable gate.

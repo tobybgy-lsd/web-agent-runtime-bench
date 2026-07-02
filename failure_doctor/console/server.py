@@ -35,6 +35,7 @@ class ConsoleApp:
         enterprise: bool = False,
         enterprise_workspace: Path | str | None = None,
         auth: str = "local",
+        plugins: Path | str | None = None,
     ) -> None:
         assert_host_allowed(host, allow_lan=allow_lan)
         self.workspace = Path(workspace).expanduser().resolve()
@@ -50,6 +51,7 @@ class ConsoleApp:
             Path(enterprise_workspace).expanduser().resolve() if enterprise_workspace else None
         )
         self.auth = auth
+        self.plugins = Path(plugins).expanduser().resolve() if plugins else None
         self.manifest = init_workspace(self.workspace, host=host, port=port, readonly=readonly)
         self.token = self.manifest["token"]
 
@@ -116,6 +118,39 @@ class ConsoleApp:
                         "external_api_call_count": 0,
                         "telemetry_call_count": 0,
                     },
+                    "plugins": {
+                        "enabled": self.plugins is not None,
+                        "workspace": str(self.plugins) if self.plugins else None,
+                        "disabled_by_default": True,
+                        "external_assets": "disabled",
+                        "rbac_applies": True,
+                    },
+                }
+            )
+        if route == "/api/plugins/status":
+            if not self.plugins:
+                return self.json_response({"status": "ok", "enabled": False, "plugins": []})
+            from failure_doctor.plugin.registry import read_registry
+
+            registry = read_registry(self.plugins)
+            return self.json_response(
+                {
+                    "status": "ok",
+                    "enabled": True,
+                    "workspace": str(self.plugins),
+                    "plugins": [
+                        {
+                            "plugin_id": item.get("plugin_id"),
+                            "type": item.get("type"),
+                            "status": item.get("status"),
+                            "validation_status": item.get("validation_status"),
+                            "risk_level": item.get("risk_level"),
+                            "permissions": item.get("permissions", []),
+                        }
+                        for item in registry.get("plugins", [])
+                    ],
+                    "local_only": True,
+                    "external_api_call_count": 0,
                 }
             )
         if route == "/api/reasoning/status":
@@ -219,6 +254,7 @@ def create_console_app(
     enterprise: bool = False,
     enterprise_workspace: Path | str | None = None,
     auth: str = "local",
+    plugins: Path | str | None = None,
 ) -> ConsoleApp:
     return ConsoleApp(
         workspace=workspace,
@@ -232,6 +268,7 @@ def create_console_app(
         enterprise=enterprise,
         enterprise_workspace=enterprise_workspace,
         auth=auth,
+        plugins=plugins,
     )
 
 

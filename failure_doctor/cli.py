@@ -22,6 +22,8 @@ from failure_doctor.full_chain import write_full_chain_report
 from failure_doctor.enterprise.cli import add_enterprise_parser, handle_enterprise
 from failure_doctor.kb.cli import add_kb_parser, handle_kb
 from failure_doctor.kb.store import KnowledgeBase
+from failure_doctor.plugin.cli import add_plugin_parser, handle_plugin
+from failure_doctor.plugin.runner import diagnosis_candidates, run_plugin
 from failure_doctor.reasoning.cli import add_reasoning_parsers, handle_reasoning_command
 from failure_doctor.reasoning.report import write_reasoning_report
 from failure_doctor.regulated_industry import write_regulated_eval_report
@@ -109,6 +111,8 @@ def main(argv: list[str] | None = None) -> int:
         return handle_reasoning_command(args)
     if args.command == "enterprise":
         return handle_enterprise(args)
+    if args.command == "plugin":
+        return handle_plugin(args)
     parser.print_help()
     return 1
 
@@ -133,6 +137,8 @@ def build_parser() -> argparse.ArgumentParser:
     diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     diagnose.add_argument("--hybrid-reasoning", action="store_true", help="Attach an evidence-bound local reasoning report")
     diagnose.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
+    diagnose.add_argument("--plugin", default=None, help="Optional enabled diagnosis-rule plugin id")
+    diagnose.add_argument("--plugins", default=".failure-doctor-plugins", help="Plugin workspace")
     plan = sub.add_parser("plan", help="Generate a fix plan from a diagnosis report directory")
     plan.add_argument("report", help="Path to a report directory containing diagnosis.json")
     plan.add_argument("--out", required=True, help="Output fix plan directory")
@@ -146,7 +152,8 @@ def build_parser() -> argparse.ArgumentParser:
     collect.add_argument("test_results", help="Path to Playwright test-results or a failed test artifact folder")
     collect.add_argument("--out", required=True, help="Output failure pack directory")
     auto_collect = sub.add_parser("collect", help="Collect local project failure evidence into a one-click diagnosis pack")
-    auto_collect.add_argument("--project", required=True, help="Authorized project folder to collect from")
+    auto_collect.add_argument("--project", default=None, help="Authorized project folder to collect from")
+    auto_collect.add_argument("--input", default=None, help="Plugin input folder for collect adapter plugins")
     auto_collect.add_argument(
         "--preset",
         default="auto",
@@ -162,6 +169,8 @@ def build_parser() -> argparse.ArgumentParser:
     auto_collect.add_argument("--open-report", action="store_true", help="Open the first report file when supported")
     auto_collect.add_argument("--broad-scope", action="store_true", help="Allow broad scope folders after explicit user approval")
     auto_collect.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
+    auto_collect.add_argument("--plugin", default=None, help="Optional enabled framework/evidence adapter plugin id")
+    auto_collect.add_argument("--plugins", default=".failure-doctor-plugins", help="Plugin workspace")
     safety = sub.add_parser("safety-evaluate", help="Evaluate local artifacts for safety, shareability, and compliance risks")
     safety_inputs = safety.add_mutually_exclusive_group(required=True)
     safety_inputs.add_argument("--project", help="Authorized project folder to evaluate")
@@ -218,6 +227,7 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--admin", action="store_true", help="Reserved local admin flag; no remote admin mode is exposed")
     console.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     console.add_argument("--enable-hybrid-reasoning", action="store_true", help="Expose read-only hybrid reasoning console status")
+    console.add_argument("--plugins", default=None, help="Optional plugin workspace for read-only Plugin Center status")
     console.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
     console.add_argument("--enterprise", action="store_true", help="Enable local enterprise governance status")
     console.add_argument("--auth", default="local", choices=["local"], help="Local enterprise console auth mode")
@@ -244,6 +254,7 @@ def build_parser() -> argparse.ArgumentParser:
     ci_diagnose.add_argument("--hybrid-reasoning", action="store_true", help="Attach an evidence-bound local reasoning report")
     ci_diagnose.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
     ci_diagnose.add_argument("--enterprise-workspace", default=None, help="Optional enterprise governance workspace")
+    ci_diagnose.add_argument("--plugins", default=None, help="Optional plugin workspace for sanitized plugin summary")
     ci_diagnose.add_argument("--fail-on", default="high", choices=["low", "medium", "high", "critical"])
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
@@ -331,6 +342,7 @@ def build_parser() -> argparse.ArgumentParser:
     full_chain.add_argument("--include-ocr", action="store_true")
     full_chain.add_argument("--include-visual", action="store_true")
     full_chain.add_argument("--include-regulated", action="store_true")
+    add_plugin_parser(sub)
     add_reasoning_parsers(sub)
     add_enterprise_parser(sub)
     add_kb_parser(sub)
@@ -351,6 +363,13 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     diagnosis = _low_evidence_diagnosis(input_summary) if _is_low_evidence(input_summary) else classify_composite_failure_artifact(artifact)
     public = enrich_for_users(diagnosis, input_summary=input_summary)
     outputs = write_failure_doctor_report(out_dir, artifact, diagnosis, public, evidence, input_summary)
+    if getattr(args, "plugin", None):
+        _write_plugin_candidates(
+            plugin_id=str(args.plugin),
+            plugins_workspace=Path(getattr(args, "plugins", ".failure-doctor-plugins")),
+            input_path=input_path,
+            report_dir=out_dir,
+        )
     if getattr(args, "kb", None):
         _write_kb_matches(Path(args.kb), out_dir)
     if getattr(args, "hybrid_reasoning", False):
@@ -369,6 +388,34 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
 
     return 0
+
+
+def _write_plugin_candidates(plugin_id: str, plugins_workspace: Path, input_path: Path, report_dir: Path) -> None:
+    plugin_out = report_dir / "plugin_candidates" / plugin_id
+    candidates = diagnosis_candidates(
+        plugin_id,
+        workspace=plugins_workspace,
+        input_dir=input_path,
+        out_dir=plugin_out,
+    )
+    diagnosis_path = report_dir / "diagnosis.json"
+    payload = json.loads(diagnosis_path.read_text(encoding="utf-8"))
+    payload["plugin_candidates"] = candidates
+    payload["plugin_candidate_policy"] = "candidate_only_core_diagnosis_remains_final"
+    diagnosis_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (report_dir / "plugin_candidates.json").write_text(
+        json.dumps({"candidates": candidates}, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    diagnosis_md = report_dir / "diagnosis.md"
+    if diagnosis_md.exists():
+        with diagnosis_md.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Plugin Candidates\n\n")
+            for item in candidates:
+                handle.write(
+                    f"- `{item.get('plugin_id')}` candidate `{item.get('subtype')}` "
+                    f"confidence `{item.get('confidence')}`. Core diagnosis remains final authority.\n"
+                )
 
 
 def _write_hybrid_reasoning_summary(report_dir: Path, provider: str = "mock_reasoner") -> None:
@@ -544,6 +591,26 @@ def agent_bootstrap(args: argparse.Namespace) -> int:
 
 def collect_project_inputs(args: argparse.Namespace) -> int:
     try:
+        if getattr(args, "plugin", None):
+            input_path = Path(getattr(args, "input", None) or getattr(args, "project", None) or ".")
+            result = run_plugin(
+                str(args.plugin),
+                workspace=Path(getattr(args, "plugins", ".failure-doctor-plugins")),
+                input_dir=input_path,
+                out_dir=Path(args.out) / "plugin_collect" / str(args.plugin),
+            )
+            Path(args.out).mkdir(parents=True, exist_ok=True)
+            (Path(args.out) / "plugin_collect_summary.json").write_text(
+                json.dumps(result, indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            print("Agent Failure Doctor Plugin Collector")
+            print(f"Plugin: {result.get('plugin_id')}")
+            print(f"Output: {args.out}")
+            return 0
+        if not getattr(args, "project", None):
+            print("--project is required unless --plugin is used with --input")
+            return 2
         manifest = collect_project(
             Path(args.project),
             Path(args.out),

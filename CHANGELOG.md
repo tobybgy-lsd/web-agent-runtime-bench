@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v4.1.0.
-> v4.0.0 remains the previous hybrid evidence reasoning stable release, v3.9.0 remains the previous local failure knowledge base stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v4.2.0.
+> v4.1.0 remains the previous enterprise governance stable release, v4.0.0 remains the previous hybrid evidence reasoning stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v4.2.0
+
+- Added `failure-doctor plugin scaffold/validate/inspect/install/enable/disable/list/run/export/audit`.
+- Added a local-only Plugin SDK with manifest validation, permission model, hook registry, policy sandbox, registry, audit log, scaffold templates, and candidate-only plugin runner.
+- Added plugin integration for `diagnose --plugin`, `collect --plugin`, local console plugin status, CI sanitized plugin summaries, and agent-bootstrap `plugin_sdk_workflow.md`.
+- Added `plugin_sdk_ecosystem`, `plugin_security_sandbox`, and `adapter_extension_api` P98 pillars backed by 235 local synthetic validation cases.
+- Preserved the public safety boundary: plugins are disabled by default, network/shell/raw access are blocked by default, unsafe plugin content is blocked, and plugin output cannot override core diagnosis, safety, enterprise governance, or audit controls.
 
 ## v4.1.0
 

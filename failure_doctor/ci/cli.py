@@ -7,6 +7,7 @@ from pathlib import Path
 from failure_doctor.kb.store import KnowledgeBase, render_matches_md
 from failure_doctor.reasoning.report import write_reasoning_report
 from failure_doctor.enterprise.ci_integration import attach_enterprise_ci
+from failure_doctor.plugin.registry import read_registry
 
 from .runner import run_ci_gate, validate_ci_report, write_ci_templates
 
@@ -48,6 +49,8 @@ def handle_ci(args: argparse.Namespace) -> int:
                 _attach_hybrid_reasoning(Path(args.out), str(getattr(args, "reasoner", "mock_reasoner")))
             if getattr(args, "enterprise_workspace", None):
                 attach_enterprise_ci(Path(args.out), Path(args.enterprise_workspace))
+            if getattr(args, "plugins", None):
+                _attach_plugin_summary(Path(args.plugins), Path(args.out))
             gate = summary["gate"]
             print("Agent Failure Doctor CI Diagnosis")
             print(f"Decision: {gate.get('decision')}")
@@ -99,3 +102,39 @@ def _attach_hybrid_reasoning(out: Path, provider: str) -> None:
             handle.write(f"- Status: `{result.get('reasoning_status')}`\n")
             handle.write(f"- Provider: `{result.get('provider')}`\n")
             handle.write("- Report: `hybrid_reasoning/hybrid_reasoning_report.json`\n")
+
+
+def _attach_plugin_summary(plugin_workspace: Path, out: Path) -> None:
+    try:
+        registry = read_registry(plugin_workspace)
+    except (FileNotFoundError, ValueError, OSError):
+        return
+    summary = {
+        "schema_version": "ci_plugin_summary/v1",
+        "plugin_count": len(registry.get("plugins", [])),
+        "enabled_plugins": [
+            {
+                "plugin_id": item.get("plugin_id"),
+                "type": item.get("type"),
+                "validation_status": item.get("validation_status"),
+                "risk_level": item.get("risk_level"),
+            }
+            for item in registry.get("plugins", [])
+            if item.get("status") == "enabled"
+        ],
+        "sanitized_only": True,
+        "external_api_call_count": 0,
+    }
+    (out / "plugin_ci_summary.json").write_text(
+        json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    summary_path = out / "ci_summary.md"
+    if summary_path.exists():
+        with summary_path.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Plugin Summary\n\n")
+            for item in summary["enabled_plugins"]:
+                handle.write(
+                    f"- `{item['plugin_id']}` `{item['type']}` "
+                    f"validation `{item['validation_status']}` risk `{item['risk_level']}`\n"
+                )

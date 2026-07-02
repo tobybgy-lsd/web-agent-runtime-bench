@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "4.1.0"
+PACK_VERSION = "4.2.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -78,6 +78,10 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
             _render_enterprise_governance_workflow(),
             encoding="utf-8",
         )
+        (target_dir / "plugin_sdk_workflow.md").write_text(
+            _render_plugin_sdk_workflow(),
+            encoding="utf-8",
+        )
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -104,6 +108,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         "knowledge_base_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --out .\\report",
         "hybrid_reasoning_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --hybrid-reasoning --reasoner mock_reasoner --out .\\report",
         "enterprise_governance_command": "failure-doctor enterprise init --workspace .\\.failure-doctor-enterprise",
+        "plugin_sdk_command": "failure-doctor plugin validate .\\plugins\\toy_adapter",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -491,6 +496,43 @@ failure-doctor enterprise validate --workspace .\\.failure-doctor-enterprise
 
 Enterprise mode is local-only by default, uses 127.0.0.1 unless explicitly
 configured otherwise, and does not upload evidence or call external APIs.
+"""
+
+
+def _render_plugin_sdk_workflow() -> str:
+    return """# Plugin SDK Workflow
+
+When using plugins:
+
+1. Validate plugin manifest first.
+2. Check permissions.
+3. Enable only validation-passed plugins.
+4. Use plugins as candidates, not final truth.
+5. Do not allow plugins to bypass safety gate.
+6. Do not allow plugins to read raw secrets/browser profiles/credential stores.
+7. Do not allow plugins to output bypass/evasion/spoofing/cracking guidance.
+8. If plugin output is unsafe, reject it and fallback to core engine.
+
+Safe local commands:
+
+```powershell
+failure-doctor plugin scaffold --type framework-adapter --name toy_adapter --out .\\plugins\\toy_adapter
+failure-doctor plugin validate .\\plugins\\toy_adapter
+failure-doctor plugin install .\\plugins\\toy_adapter --workspace .\\.failure-doctor-plugins
+failure-doctor plugin enable toy_adapter --workspace .\\.failure-doctor-plugins
+```
+
+Plugin rules:
+
+- disabled by default
+- local-only by default
+- manifest required
+- permissions required
+- no network by default
+- no shell by default
+- no raw access by default
+- no external upload by default
+- enterprise policy, RBAC, approval, audit, and safety gates still apply
 """
 
 

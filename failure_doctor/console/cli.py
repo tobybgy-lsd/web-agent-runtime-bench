@@ -19,6 +19,7 @@ def run_console(args) -> int:
         enterprise=bool(getattr(args, "enterprise", False)),
         enterprise_workspace=Path(args.workspace) if getattr(args, "enterprise", False) else None,
         auth=str(getattr(args, "auth", "local")),
+        plugins=Path(args.plugins) if getattr(args, "plugins", None) else None,
     )
     if args.import_report:
         import_report(app.workspace, args.import_report, readonly=args.readonly)

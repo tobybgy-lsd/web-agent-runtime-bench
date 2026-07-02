@@ -4,10 +4,11 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v4.1.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v4.2.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
+| v4.2.0 Plugin SDK & Adapter Ecosystem Pack | pass | Current package stable line with local-only plugin scaffold, validation, registry, audit log, safe candidate runner, plugin-aware console/CI/agent-bootstrap integration, and network/shell/raw access blocked by default. |
 | v4.1.0 Enterprise Governance & Role-Based Console Pack | pass | Current package stable line with local enterprise workspaces, RBAC, policy controls, approval workflow, append-only audit ledger, enterprise-aware console status, and no telemetry or external API calls by default. |
 | v4.0.0 Hybrid Evidence Reasoning Pack | previous stable | Previous package stable line with local evidence bundles, evidence-bound claims, competing hypotheses, causal chains, root-cause graphs, and no external model calls by default. |
 | v3.9.0 Local Failure Knowledge Base Pack | previous stable | Previous package stable line with local-only failure case storage, similarity matching, verified fix suggestions, sanitized export, and no external embedding API calls. |
@@ -57,8 +58,11 @@ Agent Failure Doctor v4.1.0 is the current controlled-maturity stable line.
 | Enterprise Governance P98 | 180 | local enterprise workspace, RBAC, policies, approvals, and sanitized defaults | 0 | pass | `python -m tools.validation.run_enterprise_governance_validation` |
 | Role-Based Console P98 | 180 | enterprise-aware loopback console status and local auth policy | 0 | pass | `python -m tools.validation.run_enterprise_governance_validation` |
 | Audit Ledger P98 | 180 | append-only audit events, export, and hash-chain validation | 0 | pass | `python -m tools.validation.run_enterprise_governance_validation` |
+| Plugin SDK Ecosystem P98 | 235 | local-only plugin manifest, scaffold, validation, install/enable, and candidate runner cases | 0 | pass | `python -m tools.validation.run_plugin_sdk_ecosystem_validation` |
+| Plugin Security Sandbox P98 | 235 | network/shell/raw/private/unsafe plugins blocked by default | 0 | pass | `python -m tools.validation.run_plugin_sdk_ecosystem_validation` |
+| Adapter Extension API P98 | 235 | hook output schema valid and scaffold success above gate threshold | 0 | pass | `python -m tools.validation.run_plugin_sdk_ecosystem_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 23 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 26 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 

@@ -13,14 +13,19 @@ Playwright, crawler, RPA, and business automation failures.
 
 **Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
-Optional v4.0 output: evidence-bound reasoning, local web console, and CI/CD gate.
+**Lifecycle commands:** `diagnose` / `plan` / `verify` / `run`.
 
-Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`; `failure-doctor agent-bootstrap --target all --project .`.
+**Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
 
-- Current milestone: Agent Failure Doctor v4.1 Enterprise Governance & Role-Based Console Pack
-- Current stable line: v4.1.0
-- Previous stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
-- Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack
+Optional v4.2 output: plugin validation reports, plugin candidates, plugin audit logs, evidence-bound reasoning, local web console, and CI/CD gate.
+
+Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`; `failure-doctor propose-patch --repo . --report .\report --out .\patch_plan`; `failure-doctor agent-bootstrap --target all --project .`.
+
+- Current milestone: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack
+- Current stable line: v4.2.0
+- Previous stable line: Agent Failure Doctor v4.1.0 Enterprise Governance & Role-Based Console Pack
+- Earlier stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
+- Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack (v3.9 Local Failure Knowledge Base Pack)
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
@@ -28,7 +33,41 @@ See [validation/dashboard.md](validation/dashboard.md) for the validation dashbo
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Patch command:** `failure-doctor propose-patch`.
+
+**Share/adapt commands:** `sanitize` / `adapt`.
+
+**Fleet command:** `failure-doctor batch`.
+
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### Plugin SDK
+
+```powershell
+failure-doctor plugin scaffold --type framework-adapter --name toy_adapter --out .\plugins\toy_adapter
+failure-doctor plugin validate .\plugins\toy_adapter
+failure-doctor plugin install .\plugins\toy_adapter --workspace .\.failure-doctor-plugins
+failure-doctor plugin enable toy_adapter --workspace .\.failure-doctor-plugins
+failure-doctor plugin run toy_adapter --workspace .\.failure-doctor-plugins --input .\sample_artifacts --out .\plugin_report
+```
+
+The Plugin SDK lets teams extend Agent Failure Doctor with local-only framework
+adapters, evidence adapters, diagnosis rule packs, industry packs, Console
+extensions, CI extensions, KB patterns, reasoning tools, report exporters, and
+validation packs.
+
+Plugin safety rules:
+
+- disabled by default
+- manifest required
+- permissions required
+- local-only by default
+- no upload by default
+- no network by default
+- no shell by default
+- no raw evidence access by default
+- safety gate and enterprise policy always apply
+- plugin outputs are candidates; the core validator remains final authority
 
 ### Enterprise Governance
 
@@ -142,9 +181,10 @@ safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
 regulated workflow, batch/fleet, and full-chain reports. See
 [docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
-Release tracks: Previous stable line: Agent Failure Doctor v3.4.0 Visual Agent
-Runtime Observability; previous P95 stable line: Agent Failure Doctor v2.4.1
-P95 Alignment & Missing Tracks Pack.
+Release tracks: Current stable line: Agent Failure Doctor v4.2.0 Plugin SDK &
+Adapter Ecosystem Pack; previous stable line: Agent Failure Doctor v4.1.0
+Enterprise Governance & Role-Based Console Pack; previous P95 stable line:
+Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
 
@@ -228,11 +268,12 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.8.0 is the current stable technical baseline. It adds local CI/CD gates and
-runner templates on top of the local web console, regulated-industry mock
-workflow evaluation, full-chain agent evaluation, OCR/document evidence,
-offline visual runtime observability, and local-only safety and compliance
-evaluation.
+v4.2.0 is the current stable technical baseline. It adds the local Plugin SDK
+and adapter ecosystem gate on top of enterprise governance, hybrid evidence
+reasoning, the local knowledge base, CI/CD gates, the local web console,
+regulated-industry mock workflow evaluation, full-chain agent evaluation,
+OCR/document evidence, offline visual runtime observability, and local-only
+safety and compliance evaluation.
 
 ### Safety & Compliance Evaluation
 
@@ -637,9 +678,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.9 Local Failure Knowledge Base Pack.
+Current milestone: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
 
-Previous stable line: Agent Failure Doctor v3.7 Local Web Console Pack.
+Previous stable line: Agent Failure Doctor v4.1 Enterprise Governance & Role-Based Console Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

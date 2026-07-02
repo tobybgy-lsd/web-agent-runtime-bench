@@ -94,9 +94,8 @@ class ValidationHardeningV13Tests(unittest.TestCase):
         self.assertIn("no single averaged accuracy score", dashboard)
         self.assertIn("v1.3 Validation Hardening Pack", report)
         self.assertIn("## v1.3.0", changelog)
-        self.assertIn('version = "4.1.0"', pyproject)
+        self.assertIn('version = "4.2.0"', pyproject)
 
 
 if __name__ == "__main__":
     unittest.main()
-

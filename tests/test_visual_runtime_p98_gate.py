@@ -21,11 +21,10 @@ class VisualRuntimeP98GateTests(unittest.TestCase):
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
         payload = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
-        self.assertEqual(payload["version"], "v4.1.0")
+        self.assertEqual(payload["version"], "v4.2.0")
         self.assertEqual(payload["overall_status"], "pass")
         self.assertIn("visual_agent_runtime_observability", payload["pillars"])
 
 
 if __name__ == "__main__":
     unittest.main()
-

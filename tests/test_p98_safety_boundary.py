@@ -27,7 +27,7 @@ class P98SafetyBoundaryTests(unittest.TestCase):
             "P98_LIMITS.md",
             "test_p98_safety_boundary.py",
             "RELEASE_NOTES_v4.0.0.md",
-            "RELEASE_NOTES_v4.1.0.md",
+            "RELEASE_NOTES_v4.2.0.md",
         )
         scan_roots = ["knowledge_base", "examples", "sample_reports", "validation", "README.md", "README.zh-CN.md"]
         violations = []
@@ -47,4 +47,3 @@ class P98SafetyBoundaryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
