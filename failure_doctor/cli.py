@@ -21,6 +21,8 @@ from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
 from failure_doctor.full_chain import write_full_chain_report
 from failure_doctor.kb.cli import add_kb_parser, handle_kb
 from failure_doctor.kb.store import KnowledgeBase
+from failure_doctor.reasoning.cli import add_reasoning_parsers, handle_reasoning_command
+from failure_doctor.reasoning.report import write_reasoning_report
 from failure_doctor.regulated_industry import write_regulated_eval_report
 from failure_doctor.regulated_industry.evaluator import SUPPORTED_SUITES
 from failure_doctor.console.cli import run_console
@@ -102,6 +104,8 @@ def main(argv: list[str] | None = None) -> int:
         return handle_ci(args)
     if args.command == "kb":
         return handle_kb(args)
+    if args.command in {"reason", "root-cause", "causal-chain"}:
+        return handle_reasoning_command(args)
     parser.print_help()
     return 1
 
@@ -124,6 +128,8 @@ def build_parser() -> argparse.ArgumentParser:
     diagnose.add_argument("--out", required=True, help="Output report directory")
     diagnose.add_argument("--run-id", default=None, help="Stable run identifier")
     diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
+    diagnose.add_argument("--hybrid-reasoning", action="store_true", help="Attach an evidence-bound local reasoning report")
+    diagnose.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
     plan = sub.add_parser("plan", help="Generate a fix plan from a diagnosis report directory")
     plan.add_argument("report", help="Path to a report directory containing diagnosis.json")
     plan.add_argument("--out", required=True, help="Output fix plan directory")
@@ -208,6 +214,8 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--allow-lan", action="store_true", help="Allow non-loopback binding after explicit approval")
     console.add_argument("--admin", action="store_true", help="Reserved local admin flag; no remote admin mode is exposed")
     console.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
+    console.add_argument("--enable-hybrid-reasoning", action="store_true", help="Expose read-only hybrid reasoning console status")
+    console.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
     ci = sub.add_parser("ci", help="Run local CI/CD gates and generate integration templates")
     ci_sub = ci.add_subparsers(dest="ci_command", required=True)
     ci_run = ci_sub.add_parser("run", help="Run a local CI gate over a sanitized report or failure pack")
@@ -228,6 +236,8 @@ def build_parser() -> argparse.ArgumentParser:
     ci_diagnose.add_argument("--project", required=True, help="Project or report directory")
     ci_diagnose.add_argument("--out", required=True, help="Output CI report directory")
     ci_diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
+    ci_diagnose.add_argument("--hybrid-reasoning", action="store_true", help="Attach an evidence-bound local reasoning report")
+    ci_diagnose.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
     ci_diagnose.add_argument("--fail-on", default="high", choices=["low", "medium", "high", "critical"])
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
@@ -315,6 +325,7 @@ def build_parser() -> argparse.ArgumentParser:
     full_chain.add_argument("--include-ocr", action="store_true")
     full_chain.add_argument("--include-visual", action="store_true")
     full_chain.add_argument("--include-regulated", action="store_true")
+    add_reasoning_parsers(sub)
     add_kb_parser(sub)
     return parser
 
@@ -335,6 +346,8 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     outputs = write_failure_doctor_report(out_dir, artifact, diagnosis, public, evidence, input_summary)
     if getattr(args, "kb", None):
         _write_kb_matches(Path(args.kb), out_dir)
+    if getattr(args, "hybrid_reasoning", False):
+        _write_hybrid_reasoning_summary(out_dir, str(getattr(args, "reasoner", "mock_reasoner")))
 
     confidence = float(public.get("confidence", 0.0))
     print("Agent Failure Doctor")
@@ -349,6 +362,23 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
 
     return 0
+
+
+def _write_hybrid_reasoning_summary(report_dir: Path, provider: str = "mock_reasoner") -> None:
+    try:
+        result = write_reasoning_report(report_dir, report_dir / "hybrid_reasoning", provider=provider)
+    except (FileNotFoundError, ValueError, OSError):
+        return
+    summary = report_dir / "hybrid_reasoning" / "hybrid_reasoning_summary.md"
+    if summary.exists():
+        (report_dir / "hybrid_reasoning_summary.md").write_text(summary.read_text(encoding="utf-8"), encoding="utf-8")
+    index = report_dir / "diagnosis.md"
+    if index.exists():
+        with index.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Hybrid Reasoning\n\n")
+            handle.write(f"- Status: `{result.get('reasoning_status')}`\n")
+            handle.write(f"- Provider: `{result.get('provider')}`\n")
+            handle.write("- Report: `hybrid_reasoning/hybrid_reasoning_report.json`\n")
 
 
 def _write_kb_matches(kb_path: Path, report_dir: Path) -> None:

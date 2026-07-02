@@ -11,20 +11,22 @@ Playwright, crawler, RPA, and business automation failures.
 
 **Input:** trace.zip / error.log / console.txt / network.json / probe_report.json / screenshot metadata / user_description.txt / visual_run / OCR or document evidence.
 
-**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt. Local web console and CI/CD gate.
+**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+
+Optional v4.0 output: evidence-bound reasoning, local web console, and CI/CD gate.
 
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
 
-- Current milestone: Agent Failure Doctor v3.9 Local Failure Knowledge Base Pack
-- Current stable line: v3.9.0
-- Previous stable line: Agent Failure Doctor v3.8.0 CI/CD Integration Pack
+- Current milestone: Agent Failure Doctor v4.0 Hybrid Evidence Reasoning Pack
+- Current stable line: v4.0.0
+- Previous stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `reason` / `root-cause` / `causal-chain`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
@@ -52,9 +54,25 @@ failure-doctor ci run --input .\full_chain_report --out .\ci_report --fail-on hi
 failure-doctor ci templates --out .\ci_templates
 failure-doctor kb init --path .\.failure-doctor-kb
 failure-doctor kb import-report --kb .\.failure-doctor-kb --report .\full_chain_report
-failure-doctor diagnose .\failed_run --kb .\.failure-doctor-kb --out .\report
+failure-doctor diagnose .\failed_run --kb .\.failure-doctor-kb --hybrid-reasoning --out .\report
+failure-doctor reason --input .\report --out .\report\hybrid_reasoning
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+### Hybrid Evidence Reasoning
+
+v4.0 adds local, evidence-bound reasoning:
+
+```powershell
+failure-doctor reason --input .\report --out .\report\hybrid_reasoning
+failure-doctor root-cause --input .\report --out .\root_cause_report
+failure-doctor causal-chain --input .\report --out .\causal_chain_report
+failure-doctor diagnose .\failed_run --kb .\.failure-doctor-kb --hybrid-reasoning --out .\report
+```
+
+The deterministic diagnosis remains the source of truth. Every reasoning claim
+must cite a sanitized evidence id. Optional local reasoners never download
+models automatically and never upload raw evidence.
 
 ### Local Failure Knowledge Base
 

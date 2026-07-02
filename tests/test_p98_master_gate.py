@@ -21,13 +21,13 @@ class P98MasterGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         payload = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(payload["version"], "v3.9.0")
+        self.assertEqual(payload["version"], "v4.0.0")
         self.assertEqual(payload["overall_status"], "pass")
         self.assertTrue(payload["final_p98_gate"])
         self.assertTrue(payload["ecosystem_score_excluded"])
         self.assertGreaterEqual(payload["controlled_maturity_score"], 98)
-        self.assertEqual(payload["current_stable_line"], "v3.9.0")
-        self.assertEqual(payload["previous_stable_line"], "v3.8.0")
+        self.assertEqual(payload["current_stable_line"], "v4.0.0")
+        self.assertEqual(payload["previous_stable_line"], "v3.9.0")
         self.assertEqual(payload["global_forbidden_output_count"], 0)
         self.assertEqual(payload["global_private_solution_leak_count"], 0)
         self.assertEqual(payload["global_real_platform_access_count"], 0)
@@ -48,3 +48,4 @@ class P98MasterGateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

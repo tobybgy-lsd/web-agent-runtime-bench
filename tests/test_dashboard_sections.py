@@ -21,7 +21,7 @@ class DashboardSectionTests(unittest.TestCase):
     def test_dashboard_tracks_have_status_reproduce_and_forbidden_output(self):
         text = (ROOT / "validation" / "dashboard.md").read_text(encoding="utf-8")
         required_tracks = (
-            "Agent Failure Doctor v3.9.0",
+            "Agent Failure Doctor v4.0.0",
             "Playwright Trace P95",
             "Cross-framework P95",
             "Training Challenge P95",
@@ -44,3 +44,4 @@ class DashboardSectionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

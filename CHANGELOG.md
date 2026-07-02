@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v3.9.0.
-> v3.8.0 remains the previous CI/CD integration stable release, v3.7.0 remains the previous local-console stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v4.0.0.
+> v3.9.0 remains the previous local failure knowledge base stable release, v3.8.0 remains the previous CI/CD integration stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v4.0.0
+
+- Added `failure-doctor reason`, `failure-doctor root-cause`, and `failure-doctor causal-chain` for local evidence-bound hybrid reasoning.
+- Added `diagnose --hybrid-reasoning`, `ci diagnose --hybrid-reasoning`, console reasoning status, and agent-bootstrap `hybrid_reasoning_workflow.md`.
+- Added sanitized evidence bundle, evidence-bound claims, competing hypotheses, causal-chain report, root-cause graph, reasoning validation, and reasoning audit outputs.
+- Added optional local provider placeholders for Ollama and llama.cpp with safe fallback and no model download.
+- Added `hybrid_evidence_reasoning` and `root_cause_causal_chain` validation pillars with 224 local synthetic cases.
+- Preserved the public safety boundary: deterministic diagnosis remains the source of truth, every reasoning claim must cite evidence, no external API calls, no model downloads, no raw evidence upload, and unsafe reasoning is rejected.
 
 ## v3.9.0
 

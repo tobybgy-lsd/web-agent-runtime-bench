@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from failure_doctor.kb.store import KnowledgeBase, render_matches_md
+from failure_doctor.reasoning.report import write_reasoning_report
 
 from .runner import run_ci_gate, validate_ci_report, write_ci_templates
 
@@ -42,6 +43,8 @@ def handle_ci(args: argparse.Namespace) -> int:
             summary = run_ci_gate(Path(args.project), Path(args.out), fail_on=str(args.fail_on))
             if getattr(args, "kb", None):
                 _attach_kb_summary(Path(args.kb), Path(args.project), Path(args.out))
+            if getattr(args, "hybrid_reasoning", False):
+                _attach_hybrid_reasoning(Path(args.out), str(getattr(args, "reasoner", "mock_reasoner")))
             gate = summary["gate"]
             print("Agent Failure Doctor CI Diagnosis")
             print(f"Decision: {gate.get('decision')}")
@@ -79,3 +82,17 @@ def _attach_kb_summary(kb_path: Path, report_or_project: Path, out: Path) -> Non
                     f"{item.get('failure_type')} / {item.get('subtype')} "
                     f"verified_fix_available={item.get('verified_fix_available')}\n"
                 )
+
+
+def _attach_hybrid_reasoning(out: Path, provider: str) -> None:
+    try:
+        result = write_reasoning_report(out, out / "hybrid_reasoning", provider=provider)
+    except (FileNotFoundError, ValueError, OSError):
+        return
+    summary_path = out / "ci_summary.md"
+    if summary_path.exists():
+        with summary_path.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Hybrid Reasoning\n\n")
+            handle.write(f"- Status: `{result.get('reasoning_status')}`\n")
+            handle.write(f"- Provider: `{result.get('provider')}`\n")
+            handle.write("- Report: `hybrid_reasoning/hybrid_reasoning_report.json`\n")

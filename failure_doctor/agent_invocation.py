@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "3.9.0"
+PACK_VERSION = "4.0.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -73,6 +73,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "ocr_evidence_workflow.md").write_text(_render_ocr_evidence_workflow(), encoding="utf-8")
         (target_dir / "full_chain_evaluation_workflow.md").write_text(_render_full_chain_evaluation_workflow(), encoding="utf-8")
         (target_dir / "knowledge_base_workflow.md").write_text(_render_knowledge_base_workflow(), encoding="utf-8")
+        (target_dir / "hybrid_reasoning_workflow.md").write_text(_render_hybrid_reasoning_workflow(), encoding="utf-8")
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -97,6 +98,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         "ocr_evidence_command": "failure-doctor ocr-evidence extract --input .\\failure_evidence --out .\\ocr_report --provider mock_ocr --safety-evaluate",
         "full_chain_eval_command": "failure-doctor full-chain-eval --input .\\failed_run --out .\\full_chain_report --include-safety --include-ocr --include-visual --include-regulated",
         "knowledge_base_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --out .\\report",
+        "hybrid_reasoning_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --hybrid-reasoning --reasoner mock_reasoner --out .\\report",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -422,6 +424,42 @@ KB rules:
 - no cloud sync
 - no external embedding API
 - verified fixes require local verification and human review
+"""
+
+
+def _render_hybrid_reasoning_workflow() -> str:
+    return """# Hybrid Evidence Reasoning Workflow
+
+Use this after a local diagnosis report exists and only with sanitized evidence.
+
+Recommended command:
+
+```powershell
+failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --hybrid-reasoning --reasoner mock_reasoner --out .\\report
+```
+
+Standalone report command:
+
+```powershell
+failure-doctor reason --input .\\report --out .\\report\\hybrid_reasoning --provider mock_reasoner
+```
+
+Read:
+
+1. `report\\hybrid_reasoning\\reasoning_evidence_bundle.json`
+2. `report\\hybrid_reasoning\\hybrid_reasoning_report.json`
+3. `report\\hybrid_reasoning\\causal_chain_report.json`
+4. `report\\hybrid_reasoning\\root_cause_graph.json`
+
+Rules:
+
+- Deterministic diagnosis remains the source of truth.
+- Every reasoning claim must cite an evidence id.
+- If evidence is thin, return `insufficient_evidence` instead of guessing.
+- Do not upload raw traces, screenshots, logs, OCR text, or network captures.
+- Do not generate prohibited access-control guidance or private training details.
+- Use optional local reasoners only when the user has already installed and
+  configured them; never download a model automatically.
 """
 
 

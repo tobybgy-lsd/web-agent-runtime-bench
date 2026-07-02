@@ -1,11 +1,11 @@
 {
-  "version": "v3.9.0",
+  "version": "v4.0.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v3.9.0",
-  "previous_stable_line": "v3.8.0",
+  "current_stable_line": "v4.0.0",
+  "previous_stable_line": "v3.9.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -238,6 +238,40 @@
       "raw_secret_in_export": 0,
       "external_api_call_count": 0
     },
+    "hybrid_evidence_reasoning": {
+      "status": "pass",
+      "validation_file": "hybrid_evidence_reasoning_validation.json",
+      "total_cases": 224,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 224,
+      "claim_evidence_binding_correct_rate": 1.0,
+      "causal_chain_correct_rate": 0.9732142857142857,
+      "root_cause_graph_correct_rate": 0.9732142857142857,
+      "external_api_call_count": 0,
+      "model_download_count": 0
+    },
+    "root_cause_causal_chain": {
+      "status": "pass",
+      "validation_file": "hybrid_evidence_reasoning_validation.json",
+      "total_cases": 224,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 224,
+      "claim_evidence_binding_correct_rate": 1.0,
+      "causal_chain_correct_rate": 0.9732142857142857,
+      "root_cause_graph_correct_rate": 0.9732142857142857,
+      "external_api_call_count": 0,
+      "model_download_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -249,7 +283,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v3.9.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v4.0.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

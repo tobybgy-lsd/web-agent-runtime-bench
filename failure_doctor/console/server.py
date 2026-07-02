@@ -30,6 +30,8 @@ class ConsoleApp:
         readonly: bool = False,
         allow_lan: bool = False,
         kb: Path | str | None = None,
+        enable_hybrid_reasoning: bool = False,
+        reasoner: str = "mock_reasoner",
     ) -> None:
         assert_host_allowed(host, allow_lan=allow_lan)
         self.workspace = Path(workspace).expanduser().resolve()
@@ -37,6 +39,8 @@ class ConsoleApp:
         self.port = port
         self.readonly = readonly
         self.kb = Path(kb).expanduser().resolve() if kb else None
+        self.enable_hybrid_reasoning = enable_hybrid_reasoning
+        self.reasoner = reasoner
         self.manifest = init_workspace(self.workspace, host=host, port=port, readonly=readonly)
         self.token = self.manifest["token"]
 
@@ -88,6 +92,24 @@ class ConsoleApp:
                     "telemetry": "disabled",
                     "external_assets": "disabled",
                     "knowledge_base": str(self.kb) if self.kb else None,
+                    "hybrid_reasoning": {
+                        "enabled": self.enable_hybrid_reasoning,
+                        "reasoner": self.reasoner,
+                        "local_only": True,
+                        "raw_content_excluded": True,
+                    },
+                }
+            )
+        if route == "/api/reasoning/status":
+            return self.json_response(
+                {
+                    "status": "ok",
+                    "enabled": self.enable_hybrid_reasoning,
+                    "reasoner": self.reasoner,
+                    "local_only": True,
+                    "external_api_call_count": 0,
+                    "model_download_count": 0,
+                    "raw_content_excluded": True,
                 }
             )
         if route == "/api/kb/status":
@@ -174,8 +196,19 @@ def create_console_app(
     readonly: bool = False,
     allow_lan: bool = False,
     kb: Path | str | None = None,
+    enable_hybrid_reasoning: bool = False,
+    reasoner: str = "mock_reasoner",
 ) -> ConsoleApp:
-    return ConsoleApp(workspace=workspace, host=host, port=port, readonly=readonly, allow_lan=allow_lan, kb=kb)
+    return ConsoleApp(
+        workspace=workspace,
+        host=host,
+        port=port,
+        readonly=readonly,
+        allow_lan=allow_lan,
+        kb=kb,
+        enable_hybrid_reasoning=enable_hybrid_reasoning,
+        reasoner=reasoner,
+    )
 
 
 class _ConsoleRequestHandler(BaseHTTPRequestHandler):
