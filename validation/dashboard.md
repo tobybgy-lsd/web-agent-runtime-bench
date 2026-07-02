@@ -4,11 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v4.3.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v5.0.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v4.3.0 Real User Case Program & Public Benchmark Pack | pass | Current package stable line with public-safe case intake, anonymization, publish checks, issue packs, local benchmark suites, regression compare, and no upload or external API calls by default. |
+| v5.0.0 Stable API / Schema / Plugin ABI Standardization Release | pass | Current package stable line with stable CLI, schema registry, plugin ABI, adapter, deploy, documentation adoption, and compatibility gates. |
+| v4.3.0 Real User Case Program & Public Benchmark Pack | previous stable | Previous package stable line with public-safe case intake, anonymization, publish checks, issue packs, local benchmark suites, regression compare, and no upload or external API calls by default. |
 | v4.2.0 Plugin SDK & Adapter Ecosystem Pack | previous stable | Previous package stable line with local-only plugin scaffold, validation, registry, audit log, safe candidate runner, plugin-aware console/CI/agent-bootstrap integration, and network/shell/raw access blocked by default. |
 | v4.1.0 Enterprise Governance & Role-Based Console Pack | previous stable | Previous package stable line with local enterprise workspaces, RBAC, policy controls, approval workflow, append-only audit ledger, enterprise-aware console status, and no telemetry or external API calls by default. |
 | v4.0.0 Hybrid Evidence Reasoning Pack | previous stable | Previous package stable line with local evidence bundles, evidence-bound claims, competing hypotheses, causal chains, root-cause graphs, and no external model calls by default. |
@@ -64,8 +65,14 @@ Agent Failure Doctor v4.3.0 is the current controlled-maturity stable line.
 | Adapter Extension API P98 | 235 | hook output schema valid and scaffold success above gate threshold | 0 | pass | `python -m tools.validation.run_plugin_sdk_ecosystem_validation` |
 | Real User Case Program P98 | 120 case intakes + 40 issue packs | sanitized intake, anonymization, publish checks, public export, unsafe case blocking | 0 | pass | `python -m tools.validation.run_real_user_case_program_validation` |
 | Public Benchmark Pack P98 | 150 public-safe + 60 regression cases | local suite runner, suite validation, benchmark artifacts, regression compare | 0 | pass | `python -m tools.validation.run_public_benchmark_pack_validation` |
+| Desktop RPA Adapter P98 | 120 | public-safe RPA artifact normalization and diagnosis | 0 | pass | `python -m tools.validation.run_desktop_rpa_adapter_validation` |
+| API Automation Adapter P98 | 120 | public-safe Postman/Newman and HTTP bundle diagnosis | 0 | pass | `python -m tools.validation.run_api_automation_adapter_validation` |
+| Mobile Automation Adapter P98 | 80 | public-safe Appium-style mobile artifact diagnosis | 0 | pass | `python -m tools.validation.run_mobile_automation_adapter_validation` |
+| Enterprise Deployment Hardening P98 | 220 | backup/restore, migration dry-run, offline bundle, retention, security posture | 0 | pass | `python -m tools.validation.run_enterprise_deployment_hardening_validation` |
+| Documentation Demo Adoption P98 | docs + 9 gallery samples | required quickstarts, demo scripts, cookbook, sample gallery | 0 | pass | `python -m tools.validation.run_documentation_demo_adoption_validation` |
+| Stable API / Schema / Plugin ABI P98 | 470 | stable CLI, schema registry, plugin ABI, compatibility, migration | 0 | pass | `python -m tools.validation.run_stable_api_schema_plugin_abi_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 28 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 37 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 

@@ -187,8 +187,8 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
     def test_public_safe_expert_signals_use_precise_subtypes(self):
         samples = {
             "automation_descriptor_detected": artifact(
-                "automation descriptor detected: navigator.webdriver property descriptor exposed on Navigator prototype",
-                {"log_excerpt": "webdriver descriptor check failed; automation descriptor boundary detected"},
+                "automation descriptor detected: Navigator.prototype webdriver getter native signature mismatch",
+                {"log_excerpt": "webdriver descriptor check failed; function get webdriver native signature mismatch"},
             ),
             "wasm_signature_verification_failed": artifact(
                 "WASM signature verification failed for protected request integrity check",

@@ -11,6 +11,7 @@ The public package may classify these sanitized subtypes:
 
 - `webgl_virtual_renderer_detected`
 - `webrtc_private_ip_leak_detected`
+- `automation_descriptor_detected`
 - `automation_global_scope_leak_detected`
 - `runtime_sandbox_leak_detected`
 - `native_function_integrity_mismatch`
@@ -26,6 +27,8 @@ Accepted public evidence should be summaries such as:
 
 - WebGL renderer/vendor family, not raw collection scripts.
 - WebRTC candidate category summaries, not private network details.
+- Navigator/WebDriver descriptor and native getter integrity summaries, not
+  descriptor patching or stealth code.
 - Browser global-scope key summaries, not cleanup code.
 - Native reflection and debugger timing summaries, not anti-debugging steps.
 - ALPN, HTTP version, HTTP/2 SETTINGS, and protocol-stack summaries.

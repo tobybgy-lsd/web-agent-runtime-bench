@@ -26,10 +26,11 @@ Previous P95 stable: v2.4.1.
 
 **Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
 
-Optional v4.3 output: sanitized public cases, issue packs, benchmark reports, regression diffs, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
+Optional v5.0 output: sanitized public cases, benchmark reports, adapter reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
 
-- Current milestone: Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack
-- Current stable line: v4.3.0
+- Current milestone: Agent Failure Doctor v5.0 Stable API / Schema / Plugin ABI Standardization Release
+- Current stable line: v5.0.0
+- Previous stable line: Agent Failure Doctor v4.3.0 Real User Case Program & Public Benchmark Pack
 - Previous stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack
 - Earlier stable line: Agent Failure Doctor v4.1.0 Enterprise Governance & Role-Based Console Pack
 - Earlier stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
@@ -44,7 +45,21 @@ Optional v4.3 output: sanitized public cases, issue packs, benchmark reports, re
 
 **Fleet command:** `failure-doctor batch`.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `case`; `issue-pack`; `benchmark`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### v5.0 Stable Platform Commands
+
+```powershell
+failure-doctor adapter api diagnose --input .\newman_report.json --out .\api_report
+failure-doctor deploy health --workspace .\.failure-doctor-enterprise --out .\health_report
+failure-doctor stability check-api --out .\stability_report
+```
+
+v5.0 locks the stable CLI, schema registry, plugin ABI, benchmark case format,
+public case manifest, and enterprise policy baseline. See
+[docs/STABILITY_POLICY.md](docs/STABILITY_POLICY.md),
+[docs/SCHEMA_REGISTRY.md](docs/SCHEMA_REGISTRY.md), and
+[docs/PLUGIN_ABI_STABILITY.md](docs/PLUGIN_ABI_STABILITY.md).
 
 ### Real User Case Program & Public Benchmark
 

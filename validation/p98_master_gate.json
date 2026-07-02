@@ -1,11 +1,11 @@
 {
-  "version": "v4.3.0",
+  "version": "v5.0.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v4.3.0",
-  "previous_stable_line": "v4.2.0",
+  "current_stable_line": "v5.0.0",
+  "previous_stable_line": "v4.3.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -448,6 +448,94 @@
       "runner_regression_status": "pass",
       "compare_status": "pass"
     },
+    "desktop_rpa_adapter": {
+      "status": "pass",
+      "validation_file": "desktop_rpa_adapter_validation.json",
+      "total_cases": 120,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "api_automation_adapter": {
+      "status": "pass",
+      "validation_file": "api_automation_adapter_validation.json",
+      "total_cases": 120,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "mobile_automation_adapter": {
+      "status": "pass",
+      "validation_file": "mobile_automation_adapter_validation.json",
+      "total_cases": 80,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "enterprise_deployment_hardening": {
+      "status": "pass",
+      "validation_file": "enterprise_deployment_hardening_validation.json",
+      "total_cases": 220,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "backup_restore": {
+      "status": "pass",
+      "validation_file": "enterprise_deployment_hardening_validation.json",
+      "total_cases": 220,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "offline_install": {
+      "status": "pass",
+      "validation_file": "enterprise_deployment_hardening_validation.json",
+      "total_cases": 220,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "documentation_demo_adoption": {
+      "status": "pass",
+      "validation_file": "documentation_demo_adoption_validation.json",
+      "total_cases": 15,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "stable_api_schema_plugin_abi": {
+      "status": "pass",
+      "validation_file": "stable_api_schema_plugin_abi_validation.json",
+      "total_cases": 470,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -459,7 +547,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v4.3.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v5.0.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },
@@ -472,9 +560,8 @@
   "blocking_failures": [],
   "warnings": [],
   "next_gaps": [
-    "v4.4 stable API and schema contract",
-    "v4.5 release quality hardening",
-    "v4.6 docs and onboarding freeze",
-    "v5.0 stable release readiness"
+    "external user feedback",
+    "ecosystem integrations",
+    "long-term compatibility monitoring"
   ]
 }

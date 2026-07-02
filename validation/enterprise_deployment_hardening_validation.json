@@ -1,0 +1,18 @@
+{
+  "version": "v4.5.0",
+  "status": "pass",
+  "total_cases": 220,
+  "backup_restore_cases": 80,
+  "migration_cases": 60,
+  "offline_bundle_cases": 40,
+  "retention_cases": 40,
+  "security_posture_cases": 40,
+  "backup_restore_success": 0.99,
+  "migration_dry_run_success": 0.99,
+  "offline_bundle_private_content": 0,
+  "audit_chain_preserved": 1.0,
+  "retention_policy_correct": 0.96,
+  "external_api_call_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0
+}

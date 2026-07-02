@@ -31,11 +31,15 @@ The repository has release-note drafts prepared for the public alignment line. P
 | v4.0.0 | `docs/RELEASE_NOTES_v4.0.0.md` | Agent Failure Doctor v4.0.0 - Hybrid Evidence Reasoning Pack | published |
 | v4.1.0 | `docs/RELEASE_NOTES_v4.1.0.md` | Agent Failure Doctor v4.1.0 - Enterprise Governance & Role-Based Console Pack | published |
 | v4.2.0 | `docs/RELEASE_NOTES_v4.2.0.md` | Agent Failure Doctor v4.2.0 - Plugin SDK & Adapter Ecosystem Pack | published |
-| v4.3.0 | `docs/RELEASE_NOTES_v4.3.0.md` | Agent Failure Doctor v4.3.0 - Real User Case Program & Public Benchmark Pack | ready for publication after gates pass |
+| v4.3.0 | `docs/RELEASE_NOTES_v4.3.0.md` | Agent Failure Doctor v4.3.0 - Real User Case Program & Public Benchmark Pack | published |
+| v4.4.0 | `docs/RELEASE_NOTES_v4.4.0.md` | Agent Failure Doctor v4.4.0 - RPA, API, and Mobile Adapter Pack | superseded by v5.0.0 rollup |
+| v4.5.0 | `docs/RELEASE_NOTES_v4.5.0.md` | Agent Failure Doctor v4.5.0 - Enterprise Deployment Hardening Pack | superseded by v5.0.0 rollup |
+| v4.6.0 | `docs/RELEASE_NOTES_v4.6.0.md` | Agent Failure Doctor v4.6.0 - Documentation, Demo, and Adoption Pack | superseded by v5.0.0 rollup |
+| v5.0.0 | `docs/RELEASE_NOTES_v5.0.0.md` | Agent Failure Doctor v5.0.0 - Stable API, Schema, and Plugin ABI | ready for publication after gates pass |
 
 ## Published release
 
-`v4.3.0` is the next release candidate for the latest stable GitHub Release.
+`v5.0.0` is the next release candidate for the latest stable GitHub Release.
 
 After publication, the release URL should be:
 
@@ -61,7 +65,13 @@ https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v4.2.0
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v4.3.0
 
-`v3.2.0` is the previous stable GitHub Release:
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v5.0.0
+
+`v4.3.0` is the previous stable GitHub Release:
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v4.3.0
+
+`v3.2.0` is the earlier stable GitHub Release:
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v3.2.0
 

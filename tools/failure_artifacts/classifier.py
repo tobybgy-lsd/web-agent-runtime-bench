@@ -412,11 +412,15 @@ def _classify_anti_bot_risk(artifact: Mapping[str, Any], text: str) -> dict[str,
     if (
         "automation descriptor" in focused
         or "webdriver descriptor" in focused
+        or "webdriver getter" in focused
+        or ("native signature" in focused and "webdriver" in focused)
+        or ("native getter" in focused and "webdriver" in focused)
         or ("navigator.webdriver" in focused and "descriptor" in focused)
         or ("navigator prototype" in focused and "webdriver" in focused)
+        or ("navigator.prototype" in focused and "webdriver" in focused)
     ):
         subtype = "automation_descriptor_detected"
-        evidence.append("automation descriptor evidence found at the browser/runtime boundary")
+        evidence.append("automation descriptor or native getter integrity evidence found at the browser/runtime boundary")
 
     if not subtype and (
         "wasm signature" in focused

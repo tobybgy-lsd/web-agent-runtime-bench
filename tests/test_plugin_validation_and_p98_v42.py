@@ -42,7 +42,7 @@ class PluginValidationAndP98V42Tests(unittest.TestCase):
         )
         self.assertEqual(p98.returncode, 0, p98.stderr + p98.stdout)
         gate = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
-        self.assertEqual(gate["version"], "v4.3.0")
+        self.assertEqual(gate["version"], "v5.0.0")
         self.assertEqual(gate["overall_status"], "pass")
         self.assertEqual(gate["pillars"]["plugin_sdk_ecosystem"]["status"], "pass")
         self.assertEqual(gate["pillars"]["plugin_security_sandbox"]["status"], "pass")

@@ -1,0 +1,21 @@
+{
+  "version": "v5.0.0",
+  "status": "pass",
+  "total_cases": 470,
+  "api_contract_cases": 100,
+  "schema_compatibility_cases": 150,
+  "plugin_abi_cases": 100,
+  "migration_cases": 80,
+  "deprecation_cases": 40,
+  "stable_cli_contract_pass": 1.0,
+  "stable_schema_registry_complete": 1.0,
+  "plugin_abi_contract_pass": 1.0,
+  "backward_compatibility_pass": 0.99,
+  "migration_guide_generated": true,
+  "deprecation_report_generated": true,
+  "breaking_change_without_major": 0,
+  "external_api_call_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "real_platform_access_count": 0
+}

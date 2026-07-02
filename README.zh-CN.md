@@ -4,9 +4,9 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack
-- 当前稳定版本：v4.3.0
-- 上一稳定版本：v4.2.0 Plugin SDK & Adapter Ecosystem Pack
+- 当前里程碑：Agent Failure Doctor v5.0 Stable API / Schema / Plugin ABI Standardization Release
+- 当前稳定版本：v5.0.0
+- 上一稳定版本：v4.3.0 Real User Case Program & Public Benchmark Pack
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -60,6 +60,16 @@ failure-doctor benchmark compare --baseline .\benchmark_public --candidate .\ben
 ```
 
 v4.3 鎶婄湡瀹炵敤鎴峰け璐ユ潗鏂欐敹闆嗗拰鍏叡 benchmark 鍙樻垚 public-safe 流程：先脱敏，再校验，再生成 issue pack 或 benchmark report。默认本地运行，不上传，不调用外部 API，不发布私有训练解法。
+
+## v5.0 Stable API / Schema / Plugin ABI
+
+```powershell
+failure-doctor adapter api diagnose --input .\newman_report.json --out .\api_report
+failure-doctor deploy health --workspace .\.failure-doctor-enterprise --out .\health_report
+failure-doctor stability check-api --out .\stability_report
+```
+
+v5.0 锁定稳定 CLI、schema registry、plugin ABI、benchmark case format、public case manifest 和 enterprise policy baseline。默认本地优先、不上传、不调用外部 API、不发布本地私有训练解法。
 ## v4.2 Plugin SDK
 
 ```powershell

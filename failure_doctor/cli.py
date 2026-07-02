@@ -11,6 +11,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
 from failure_doctor.agent_invocation import AGENT_TARGETS, bootstrap_agent_frontend
+from failure_doctor.adapters.cli import add_adapter_parser, handle_adapter
+from failure_doctor.adapters.core import normalize_adapter_input
 from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.benchmark.cli import add_benchmark_parser, handle_benchmark
 from failure_doctor.cases.cli import add_case_parser, handle_case, handle_issue_pack
@@ -31,6 +33,8 @@ from failure_doctor.reasoning.report import write_reasoning_report
 from failure_doctor.regulated_industry import write_regulated_eval_report
 from failure_doctor.regulated_industry.evaluator import SUPPORTED_SUITES
 from failure_doctor.console.cli import run_console
+from failure_doctor.deploy.cli import add_deploy_parser, handle_deploy
+from failure_doctor.stability.cli import add_stability_parser, handle_stability
 from failure_doctor.visual_runtime.adapter import adapt_visual_artifacts
 from failure_doctor.visual_runtime.compare import compare_visual_runs
 from failure_doctor.visual_runtime.loader import load_visual_run, validate_visual_run
@@ -121,6 +125,12 @@ def main(argv: list[str] | None = None) -> int:
         return handle_issue_pack(args)
     if args.command == "benchmark":
         return handle_benchmark(args)
+    if args.command == "adapter":
+        return handle_adapter(args)
+    if args.command == "deploy":
+        return handle_deploy(args)
+    if args.command == "stability":
+        return handle_stability(args)
     parser.print_help()
     return 1
 
@@ -179,6 +189,12 @@ def build_parser() -> argparse.ArgumentParser:
     auto_collect.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     auto_collect.add_argument("--plugin", default=None, help="Optional enabled framework/evidence adapter plugin id")
     auto_collect.add_argument("--plugins", default=".failure-doctor-plugins", help="Plugin workspace")
+    auto_collect.add_argument(
+        "--adapter",
+        default=None,
+        choices=["rpa-uipath-mock", "api-postman-newman", "mobile-appium-mock"],
+        help="Optional public-safe RPA/API/mobile adapter shortcut",
+    )
     safety = sub.add_parser("safety-evaluate", help="Evaluate local artifacts for safety, shareability, and compliance risks")
     safety_inputs = safety.add_mutually_exclusive_group(required=True)
     safety_inputs.add_argument("--project", help="Authorized project folder to evaluate")
@@ -353,6 +369,9 @@ def build_parser() -> argparse.ArgumentParser:
     add_plugin_parser(sub)
     add_case_parser(sub)
     add_benchmark_parser(sub)
+    add_adapter_parser(sub)
+    add_deploy_parser(sub)
+    add_stability_parser(sub)
     add_reasoning_parsers(sub)
     add_enterprise_parser(sub)
     add_kb_parser(sub)
@@ -601,6 +620,19 @@ def agent_bootstrap(args: argparse.Namespace) -> int:
 
 def collect_project_inputs(args: argparse.Namespace) -> int:
     try:
+        if getattr(args, "adapter", None):
+            adapter_map = {
+                "rpa-uipath-mock": "rpa",
+                "api-postman-newman": "api",
+                "mobile-appium-mock": "mobile",
+            }
+            input_path = Path(getattr(args, "input", None) or getattr(args, "project", None) or ".")
+            result = normalize_adapter_input(input_path, Path(args.out), kind=adapter_map[str(args.adapter)])
+            print("Agent Failure Doctor Adapter Collector")
+            print(f"Adapter: {args.adapter}")
+            print(f"Output: {args.out}")
+            print(f"Candidate subtype: {result.get('candidate_subtype')}")
+            return 0
         if getattr(args, "plugin", None):
             input_path = Path(getattr(args, "input", None) or getattr(args, "project", None) or ".")
             result = run_plugin(

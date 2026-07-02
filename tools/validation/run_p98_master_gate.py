@@ -37,6 +37,14 @@ PILLAR_FILES = {
     "adapter_extension_api": "plugin_sdk_ecosystem_validation.json",
     "real_user_case_program": "real_user_case_program_validation.json",
     "public_benchmark_pack": "public_benchmark_pack_validation.json",
+    "desktop_rpa_adapter": "desktop_rpa_adapter_validation.json",
+    "api_automation_adapter": "api_automation_adapter_validation.json",
+    "mobile_automation_adapter": "mobile_automation_adapter_validation.json",
+    "enterprise_deployment_hardening": "enterprise_deployment_hardening_validation.json",
+    "backup_restore": "enterprise_deployment_hardening_validation.json",
+    "offline_install": "enterprise_deployment_hardening_validation.json",
+    "documentation_demo_adoption": "documentation_demo_adoption_validation.json",
+    "stable_api_schema_plugin_abi": "stable_api_schema_plugin_abi_validation.json",
 }
 
 
@@ -316,6 +324,93 @@ def pillar_status(name: str, payload: dict[str, Any]) -> str:
             payload.get("real_platform_access_count") == 0,
         )
         return "pass" if all(conditions) else "fail"
+    if name == "desktop_rpa_adapter":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("desktop_rpa_cases", 0) >= 120,
+            payload.get("normalization_success", 0) >= 118,
+            payload.get("diagnosis_reasonable", 0) >= 114,
+            payload.get("unsafe_guidance_count") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "api_automation_adapter":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("api_automation_cases", 0) >= 120,
+            payload.get("normalization_success", 0) >= 118,
+            payload.get("diagnosis_reasonable", 0) >= 114,
+            payload.get("unsafe_guidance_count") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "mobile_automation_adapter":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("mobile_automation_cases", 0) >= 80,
+            payload.get("normalization_success", 0) >= 78,
+            payload.get("diagnosis_reasonable", 0) >= 76,
+            payload.get("unsafe_guidance_count") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name in {"enterprise_deployment_hardening", "backup_restore", "offline_install"}:
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("backup_restore_cases", 0) >= 80,
+            payload.get("migration_cases", 0) >= 60,
+            payload.get("offline_bundle_cases", 0) >= 40,
+            payload.get("backup_restore_success", 0) >= 0.98,
+            payload.get("migration_dry_run_success", 0) >= 0.98,
+            payload.get("offline_bundle_private_content") == 0,
+            payload.get("audit_chain_preserved") == 1.0,
+            payload.get("retention_policy_correct", 0) >= 0.95,
+            payload.get("external_api_call_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "documentation_demo_adoption":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("required_docs_present") == 1.0,
+            payload.get("quickstart_commands_valid") == 1.0,
+            payload.get("sample_reports_public_safe") == 1.0,
+            payload.get("no_raw_secret_in_docs") == 0,
+            payload.get("no_private_solution_in_docs") == 0,
+            payload.get("no_forbidden_recommendations") == 0,
+            payload.get("broken_internal_links") == 0,
+            payload.get("external_api_call_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "stable_api_schema_plugin_abi":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("api_contract_cases", 0) >= 100,
+            payload.get("schema_compatibility_cases", 0) >= 150,
+            payload.get("plugin_abi_cases", 0) >= 100,
+            payload.get("migration_cases", 0) >= 80,
+            payload.get("stable_cli_contract_pass") == 1.0,
+            payload.get("stable_schema_registry_complete") == 1.0,
+            payload.get("plugin_abi_contract_pass") == 1.0,
+            payload.get("backward_compatibility_pass", 0) >= 0.98,
+            payload.get("migration_guide_generated") is True,
+            payload.get("deprecation_report_generated") is True,
+            payload.get("breaking_change_without_major") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
     return "pass" if payload.get("status") == "pass" else "fail"
 
 
@@ -533,7 +628,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v4.3.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v5.0.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -545,7 +640,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v4.3.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v5.0.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -553,7 +648,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v4.3.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v5.0.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -571,13 +666,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v4.3.0",
+        "version": "v5.0.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v4.3.0" if overall_status == "pass" else "v4.2.0",
-        "previous_stable_line": "v4.2.0",
+        "current_stable_line": "v5.0.0" if overall_status == "pass" else "v4.3.0",
+        "previous_stable_line": "v4.3.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,
@@ -589,10 +684,9 @@ def build_payload() -> dict[str, Any]:
         "blocking_failures": blocking_failures,
         "warnings": warnings,
         "next_gaps": [
-            "v4.4 stable API and schema contract",
-            "v4.5 release quality hardening",
-            "v4.6 docs and onboarding freeze",
-            "v5.0 stable release readiness",
+            "external user feedback",
+            "ecosystem integrations",
+            "long-term compatibility monitoring",
         ],
     }
 

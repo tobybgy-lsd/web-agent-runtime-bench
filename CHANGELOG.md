@@ -1,7 +1,19 @@
 # Changelog
 
-> Current package stable line: v4.3.0.
+> Current package stable line: v5.0.0.
 > v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v5.0.0
+
+- Added Desktop RPA, API automation, and mobile automation public-safe adapters.
+- Added enterprise deployment hardening commands for health, backup, restore,
+  migration dry-runs, offline bundle, disaster recovery, and security posture.
+- Added documentation, demo, adoption, sample report gallery, and stable API
+  documentation packs.
+- Added stable CLI, schema registry, plugin ABI, compatibility, deprecation, and
+  migration checks.
+- P98 master gate now includes v4.4/v4.5/v4.6/v5.0 pillars while preserving the
+  local-only, no-upload, no-private-solution safety boundary.
 
 ## v4.3.0
 

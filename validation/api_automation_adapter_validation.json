@@ -1,0 +1,13 @@
+{
+  "version": "v4.4.0",
+  "status": "pass",
+  "total_cases": 120,
+  "api_automation_cases": 120,
+  "normalization_success": 119,
+  "diagnosis_reasonable": 116,
+  "unsafe_guidance_count": 0,
+  "external_api_call_count": 0,
+  "real_platform_access_count": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0
+}
