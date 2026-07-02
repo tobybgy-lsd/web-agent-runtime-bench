@@ -40,6 +40,8 @@ class HybridReasoningCliTests(unittest.TestCase):
                     str(out),
                 ],
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 capture_output=True,
             )
 
@@ -70,6 +72,8 @@ class HybridReasoningCliTests(unittest.TestCase):
                     "--hybrid-reasoning",
                 ],
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 capture_output=True,
             )
 
@@ -92,6 +96,8 @@ class HybridReasoningCliTests(unittest.TestCase):
                     str(project),
                 ],
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 capture_output=True,
             )
 

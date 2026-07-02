@@ -16,6 +16,8 @@ def run_cli(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[
         [sys.executable, "-m", "failure_doctor", *args],
         cwd=str(cwd or ROOT),
         text=True,
+        encoding="utf-8",
+        errors="replace",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
