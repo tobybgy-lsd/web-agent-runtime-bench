@@ -19,6 +19,7 @@ from failure_doctor.safety.evaluator import evaluate_safety
 from failure_doctor.ocr_evidence.cli import handle_ocr_evidence
 from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
 from failure_doctor.full_chain import write_full_chain_report
+from failure_doctor.enterprise.cli import add_enterprise_parser, handle_enterprise
 from failure_doctor.kb.cli import add_kb_parser, handle_kb
 from failure_doctor.kb.store import KnowledgeBase
 from failure_doctor.reasoning.cli import add_reasoning_parsers, handle_reasoning_command
@@ -106,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
         return handle_kb(args)
     if args.command in {"reason", "root-cause", "causal-chain"}:
         return handle_reasoning_command(args)
+    if args.command == "enterprise":
+        return handle_enterprise(args)
     parser.print_help()
     return 1
 
@@ -216,6 +219,8 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     console.add_argument("--enable-hybrid-reasoning", action="store_true", help="Expose read-only hybrid reasoning console status")
     console.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
+    console.add_argument("--enterprise", action="store_true", help="Enable local enterprise governance status")
+    console.add_argument("--auth", default="local", choices=["local"], help="Local enterprise console auth mode")
     ci = sub.add_parser("ci", help="Run local CI/CD gates and generate integration templates")
     ci_sub = ci.add_subparsers(dest="ci_command", required=True)
     ci_run = ci_sub.add_parser("run", help="Run a local CI gate over a sanitized report or failure pack")
@@ -238,6 +243,7 @@ def build_parser() -> argparse.ArgumentParser:
     ci_diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     ci_diagnose.add_argument("--hybrid-reasoning", action="store_true", help="Attach an evidence-bound local reasoning report")
     ci_diagnose.add_argument("--reasoner", default="mock_reasoner", help="Local reasoning provider")
+    ci_diagnose.add_argument("--enterprise-workspace", default=None, help="Optional enterprise governance workspace")
     ci_diagnose.add_argument("--fail-on", default="high", choices=["low", "medium", "high", "critical"])
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
@@ -326,6 +332,7 @@ def build_parser() -> argparse.ArgumentParser:
     full_chain.add_argument("--include-visual", action="store_true")
     full_chain.add_argument("--include-regulated", action="store_true")
     add_reasoning_parsers(sub)
+    add_enterprise_parser(sub)
     add_kb_parser(sub)
     return parser
 

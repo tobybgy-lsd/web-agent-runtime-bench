@@ -32,15 +32,24 @@ class ConsoleApp:
         kb: Path | str | None = None,
         enable_hybrid_reasoning: bool = False,
         reasoner: str = "mock_reasoner",
+        enterprise: bool = False,
+        enterprise_workspace: Path | str | None = None,
+        auth: str = "local",
     ) -> None:
         assert_host_allowed(host, allow_lan=allow_lan)
         self.workspace = Path(workspace).expanduser().resolve()
         self.host = host
         self.port = port
         self.readonly = readonly
+        self.allow_lan = allow_lan
         self.kb = Path(kb).expanduser().resolve() if kb else None
         self.enable_hybrid_reasoning = enable_hybrid_reasoning
         self.reasoner = reasoner
+        self.enterprise = enterprise
+        self.enterprise_workspace = (
+            Path(enterprise_workspace).expanduser().resolve() if enterprise_workspace else None
+        )
+        self.auth = auth
         self.manifest = init_workspace(self.workspace, host=host, port=port, readonly=readonly)
         self.token = self.manifest["token"]
 
@@ -97,6 +106,15 @@ class ConsoleApp:
                         "reasoner": self.reasoner,
                         "local_only": True,
                         "raw_content_excluded": True,
+                    },
+                    "enterprise": {
+                        "enabled": self.enterprise,
+                        "workspace": str(self.enterprise_workspace) if self.enterprise_workspace else None,
+                        "auth": self.auth,
+                        "allow_lan": self.allow_lan,
+                        "local_only": True,
+                        "external_api_call_count": 0,
+                        "telemetry_call_count": 0,
                     },
                 }
             )
@@ -198,6 +216,9 @@ def create_console_app(
     kb: Path | str | None = None,
     enable_hybrid_reasoning: bool = False,
     reasoner: str = "mock_reasoner",
+    enterprise: bool = False,
+    enterprise_workspace: Path | str | None = None,
+    auth: str = "local",
 ) -> ConsoleApp:
     return ConsoleApp(
         workspace=workspace,
@@ -208,6 +229,9 @@ def create_console_app(
         kb=kb,
         enable_hybrid_reasoning=enable_hybrid_reasoning,
         reasoner=reasoner,
+        enterprise=enterprise,
+        enterprise_workspace=enterprise_workspace,
+        auth=auth,
     )
 
 

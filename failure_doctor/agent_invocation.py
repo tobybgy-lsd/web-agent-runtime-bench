@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "4.0.0"
+PACK_VERSION = "4.1.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -74,6 +74,10 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "full_chain_evaluation_workflow.md").write_text(_render_full_chain_evaluation_workflow(), encoding="utf-8")
         (target_dir / "knowledge_base_workflow.md").write_text(_render_knowledge_base_workflow(), encoding="utf-8")
         (target_dir / "hybrid_reasoning_workflow.md").write_text(_render_hybrid_reasoning_workflow(), encoding="utf-8")
+        (target_dir / "enterprise_governance_workflow.md").write_text(
+            _render_enterprise_governance_workflow(),
+            encoding="utf-8",
+        )
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -99,6 +103,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         "full_chain_eval_command": "failure-doctor full-chain-eval --input .\\failed_run --out .\\full_chain_report --include-safety --include-ocr --include-visual --include-regulated",
         "knowledge_base_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --out .\\report",
         "hybrid_reasoning_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --hybrid-reasoning --reasoner mock_reasoner --out .\\report",
+        "enterprise_governance_command": "failure-doctor enterprise init --workspace .\\.failure-doctor-enterprise",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -460,6 +465,32 @@ Rules:
 - Do not generate prohibited access-control guidance or private training details.
 - Use optional local reasoners only when the user has already installed and
   configured them; never download a model automatically.
+"""
+
+
+def _render_enterprise_governance_workflow() -> str:
+    return """# Enterprise Governance Workflow
+
+When enterprise mode is enabled:
+
+1. Check role and policy before acting.
+2. Use sanitized artifacts only.
+3. Request approval for handoff/export/raw access when required.
+4. Never bypass approval.
+5. Never disable safety gate.
+6. Never apply patches automatically.
+7. Never output bypass/evasion/spoofing/cracking guidance.
+8. All actions must be audit logged.
+
+Start local governance:
+
+```powershell
+failure-doctor enterprise init --workspace .\\.failure-doctor-enterprise
+failure-doctor enterprise validate --workspace .\\.failure-doctor-enterprise
+```
+
+Enterprise mode is local-only by default, uses 127.0.0.1 unless explicitly
+configured otherwise, and does not upload evidence or call external APIs.
 """
 
 

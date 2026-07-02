@@ -6,6 +6,7 @@ from pathlib import Path
 
 from failure_doctor.kb.store import KnowledgeBase, render_matches_md
 from failure_doctor.reasoning.report import write_reasoning_report
+from failure_doctor.enterprise.ci_integration import attach_enterprise_ci
 
 from .runner import run_ci_gate, validate_ci_report, write_ci_templates
 
@@ -45,6 +46,8 @@ def handle_ci(args: argparse.Namespace) -> int:
                 _attach_kb_summary(Path(args.kb), Path(args.project), Path(args.out))
             if getattr(args, "hybrid_reasoning", False):
                 _attach_hybrid_reasoning(Path(args.out), str(getattr(args, "reasoner", "mock_reasoner")))
+            if getattr(args, "enterprise_workspace", None):
+                attach_enterprise_ci(Path(args.out), Path(args.enterprise_workspace))
             gate = summary["gate"]
             print("Agent Failure Doctor CI Diagnosis")
             print(f"Decision: {gate.get('decision')}")

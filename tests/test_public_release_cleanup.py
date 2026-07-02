@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "4.0.0"',
+            'version = "4.1.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -110,7 +110,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "Local-first failure diagnosis",
             "python -m pip install agent-failure-doctor",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
-            "Hybrid Evidence Reasoning Pack",
+            "Enterprise Governance & Role-Based Console Pack",
             "GitHub issue draft",
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
@@ -132,7 +132,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "## 2. P95 Completed Gates",
             "## 3. P98 Master Gate",
             "| Knowledge Base P98 | 210 | 210 public-safe local synthetic patterns, schema valid | 0 | pass |",
-            "| P98 Master Gate | 20 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass |",
+            "| P98 Master Gate | 23 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass |",
             "validation/p98_master_gate.json",
             "Ecosystem maturity is excluded",
         ):

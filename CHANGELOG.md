@@ -1,7 +1,15 @@
 # Changelog
 
-> Current package stable line: v4.0.0.
-> v3.9.0 remains the previous local failure knowledge base stable release, v3.8.0 remains the previous CI/CD integration stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v4.1.0.
+> v4.0.0 remains the previous hybrid evidence reasoning stable release, v3.9.0 remains the previous local failure knowledge base stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v4.1.0
+
+- Added `failure-doctor enterprise init/user/role/policy/request/approve/audit/validate/report` for local enterprise governance workspaces.
+- Added role-based access control, default-deny raw access, approval workflow, policy center, append-only audit ledger with hash-chain validation, and sanitized export defaults.
+- Added enterprise-aware local console status, `ci diagnose --enterprise-workspace`, and agent-bootstrap enterprise governance workflow files.
+- Added `enterprise_governance`, `role_based_console`, and `audit_ledger` validation pillars with 180 local synthetic cases.
+- Preserved the public safety boundary: local-only by default, no telemetry, no external API calls, no raw browser profile or credential access, no automatic patch application, and approval required for sensitive actions.
 
 ## v4.0.0
 

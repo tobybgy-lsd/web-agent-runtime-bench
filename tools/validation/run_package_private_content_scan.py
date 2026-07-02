@@ -72,7 +72,7 @@ def main() -> int:
     for archive in archives:
         hits.extend(scan_archive(archive))
     payload = {
-        "version": "v4.0.0",
+        "version": "v4.1.0",
         "status": "pass" if not hits else "fail",
         "archives_scanned": [archive.name for archive in archives],
         "private_content_found": len(hits),

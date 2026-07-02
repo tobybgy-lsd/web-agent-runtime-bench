@@ -15,18 +15,34 @@ Playwright, crawler, RPA, and business automation failures.
 
 Optional v4.0 output: evidence-bound reasoning, local web console, and CI/CD gate.
 
-Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
+Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`; `failure-doctor agent-bootstrap --target all --project .`.
 
-- Current milestone: Agent Failure Doctor v4.0 Hybrid Evidence Reasoning Pack
-- Current stable line: v4.0.0
-- Previous stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack
+- Current milestone: Agent Failure Doctor v4.1 Enterprise Governance & Role-Based Console Pack
+- Current stable line: v4.1.0
+- Previous stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
+- Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
+See [validation/dashboard.md](validation/dashboard.md) for the validation dashboard.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `reason` / `root-cause` / `causal-chain`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### Enterprise Governance
+
+```powershell
+failure-doctor enterprise init --workspace .\.failure-doctor-enterprise
+failure-doctor enterprise user add --workspace .\.failure-doctor-enterprise --username alice --role developer
+failure-doctor console --enterprise --workspace .\.failure-doctor-enterprise --open
+```
+
+Enterprise governance adds local users, role-based access control, approvals,
+audit ledger, policy enforcement, project/team isolation, shared KB governance,
+and sanitized audit exports. It remains local-only by default, binds to
+`127.0.0.1` unless `--allow-lan` is explicit, requires local auth for enterprise
+console mode, and does not enable cloud sync, telemetry, or external APIs.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 

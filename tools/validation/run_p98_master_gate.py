@@ -29,6 +29,9 @@ PILLAR_FILES = {
     "local_failure_knowledge_base": "local_failure_kb_validation.json",
     "hybrid_evidence_reasoning": "hybrid_evidence_reasoning_validation.json",
     "root_cause_causal_chain": "hybrid_evidence_reasoning_validation.json",
+    "enterprise_governance": "enterprise_governance_validation.json",
+    "role_based_console": "enterprise_governance_validation.json",
+    "audit_ledger": "enterprise_governance_validation.json",
 }
 
 
@@ -221,6 +224,33 @@ def pillar_status(name: str, payload: dict[str, Any]) -> str:
             payload.get("real_platform_access_count") == 0,
         )
         return "pass" if all(conditions) else "fail"
+    if name in {"enterprise_governance", "role_based_console", "audit_ledger"}:
+        total = payload.get("total_cases", 0)
+        conditions = (
+            payload.get("status") == "pass",
+            total >= 180,
+            payload.get("schema_valid") == total,
+            payload.get("rbac_permission_correct", 0) >= int(total * 0.98),
+            payload.get("unauthorized_action_blocked") == total,
+            payload.get("approval_flow_correct", 0) >= int(total * 0.98),
+            payload.get("audit_log_generated") == total,
+            payload.get("audit_hash_chain_valid") == total,
+            payload.get("policy_enforcement_correct", 0) >= int(total * 0.98),
+            payload.get("console_rbac_correct", 0) >= int(total * 0.95),
+            payload.get("ci_enterprise_policy_correct", 0) >= int(total * 0.95),
+            payload.get("kb_enterprise_policy_correct", 0) >= int(total * 0.95),
+            payload.get("reasoning_policy_correct", 0) >= int(total * 0.95),
+            payload.get("raw_access_blocked_by_default") == total,
+            payload.get("patch_auto_apply_available") is False,
+            payload.get("external_api_call_count") == 0,
+            payload.get("telemetry_call_count") == 0,
+            payload.get("raw_secret_in_audit_export") == 0,
+            payload.get("private_solution_in_workspace") == 0,
+            payload.get("forbidden_output_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
     return "pass" if payload.get("status") == "pass" else "fail"
 
 
@@ -364,6 +394,25 @@ def build_payload() -> dict[str, Any]:
                     "model_download_count": payload.get("model_download_count"),
                 }
             )
+        if name in {"enterprise_governance", "role_based_console", "audit_ledger"}:
+            pillars[name].update(
+                {
+                    "cases": payload.get("total_cases"),
+                    "rbac_permission_correct": payload.get("rbac_permission_correct"),
+                    "unauthorized_action_blocked": payload.get("unauthorized_action_blocked"),
+                    "approval_flow_correct": payload.get("approval_flow_correct"),
+                    "audit_log_generated": payload.get("audit_log_generated"),
+                    "audit_hash_chain_valid": payload.get("audit_hash_chain_valid"),
+                    "policy_enforcement_correct": payload.get("policy_enforcement_correct"),
+                    "console_rbac_correct": payload.get("console_rbac_correct"),
+                    "ci_enterprise_policy_correct": payload.get("ci_enterprise_policy_correct"),
+                    "kb_enterprise_policy_correct": payload.get("kb_enterprise_policy_correct"),
+                    "reasoning_policy_correct": payload.get("reasoning_policy_correct"),
+                    "external_api_call_count": payload.get("external_api_call_count"),
+                    "telemetry_call_count": payload.get("telemetry_call_count"),
+                    "raw_secret_in_audit_export": payload.get("raw_secret_in_audit_export"),
+                }
+            )
         if status != "pass":
             blocking_failures.append(f"{name}: status={status}")
 
@@ -374,7 +423,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v4.0.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v4.1.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -386,7 +435,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v4.0.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v4.1.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -394,7 +443,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v4.0.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v4.1.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -412,13 +461,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v4.0.0",
+        "version": "v4.1.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v4.0.0" if overall_status == "pass" else "v3.9.0",
-        "previous_stable_line": "v3.9.0",
+        "current_stable_line": "v4.1.0" if overall_status == "pass" else "v4.0.0",
+        "previous_stable_line": "v4.0.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,

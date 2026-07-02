@@ -16,6 +16,9 @@ def run_console(args) -> int:
         kb=getattr(args, "kb", None),
         enable_hybrid_reasoning=bool(getattr(args, "enable_hybrid_reasoning", False)),
         reasoner=str(getattr(args, "reasoner", "mock_reasoner")),
+        enterprise=bool(getattr(args, "enterprise", False)),
+        enterprise_workspace=Path(args.workspace) if getattr(args, "enterprise", False) else None,
+        auth=str(getattr(args, "auth", "local")),
     )
     if args.import_report:
         import_report(app.workspace, args.import_report, readonly=args.readonly)
