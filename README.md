@@ -11,20 +11,20 @@ Playwright, crawler, RPA, and business automation failures.
 
 **Input:** trace.zip / error.log / console.txt / network.json / probe_report.json / screenshot metadata / user_description.txt / visual_run / OCR or document evidence.
 
-**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt. Local web console.
+**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt. Local web console and CI/CD gate.
 
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
 
-- Current milestone: Agent Failure Doctor v3.7 Local Web Console Pack
-- Current stable line: v3.7.0
-- Previous stable line: Agent Failure Doctor v3.6.0 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
-- Previous P95 stable line: Agent Failure Doctor v2.4.1
+- Current milestone: Agent Failure Doctor v3.8 CI/CD Integration Pack
+- Current stable line: v3.8.0
+- Previous stable line: Agent Failure Doctor v3.7.0 Local Web Console Pack
+- Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
@@ -48,8 +48,26 @@ failure-doctor visual-runtime compare --baseline .\dom_agent_run --candidate .\v
 failure-doctor regulated-eval --suite all --out .\regulated_report
 failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
 failure-doctor console --import-report .\full_chain_report --open
+failure-doctor ci run --input .\full_chain_report --out .\ci_report --fail-on high
+failure-doctor ci templates --out .\ci_templates
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+### CI/CD Integration
+
+v3.8 adds local CI gates and starter templates:
+
+```powershell
+failure-doctor ci run --input .\report --out .\ci_report --fail-on high
+failure-doctor ci validate --input .\ci_report --out .\ci_validation
+failure-doctor ci templates --out .\ci_templates
+```
+
+The CI pack writes `ci_manifest.json`, `ci_summary.md/json`,
+`severity_decision.json`, `gate_decision.json`, `audit_manifest.json`, and
+`open_this_first_ci.md`. It is local-first, does not upload raw artifacts, and
+blocks private training markers or unsafe recommendation markers before
+external sharing. See [docs/CI_CD_INTEGRATION.md](docs/CI_CD_INTEGRATION.md).
 
 ### Local Web Console
 
@@ -154,10 +172,11 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v3.6.0 is the current stable technical baseline. It adds regulated-industry
-mock workflow evaluation and full-chain agent evaluation on top of OCR/document
-evidence, offline visual runtime observability, and local-only safety and
-compliance evaluation.
+v3.8.0 is the current stable technical baseline. It adds local CI/CD gates and
+runner templates on top of the local web console, regulated-industry mock
+workflow evaluation, full-chain agent evaluation, OCR/document evidence,
+offline visual runtime observability, and local-only safety and compliance
+evaluation.
 
 ### Safety & Compliance Evaluation
 
@@ -562,9 +581,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack.
+Current milestone: Agent Failure Doctor v3.8 CI/CD Integration Pack.
 
-Previous stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Previous stable line: Agent Failure Doctor v3.7 Local Web Console Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records

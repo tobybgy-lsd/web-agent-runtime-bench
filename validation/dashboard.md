@@ -4,11 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.7.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.8.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.7.0 Local Web Console Pack | pass | Current package stable line with a loopback-only local report console, bundled assets, token-protected POST routes, workspace-scoped report import, and no upload or telemetry. |
+| v3.8.0 CI/CD Integration Pack | pass | Current package stable line with local CI gates, GitHub Actions/GitLab/Jenkins/PowerShell templates, sanitized report outputs, and no raw upload or external API calls. |
+| v3.7.0 Local Web Console Pack | previous stable | Previous package stable line with a loopback-only local report console, bundled assets, token-protected POST routes, workspace-scoped report import, and no upload or telemetry. |
 | v3.6.0 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack | previous stable | Previous package stable line with regulated synthetic mock suites, pure visual runtime observability, full-chain evaluation, and no real regulated-system access. |
 | v3.5.0 OCR & Document Evidence Adapter Pack | previous stable | Previous package stable line with local-first OCR/document evidence, DOM/VLM/schema/data-quality consistency checks, disabled-by-default cloud OCR, and no document upload by default. |
 | v3.4.0 Visual Agent Runtime Observability Pack | previous stable | Previous package stable line with offline visual runtime diagnosis, screenshot cost, stale observation, coordinate/DPR/viewport drift, optional DOM conflict, local mock VLM support, and no upload or bypass guidance. |

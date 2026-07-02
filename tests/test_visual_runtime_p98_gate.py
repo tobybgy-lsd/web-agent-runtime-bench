@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -21,7 +21,7 @@ class VisualRuntimeP98GateTests(unittest.TestCase):
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
         payload = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
-        self.assertEqual(payload["version"], "v3.7.0")
+        self.assertEqual(payload["version"], "v3.8.0")
         self.assertEqual(payload["overall_status"], "pass")
         self.assertIn("visual_agent_runtime_observability", payload["pillars"])
 

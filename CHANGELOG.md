@@ -1,7 +1,22 @@
 # Changelog
 
-> Current package stable line: v3.7.0.
-> v3.6.0 remains the previous regulated/full-chain stable release, v3.5.0 remains the previous OCR/document stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.8.0.
+> v3.7.0 remains the previous local-console stable release, v3.6.0 remains the previous regulated/full-chain stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.8.0
+
+- Added `failure-doctor ci run`, `failure-doctor ci validate`, and
+  `failure-doctor ci templates` for local CI/CD gates.
+- Added GitHub Actions, GitLab CI, Jenkins, and PowerShell starter templates.
+- Added CI outputs: `ci_manifest.json`, `ci_summary.md/json`,
+  `severity_decision.json`, `gate_decision.json`, `audit_manifest.json`, and
+  `open_this_first_ci.md`.
+- Added `ci_cd_integration` validation with 96 local cases and integrated it
+  into the P98 master gate.
+- Preserved the public safety boundary: no external API calls, no raw artifact
+  upload, no environment dumps, no browser profile or credential-store access,
+  and CI gate failures for private training markers or unsafe recommendation
+  markers.
 
 ## v3.7.0
 

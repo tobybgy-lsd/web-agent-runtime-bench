@@ -70,7 +70,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
     def test_pyproject_has_public_package_metadata_without_unused_dependencies(self):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         for phrase in (
-            'version = "3.7.0"',
+            'version = "3.8.0"',
             "sida lin",
             "[project.urls]",
             'Homepage = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"',
@@ -110,7 +110,7 @@ class PublicReleaseCleanupTests(unittest.TestCase):
             "Local-first failure diagnosis",
             "python -m pip install agent-failure-doctor",
             "failure-doctor diagnose .\\examples\\failed_runs\\proxy_network_error --out .\\report",
-            "Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack",
+            "CI/CD Integration Pack",
             "GitHub issue draft",
             "See [validation/dashboard.md](validation/dashboard.md)",
         ):
@@ -209,4 +209,3 @@ class PublicReleaseCleanupTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

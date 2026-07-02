@@ -1,0 +1,22 @@
+{
+  "version": "v3.8.0",
+  "status": "pass",
+  "total_cases": 96,
+  "passed_cases": 96,
+  "gate_pass_cases": 96,
+  "gate_fail_cases": 0,
+  "actionable_ci_summary": 96,
+  "github_actions_template_generated": true,
+  "gitlab_ci_template_generated": true,
+  "jenkins_template_generated": true,
+  "powershell_runner_generated": true,
+  "external_api_call_count": 0,
+  "raw_upload_count": 0,
+  "env_dump_count": 0,
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0,
+  "real_platform_access_count": 0,
+  "active_probe_count": 0,
+  "browser_profile_access_count": 0,
+  "credential_store_access_count": 0
+}

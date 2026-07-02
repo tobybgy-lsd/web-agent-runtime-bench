@@ -12,6 +12,7 @@ from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
 from failure_doctor.agent_invocation import AGENT_TARGETS, bootstrap_agent_frontend
 from failure_doctor.auto_collect import collect_project, watch_project
+from failure_doctor.ci.cli import handle_ci
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
 from failure_doctor.safety.evaluator import evaluate_safety
@@ -95,6 +96,8 @@ def main(argv: list[str] | None = None) -> int:
         return full_chain_eval_inputs(args)
     if args.command == "console":
         return run_console(args)
+    if args.command == "ci":
+        return handle_ci(args)
     parser.print_help()
     return 1
 
@@ -198,6 +201,22 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--import-batch", default=None, help="Import an existing batch report directory")
     console.add_argument("--allow-lan", action="store_true", help="Allow non-loopback binding after explicit approval")
     console.add_argument("--admin", action="store_true", help="Reserved local admin flag; no remote admin mode is exposed")
+    ci = sub.add_parser("ci", help="Run local CI/CD gates and generate integration templates")
+    ci_sub = ci.add_subparsers(dest="ci_command", required=True)
+    ci_run = ci_sub.add_parser("run", help="Run a local CI gate over a sanitized report or failure pack")
+    ci_run.add_argument("--input", required=True, help="Report or failure pack directory")
+    ci_run.add_argument("--out", required=True, help="Output CI report directory")
+    ci_run.add_argument(
+        "--fail-on",
+        default="high",
+        choices=["low", "medium", "high", "critical"],
+        help="Severity threshold that fails the CI gate",
+    )
+    ci_templates = ci_sub.add_parser("templates", help="Generate GitHub Actions/GitLab/Jenkins/PowerShell templates")
+    ci_templates.add_argument("--out", required=True, help="Output template directory")
+    ci_validate = ci_sub.add_parser("validate", help="Validate a CI report directory")
+    ci_validate.add_argument("--input", required=True, help="CI report directory")
+    ci_validate.add_argument("--out", required=True, help="Output validation directory")
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
     handoff.add_argument("--target", required=True, choices=["codex", "claude_code", "cursor", "all"], help="Preferred AI coding assistant target")

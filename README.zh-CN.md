@@ -4,9 +4,9 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及文档/表格/表单密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v3.7 Local Web Console Pack
-- 当前稳定版本：v3.7.0
-- 上一个稳定版本：v3.6.0
+- 当前里程碑：Agent Failure Doctor v3.8 CI/CD Integration Pack
+- 当前稳定版本：v3.8.0
+- 上一个稳定版本：v3.7.0
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -49,8 +49,23 @@ failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html
 failure-doctor regulated-eval --suite all --out .\regulated_report
 failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
 failure-doctor console --import-report .\full_chain_report --open
+failure-doctor ci run --input .\full_chain_report --out .\ci_report --fail-on high
+failure-doctor ci templates --out .\ci_templates
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## CI/CD Integration
+
+v3.8 新增本地 CI gate 和模板：
+
+```powershell
+failure-doctor ci run --input .\report --out .\ci_report --fail-on high
+failure-doctor ci validate --input .\ci_report --out .\ci_validation
+failure-doctor ci templates --out .\ci_templates
+```
+
+CI 输出 `ci_manifest.json`、`ci_summary.md/json`、`severity_decision.json`、
+`gate_decision.json`、`audit_manifest.json` 和 `open_this_first_ci.md`。默认本地优先，不上传原始材料，并在对外分享前阻断私有训练标记和不安全建议标记。
 
 ## Local Web Console
 
