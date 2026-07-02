@@ -15,16 +15,16 @@ Playwright, crawler, RPA, and business automation failures.
 
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
 
-- Current milestone: Agent Failure Doctor v3.8 CI/CD Integration Pack
-- Current stable line: v3.8.0
-- Previous stable line: Agent Failure Doctor v3.7.0 Local Web Console Pack
+- Current milestone: Agent Failure Doctor v3.9 Local Failure Knowledge Base Pack
+- Current stable line: v3.9.0
+- Previous stable line: Agent Failure Doctor v3.8.0 CI/CD Integration Pack
 - Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
@@ -50,8 +50,30 @@ failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
 failure-doctor console --import-report .\full_chain_report --open
 failure-doctor ci run --input .\full_chain_report --out .\ci_report --fail-on high
 failure-doctor ci templates --out .\ci_templates
+failure-doctor kb init --path .\.failure-doctor-kb
+failure-doctor kb import-report --kb .\.failure-doctor-kb --report .\full_chain_report
+failure-doctor diagnose .\failed_run --kb .\.failure-doctor-kb --out .\report
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+### Local Failure Knowledge Base
+
+v3.9 adds a local-only failure knowledge base:
+
+```powershell
+failure-doctor kb init --path .\.failure-doctor-kb
+failure-doctor kb import-report --kb .\.failure-doctor-kb --report .\failure_doctor_auto_report
+failure-doctor kb search --kb .\.failure-doctor-kb --query "selector timeout after login redirect"
+failure-doctor kb match --kb .\.failure-doctor-kb --report .\failure_doctor_auto_report --out .\kb_match_report
+failure-doctor kb export --kb .\.failure-doctor-kb --out .\kb_export --sanitized-only
+failure-doctor diagnose .\failed_run --kb .\.failure-doctor-kb --out .\report
+```
+
+Use a local KB to match similar historical failures, reuse verified fix
+candidates, and turn team troubleshooting history into a private, searchable
+knowledge asset. The KB is local-only and sanitized-only by default: no cloud
+sync, no external embedding API, no raw secret storage, no private local training
+content, and verified fixes are suggestions, not auto-applied patches.
 
 ### CI/CD Integration
 
@@ -581,7 +603,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v3.8 CI/CD Integration Pack.
+Current milestone: Agent Failure Doctor v3.9 Local Failure Knowledge Base Pack.
 
 Previous stable line: Agent Failure Doctor v3.7 Local Web Console Pack.
 
@@ -712,3 +734,4 @@ Run smoke and safety checks:
 scripts\smoke_test.ps1
 scripts\local_safety_scan.ps1
 ```
+

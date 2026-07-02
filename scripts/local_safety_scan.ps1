@@ -22,6 +22,7 @@ function Test-Pattern($Pattern, $Label, [string[]]$Paths) {
         $fullPath = Join-Path $TargetDir $p
         if (Test-Path $fullPath) {
             $matches = Get-ChildItem -Path $fullPath -Recurse -File -ErrorAction SilentlyContinue |
+                       Where-Object { $_.FullName -notlike "*\__pycache__\*" -and $_.Extension -ne ".pyc" } |
                        Where-Object { $_.FullName -notlike "*\scripts\*" } |
                        Select-String -Pattern $Pattern -ErrorAction SilentlyContinue
             # Filter out comments/context lines that are safety disclaimers
@@ -32,6 +33,7 @@ function Test-Pattern($Pattern, $Label, [string[]]$Paths) {
                 if ($line -match "^(Not a |No |not a |never |Note: )") { continue }
                 if ($line -match "^- \*\*No ") { continue }
                 if ($line -match "\[x\] No ") { continue }
+                if ($m.Path -match "\.md$" -and $line -match "(not store|must not|do not|Do not|Blocked|blocked|forbidden|unsafe|local-only|sanitized-only|no upload|no cloud|no external|without)") { continue }
                 $filtered += $m
             }
             $found += $filtered
@@ -101,6 +103,7 @@ Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dyna
 Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dynamic signature cracking|bypass cloudflare|bypass akamai|bypass datadome|bypass perimeterx|proxy rotation|account pool|ip pool|solve captcha|stealth recipe|behavioral mimicry|VMP reconstruction|challenge solver|FLAG\\{|hook bypass" -Label "OCR evidence forbidden recommendations" -Paths @("failure_doctor\ocr_evidence", "examples\ocr_document_evidence_cases", "validation", "README.md", "README.zh-CN.md")
 Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dynamic signature cracking|bypass cloudflare|bypass akamai|bypass datadome|bypass perimeterx|proxy rotation|account pool|ip pool|solve captcha|stealth recipe|behavioral mimicry|human-like mouse|trajectory generator|VMP reconstruction|challenge solver|FLAG\\{|hook bypass|real regulated system access" -Label "Regulated/full-chain forbidden recommendations" -Paths @("failure_doctor\regulated_industry", "failure_doctor\full_chain", "examples\full_chain_agent_cases", "docs\REGULATED_INDUSTRY_WORKFLOW_PACK.md", "docs\FULL_CHAIN_AGENT_EVALUATION.md")
 Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dynamic signature cracking|bypass cloudflare|bypass akamai|bypass datadome|bypass perimeterx|proxy rotation|account pool|ip pool|solve captcha|stealth recipe|behavioral mimicry|human-like mouse|trajectory generator|VMP reconstruction|challenge solver|FLAG\\{|hook bypass|private training solution" -Label "CI/CD forbidden recommendations" -Paths @("failure_doctor\ci", "examples\ci_cd_integration", "docs\CI_CD_INTEGRATION.md")
+Test-Pattern -Pattern "captcha bypass|anti-bot evasion|fingerprint spoofing|dynamic signature cracking|bypass cloudflare|bypass akamai|bypass datadome|bypass perimeterx|proxy rotation|account pool|ip pool|solve captcha|stealth recipe|behavioral mimicry|human-like mouse|trajectory generator|mouse movement generation to evade|VMP reconstruction|challenge solver|FLAG\\{|hook bypass|private training solution" -Label "Local KB forbidden recommendations" -Paths @("failure_doctor\kb", "examples\kb_cases", "docs\LOCAL_FAILURE_KNOWLEDGE_BASE.md", "docs\KB_IMPORT_EXPORT_POLICY.md", "docs\KB_SECURITY_MODEL.md", "README.md", "README.zh-CN.md", "validation")
 
 # 6. Docs audit: check overclaim phrases
 Test-Pattern-Docs -Pattern "auto.*scraper|auto.*crawler|production.*crawl|bypass.*captcha|evade.*anti" -Label "Overclaim in docs"

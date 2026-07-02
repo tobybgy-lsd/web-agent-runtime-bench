@@ -19,6 +19,8 @@ from failure_doctor.safety.evaluator import evaluate_safety
 from failure_doctor.ocr_evidence.cli import handle_ocr_evidence
 from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
 from failure_doctor.full_chain import write_full_chain_report
+from failure_doctor.kb.cli import add_kb_parser, handle_kb
+from failure_doctor.kb.store import KnowledgeBase
 from failure_doctor.regulated_industry import write_regulated_eval_report
 from failure_doctor.regulated_industry.evaluator import SUPPORTED_SUITES
 from failure_doctor.console.cli import run_console
@@ -98,6 +100,8 @@ def main(argv: list[str] | None = None) -> int:
         return run_console(args)
     if args.command == "ci":
         return handle_ci(args)
+    if args.command == "kb":
+        return handle_kb(args)
     parser.print_help()
     return 1
 
@@ -119,6 +123,7 @@ def build_parser() -> argparse.ArgumentParser:
     diagnose.add_argument("input", help="Path to trace.zip, log file, network.json, description file, screenshot, or a directory")
     diagnose.add_argument("--out", required=True, help="Output report directory")
     diagnose.add_argument("--run-id", default=None, help="Stable run identifier")
+    diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     plan = sub.add_parser("plan", help="Generate a fix plan from a diagnosis report directory")
     plan.add_argument("report", help="Path to a report directory containing diagnosis.json")
     plan.add_argument("--out", required=True, help="Output fix plan directory")
@@ -147,6 +152,7 @@ def build_parser() -> argparse.ArgumentParser:
     auto_collect.add_argument("--safety-evaluate", action="store_true", help="Run local safety and compliance evaluation after collection")
     auto_collect.add_argument("--open-report", action="store_true", help="Open the first report file when supported")
     auto_collect.add_argument("--broad-scope", action="store_true", help="Allow broad scope folders after explicit user approval")
+    auto_collect.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     safety = sub.add_parser("safety-evaluate", help="Evaluate local artifacts for safety, shareability, and compliance risks")
     safety_inputs = safety.add_mutually_exclusive_group(required=True)
     safety_inputs.add_argument("--project", help="Authorized project folder to evaluate")
@@ -201,6 +207,7 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--import-batch", default=None, help="Import an existing batch report directory")
     console.add_argument("--allow-lan", action="store_true", help="Allow non-loopback binding after explicit approval")
     console.add_argument("--admin", action="store_true", help="Reserved local admin flag; no remote admin mode is exposed")
+    console.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
     ci = sub.add_parser("ci", help="Run local CI/CD gates and generate integration templates")
     ci_sub = ci.add_subparsers(dest="ci_command", required=True)
     ci_run = ci_sub.add_parser("run", help="Run a local CI gate over a sanitized report or failure pack")
@@ -217,6 +224,11 @@ def build_parser() -> argparse.ArgumentParser:
     ci_validate = ci_sub.add_parser("validate", help="Validate a CI report directory")
     ci_validate.add_argument("--input", required=True, help="CI report directory")
     ci_validate.add_argument("--out", required=True, help="Output validation directory")
+    ci_diagnose = ci_sub.add_parser("diagnose", help="Run a local CI gate and optionally match a local KB")
+    ci_diagnose.add_argument("--project", required=True, help="Project or report directory")
+    ci_diagnose.add_argument("--out", required=True, help="Output CI report directory")
+    ci_diagnose.add_argument("--kb", default=None, help="Optional local failure knowledge base path")
+    ci_diagnose.add_argument("--fail-on", default="high", choices=["low", "medium", "high", "critical"])
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
     handoff.add_argument("--target", required=True, choices=["codex", "claude_code", "cursor", "all"], help="Preferred AI coding assistant target")
@@ -303,6 +315,7 @@ def build_parser() -> argparse.ArgumentParser:
     full_chain.add_argument("--include-ocr", action="store_true")
     full_chain.add_argument("--include-visual", action="store_true")
     full_chain.add_argument("--include-regulated", action="store_true")
+    add_kb_parser(sub)
     return parser
 
 
@@ -320,6 +333,8 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     diagnosis = _low_evidence_diagnosis(input_summary) if _is_low_evidence(input_summary) else classify_composite_failure_artifact(artifact)
     public = enrich_for_users(diagnosis, input_summary=input_summary)
     outputs = write_failure_doctor_report(out_dir, artifact, diagnosis, public, evidence, input_summary)
+    if getattr(args, "kb", None):
+        _write_kb_matches(Path(args.kb), out_dir)
 
     confidence = float(public.get("confidence", 0.0))
     print("Agent Failure Doctor")
@@ -334,6 +349,13 @@ def diagnose_inputs(args: argparse.Namespace) -> int:
     print(f"Bundle: {outputs['failure_doctor_report.zip']}")
 
     return 0
+
+
+def _write_kb_matches(kb_path: Path, report_dir: Path) -> None:
+    try:
+        KnowledgeBase(kb_path).match_report(report_dir, report_dir)
+    except (FileNotFoundError, ValueError):
+        return
 
 
 def plan_from_report(args: argparse.Namespace) -> int:

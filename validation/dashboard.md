@@ -4,11 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v3.8.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v3.9.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v3.8.0 CI/CD Integration Pack | pass | Current package stable line with local CI gates, GitHub Actions/GitLab/Jenkins/PowerShell templates, sanitized report outputs, and no raw upload or external API calls. |
+| v3.9.0 Local Failure Knowledge Base Pack | pass | Current package stable line with local-only failure case storage, similarity matching, verified fix suggestions, sanitized export, and no external embedding API calls. |
+| v3.8.0 CI/CD Integration Pack | previous stable | Previous package stable line with local CI gates, GitHub Actions/GitLab/Jenkins/PowerShell templates, sanitized report outputs, and no raw upload or external API calls. |
 | v3.7.0 Local Web Console Pack | previous stable | Previous package stable line with a loopback-only local report console, bundled assets, token-protected POST routes, workspace-scoped report import, and no upload or telemetry. |
 | v3.6.0 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack | previous stable | Previous package stable line with regulated synthetic mock suites, pure visual runtime observability, full-chain evaluation, and no real regulated-system access. |
 | v3.5.0 OCR & Document Evidence Adapter Pack | previous stable | Previous package stable line with local-first OCR/document evidence, DOM/VLM/schema/data-quality consistency checks, disabled-by-default cloud OCR, and no document upload by default. |
@@ -47,6 +48,8 @@ Agent Failure Doctor v3.8.0 is the current controlled-maturity stable line.
 | OCR / Document Evidence P98 | 148 | local-only mock OCR/document cases, 100% sensitive blocking, zero cloud upload | 0 | pass | `python -m tools.validation.run_ocr_document_evidence_validation` |
 | Full-Chain Agent Evaluation P98 | 60 | 60/60 reports, unsafe handoff/share blocked, zero external API calls | 0 | pass | `python -m tools.validation.run_full_chain_agent_evaluation` |
 | Local Web Console P98 | 96 | loopback default, token-protected POST routes, local bundled assets, report readers | 0 | pass | `python -m tools.validation.run_local_web_console_validation` |
+| CI/CD Integration P98 | 96 | local CI gates, templates, sanitized outputs, no upload | 0 | pass | `python -m tools.validation.run_ci_cd_integration_validation` |
+| Local Failure Knowledge Base P98 | 160 | local sanitized cases, similarity matching, verified fix suggestions, sanitized export | 0 | pass | `python -m tools.validation.run_local_failure_kb_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
 | P98 Master Gate | 18 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 

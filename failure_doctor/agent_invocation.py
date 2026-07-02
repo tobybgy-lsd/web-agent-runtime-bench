@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "3.8.0"
+PACK_VERSION = "3.9.0"
 
 AGENT_TARGETS = (
     "codex",
@@ -72,6 +72,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         (target_dir / "visual_runtime_workflow.md").write_text(_render_visual_runtime_workflow(), encoding="utf-8")
         (target_dir / "ocr_evidence_workflow.md").write_text(_render_ocr_evidence_workflow(), encoding="utf-8")
         (target_dir / "full_chain_evaluation_workflow.md").write_text(_render_full_chain_evaluation_workflow(), encoding="utf-8")
+        (target_dir / "knowledge_base_workflow.md").write_text(_render_knowledge_base_workflow(), encoding="utf-8")
 
     manifest: dict[str, Any] = {
         "schema_version": "agent_invocation_pack/v1",
@@ -95,6 +96,7 @@ def bootstrap_agent_frontend(project: Path, target: str = "generic_agent") -> di
         "visual_runtime_command": "failure-doctor visual-runtime diagnose --input .\\visual_run --out .\\visual_report --no-dom --safety-evaluate",
         "ocr_evidence_command": "failure-doctor ocr-evidence extract --input .\\failure_evidence --out .\\ocr_report --provider mock_ocr --safety-evaluate",
         "full_chain_eval_command": "failure-doctor full-chain-eval --input .\\failed_run --out .\\full_chain_report --include-safety --include-ocr --include-visual --include-regulated",
+        "knowledge_base_command": "failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --out .\\report",
     }
     (agents_root / "agent_invocation_manifest.json").write_text(_json(manifest), encoding="utf-8")
     return manifest
@@ -390,6 +392,36 @@ Rules:
 5. Prefer DOM/schema/export comparison before asking an AI agent to edit code.
 6. If sensitive customer, token, cookie, order, invoice, or personal data is
    detected, stop and sanitize before sharing.
+"""
+
+
+def _render_knowledge_base_workflow() -> str:
+    return """# Local Failure Knowledge Base Workflow
+
+When a project fails:
+
+1. Run diagnose with `--kb` if a local KB exists.
+2. Read `similar_cases.md` and `verified_fix_candidates.json`.
+3. Do not blindly apply old fixes.
+4. Use verified fixes as evidence-backed suggestions only.
+5. Never use KB to bypass CAPTCHA, anti-bot protections, fingerprints,
+   signatures, or access controls.
+6. Never export raw or private KB content.
+7. If no similar case exists, continue normal diagnosis.
+
+Recommended command:
+
+```powershell
+failure-doctor diagnose .\\failed_run --kb .\\.failure-doctor-kb --out .\\report
+```
+
+KB rules:
+
+- local-only
+- sanitized summaries and fingerprints only
+- no cloud sync
+- no external embedding API
+- verified fixes require local verification and human review
 """
 
 

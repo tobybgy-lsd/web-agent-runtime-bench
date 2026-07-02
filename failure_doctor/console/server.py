@@ -12,6 +12,7 @@ from .readers import build_report_index, read_console_report
 from .redaction import dumps_json
 from .security import ConsoleSecurityError, assert_host_allowed, safe_join, validate_local_token
 from .workspace import append_audit, import_report, init_workspace, list_report_dirs, load_manifest, read_audit
+from failure_doctor.kb.store import KnowledgeBase
 
 
 PACKAGE_DIR = Path(__file__).resolve().parent
@@ -28,12 +29,14 @@ class ConsoleApp:
         port: int = 8765,
         readonly: bool = False,
         allow_lan: bool = False,
+        kb: Path | str | None = None,
     ) -> None:
         assert_host_allowed(host, allow_lan=allow_lan)
         self.workspace = Path(workspace).expanduser().resolve()
         self.host = host
         self.port = port
         self.readonly = readonly
+        self.kb = Path(kb).expanduser().resolve() if kb else None
         self.manifest = init_workspace(self.workspace, host=host, port=port, readonly=readonly)
         self.token = self.manifest["token"]
 
@@ -84,8 +87,29 @@ class ConsoleApp:
                     "readonly": self.readonly,
                     "telemetry": "disabled",
                     "external_assets": "disabled",
+                    "knowledge_base": str(self.kb) if self.kb else None,
                 }
             )
+        if route == "/api/kb/status":
+            if not self.kb:
+                return self.json_response({"status": "ok", "knowledge_base": None, "enabled": False})
+            return self.json_response({"status": "ok", "enabled": True, "health": KnowledgeBase(self.kb).status()})
+        if route == "/api/kb/cases":
+            if not self.kb:
+                return self.json_response({"status": "ok", "cases": []})
+            cases = KnowledgeBase(self.kb).list_cases()
+            safe_cases = [
+                {
+                    "case_id": case.get("case_id"),
+                    "failure_type": case.get("failure_type"),
+                    "subtype": case.get("subtype"),
+                    "fix_status": case.get("fix_status"),
+                    "safety": case.get("safety"),
+                    "evidence_fingerprint": case.get("evidence_fingerprint"),
+                }
+                for case in cases
+            ]
+            return self.json_response({"status": "ok", "cases": safe_cases})
         if route == "/api/reports":
             return self.json_response({"status": "ok", "reports": build_report_index(list_report_dirs(self.workspace))})
         if route.startswith("/api/report/"):
@@ -149,8 +173,9 @@ def create_console_app(
     port: int = 8765,
     readonly: bool = False,
     allow_lan: bool = False,
+    kb: Path | str | None = None,
 ) -> ConsoleApp:
-    return ConsoleApp(workspace=workspace, host=host, port=port, readonly=readonly, allow_lan=allow_lan)
+    return ConsoleApp(workspace=workspace, host=host, port=port, readonly=readonly, allow_lan=allow_lan, kb=kb)
 
 
 class _ConsoleRequestHandler(BaseHTTPRequestHandler):

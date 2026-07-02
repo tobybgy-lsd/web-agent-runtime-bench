@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v3.8.0.
-> v3.7.0 remains the previous local-console stable release, v3.6.0 remains the previous regulated/full-chain stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.9.0.
+> v3.8.0 remains the previous CI/CD integration stable release, v3.7.0 remains the previous local-console stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.9.0
+
+- Added `failure-doctor kb init/status/import-report/import-batch/import-ci/search/match/list/show/promote-fix/mark-regression/export/validate/rebuild-index`.
+- Added local-only JSON/JSONL KB storage with `kb_manifest.json`, `audit_log.jsonl`, case folders, evidence fingerprints, verified fix summaries, and rebuilt indexes.
+- Added `diagnose --kb` and `ci diagnose --kb` integration to surface similar local historical failures and verified fix candidates without auto-applying fixes.
+- Added loopback console read-only KB endpoints and agent-bootstrap `knowledge_base_workflow.md` files for all supported AI frontends.
+- Added `local_failure_knowledge_base` validation with 160 local synthetic cases and integrated it into the P98 master gate.
+- Preserved the public safety boundary: sanitized-only import/export, no external embedding API, no raw secret storage, no private solver content, no unsafe fix promotion, and verified fixes remain suggestions requiring human review.
 
 ## v3.8.0
 

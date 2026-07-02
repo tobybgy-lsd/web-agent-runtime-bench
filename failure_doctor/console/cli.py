@@ -13,6 +13,7 @@ def run_console(args) -> int:
         port=args.port,
         readonly=args.readonly,
         allow_lan=args.allow_lan,
+        kb=getattr(args, "kb", None),
     )
     if args.import_report:
         import_report(app.workspace, args.import_report, readonly=args.readonly)

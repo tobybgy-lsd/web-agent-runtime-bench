@@ -4,6 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
+from failure_doctor.kb.store import KnowledgeBase, render_matches_md
+
 from .runner import run_ci_gate, validate_ci_report, write_ci_templates
 
 
@@ -36,6 +38,15 @@ def handle_ci(args: argparse.Namespace) -> int:
             print(f"Status: {result.get('status')}")
             print(f"Output: {out}")
             return 0 if result.get("status") == "pass" else 3
+        if command == "diagnose":
+            summary = run_ci_gate(Path(args.project), Path(args.out), fail_on=str(args.fail_on))
+            if getattr(args, "kb", None):
+                _attach_kb_summary(Path(args.kb), Path(args.project), Path(args.out))
+            gate = summary["gate"]
+            print("Agent Failure Doctor CI Diagnosis")
+            print(f"Decision: {gate.get('decision')}")
+            print(f"Output: {args.out}")
+            return 0 if gate.get("decision") == "pass" else 3
     except FileNotFoundError as exc:
         print(str(exc))
         return 1
@@ -44,3 +55,27 @@ def handle_ci(args: argparse.Namespace) -> int:
         return 2
     print("unknown ci command")
     return 2
+
+
+def _attach_kb_summary(kb_path: Path, report_or_project: Path, out: Path) -> None:
+    try:
+        result = KnowledgeBase(kb_path).match_report(report_or_project)
+    except (FileNotFoundError, ValueError):
+        return
+    (out / "similar_cases.json").write_text(
+        json.dumps(result, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    (out / "similar_cases.md").write_text(render_matches_md(result), encoding="utf-8")
+    summary_path = out / "ci_summary.md"
+    if summary_path.exists():
+        with summary_path.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Similar Historical Cases\n\n")
+            if not result.get("matches"):
+                handle.write("No similar local KB case found.\n")
+            for item in result.get("matches", [])[:5]:
+                handle.write(
+                    f"- `{item['case_id']}` score `{item['score']}` "
+                    f"{item.get('failure_type')} / {item.get('subtype')} "
+                    f"verified_fix_available={item.get('verified_fix_available')}\n"
+                )

@@ -151,7 +151,7 @@ class SanitizeSharePackTests(unittest.TestCase):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-        self.assertIn('version = "3.8.0"', pyproject)
+        self.assertIn('version = "3.9.0"', pyproject)
         self.assertIn("## v2.1.0", changelog)
         self.assertIn("failure-doctor sanitize", readme)
         self.assertIn("Sanitize & Share Pack", readme)
