@@ -1,7 +1,14 @@
 # Changelog
 
-> Current package stable line: v5.3.0.
+> Current package stable line: v6.0.0.
 > v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v6.0.0
+
+- Promoted the Android v5.4-v5.9 road-to-stable work into the Mobile Automation Stable Standardization release.
+- Added `failure-doctor android-author`, `android-pilot`, `android-dx`, `android-playbook`, `android-real-pilot`, `android-lab`, and `mobile-stability`.
+- Added Android authoring, visual assertion, human review, app-specific pilot, deep diagnostic, root-cause playbook, real-pilot, device-lab, and mobile-stability validation ledgers.
+- Preserved the public safety boundary: local-only, dry-run by default, sanitized-by-default, no external upload, no APK modification, no runtime instrumentation, no root requirement, no final submit by default, and no business mutation by default.
 
 ## v5.3.0
 

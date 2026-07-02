@@ -18,6 +18,13 @@ from failure_doctor.android.diagnosis import write_android_diagnosis
 from failure_doctor.android.normalizer import normalize_android_input
 from failure_doctor.android_pro.cli import add_android_pro_parser, handle_android_pro
 from failure_doctor.android_ops.cli import add_android_ops_parser, handle_android_ops
+from failure_doctor.android_authoring.cli import add_android_authoring_parser, handle_android_authoring
+from failure_doctor.android_pilot.cli import add_android_pilot_parser, handle_android_pilot
+from failure_doctor.android_dx.cli import add_android_dx_parser, handle_android_dx
+from failure_doctor.android_playbooks.cli import add_android_playbooks_parser, handle_android_playbooks
+from failure_doctor.android_real_pilot.cli import add_android_real_pilot_parser, handle_android_real_pilot
+from failure_doctor.android_lab.cli import add_android_lab_parser, handle_android_lab
+from failure_doctor.mobile_stability.cli import add_mobile_stability_parser, handle_mobile_stability
 from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.benchmark.cli import add_benchmark_parser, handle_benchmark
 from failure_doctor.cases.cli import add_case_parser, handle_case, handle_issue_pack
@@ -138,6 +145,20 @@ def main(argv: list[str] | None = None) -> int:
         return handle_android_pro(args)
     if args.command == "android-ops":
         return handle_android_ops(args)
+    if args.command == "android-author":
+        return handle_android_authoring(args)
+    if args.command == "android-pilot":
+        return handle_android_pilot(args)
+    if args.command == "android-dx":
+        return handle_android_dx(args)
+    if args.command == "android-playbook":
+        return handle_android_playbooks(args)
+    if args.command == "android-real-pilot":
+        return handle_android_real_pilot(args)
+    if args.command == "android-lab":
+        return handle_android_lab(args)
+    if args.command == "mobile-stability":
+        return handle_mobile_stability(args)
     if args.command == "deploy":
         return handle_deploy(args)
     if args.command == "stability":
@@ -269,6 +290,12 @@ def build_parser() -> argparse.ArgumentParser:
     console.add_argument("--auth", default="local", choices=["local"], help="Local enterprise console auth mode")
     console.add_argument("--enable-android", action="store_true", help="Expose read-only Android APK adapter status")
     console.add_argument("--enable-android-ops", action="store_true", help="Expose read-only Android Ops Center status")
+    console.add_argument("--enable-android-authoring", action="store_true", help="Expose read-only Android Authoring Center status")
+    console.add_argument("--enable-android-pilot", action="store_true", help="Expose read-only Android Pilot Center status")
+    console.add_argument("--enable-android-dx", action="store_true", help="Expose read-only Android Diagnostics Center status")
+    console.add_argument("--enable-android-playbooks", action="store_true", help="Expose read-only Android Playbook Center status")
+    console.add_argument("--enable-android-real-pilot", action="store_true", help="Expose read-only Android Real Pilot Center status")
+    console.add_argument("--enable-android-lab", action="store_true", help="Expose read-only Android Lab Center status")
     ci = sub.add_parser("ci", help="Run local CI/CD gates and generate integration templates")
     ci_sub = ci.add_subparsers(dest="ci_command", required=True)
     ci_run = ci_sub.add_parser("run", help="Run a local CI gate over a sanitized report or failure pack")
@@ -295,6 +322,12 @@ def build_parser() -> argparse.ArgumentParser:
     ci_diagnose.add_argument("--enterprise-workspace", default=None, help="Optional enterprise governance workspace")
     ci_diagnose.add_argument("--plugins", default=None, help="Optional plugin workspace for sanitized plugin summary")
     ci_diagnose.add_argument("--include-android-ops", action="store_true", help="Attach sanitized Android Ops CI summary")
+    ci_diagnose.add_argument("--include-android-authoring", action="store_true", help="Attach sanitized Android Authoring CI summary")
+    ci_diagnose.add_argument("--include-android-pilot", action="store_true", help="Attach sanitized Android Pilot CI summary")
+    ci_diagnose.add_argument("--include-android-dx", action="store_true", help="Attach sanitized Android deep diagnostics CI summary")
+    ci_diagnose.add_argument("--include-android-playbooks", action="store_true", help="Attach sanitized Android Playbook CI summary")
+    ci_diagnose.add_argument("--include-android-real-pilot", action="store_true", help="Attach sanitized Android Real Pilot CI summary")
+    ci_diagnose.add_argument("--include-android-lab", action="store_true", help="Attach sanitized Android Lab CI summary")
     ci_diagnose.add_argument("--fail-on", default="high", choices=["low", "medium", "high", "critical"])
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
@@ -389,6 +422,13 @@ def build_parser() -> argparse.ArgumentParser:
     add_android_parser(sub)
     add_android_pro_parser(sub)
     add_android_ops_parser(sub)
+    add_android_authoring_parser(sub)
+    add_android_pilot_parser(sub)
+    add_android_dx_parser(sub)
+    add_android_playbooks_parser(sub)
+    add_android_real_pilot_parser(sub)
+    add_android_lab_parser(sub)
+    add_mobile_stability_parser(sub)
     add_deploy_parser(sub)
     add_stability_parser(sub)
     add_reasoning_parsers(sub)

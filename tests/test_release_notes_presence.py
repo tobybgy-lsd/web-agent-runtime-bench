@@ -23,6 +23,13 @@ class ReleaseNotesPresenceTests(unittest.TestCase):
             "v3.3.0",
             "v4.0.0",
             "v5.3.0",
+            "v5.4.0",
+            "v5.5.0",
+            "v5.6.0",
+            "v5.7.0",
+            "v5.8.0",
+            "v5.9.0",
+            "v6.0.0",
         )
 
         for version in versions:
@@ -54,13 +61,20 @@ class ReleaseNotesPresenceTests(unittest.TestCase):
             "v3.3.0",
             "v4.0.0",
             "v5.3.0",
+            "v5.4.0",
+            "v5.5.0",
+            "v5.6.0",
+            "v5.7.0",
+            "v5.8.0",
+            "v5.9.0",
+            "v6.0.0",
         ):
             self.assertIn(version, text)
         self.assertIn("Publish releases only from the intended tags/commits", text)
         self.assertIn("v2.4.1", text)
         self.assertIn("published as latest stable", text)
         self.assertIn("v3.0.1", text)
-        self.assertIn("v5.3.0", text)
+        self.assertIn("v6.0.0", text)
         self.assertIn("https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v2.4.1", text)
 
 

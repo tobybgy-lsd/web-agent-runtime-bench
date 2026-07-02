@@ -54,6 +54,19 @@ PILLAR_FILES = {
     "android_real_device_farm": "android_ops_validation.json",
     "android_business_workflow_ops": "android_ops_validation.json",
     "android_flaky_flow_detection": "android_ops_validation.json",
+    "android_flow_authoring": "android_authoring_validation.json",
+    "android_visual_assertions": "android_authoring_validation.json",
+    "android_human_review_queue": "android_authoring_validation.json",
+    "android_app_specific_pilot": "android_pilot_validation.json",
+    "android_business_workflow_pack": "android_pilot_validation.json",
+    "android_pilot_acceptance_gate": "android_pilot_validation.json",
+    "android_deep_diagnostics": "android_deep_diagnostics_validation.json",
+    "android_root_cause_forensics": "android_deep_diagnostics_validation.json",
+    "android_retryability_classifier": "android_deep_diagnostics_validation.json",
+    "android_root_cause_playbooks": "android_playbook_validation.json",
+    "real_apk_pilot_program": "real_apk_pilot_program_validation.json",
+    "android_device_lab_hardening": "android_device_lab_hardening_validation.json",
+    "mobile_automation_stability": "mobile_automation_stability_validation.json",
 }
 
 
@@ -770,7 +783,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v5.3.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v6.0.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -782,7 +795,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v5.3.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v6.0.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -790,7 +803,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v5.3.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v6.0.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -808,13 +821,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v5.3.0",
+        "version": "v6.0.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v5.3.0" if overall_status == "pass" else "v5.2.0",
-        "previous_stable_line": "v5.2.0",
+        "current_stable_line": "v6.0.0" if overall_status == "pass" else "v5.3.0",
+        "previous_stable_line": "v5.3.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,

@@ -1,0 +1,15 @@
+{
+  "schema_version": "android_cli_contract/v1",
+  "commands": [
+    "android",
+    "android-pro",
+    "android-ops",
+    "android-author",
+    "android-pilot",
+    "android-dx",
+    "android-playbook",
+    "android-real-pilot",
+    "android-lab",
+    "mobile-stability"
+  ]
+}

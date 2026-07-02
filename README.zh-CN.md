@@ -1,11 +1,11 @@
-# Agent Failure Doctor 中文文档
+﻿# Agent Failure Doctor 中文文档
 
 [English documentation](README.md)
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack
-- 当前稳定版本：v5.3.0
+- 当前里程碑：Agent Failure Doctor v6.0 Mobile Automation Stable Standardization Release
+- 当前稳定版本：v6.0.0
 - 上一稳定版本：v5.2.0 Android APK Production Hardening & Workflow Template Pack
 - 上一稳定版本：v5.1.0 Android APK UI Automation Adapter Pack
 - 上一稳定版本：v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
@@ -183,3 +183,4 @@ Agent Failure Doctor 不是：
 - 凭据提取器
 
 项目默认只处理本地、脱敏、授权的失败证据。公开仓库和 PyPI 包不包含本地私有训练题、solver、FLAG、hook、VMP、challenge pass、轨迹生成或隐身配方。
+

@@ -1,0 +1,9 @@
+{
+  "schema_version": "android_stable_schema_registry/v1",
+  "schemas": [
+    "android_flow",
+    "android_app_profile",
+    "android_diagnostic_bundle",
+    "android_pilot_project"
+  ]
+}

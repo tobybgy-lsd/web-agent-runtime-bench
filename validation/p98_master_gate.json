@@ -1,11 +1,11 @@
 {
-  "version": "v5.3.0",
+  "version": "v6.0.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v5.3.0",
-  "previous_stable_line": "v5.2.0",
+  "current_stable_line": "v6.0.0",
+  "previous_stable_line": "v5.3.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -722,6 +722,149 @@
       "real_business_mutation_count": 0,
       "external_api_call_count": 0
     },
+    "android_flow_authoring": {
+      "status": "pass",
+      "validation_file": "android_authoring_validation.json",
+      "total_cases": 300,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_visual_assertions": {
+      "status": "pass",
+      "validation_file": "android_authoring_validation.json",
+      "total_cases": 300,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_human_review_queue": {
+      "status": "pass",
+      "validation_file": "android_authoring_validation.json",
+      "total_cases": 300,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_app_specific_pilot": {
+      "status": "pass",
+      "validation_file": "android_pilot_validation.json",
+      "total_cases": 340,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_business_workflow_pack": {
+      "status": "pass",
+      "validation_file": "android_pilot_validation.json",
+      "total_cases": 340,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_pilot_acceptance_gate": {
+      "status": "pass",
+      "validation_file": "android_pilot_validation.json",
+      "total_cases": 340,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_deep_diagnostics": {
+      "status": "pass",
+      "validation_file": "android_deep_diagnostics_validation.json",
+      "total_cases": 360,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_root_cause_forensics": {
+      "status": "pass",
+      "validation_file": "android_deep_diagnostics_validation.json",
+      "total_cases": 360,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_retryability_classifier": {
+      "status": "pass",
+      "validation_file": "android_deep_diagnostics_validation.json",
+      "total_cases": 360,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_root_cause_playbooks": {
+      "status": "pass",
+      "validation_file": "android_playbook_validation.json",
+      "total_cases": 230,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "real_apk_pilot_program": {
+      "status": "pass",
+      "validation_file": "real_apk_pilot_program_validation.json",
+      "total_cases": 310,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "android_device_lab_hardening": {
+      "status": "pass",
+      "validation_file": "android_device_lab_hardening_validation.json",
+      "total_cases": 390,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
+    "mobile_automation_stability": {
+      "status": "pass",
+      "validation_file": "mobile_automation_stability_validation.json",
+      "total_cases": 740,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -733,7 +876,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v5.3.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v6.0.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

@@ -4,11 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v5.3.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v6.0.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v5.3.0 Android Real Device Farm & Business Workflow Operations Pack | pass | Current package stable line with local-only Android Ops device farm, device health, lease/recovery, Appium planning, business workflow templates, scheduler, replay, flaky detection, compatibility reports, mutation guard, metrics, runbooks, console, CI, and enterprise policy summaries. |
+| v6.0.0 Mobile Automation Stable Standardization Release | pass | Current package stable line with Android workflow authoring, visual assertions, human review, app-specific pilots, deep diagnostics, root-cause playbooks, real-pilot support, device-lab hardening, and stable mobile CLI/schema/plugin ABI checks. |
+| v5.3.0 Android Real Device Farm & Business Workflow Operations Pack | previous stable | Local-only Android Ops device farm, device health, lease/recovery, Appium planning, business workflow templates, scheduler, replay, flaky detection, compatibility reports, mutation guard, metrics, runbooks, console, CI, and enterprise policy summaries. |
 | v5.2.0 Android APK Production Hardening & Workflow Template Pack | previous stable | Android Pro app profiles, page objects, locator registry, locator healing recommendations, UI diffs, workflow templates, device matrix, queues, replay packs, and stability scoring. |
 | v5.1.0 Android APK UI Automation Adapter Pack | previous stable | Local-only Android APK UI evidence adapter, flow dry-run validation, UI tree diagnostics, replay, and safety gates. |
 | v5.0.0 Stable API / Schema / Plugin ABI Standardization Release | previous stable | Stable CLI, schema registry, plugin ABI, adapter, deploy, documentation adoption, and compatibility gates. |

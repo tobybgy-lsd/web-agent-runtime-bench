@@ -1,0 +1,21 @@
+{
+  "version": "v5.7.0",
+  "status": "pass",
+  "total_cases": 230,
+  "schema_valid": 230,
+  "playbook_mapping_correct": 0.97,
+  "role_view_correct": 0.97,
+  "verification_checklist_generated": 0.99,
+  "manual_review_checklist_generated": 0.99,
+  "external_api_call_count": 0,
+  "screenshot_upload_count": 0,
+  "apk_modification_count": 0,
+  "hook_usage_count": 0,
+  "root_required_count": 0,
+  "real_business_mutation_count": 0,
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0,
+  "real_platform_access_count": 0,
+  "browser_profile_access_count": 0,
+  "credential_store_access_count": 0
+}

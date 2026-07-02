@@ -17,6 +17,9 @@ Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://git
 
 **P98 gate:** passed. P98 master gate passed.
 See [validation/dashboard.md](validation/dashboard.md) for the validation dashboard.
+Current milestone: Agent Failure Doctor v6.0 Mobile Automation Stable Standardization Release.
+Current stable line: v6.0.0.
+Previous stable line: Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack.
 Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack.
 Earlier stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack.
 Previous P95 stable: v2.4.1.
@@ -27,10 +30,11 @@ Previous P95 stable: v2.4.1.
 
 **Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
 
-Optional v5.3 output: sanitized public cases, benchmark reports, adapter reports, Android APK UI evidence reports, Android Pro hardening reports, Android Ops reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
+Optional v6.0 output: sanitized public cases, benchmark reports, adapter reports, Android APK UI evidence reports, Android Pro hardening reports, Android Ops reports, Android authoring reports, Android pilot reports, Android deep diagnostic bundles, Android playbooks, Android device-lab reports, mobile-stability reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
 
-- Current milestone: Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack
-- Current stable line: v5.3.0
+- Current milestone: Agent Failure Doctor v6.0 Mobile Automation Stable Standardization Release
+- Current stable line: v6.0.0
+- Previous stable line: Agent Failure Doctor v5.3.0 Android Real Device Farm & Business Workflow Operations Pack
 - Previous stable line: Agent Failure Doctor v5.2.0 Android APK Production Hardening & Workflow Template Pack
 - Previous stable line: Agent Failure Doctor v5.1.0 Android APK UI Automation Adapter Pack
 - Previous stable line: Agent Failure Doctor v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
@@ -49,7 +53,27 @@ Optional v5.3 output: sanitized public cases, benchmark reports, adapter reports
 
 **Fleet command:** `failure-doctor batch`.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `android`; `android-pro`; `android-ops`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `android`; `android-pro`; `android-ops`; `android-author`; `android-pilot`; `android-dx`; `android-playbook`; `android-real-pilot`; `android-lab`; `mobile-stability`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### v6.0 Mobile Automation Stable Standardization
+
+```powershell
+failure-doctor android-author record start --app com.example.mock --out .\recording
+failure-doctor android-pilot project-init --app com.example.mock --out .\pilot
+failure-doctor android-dx bundle-create --input .\failed_run --out .\dx_bundle
+failure-doctor android-playbook list --out .\playbooks
+failure-doctor android-real-pilot init --out .\real_pilot_private
+failure-doctor android-lab init --out .\android_lab
+failure-doctor mobile-stability check-android-cli --out .\mobile_stability
+```
+
+v6.0 closes the Android v5.4-v5.9 road-to-stable line with workflow authoring,
+visual assertions, human review, app-specific pilot scaffolding, deep diagnostic
+bundles, root-cause playbooks, private real-APK pilot support, mock device-lab
+hardening, and stable mobile CLI/schema/plugin ABI checks. All Android mobile
+surfaces remain local-only, dry-run by default, sanitized by default, and keep
+state-changing actions, app tampering, privileged execution, external upload,
+raw browser profile reads, and local credential store reads blocked by default.
 
 ### Android Real Device Farm & Business Workflow Ops
 
@@ -279,9 +303,9 @@ safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
 regulated workflow, batch/fleet, and full-chain reports. See
 [docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
-Release tracks: Current stable line: Agent Failure Doctor v5.3.0 Android Ops
-Production Hardening & Workflow Template Pack; previous stable line: Agent Failure
-Doctor v5.1.0 Android APK UI Automation Adapter Pack; previous P95 stable line:
+Release tracks: Current stable line: Agent Failure Doctor v6.0.0 Mobile
+Automation Stable Standardization Release; previous stable line: Agent Failure
+Doctor v5.3.0 Android Real Device Farm & Business Workflow Operations Pack; previous P95 stable line:
 Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
@@ -366,9 +390,9 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v5.3.0 is the current stable technical baseline. It keeps the v5.0 Stable API /
-Schema / Plugin ABI baseline and adds the local-only Android APK Production
-Hardening & Workflow Template Pack. The v5.2 stable line includes public-safe case intake, sanitized issue packs, local
+v6.0.0 is the current stable technical baseline. It keeps the v5.0 Stable API /
+Schema / Plugin ABI baseline and adds the local-only Android mobile automation
+stable line from authoring through device-lab hardening. The v5.3 stable line includes public-safe case intake, sanitized issue packs, local
 benchmark/regression gates, cross-adapter support, deployment hardening,
 documentation/demo adoption assets, and stable API/schema/plugin ABI checks on
 top of the local Plugin SDK, enterprise governance, hybrid evidence reasoning,
@@ -780,9 +804,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack.
+Current milestone: Agent Failure Doctor v6.0 Mobile Automation Stable Standardization Release.
 
-Previous stable line: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
+Previous stable line: Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
