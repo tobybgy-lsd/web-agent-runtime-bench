@@ -24,6 +24,7 @@ PILLAR_FILES = {
     "visual_agent_runtime_observability": "visual_agent_runtime_validation.json",
     "ocr_document_evidence_adapter": "ocr_document_evidence_validation.json",
     "full_chain_agent_evaluation": "full_chain_agent_evaluation.json",
+    "local_web_console": "local_web_console_validation.json",
 }
 
 
@@ -124,6 +125,27 @@ def pillar_status(name: str, payload: dict[str, Any]) -> str:
             payload.get("private_solution_leak_count") == 0,
             payload.get("real_platform_access_count") == 0,
             payload.get("external_api_call_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "local_web_console":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("total_cases", 0) >= 80,
+            payload.get("passed_cases") == payload.get("total_cases"),
+            payload.get("binds_to_127_0_0_1_by_default") is True,
+            payload.get("rejects_0_0_0_0_without_allow_lan") is True,
+            payload.get("post_requires_local_token") is True,
+            payload.get("path_traversal_blocked") is True,
+            payload.get("browser_profile_access_count") == 0,
+            payload.get("credential_store_access_count") == 0,
+            payload.get("external_request_count") == 0,
+            payload.get("cdn_reference_count") == 0,
+            payload.get("telemetry_event_count") == 0,
+            payload.get("raw_local_file_exposure_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+            payload.get("active_probe_count") == 0,
         )
         return "pass" if all(conditions) else "fail"
     return "pass" if payload.get("status") == "pass" else "fail"
@@ -238,6 +260,16 @@ def build_payload() -> dict[str, Any]:
                     "external_api_call_count": payload.get("external_api_call_count"),
                 }
             )
+        if name == "local_web_console":
+            pillars[name].update(
+                {
+                    "cases": payload.get("total_cases"),
+                    "passed_cases": payload.get("passed_cases"),
+                    "external_request_count": payload.get("external_request_count"),
+                    "cdn_reference_count": payload.get("cdn_reference_count"),
+                    "post_requires_local_token": payload.get("post_requires_local_token"),
+                }
+            )
         if status != "pass":
             blocking_failures.append(f"{name}: status={status}")
 
@@ -248,7 +280,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.6.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v3.7.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -260,7 +292,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v3.6.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v3.7.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -268,7 +300,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.6.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v3.7.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -286,13 +318,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v3.6.0",
+        "version": "v3.7.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v3.6.0" if overall_status == "pass" else "v3.5.0",
-        "previous_stable_line": "v3.5.0",
+        "current_stable_line": "v3.7.0" if overall_status == "pass" else "v3.6.0",
+        "previous_stable_line": "v3.6.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,
@@ -306,7 +338,6 @@ def build_payload() -> dict[str, Any]:
         "next_gaps": [
             "external adoption",
             "real user issue corpus",
-            "optional local UI",
             "optional dry-run patch apply",
             "optional PyPI release",
         ],

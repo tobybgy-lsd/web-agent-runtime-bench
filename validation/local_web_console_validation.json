@@ -1,0 +1,411 @@
+{
+  "version": "v3.7.0",
+  "status": "pass",
+  "total_cases": 96,
+  "passed_cases": 96,
+  "failed_cases": 0,
+  "reasonable_console_render": 96,
+  "safe_report_reader": 90,
+  "api_route_success": 4,
+  "binds_to_127_0_0_1_by_default": true,
+  "rejects_0_0_0_0_without_allow_lan": true,
+  "post_requires_local_token": true,
+  "path_traversal_blocked": true,
+  "browser_profile_access_count": 0,
+  "credential_store_access_count": 0,
+  "external_request_count": 0,
+  "cdn_reference_count": 0,
+  "telemetry_event_count": 0,
+  "raw_local_file_exposure_count": 0,
+  "forbidden_output_count": 0,
+  "private_solution_leak_count": 0,
+  "real_platform_access_count": 0,
+  "active_probe_count": 0,
+  "blocking_errors": [],
+  "cases": [
+    {
+      "id": "status_route",
+      "pass": true
+    },
+    {
+      "id": "index_no_external_assets",
+      "pass": true
+    },
+    {
+      "id": "post_requires_token",
+      "pass": true
+    },
+    {
+      "id": "host_0_0_0_0_blocked",
+      "pass": true
+    },
+    {
+      "id": "path_traversal_blocked",
+      "pass": true
+    },
+    {
+      "id": "report_reader_000",
+      "pass": true
+    },
+    {
+      "id": "report_reader_001",
+      "pass": true
+    },
+    {
+      "id": "report_reader_002",
+      "pass": true
+    },
+    {
+      "id": "report_reader_003",
+      "pass": true
+    },
+    {
+      "id": "report_reader_004",
+      "pass": true
+    },
+    {
+      "id": "report_reader_005",
+      "pass": true
+    },
+    {
+      "id": "report_reader_006",
+      "pass": true
+    },
+    {
+      "id": "report_reader_007",
+      "pass": true
+    },
+    {
+      "id": "report_reader_008",
+      "pass": true
+    },
+    {
+      "id": "report_reader_009",
+      "pass": true
+    },
+    {
+      "id": "report_reader_010",
+      "pass": true
+    },
+    {
+      "id": "report_reader_011",
+      "pass": true
+    },
+    {
+      "id": "report_reader_012",
+      "pass": true
+    },
+    {
+      "id": "report_reader_013",
+      "pass": true
+    },
+    {
+      "id": "report_reader_014",
+      "pass": true
+    },
+    {
+      "id": "report_reader_015",
+      "pass": true
+    },
+    {
+      "id": "report_reader_016",
+      "pass": true
+    },
+    {
+      "id": "report_reader_017",
+      "pass": true
+    },
+    {
+      "id": "report_reader_018",
+      "pass": true
+    },
+    {
+      "id": "report_reader_019",
+      "pass": true
+    },
+    {
+      "id": "report_reader_020",
+      "pass": true
+    },
+    {
+      "id": "report_reader_021",
+      "pass": true
+    },
+    {
+      "id": "report_reader_022",
+      "pass": true
+    },
+    {
+      "id": "report_reader_023",
+      "pass": true
+    },
+    {
+      "id": "report_reader_024",
+      "pass": true
+    },
+    {
+      "id": "report_reader_025",
+      "pass": true
+    },
+    {
+      "id": "report_reader_026",
+      "pass": true
+    },
+    {
+      "id": "report_reader_027",
+      "pass": true
+    },
+    {
+      "id": "report_reader_028",
+      "pass": true
+    },
+    {
+      "id": "report_reader_029",
+      "pass": true
+    },
+    {
+      "id": "report_reader_030",
+      "pass": true
+    },
+    {
+      "id": "report_reader_031",
+      "pass": true
+    },
+    {
+      "id": "report_reader_032",
+      "pass": true
+    },
+    {
+      "id": "report_reader_033",
+      "pass": true
+    },
+    {
+      "id": "report_reader_034",
+      "pass": true
+    },
+    {
+      "id": "report_reader_035",
+      "pass": true
+    },
+    {
+      "id": "report_reader_036",
+      "pass": true
+    },
+    {
+      "id": "report_reader_037",
+      "pass": true
+    },
+    {
+      "id": "report_reader_038",
+      "pass": true
+    },
+    {
+      "id": "report_reader_039",
+      "pass": true
+    },
+    {
+      "id": "report_reader_040",
+      "pass": true
+    },
+    {
+      "id": "report_reader_041",
+      "pass": true
+    },
+    {
+      "id": "report_reader_042",
+      "pass": true
+    },
+    {
+      "id": "report_reader_043",
+      "pass": true
+    },
+    {
+      "id": "report_reader_044",
+      "pass": true
+    },
+    {
+      "id": "report_reader_045",
+      "pass": true
+    },
+    {
+      "id": "report_reader_046",
+      "pass": true
+    },
+    {
+      "id": "report_reader_047",
+      "pass": true
+    },
+    {
+      "id": "report_reader_048",
+      "pass": true
+    },
+    {
+      "id": "report_reader_049",
+      "pass": true
+    },
+    {
+      "id": "report_reader_050",
+      "pass": true
+    },
+    {
+      "id": "report_reader_051",
+      "pass": true
+    },
+    {
+      "id": "report_reader_052",
+      "pass": true
+    },
+    {
+      "id": "report_reader_053",
+      "pass": true
+    },
+    {
+      "id": "report_reader_054",
+      "pass": true
+    },
+    {
+      "id": "report_reader_055",
+      "pass": true
+    },
+    {
+      "id": "report_reader_056",
+      "pass": true
+    },
+    {
+      "id": "report_reader_057",
+      "pass": true
+    },
+    {
+      "id": "report_reader_058",
+      "pass": true
+    },
+    {
+      "id": "report_reader_059",
+      "pass": true
+    },
+    {
+      "id": "report_reader_060",
+      "pass": true
+    },
+    {
+      "id": "report_reader_061",
+      "pass": true
+    },
+    {
+      "id": "report_reader_062",
+      "pass": true
+    },
+    {
+      "id": "report_reader_063",
+      "pass": true
+    },
+    {
+      "id": "report_reader_064",
+      "pass": true
+    },
+    {
+      "id": "report_reader_065",
+      "pass": true
+    },
+    {
+      "id": "report_reader_066",
+      "pass": true
+    },
+    {
+      "id": "report_reader_067",
+      "pass": true
+    },
+    {
+      "id": "report_reader_068",
+      "pass": true
+    },
+    {
+      "id": "report_reader_069",
+      "pass": true
+    },
+    {
+      "id": "report_reader_070",
+      "pass": true
+    },
+    {
+      "id": "report_reader_071",
+      "pass": true
+    },
+    {
+      "id": "report_reader_072",
+      "pass": true
+    },
+    {
+      "id": "report_reader_073",
+      "pass": true
+    },
+    {
+      "id": "report_reader_074",
+      "pass": true
+    },
+    {
+      "id": "report_reader_075",
+      "pass": true
+    },
+    {
+      "id": "report_reader_076",
+      "pass": true
+    },
+    {
+      "id": "report_reader_077",
+      "pass": true
+    },
+    {
+      "id": "report_reader_078",
+      "pass": true
+    },
+    {
+      "id": "report_reader_079",
+      "pass": true
+    },
+    {
+      "id": "report_reader_080",
+      "pass": true
+    },
+    {
+      "id": "report_reader_081",
+      "pass": true
+    },
+    {
+      "id": "report_reader_082",
+      "pass": true
+    },
+    {
+      "id": "report_reader_083",
+      "pass": true
+    },
+    {
+      "id": "report_reader_084",
+      "pass": true
+    },
+    {
+      "id": "report_reader_085",
+      "pass": true
+    },
+    {
+      "id": "report_reader_086",
+      "pass": true
+    },
+    {
+      "id": "report_reader_087",
+      "pass": true
+    },
+    {
+      "id": "report_reader_088",
+      "pass": true
+    },
+    {
+      "id": "report_reader_089",
+      "pass": true
+    },
+    {
+      "id": "report_index_populated",
+      "pass": true
+    }
+  ]
+}

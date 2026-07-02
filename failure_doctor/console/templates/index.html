@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Failure Doctor Console</title>
+  <link rel="stylesheet" href="/static/console.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Agent Failure Doctor Console</h1>
+      <p>Local report viewer for diagnosis, evidence, safety, handoff, patch, visual, OCR, regulated, batch, and full-chain reports.</p>
+    </div>
+    <span class="badge">local-only</span>
+  </header>
+  <main class="layout">
+    <nav class="sidebar" aria-label="Console sections">
+      <button data-view="dashboard">Dashboard</button>
+      <button data-view="report">Report Viewer</button>
+      <button data-view="evidence">Evidence Chain</button>
+      <button data-view="safety">Safety Center</button>
+      <button data-view="handoff">AI Handoff</button>
+      <button data-view="patch">Patch Proposal</button>
+      <button data-view="visual">Visual Runtime</button>
+      <button data-view="ocr">OCR/Document</button>
+      <button data-view="regulated">Regulated Workflow</button>
+      <button data-view="batch">Batch/Fleet</button>
+      <button data-view="fullchain">Full-chain Eval</button>
+      <button data-view="history">History/Search</button>
+      <button data-view="settings">Settings/Safety</button>
+    </nav>
+    <section class="content">
+      <div class="notice">
+        Raw local evidence is hidden by default. Share only sanitized packs. POST actions require the local console token.
+      </div>
+      <section id="dashboard" class="panel active">
+        <h2>Dashboard</h2>
+        <div id="status">Loading local console status...</div>
+        <div id="reports" class="cards"></div>
+      </section>
+      <section id="detail" class="panel">
+        <h2 id="detail-title">Report</h2>
+        <pre id="detail-json"></pre>
+      </section>
+    </section>
+  </main>
+  <script src="/static/console.js"></script>
+</body>
+</html>

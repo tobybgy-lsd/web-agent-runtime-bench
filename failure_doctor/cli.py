@@ -20,6 +20,7 @@ from failure_doctor.ocr_evidence.extractor import extract_ocr_evidence
 from failure_doctor.full_chain import write_full_chain_report
 from failure_doctor.regulated_industry import write_regulated_eval_report
 from failure_doctor.regulated_industry.evaluator import SUPPORTED_SUITES
+from failure_doctor.console.cli import run_console
 from failure_doctor.visual_runtime.adapter import adapt_visual_artifacts
 from failure_doctor.visual_runtime.compare import compare_visual_runs
 from failure_doctor.visual_runtime.loader import load_visual_run, validate_visual_run
@@ -92,6 +93,8 @@ def main(argv: list[str] | None = None) -> int:
         return regulated_eval_inputs(args)
     if args.command == "full-chain-eval":
         return full_chain_eval_inputs(args)
+    if args.command == "console":
+        return run_console(args)
     parser.print_help()
     return 1
 
@@ -184,6 +187,17 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--run-id", default=None, help="Stable run identifier")
     run.add_argument("--cwd", default=None, help="Working directory for the wrapped command")
     run.add_argument("cmd", nargs=argparse.REMAINDER, help="Command to run after --")
+    console = sub.add_parser("console", help="Start the local-only Agent Failure Doctor web console")
+    console.add_argument("--host", default="127.0.0.1", help="Bind host; defaults to local loopback")
+    console.add_argument("--port", type=int, default=8765, help="Bind port")
+    console.add_argument("--workspace", default=".failure-doctor-console", help="Console workspace directory")
+    console.add_argument("--open", action="store_true", help="Open the console in the default browser")
+    console.add_argument("--no-browser", action="store_true", help="Do not open a browser, even with --open")
+    console.add_argument("--readonly", action="store_true", help="Disable import/write API operations")
+    console.add_argument("--import-report", default=None, help="Import an existing Failure Doctor report directory")
+    console.add_argument("--import-batch", default=None, help="Import an existing batch report directory")
+    console.add_argument("--allow-lan", action="store_true", help="Allow non-loopback binding after explicit approval")
+    console.add_argument("--admin", action="store_true", help="Reserved local admin flag; no remote admin mode is exposed")
     handoff = sub.add_parser("handoff", help="Generate an AI coding assistant handoff pack from a report")
     handoff.add_argument("report", help="Path to a report directory containing diagnosis.json")
     handoff.add_argument("--target", required=True, choices=["codex", "claude_code", "cursor", "all"], help="Preferred AI coding assistant target")

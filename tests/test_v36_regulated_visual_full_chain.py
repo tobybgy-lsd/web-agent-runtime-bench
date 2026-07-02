@@ -107,8 +107,8 @@ class V36RegulatedVisualFullChainTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
         gate = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
-        self.assertEqual(gate["version"], "v3.6.0")
-        self.assertEqual(gate["current_stable_line"], "v3.6.0")
+        self.assertEqual(gate["version"], "v3.7.0")
+        self.assertEqual(gate["current_stable_line"], "v3.7.0")
         self.assertEqual(gate["pillars"]["regulated_industry_workflow_pack"]["status"], "pass")
         self.assertEqual(gate["pillars"]["visual_agent_runtime_observability"]["status"], "pass")
         self.assertEqual(gate["pillars"]["full_chain_agent_evaluation"]["status"], "pass")
@@ -120,7 +120,7 @@ class V36RegulatedVisualFullChainTests(unittest.TestCase):
             manifest = bootstrap_agent_frontend(project, target="codex")
             target_dir = project / ".failure-doctor" / "agents" / "codex"
 
-            self.assertEqual(manifest["pack_version"], "3.6.0")
+            self.assertEqual(manifest["pack_version"], "3.7.0")
             self.assertTrue((target_dir / "regulated_workflow.md").exists())
             self.assertTrue((target_dir / "visual_runtime_workflow.md").exists())
             self.assertTrue((target_dir / "full_chain_evaluation_workflow.md").exists())

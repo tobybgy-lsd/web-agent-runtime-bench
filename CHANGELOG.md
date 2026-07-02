@@ -1,7 +1,22 @@
 # Changelog
 
-> Current package stable line: v3.6.0.
-> v3.5.0 remains the previous OCR/document stable release, v3.4.0 remains the previous visual-runtime stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v3.7.0.
+> v3.6.0 remains the previous regulated/full-chain stable release, v3.5.0 remains the previous OCR/document stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v3.7.0
+
+- Added `failure-doctor console`, a local-only web console for browsing existing
+  diagnosis, evidence, safety, AI handoff, patch proposal, visual runtime,
+  OCR/document, regulated workflow, batch/fleet, and full-chain reports.
+- Added loopback-by-default binding, explicit `--allow-lan` for non-loopback
+  hosts, workspace-scoped report import, local token protection for POST
+  routes, audit JSONL, and bundled static assets with no CDN or telemetry.
+- Added `local_web_console` validation with 96 local cases and integrated it
+  into the P98 master gate.
+- Preserved the public safety boundary: raw local evidence is hidden by default,
+  shareable outputs must come from sanitized packs, and the console does not
+  expose private training solvers, flags, browser profile files, credential
+  stores, or remote upload behavior.
 
 ## v3.6.0
 

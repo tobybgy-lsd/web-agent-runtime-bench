@@ -11,20 +11,20 @@ Playwright, crawler, RPA, and business automation failures.
 
 **Input:** trace.zip / error.log / console.txt / network.json / probe_report.json / screenshot metadata / user_description.txt / visual_run / OCR or document evidence.
 
-**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
+**Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt. Local web console.
 
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`.
 
-- Current milestone: Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
-- Current stable line: v3.6.0
-- Previous stable line: Agent Failure Doctor v3.5.0 OCR & Document Evidence Adapter Pack
+- Current milestone: Agent Failure Doctor v3.7 Local Web Console Pack
+- Current stable line: v3.7.0
+- Previous stable line: Agent Failure Doctor v3.6.0 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
 - Previous P95 stable line: Agent Failure Doctor v2.4.1
 
 **P98 gate:** passed. P98 master gate passed.
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `failure-doctor propose-patch`; `failure-doctor batch`.
 
 Agent bootstrap: `failure-doctor agent-bootstrap --target all --project .`.
 
@@ -47,8 +47,26 @@ failure-doctor visual-runtime diagnose --input .\visual_run --out .\visual_repor
 failure-doctor visual-runtime compare --baseline .\dom_agent_run --candidate .\vlm_agent_run --out .\compare_report
 failure-doctor regulated-eval --suite all --out .\regulated_report
 failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
+failure-doctor console --import-report .\full_chain_report --open
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+### Local Web Console
+
+v3.7 adds a local-only report console:
+
+```powershell
+failure-doctor console
+failure-doctor console --host 127.0.0.1 --port 8765 --workspace .\.failure-doctor-console
+failure-doctor console --import-report .\report --open
+```
+
+The console binds to `127.0.0.1` by default, serves bundled assets only, uses no
+telemetry, requires a local token for POST actions, and hides raw local evidence
+by default. It is a report viewer and workflow cockpit for diagnosis, evidence,
+safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
+regulated workflow, batch/fleet, and full-chain reports. See
+[docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
 Release tracks: Previous stable line: Agent Failure Doctor v3.4.0 Visual Agent
 Runtime Observability; previous P95 stable line: Agent Failure Doctor v2.4.1

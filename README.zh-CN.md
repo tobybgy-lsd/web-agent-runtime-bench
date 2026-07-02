@@ -4,9 +4,9 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及文档/表格/表单密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v3.6 Regulated Industry & Pure Visual Agent Full-Chain Evaluation Pack
-- 当前稳定版本：v3.6.0
-- 上一个稳定版本：v3.5.0
+- 当前里程碑：Agent Failure Doctor v3.7 Local Web Console Pack
+- 当前稳定版本：v3.7.0
+- 上一个稳定版本：v3.6.0
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -48,8 +48,22 @@ failure-doctor ocr-evidence extract --input .\screenshot.png --out .\ocr_report 
 failure-doctor ocr-evidence compare --ocr .\ocr_report --dom .\dom_snapshot.html --out .\ocr_compare
 failure-doctor regulated-eval --suite all --out .\regulated_report
 failure-doctor full-chain-eval --input .\failed_run --out .\full_chain_report
+failure-doctor console --import-report .\full_chain_report --open
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## Local Web Console
+
+v3.7 新增本地报告控制台：
+
+```powershell
+failure-doctor console
+failure-doctor console --host 127.0.0.1 --port 8765 --workspace .\.failure-doctor-console
+failure-doctor console --import-report .\report --open
+```
+
+默认只绑定 `127.0.0.1`，不上传、不遥测、不加载外部 CDN。POST 操作需要本地 token，
+原始本地证据默认隐藏；分享前请使用 sanitize/share 输出。
 
 ## Regulated Industry & Full-Chain Evaluation
 
