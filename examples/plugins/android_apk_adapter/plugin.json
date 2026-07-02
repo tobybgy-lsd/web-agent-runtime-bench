@@ -1,0 +1,14 @@
+{
+  "id": "android_apk_adapter_example",
+  "name": "Android APK Adapter Example",
+  "version": "1.0.0",
+  "description": "Example wrapper for local Android APK evidence normalization.",
+  "entrypoint": "plugin.py",
+  "permissions": {
+    "network": false,
+    "shell": false,
+    "raw_private_data": false,
+    "credential_store": false,
+    "browser_profile": false
+  }
+}

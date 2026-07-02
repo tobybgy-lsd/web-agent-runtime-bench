@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import tempfile
@@ -38,3 +38,4 @@ class OcrProviderPolicyTests(TestCase):
             result = extract_ocr_evidence(root, root / "out", provider="paddleocr_vl_local")
             self.assertIn("provider_unavailable", result["ocr"]["warnings"])
             self.assertEqual(result["exit_code"], 0)
+

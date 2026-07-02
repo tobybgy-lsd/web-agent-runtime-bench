@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -94,3 +94,4 @@ class OcrEvidenceCliTests(TestCase):
             )
             vlm_report = json.loads((vlm_dir / "ocr_vlm_consistency_report.json").read_text(encoding="utf-8"))
             self.assertEqual(vlm_report["findings"][0]["type"], "ocr_vlm_semantic_conflict")
+

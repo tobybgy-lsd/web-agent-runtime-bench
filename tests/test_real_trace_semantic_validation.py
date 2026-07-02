@@ -1,4 +1,4 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -295,3 +295,4 @@ class RealTraceSemanticValidationTests(unittest.TestCase):
                 self.assertEqual(diagnosis["failure_type"], expected_type, artifact["observations"])
                 if expected_subtype:
                     self.assertEqual(diagnosis.get("subtype"), expected_subtype, diagnosis)
+

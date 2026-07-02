@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -65,3 +65,4 @@ class HybridReasoningIntegrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

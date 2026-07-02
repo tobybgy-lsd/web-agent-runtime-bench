@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -19,3 +19,4 @@ class OcrP98GateTests(TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         payload = json.loads(Path("validation/p98_master_gate.json").read_text(encoding="utf-8"))
         self.assertEqual(payload["pillars"]["ocr_document_evidence_adapter"]["status"], "pass")
+

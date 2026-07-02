@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -20,3 +20,4 @@ class OcrDocumentEvidenceValidationTests(TestCase):
         self.assertEqual(payload["status"], "pass")
         self.assertGreaterEqual(payload["total_cases"], 130)
         self.assertEqual(payload["external_ocr_call_count"], 0)
+

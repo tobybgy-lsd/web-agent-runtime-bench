@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -41,4 +41,5 @@ class AutoCollectorSanitizeTests(unittest.TestCase):
             self.assertNotIn("Cookies", copied)
             self.assertNotIn("id_rsa", copied)
             self.assertIn("browser_profile", " ".join(item["reason"] for item in manifest["skipped_files"]))
+
 

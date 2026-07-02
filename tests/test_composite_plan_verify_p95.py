@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.failure_artifacts.resolution import generate_fix_plan, verify_resolution
 
@@ -43,3 +43,4 @@ class CompositePlanVerifyP95Tests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

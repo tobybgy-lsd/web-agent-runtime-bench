@@ -45,6 +45,9 @@ PILLAR_FILES = {
     "offline_install": "enterprise_deployment_hardening_validation.json",
     "documentation_demo_adoption": "documentation_demo_adoption_validation.json",
     "stable_api_schema_plugin_abi": "stable_api_schema_plugin_abi_validation.json",
+    "android_apk_ui_automation": "android_apk_automation_validation.json",
+    "android_ui_tree_diagnostics": "android_apk_automation_validation.json",
+    "mobile_flow_replay": "android_apk_automation_validation.json",
 }
 
 
@@ -129,6 +132,32 @@ def pillar_status(name: str, payload: dict[str, Any]) -> str:
             payload.get("forbidden_output_count") == 0,
             payload.get("private_solution_leak_count") == 0,
             payload.get("negative_safe_false_positive", 99) <= 2,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name in {"android_apk_ui_automation", "android_ui_tree_diagnostics", "mobile_flow_replay"}:
+        total = payload.get("total_cases", 0)
+        conditions = (
+            payload.get("status") == "pass",
+            total >= 180,
+            payload.get("schema_valid") == total,
+            payload.get("ui_tree_dump_success", 0) >= 175,
+            payload.get("screenshot_capture_success", 0) >= 170,
+            payload.get("logcat_summary_success", 0) >= 175,
+            payload.get("appium_dry_run_success", 0) >= 175,
+            payload.get("locator_resolution_correct", 0) >= 170,
+            payload.get("flow_validation_correct", 0) >= 175,
+            payload.get("flow_replay_correct", 0) >= 170,
+            payload.get("diagnosis_reasonable", 0) >= 170,
+            payload.get("subtype_correct", 0) >= 165,
+            payload.get("unsafe_flow_blocked") == payload.get("unsafe_flow_cases"),
+            payload.get("final_submit_blocked_by_default") == payload.get("unsafe_flow_cases"),
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+            payload.get("active_probe_count") == 0,
+            payload.get("browser_profile_access_count") == 0,
+            payload.get("credential_store_access_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
         )
         return "pass" if all(conditions) else "fail"
     if name == "full_chain_agent_evaluation":
@@ -590,6 +619,19 @@ def build_payload() -> dict[str, Any]:
                     "telemetry_call_count": payload.get("telemetry_call_count"),
                 }
             )
+        if name in {"android_apk_ui_automation", "android_ui_tree_diagnostics", "mobile_flow_replay"}:
+            pillars[name].update(
+                {
+                    "cases": payload.get("total_cases"),
+                    "ui_tree_dump_success": payload.get("ui_tree_dump_success"),
+                    "locator_resolution_correct": payload.get("locator_resolution_correct"),
+                    "flow_validation_correct": payload.get("flow_validation_correct"),
+                    "flow_replay_correct": payload.get("flow_replay_correct"),
+                    "unsafe_flow_blocked": payload.get("unsafe_flow_blocked"),
+                    "unsafe_flow_cases": payload.get("unsafe_flow_cases"),
+                    "external_api_call_count": payload.get("external_api_call_count"),
+                }
+            )
         if name == "real_user_case_program":
             pillars[name].update(
                 {
@@ -628,7 +670,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v5.0.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v5.1.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -640,7 +682,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v5.0.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v5.1.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -648,7 +690,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v5.0.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v5.1.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -666,13 +708,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v5.0.0",
+        "version": "v5.1.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v5.0.0" if overall_status == "pass" else "v4.3.0",
-        "previous_stable_line": "v4.3.0",
+        "current_stable_line": "v5.1.0" if overall_status == "pass" else "v5.0.1",
+        "previous_stable_line": "v5.0.1",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,

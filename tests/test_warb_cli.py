@@ -1,4 +1,4 @@
-import json
+﻿import json
 import shutil
 import subprocess
 import sys
@@ -575,3 +575,4 @@ class WarbCliTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

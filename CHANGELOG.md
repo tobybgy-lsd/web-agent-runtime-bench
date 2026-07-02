@@ -1,7 +1,23 @@
 # Changelog
 
-> Current package stable line: v5.0.0.
+> Current package stable line: v5.1.0.
 > v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v5.1.0
+
+- Added the local-only Android APK UI Automation Adapter Pack.
+- Added `failure-doctor android doctor/devices/normalize/diagnose/validate-flow/run-flow/replay/dump-ui/screenshot/logcat-summary/inspect/export-report`.
+- Added `diagnose --adapter android-apk` and `collect --adapter android-apk`.
+- Added Android UI tree, flow, locator, diagnosis, run, replay, safety, device, step, and media schemas.
+- Added public-safe Android APK example cases and plugin adapter example.
+- Added Android APK automation validation and P98 pillars for `android_apk_ui_automation`, `android_ui_tree_diagnostics`, and `mobile_flow_replay`.
+- Preserved the public safety boundary: dry-run by default, final-submit blocked by default, no external upload, no private device data access, no APK modification, and no unsupported anti-abuse guidance.
+
+## v5.0.1
+
+- README stable baseline wording patch.
+- No new capabilities.
+- No API, schema, Plugin ABI, P98 score, or validation logic changes.
 
 ## v5.0.0
 

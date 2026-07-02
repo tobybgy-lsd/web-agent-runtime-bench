@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import tempfile
 from pathlib import Path
@@ -16,3 +16,4 @@ class OcrAgentBootstrapTests(TestCase):
             text = workflow.read_text(encoding="utf-8")
             self.assertIn("ocr-evidence extract", text)
             self.assertIn("Do not upload screenshots or PDFs", text)
+

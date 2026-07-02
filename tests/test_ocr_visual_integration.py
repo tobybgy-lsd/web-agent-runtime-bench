@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -30,3 +30,4 @@ class OcrVisualIntegrationTests(TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             payload = json.loads((out / "visual_diagnosis.json").read_text(encoding="utf-8"))
             self.assertEqual(payload["ocr_evidence"]["provider"], "mock_ocr")
+

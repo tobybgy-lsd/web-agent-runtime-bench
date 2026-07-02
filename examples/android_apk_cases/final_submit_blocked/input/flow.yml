@@ -1,0 +1,12 @@
+schema_version: android_flow/v1
+flow_id: final_submit_blocked
+authorized_target: true
+target_kind: mock_app
+package_name: com.example.mockapp
+allow_final_submit: false
+steps:
+  - id: final_publish
+    action: publish
+    final_submit: true
+    locator:
+      text: Publish

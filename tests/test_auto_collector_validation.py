@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -25,4 +25,5 @@ class AutoCollectorValidationTests(unittest.TestCase):
         self.assertEqual(payload["out_of_scope_files_collected"], 0)
         self.assertEqual(payload["raw_secret_in_sanitized_output"], 0)
         self.assertEqual(payload["forbidden_output_count"], 0)
+
 

@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from pathlib import Path
 
 
@@ -16,4 +16,5 @@ class AutoCollectorLauncherTests(unittest.TestCase):
         self.assertIn("--auto-diagnose", text)
         self.assertNotIn("D:\\", text)
         self.assertNotIn("Administrator", text)
+
 

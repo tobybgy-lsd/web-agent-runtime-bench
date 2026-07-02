@@ -1,0 +1,4 @@
+<hierarchy rotation="0">
+  <node index="0" text="Publish" resource-id="com.example.mockapp:id/publish_entry" class="android.widget.Button" package="com.example.mockapp" content-desc="publish entry" clickable="true" enabled="true" bounds="[10,20][220,90]" />
+  <node index="1" text="Caption" resource-id="com.example.mockapp:id/caption" class="android.widget.EditText" package="com.example.mockapp" clickable="true" enabled="true" bounds="[10,120][500,180]" />
+</hierarchy>

@@ -1,0 +1,5 @@
+{
+  "schema_version": "android_diagnosis/v1",
+  "technical_category": "automation_engineering",
+  "subtype": "android_webview_context_mismatch"
+}

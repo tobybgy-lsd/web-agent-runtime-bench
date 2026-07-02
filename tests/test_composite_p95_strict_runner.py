@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -32,3 +32,4 @@ class CompositeP95StrictRunnerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

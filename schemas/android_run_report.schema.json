@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android run report",
+  "type": "object",
+  "required": ["schema_version", "status", "steps", "safety"],
+  "properties": {
+    "schema_version": {"const": "android_run_report/v1"},
+    "status": {"type": "string"},
+    "dry_run": {"type": "boolean"},
+    "steps": {"type": "array", "items": {"type": "object"}},
+    "safety": {"type": "object"}
+  }
+}

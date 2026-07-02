@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android safety report",
+  "type": "object",
+  "required": ["schema_version", "status", "blocked_reasons"],
+  "properties": {
+    "schema_version": {"const": "android_safety_report/v1"},
+    "status": {"enum": ["pass", "blocked"]},
+    "safe_next_action": {"type": "boolean"},
+    "blocked_reasons": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from unittest import TestCase
 
@@ -16,3 +16,4 @@ class OcrDataQualityTests(TestCase):
         types = {finding["type"] for finding in report["findings"]}
         self.assertIn("ocr_table_column_shift", types)
         self.assertIn("price_field_not_numeric", types)
+

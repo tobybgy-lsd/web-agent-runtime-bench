@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android media task",
+  "type": "object",
+  "required": ["schema_version", "media_kind", "local_path"],
+  "properties": {
+    "schema_version": {"const": "android_media_task/v1"},
+    "media_kind": {"enum": ["image", "video", "document"]},
+    "local_path": {"type": "string"},
+    "requires_permission": {"type": "boolean"}
+  }
+}

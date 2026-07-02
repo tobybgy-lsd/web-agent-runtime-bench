@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from pathlib import Path
 
 
@@ -17,3 +17,4 @@ class ValidationDashboardTracksTests(unittest.TestCase):
         self.assertIn("90.0%", text)
         self.assertRegex(text, r"Forbidden Output|forbidden output")
         self.assertNotIn("all samples are real public traces", text.lower())
+

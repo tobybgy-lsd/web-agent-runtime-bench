@@ -1,0 +1,5 @@
+{
+  "schema_version": "android_diagnosis/v1",
+  "technical_category": "anti_bot_risk",
+  "subtype": "android_permission_dialog_blocked"
+}

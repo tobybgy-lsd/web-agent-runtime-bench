@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -153,3 +153,4 @@ class ClassifierEvidenceScoringTests(unittest.TestCase):
                 "account pool",
             ):
                 self.assertNotIn(forbidden, combined)
+

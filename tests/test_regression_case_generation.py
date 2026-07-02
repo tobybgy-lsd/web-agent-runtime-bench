@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.failure_artifacts.regression_case import create_regression_case
 
@@ -18,3 +18,4 @@ class RegressionCaseGenerationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,4 +1,4 @@
-import json
+﻿import json
 import unittest
 from pathlib import Path
 
@@ -77,10 +77,11 @@ class ValidationPackTests(unittest.TestCase):
             "Low-evidence screenshot-only run",
         ):
             self.assertIn(phrase, readme)
-        for marker in ("闁?", "閻?", "濞?", "缂?"):
+        for marker in ("闂?", "闁?", "婵?", "缂?"):
             self.assertNotIn(marker, readme)
 
 
 if __name__ == "__main__":
     unittest.main()
+
 

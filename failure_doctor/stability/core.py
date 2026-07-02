@@ -121,7 +121,7 @@ def migration_guide(from_version: str, to_version: str, out_dir: Path) -> dict[s
 def _base(kind: str) -> dict[str, Any]:
     return {
         "schema_version": STABILITY_SCHEMA,
-        "tool_version": "5.0.0",
+        "tool_version": "5.1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "kind": kind,
         "external_api_call_count": 0,

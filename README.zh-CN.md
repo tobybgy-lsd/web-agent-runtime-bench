@@ -4,9 +4,10 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v5.0 Stable API / Schema / Plugin ABI Standardization Release
-- 当前稳定版本：v5.0.0
-- 上一稳定版本：v4.3.0 Real User Case Program & Public Benchmark Pack
+- 当前里程碑：Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack
+- 当前稳定版本：v5.1.0
+- 上一稳定版本：v5.0.1 README stable baseline wording patch
+- 上一稳定版本：v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -48,6 +49,18 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
   --auto-diagnose --auto-handoff --auto-sanitize
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## v5.1 Android APK UI Automation Adapter
+
+```powershell
+failure-doctor android doctor --out .\android_doctor
+failure-doctor android validate-flow .\examples\android_apk_cases\post_image_text_dry_run\input\flow.yml --out .\android_flow
+failure-doctor android dump-ui .\examples\android_apk_cases\ui_tree_basic\input\ui.xml --out .\android_ui
+failure-doctor diagnose .\examples\android_apk_cases\permission_dialog_blocked\input --adapter android-apk --out .\android_diag
+failure-doctor collect --adapter android-apk --input .\examples\android_apk_cases\permission_dialog_blocked\input --out .\android_pack
+```
+
+v5.1 新增本地优先的 Android APK UI 自动化证据适配层，用于授权 / mock app 的 Appium 日志、ADB/uiautomator XML、logcat 摘要、截图元数据和 flow 文件诊断。默认 dry-run，不自动做最终提交；最终提交必须显式审批。公开项目只做诊断、证据归一化、合规建议和安全拦截，不发布本地私有训练解法。
 
 ## v4.3 Real User Case Program & Public Benchmark
 

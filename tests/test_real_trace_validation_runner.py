@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -30,4 +30,5 @@ class RealTraceValidationRunnerTests(unittest.TestCase):
         self.assertLessEqual(data["severe_misclassification"], 2)
         self.assertEqual(data["forbidden_output_count"], 0)
         self.assertGreaterEqual(len(data["cases"]), 30)
+
 

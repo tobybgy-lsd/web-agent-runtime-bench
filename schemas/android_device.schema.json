@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android device report",
+  "type": "object",
+  "required": ["schema_version", "status", "devices"],
+  "properties": {
+    "schema_version": {"const": "android_devices/v1"},
+    "status": {"type": "string"},
+    "devices": {"type": "array", "items": {"type": "object"}}
+  }
+}

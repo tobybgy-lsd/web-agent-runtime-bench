@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -237,3 +237,4 @@ class TraceDoctorCliTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,6 +1,6 @@
 # P98 Controlled Maturity Results
 
-Agent Failure Doctor v5.0.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
+Agent Failure Doctor v5.1.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
 
 | Pillar | Result |
 |---|---|
@@ -38,6 +38,9 @@ Agent Failure Doctor v5.0.0 uses local-only, public-safe validation ledgers and 
 | Enterprise Deployment Hardening P98 | backup, restore, migration, offline bundle, retention, security posture, pass |
 | Documentation Demo Adoption P98 | required docs and sample gallery, pass |
 | Stable API Schema Plugin ABI P98 | stable CLI, schema registry, plugin ABI, compatibility, migration, pass |
+| Android APK UI Automation P98 | 220 synthetic/mock Android evidence cases, pass |
+| Android UI Tree Diagnostics P98 | UI tree parsing, locator drift, permission dialog, WebView context, final-submit guard, pass |
+| Mobile Flow Replay P98 | dry-run flow validation, replay planning, final-submit blocked by default, pass |
 | Safety Boundary P98 | forbidden output count 0, pass |
 
 See `validation/p98_master_gate.json` for the machine-readable gate.

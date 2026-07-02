@@ -1,4 +1,4 @@
-import json
+﻿import json
 import re
 import unittest
 from pathlib import Path
@@ -64,3 +64,4 @@ class RealTraceFixtureIntegrityTests(unittest.TestCase):
         if source.get("sanitized_dummy_cookie"):
             raw = raw.replace("Set-Cookie", "").replace("Cookie", "")
         self.assertIsNone(SENSITIVE_PATTERNS.search(raw))
+

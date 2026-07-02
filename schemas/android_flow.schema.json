@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android UI flow",
+  "type": "object",
+  "required": ["schema_version", "flow_id", "authorized_target", "target_kind", "package_name", "steps"],
+  "properties": {
+    "schema_version": {"const": "android_flow/v1"},
+    "flow_id": {"type": "string"},
+    "authorized_target": {"type": "boolean"},
+    "target_kind": {"enum": ["mock_app", "internal_app", "owned_app", "authorized_test_app"]},
+    "package_name": {"type": "string"},
+    "allow_final_submit": {"type": "boolean"},
+    "approval_id": {"type": "string"},
+    "steps": {"type": "array", "items": {"type": "object"}}
+  }
+}

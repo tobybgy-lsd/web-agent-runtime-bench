@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from pathlib import Path
 
 
@@ -58,3 +58,4 @@ class OpenSourceAdoptionPackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -154,7 +154,7 @@ def security_posture(workspace: Path, out_dir: Path) -> dict[str, Any]:
 def _base(action: str, *, workspace: Path) -> dict[str, Any]:
     return {
         "schema_version": DEPLOY_SCHEMA,
-        "tool_version": "5.0.0",
+        "tool_version": "5.1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "action": action,
         "workspace": str(workspace),

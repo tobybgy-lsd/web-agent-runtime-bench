@@ -1,4 +1,4 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -23,4 +23,5 @@ class AutoCollectorWatchTests(unittest.TestCase):
             self.assertEqual(len(runs), 1)
             event = json.loads((out / "watch_events.jsonl").read_text(encoding="utf-8").splitlines()[0])
             self.assertIn("relative_path", event)
+
 

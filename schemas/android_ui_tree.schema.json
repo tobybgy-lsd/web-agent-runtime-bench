@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android UI tree",
+  "type": "object",
+  "required": ["schema_version", "node_count", "nodes"],
+  "properties": {
+    "schema_version": {"const": "android_ui_tree/v1"},
+    "node_count": {"type": "integer", "minimum": 0},
+    "clickable_count": {"type": "integer", "minimum": 0},
+    "nodes": {"type": "array", "items": {"type": "object"}}
+  }
+}

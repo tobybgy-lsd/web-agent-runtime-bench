@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.failure_artifacts.resolution import FORBIDDEN_RESOLUTION_TERMS, generate_fix_plan, render_verification_markdown, verify_resolution
 
@@ -16,3 +16,4 @@ class ResolutionSafetyBoundaryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

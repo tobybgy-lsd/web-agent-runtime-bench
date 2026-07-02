@@ -1,4 +1,4 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -34,4 +34,5 @@ class AutoCollectorPipelineTests(unittest.TestCase):
             self.assertTrue((out / "sanitized_failure_pack" / "redaction_report.json").exists())
             diagnosis = json.loads((out / "report" / "diagnosis.json").read_text(encoding="utf-8"))
             self.assertIn("next_action", diagnosis)
+
 

@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 from zipfile import ZipFile
@@ -115,3 +115,4 @@ class FailureArtifactTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

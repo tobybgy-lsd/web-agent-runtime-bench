@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -29,3 +29,4 @@ class VisualAgentRuntimeValidationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

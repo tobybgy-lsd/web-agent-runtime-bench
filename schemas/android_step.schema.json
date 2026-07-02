@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android flow step",
+  "type": "object",
+  "required": ["id", "action"],
+  "properties": {
+    "id": {"type": "string"},
+    "action": {"type": "string"},
+    "locator": {"type": "object"},
+    "verify": {"type": "object"},
+    "final_submit": {"type": "boolean"}
+  }
+}

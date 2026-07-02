@@ -1,4 +1,4 @@
-import subprocess
+﻿import subprocess
 import sys
 import tempfile
 import unittest
@@ -48,6 +48,7 @@ class AutoCollectorSafetyTests(unittest.TestCase):
                 for path in out.rglob("*")
                 if path.is_file() and path.suffix.lower() in {".md", ".json", ".log", ".txt"}
             )
-            for forbidden in ("bypass cloudflare", "鐮磋В", "缁曡繃椋庢帶", "杩囬獙璇佺爜"):
+            for forbidden in ("bypass cloudflare", "閻袙", "缂佹洝绻冩搴㈠付", "鏉╁洭鐛欑拠浣虹垳"):
                 self.assertNotIn(forbidden, combined)
+
 

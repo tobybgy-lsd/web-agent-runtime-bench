@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android diagnosis",
+  "type": "object",
+  "required": ["schema_version", "technical_category", "subtype", "confidence", "next_action"],
+  "properties": {
+    "schema_version": {"const": "android_diagnosis/v1"},
+    "technical_category": {"type": "string"},
+    "subtype": {"type": "string"},
+    "confidence": {"type": "number"},
+    "next_action": {"type": "string"}
+  }
+}

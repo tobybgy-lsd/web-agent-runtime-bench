@@ -1,4 +1,4 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -67,4 +67,5 @@ class AutoCollectorScopeTests(unittest.TestCase):
             self.assertIn("error.log", copied)
             self.assertFalse(any(path.startswith("failure_doctor_auto_report/") for path in copied))
             self.assertTrue((out / "open_this_first.md").exists())
+
 

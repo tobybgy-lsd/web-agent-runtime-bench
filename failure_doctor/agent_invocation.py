@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 
-PACK_VERSION = "5.0.0"
+PACK_VERSION = "5.1.0"
 
 AGENT_TARGETS = (
     "codex",

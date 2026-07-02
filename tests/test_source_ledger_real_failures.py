@@ -1,4 +1,4 @@
-import json
+﻿import json
 import re
 import unittest
 from pathlib import Path
@@ -64,4 +64,5 @@ class SourceLedgerRealFailuresTests(unittest.TestCase):
                         source_url.startswith("https://github.com/") and "/issues/" in source_url,
                         "public-inspired sanitized records must not pretend to be real GitHub issues",
                     )
+
 

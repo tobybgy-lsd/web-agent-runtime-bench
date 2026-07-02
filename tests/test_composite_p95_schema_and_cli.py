@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -69,3 +69,4 @@ class CompositeP95SchemaAndCliTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

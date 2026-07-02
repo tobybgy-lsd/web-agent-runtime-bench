@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.failure_artifacts.candidates import collect_diagnosis_candidates
 from tools.failure_artifacts.composite import classify_composite_failure_artifact
@@ -108,3 +108,4 @@ class CompositeP95EngineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

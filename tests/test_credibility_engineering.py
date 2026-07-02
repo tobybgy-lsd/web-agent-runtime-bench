@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -117,3 +117,4 @@ class CredibilityEngineeringTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

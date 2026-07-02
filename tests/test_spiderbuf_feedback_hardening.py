@@ -1,4 +1,4 @@
-import json
+﻿import json
 import unittest
 
 from tools.failure_artifacts.classifier import classify_failure_artifact
@@ -357,3 +357,4 @@ class SpiderbufFeedbackHardeningTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.failure_artifacts.resolution import FORBIDDEN_RESOLUTION_TERMS, generate_fix_plan
 
@@ -45,3 +45,4 @@ class FixPlanGenerationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

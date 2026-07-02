@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -27,3 +27,4 @@ class ResolutionValidationRunnerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

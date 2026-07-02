@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -97,12 +97,13 @@ class V43CaseBenchmarkProgramTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
         gate = json.loads((ROOT / "validation" / "p98_master_gate.json").read_text(encoding="utf-8"))
-        self.assertEqual(gate["version"], "v5.0.0")
-        self.assertEqual(gate["current_stable_line"], "v5.0.0")
-        self.assertEqual(gate["previous_stable_line"], "v4.3.0")
+        self.assertEqual(gate["version"], "v5.1.0")
+        self.assertEqual(gate["current_stable_line"], "v5.1.0")
+        self.assertEqual(gate["previous_stable_line"], "v5.0.1")
         self.assertEqual(gate["pillars"]["real_user_case_program"]["status"], "pass")
         self.assertEqual(gate["pillars"]["public_benchmark_pack"]["status"], "pass")
 
 
 if __name__ == "__main__":
     unittest.main()
+

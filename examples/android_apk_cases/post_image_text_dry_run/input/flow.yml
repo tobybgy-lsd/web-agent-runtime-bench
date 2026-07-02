@@ -1,0 +1,23 @@
+schema_version: android_flow/v1
+flow_id: post_image_text_dry_run
+authorized_target: true
+target_kind: mock_app
+package_name: com.example.mockapp
+allow_final_submit: false
+steps:
+  - id: open_publish_entry
+    action: tap
+    locator:
+      resource_id: com.example.mockapp:id/publish_entry
+    verify:
+      text_exists: Add image
+  - id: add_image
+    action: select_media
+    locator:
+      content_desc: Add image
+    verify:
+      text_exists: Image selected
+  - id: enter_caption
+    action: type
+    locator:
+      resource_id: com.example.mockapp:id/caption

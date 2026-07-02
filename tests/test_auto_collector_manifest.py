@@ -1,4 +1,4 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -41,4 +41,5 @@ class AutoCollectorManifestTests(unittest.TestCase):
             self.assertIn("no_failure_signal_found", manifest["detected_failure_signals"])
             diagnosis = json.loads((out / "report" / "diagnosis.json").read_text(encoding="utf-8"))
             self.assertIn(diagnosis["technical_category"], {"insufficient_evidence", "no_failure_signal_found"})
+
 

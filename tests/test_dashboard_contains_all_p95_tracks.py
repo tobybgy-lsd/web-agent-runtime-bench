@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import unittest
 from pathlib import Path
@@ -31,3 +31,4 @@ class DashboardP95TrackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

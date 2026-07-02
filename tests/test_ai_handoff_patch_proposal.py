@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -162,3 +162,4 @@ class AiHandoffPatchProposalTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

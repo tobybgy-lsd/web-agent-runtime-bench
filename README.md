@@ -18,6 +18,7 @@ Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://git
 **P98 gate:** passed. P98 master gate passed.
 See [validation/dashboard.md](validation/dashboard.md) for the validation dashboard.
 Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack.
+Earlier stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack.
 Previous P95 stable: v2.4.1.
 
 **Lifecycle commands:** `diagnose` / `plan` / `verify` / `run`.
@@ -26,11 +27,13 @@ Previous P95 stable: v2.4.1.
 
 **Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
 
-Optional v5.0 output: sanitized public cases, benchmark reports, adapter reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
+Optional v5.1 output: sanitized public cases, benchmark reports, adapter reports, Android APK UI evidence reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
 
-- Current milestone: Agent Failure Doctor v5.0 Stable API / Schema / Plugin ABI Standardization Release
-- Current stable line: v5.0.0
-- Previous stable line: Agent Failure Doctor v4.3.0 Real User Case Program & Public Benchmark Pack
+- Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack
+- Current stable line: v5.1.0
+- Previous stable line: Agent Failure Doctor v5.0.1 README stable baseline wording patch
+- Previous stable line: Agent Failure Doctor v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
+- Earlier stable line: Agent Failure Doctor v4.3.0 Real User Case Program & Public Benchmark Pack
 - Previous stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack
 - Earlier stable line: Agent Failure Doctor v4.1.0 Enterprise Governance & Role-Based Console Pack
 - Earlier stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
@@ -45,7 +48,25 @@ Optional v5.0 output: sanitized public cases, benchmark reports, adapter reports
 
 **Fleet command:** `failure-doctor batch`.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `android`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### v5.1 Android APK UI Automation Adapter
+
+```powershell
+failure-doctor android doctor --out .\android_doctor
+failure-doctor android validate-flow .\examples\android_apk_cases\post_image_text_dry_run\input\flow.yml --out .\android_flow
+failure-doctor android dump-ui .\examples\android_apk_cases\ui_tree_basic\input\ui.xml --out .\android_ui
+failure-doctor diagnose .\examples\android_apk_cases\permission_dialog_blocked\input --adapter android-apk --out .\android_diag
+failure-doctor collect --adapter android-apk --input .\examples\android_apk_cases\permission_dialog_blocked\input --out .\android_pack
+```
+
+v5.1 adds a local-only Android APK UI evidence adapter for authorized/mock app
+automation failures. It normalizes Appium-style logs, ADB/uiautomator XML,
+logcat summaries, screenshots, and flow files into the same diagnose -> plan ->
+verify lifecycle. Flow execution is dry-run by default; final submit is blocked
+unless explicitly approved. The adapter does not modify APKs, access private app
+directories, use external OCR uploads, or provide captcha, account, device, or
+platform-risk bypass guidance.
 
 ### v5.0 Stable Platform Commands
 
@@ -223,10 +244,10 @@ safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
 regulated workflow, batch/fleet, and full-chain reports. See
 [docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
-Release tracks: Current stable line: Agent Failure Doctor v4.3.0 Real User Case
-Program & Public Benchmark Pack; previous stable line: Agent Failure Doctor
-v4.2.0 Plugin SDK & Adapter Ecosystem Pack; previous P95 stable line:
-Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Release tracks: Current stable line: Agent Failure Doctor v5.1.0 Android APK UI
+Automation Adapter Pack; previous stable line: Agent Failure Doctor v5.0.1
+README stable baseline wording patch; previous P95 stable line: Agent Failure
+Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
 
@@ -310,10 +331,13 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v4.3.0 is the current stable technical baseline. It adds public-safe case
-intake, sanitized issue packs, and local benchmark/regression gates on top of
-the local Plugin SDK, enterprise governance, hybrid evidence
-reasoning, the local knowledge base, CI/CD gates, the local web console,
+v5.1.0 is the current stable technical baseline. It keeps the v5.0 Stable API /
+Schema / Plugin ABI baseline and adds the local-only Android APK UI Automation
+Adapter Pack. The v5.1 stable line includes public-safe case intake, sanitized issue packs, local
+benchmark/regression gates, cross-adapter support, deployment hardening,
+documentation/demo adoption assets, and stable API/schema/plugin ABI checks on
+top of the local Plugin SDK, enterprise governance, hybrid evidence reasoning,
+the local knowledge base, CI/CD gates, the local web console,
 regulated-industry mock workflow evaluation, full-chain agent evaluation,
 OCR/document evidence, offline visual runtime observability, and local-only
 safety and compliance evaluation.
@@ -721,7 +745,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack.
+Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack.
 
 Previous stable line: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
 

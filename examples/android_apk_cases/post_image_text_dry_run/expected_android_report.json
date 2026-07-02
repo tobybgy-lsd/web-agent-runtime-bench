@@ -1,0 +1,6 @@
+{
+  "schema_version": "android_flow_validation/v1",
+  "status": "pass",
+  "flow_id": "post_image_text_dry_run",
+  "step_count": 3
+}

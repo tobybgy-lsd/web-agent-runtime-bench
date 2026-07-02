@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import subprocess
@@ -70,3 +70,4 @@ class VisualRuntimeCliTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

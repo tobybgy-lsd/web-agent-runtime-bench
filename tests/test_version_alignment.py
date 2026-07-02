@@ -14,17 +14,17 @@ class VersionAlignmentTests(unittest.TestCase):
 
         version = re.search(r'^version = "([^"]+)"$', pyproject, re.MULTILINE)
         self.assertIsNotNone(version)
-        self.assertEqual(version.group(1), "5.0.0")
-        self.assertIn("Current milestone: Agent Failure Doctor v5.0 Stable API / Schema / Plugin ABI Standardization Release", readme[:2200])
+        self.assertEqual(version.group(1), "5.1.0")
+        self.assertIn("Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack", readme[:2200])
         self.assertIn("Earlier stable line: Agent Failure Doctor v3.9.0", readme[:2200])
-        self.assertIn("Current package stable line: v5.0.0", changelog)
+        self.assertIn("Current package stable line: v5.1.0", changelog)
         self.assertIn("## v3.3.0", changelog)
 
     def test_readme_first_screen_explains_p98_and_previous_stable_tracks(self):
         opening = (ROOT / "README.md").read_text(encoding="utf-8")[:2200]
 
         self.assertIn("Current milestone", opening)
-        self.assertIn("v5.0 Stable API / Schema / Plugin ABI Standardization Release", opening)
+        self.assertIn("v5.1 Android APK UI Automation Adapter Pack", opening)
         self.assertIn("v3.9.0 Local Failure Knowledge Base Pack", opening)
         self.assertIn("v2.4.1", opening)
         self.assertIn("P98 master gate passed", opening)
@@ -33,4 +33,5 @@ class VersionAlignmentTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
 

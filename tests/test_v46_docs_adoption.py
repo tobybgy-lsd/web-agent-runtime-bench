@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import unittest
 from pathlib import Path
@@ -19,3 +19,4 @@ class DocumentationAdoptionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

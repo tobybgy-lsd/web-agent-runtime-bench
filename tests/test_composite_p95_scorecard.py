@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from pathlib import Path
 
 
@@ -30,3 +30,4 @@ class CompositeP95ScorecardTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

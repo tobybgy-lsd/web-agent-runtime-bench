@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android replay report",
+  "type": "object",
+  "required": ["schema_version", "status", "step_count"],
+  "properties": {
+    "schema_version": {"const": "android_replay_report/v1"},
+    "status": {"type": "string"},
+    "step_count": {"type": "integer"}
+  }
+}

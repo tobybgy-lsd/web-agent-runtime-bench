@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from tools.benchmark.scoring import ScoreWeights, evaluate_task, summarize_scores
 from tools.benchmark.standard_tasks import STANDARD_TASKS, get_task
@@ -82,3 +82,4 @@ class BenchmarkScoringTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import unittest
@@ -112,3 +112,4 @@ class ExternalValidationPackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

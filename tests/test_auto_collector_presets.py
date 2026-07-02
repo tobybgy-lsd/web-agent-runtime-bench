@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -27,4 +27,5 @@ class AutoCollectorPresetTests(unittest.TestCase):
             manifest = collect_project(root, out, preset="selenium")
             self.assertEqual(manifest["preset"], "selenium")
             self.assertEqual(manifest["detected_frameworks"], ["selenium"])
+
 

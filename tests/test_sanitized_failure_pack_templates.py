@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from pathlib import Path
 
 from tools.failure_artifacts.artifact import load_artifact, validate_artifact
@@ -88,3 +88,4 @@ class SanitizedFailurePackTemplateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
