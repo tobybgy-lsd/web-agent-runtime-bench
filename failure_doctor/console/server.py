@@ -36,6 +36,7 @@ class ConsoleApp:
         enterprise_workspace: Path | str | None = None,
         auth: str = "local",
         plugins: Path | str | None = None,
+        enable_android_ops: bool = False,
     ) -> None:
         assert_host_allowed(host, allow_lan=allow_lan)
         self.workspace = Path(workspace).expanduser().resolve()
@@ -52,6 +53,7 @@ class ConsoleApp:
         )
         self.auth = auth
         self.plugins = Path(plugins).expanduser().resolve() if plugins else None
+        self.enable_android_ops = enable_android_ops
         self.manifest = init_workspace(self.workspace, host=host, port=port, readonly=readonly)
         self.token = self.manifest["token"]
 
@@ -117,6 +119,13 @@ class ConsoleApp:
                         "local_only": True,
                         "external_api_call_count": 0,
                         "telemetry_call_count": 0,
+                    },
+                    "android_ops": {
+                        "enabled": self.enable_android_ops,
+                        "local_only": True,
+                        "raw_screenshot_default_hidden": True,
+                        "final_submit_default_blocked": True,
+                        "business_mutation_default_blocked": True,
                     },
                     "plugins": {
                         "enabled": self.plugins is not None,

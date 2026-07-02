@@ -134,6 +134,7 @@ class BloomFilter:
             "estimated_fpr": round(self.estimated_fpr(), 8),
             "target_fpr": self.target_fpr,
             "memory_bytes": self._byte_count,
+            "unique_estimated": self._inserted,
         }
 
 
@@ -209,6 +210,8 @@ class RedisBloomAdapter:
     def __init__(self, key_fields: list[str], redis_url: str = "redis://localhost:6379", **kwargs):
         self.key_fields = key_fields
         self.redis_url = redis_url
+
+    def _raise_error(self):
         raise NotImplementedError(
             "RedisBloomAdapter requires a running Redis instance with RedisBloom module.\n"
             "Install: pip install redis\n"
@@ -221,10 +224,11 @@ class RedisBloomAdapter:
         )
 
     def compute_key(self, record: dict) -> str:
-        raise NotImplementedError
+        self._raise_error()
 
     def is_duplicate(self, record: dict) -> bool:
-        raise NotImplementedError
+        self._raise_error()
 
     def report(self) -> dict:
+        self._raise_error()
         raise NotImplementedError

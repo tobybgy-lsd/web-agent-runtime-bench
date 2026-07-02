@@ -85,6 +85,7 @@ def add_android_pro_parser(sub: Any) -> None:
     matrix_run.add_argument("--matrix", required=True)
     matrix_run.add_argument("--flow", required=True)
     matrix_run.add_argument("--out", required=True)
+    matrix_run.add_argument("--farm", default=None, help="Optional Android Ops farm manifest for planning context")
 
     queue = android_sub.add_parser("queue", help="Initialize or run a local task queue")
     queue_sub = queue.add_subparsers(dest="queue_command", required=True)

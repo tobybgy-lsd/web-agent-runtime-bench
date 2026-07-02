@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Device Farm","type":"object","required":["schema_version","local_only","no_upload","no_telemetry"],"properties":{"schema_version":{"const":"android_device_farm/v1"},"local_only":{"const":true},"no_upload":{"const":true},"no_telemetry":{"const":true}}}

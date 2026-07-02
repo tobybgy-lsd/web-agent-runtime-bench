@@ -1,6 +1,6 @@
 # P98 Controlled Maturity Results
 
-Agent Failure Doctor v5.2.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
+Agent Failure Doctor v5.3.0 uses local-only, public-safe validation ledgers and runners to measure controlled project maturity. Ecosystem signals are excluded.
 
 | Pillar | Result |
 |---|---|
@@ -44,6 +44,9 @@ Agent Failure Doctor v5.2.0 uses local-only, public-safe validation ledgers and 
 | Android Production Hardening P98 | 260 local mock Android Pro hardening cases, pass |
 | Android Locator Self-Healing P98 | recommendation-only candidates, manual approval, coordinate-primary blocked, pass |
 | Android Device Matrix Runner P98 | mock matrix, queue checkpoint, onboarding, zero external API calls, pass |
+| Android Real Device Farm P98 | 320 local mock Android Ops cases, pass |
+| Android Business Workflow Ops P98 | dry-run business templates, data binding, scheduler, mutation guard, pass |
+| Android Flaky Flow Detection P98 | flaky detector, compatibility report, replay, runbook, pass |
 | Safety Boundary P98 | forbidden output count 0, pass |
 
 See `validation/p98_master_gate.json` for the machine-readable gate.

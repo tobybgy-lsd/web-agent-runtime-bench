@@ -20,6 +20,7 @@ def run_console(args) -> int:
         enterprise_workspace=Path(args.workspace) if getattr(args, "enterprise", False) else None,
         auth=str(getattr(args, "auth", "local")),
         plugins=Path(args.plugins) if getattr(args, "plugins", None) else None,
+        enable_android_ops=bool(getattr(args, "enable_android_ops", False)),
     )
     if args.import_report:
         import_report(app.workspace, args.import_report, readonly=args.readonly)

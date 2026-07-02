@@ -38,10 +38,11 @@ The repository has release-note drafts prepared for the public alignment line. P
 | v5.0.0 | `docs/RELEASE_NOTES_v5.0.0.md` | Agent Failure Doctor v5.0.0 - Stable API, Schema, and Plugin ABI | ready for publication after gates pass |
 | v5.1.0 | `docs/RELEASE_NOTES_v5.1.0.md` | Agent Failure Doctor v5.1.0 - Android APK UI Automation Adapter Pack | published |
 | v5.2.0 | `docs/RELEASE_NOTES_v5.2.0.md` | Agent Failure Doctor v5.2.0 - Android APK Production Hardening & Workflow Template Pack | ready for publication after gates pass |
+| v5.3.0 | `docs/RELEASE_NOTES_v5.3.0.md` | Agent Failure Doctor v5.3.0 - Android Real Device Farm & Business Workflow Operations Pack | ready for publication after gates pass |
 
 ## Published release
 
-`v5.2.0` is the next release candidate for the latest stable GitHub Release.
+`v5.3.0` is the next release candidate for the latest stable GitHub Release.
 
 After publication, the release URL should be:
 
@@ -73,9 +74,11 @@ https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v5.1.0
 
 https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v5.2.0
 
-`v4.3.0` is the previous stable GitHub Release:
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v5.3.0
 
-https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v4.3.0
+`v5.2.0` is the previous stable GitHub Release:
+
+https://github.com/tobybgy-lsd/web-agent-runtime-bench/releases/tag/v5.2.0
 
 `v3.2.0` is the earlier stable GitHub Release:
 

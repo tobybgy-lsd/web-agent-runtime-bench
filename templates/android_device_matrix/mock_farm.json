@@ -1,0 +1,1 @@
+{"schema_version":"android_device_inventory/v1","devices":[{"device_id":"mock-emulator-5554","name":"Mock Pixel API 34","kind":"mock_device","android_api":34,"screen":"1080x1920","dpi":420,"status":"available","tags":["mock","dry_run"]}]}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Device Lease","type":"object","required":["schema_version","leases"],"properties":{"schema_version":{"const":"android_device_lease/v1"},"leases":{"type":"array"}}}

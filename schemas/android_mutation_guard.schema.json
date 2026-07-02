@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Mutation Guard","type":"object","required":["schema_version","final_submit_blocked","business_mutation_blocked"],"properties":{"schema_version":{"const":"android_mutation_guard/v1"},"real_business_mutation_count":{"const":0}}}

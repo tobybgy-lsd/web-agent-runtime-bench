@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Flaky Flow Report","type":"object","required":["schema_version","flaky_score","flaky_findings"],"properties":{"schema_version":{"const":"android_flaky_flow_report/v1"},"flaky_score":{"type":"number"}}}

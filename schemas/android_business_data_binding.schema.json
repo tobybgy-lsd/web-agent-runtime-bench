@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Business Data Binding","type":"object","required":["schema_version","tasks"],"properties":{"schema_version":{"const":"android_business_data_binding/v1"},"tasks":{"type":"array"},"no_upload":{"const":true}}}

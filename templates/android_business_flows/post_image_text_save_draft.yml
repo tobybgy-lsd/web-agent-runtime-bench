@@ -1,0 +1,14 @@
+schema_version: android_business_template/v1
+flow_id: post_image_text_save_draft
+authorized_target: true
+target_kind: mock_app
+dry_run_default: true
+allow_final_submit: false
+allow_business_mutation: false
+no_external_upload: true
+steps:
+  - action: open_mock_app
+  - action: fill_text
+    field: title
+    dry_run: true
+  - action: save_draft

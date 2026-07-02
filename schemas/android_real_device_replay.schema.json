@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Real Device Replay","type":"object","required":["schema_version","dry_run"],"properties":{"schema_version":{"const":"android_real_device_replay/v1"},"dry_run":{"const":true},"final_submit_allowed":{"const":false}}}

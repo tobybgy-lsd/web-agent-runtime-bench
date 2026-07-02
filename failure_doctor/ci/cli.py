@@ -7,6 +7,7 @@ from pathlib import Path
 from failure_doctor.kb.store import KnowledgeBase, render_matches_md
 from failure_doctor.reasoning.report import write_reasoning_report
 from failure_doctor.enterprise.ci_integration import attach_enterprise_ci
+from failure_doctor.android_ops.ci_integration import write_ci_summary as write_android_ops_ci_summary
 from failure_doctor.plugin.registry import read_registry
 
 from .runner import run_ci_gate, validate_ci_report, write_ci_templates
@@ -51,6 +52,8 @@ def handle_ci(args: argparse.Namespace) -> int:
                 attach_enterprise_ci(Path(args.out), Path(args.enterprise_workspace))
             if getattr(args, "plugins", None):
                 _attach_plugin_summary(Path(args.plugins), Path(args.out))
+            if getattr(args, "include_android_ops", False):
+                _attach_android_ops_summary(Path(args.out))
             gate = summary["gate"]
             print("Agent Failure Doctor CI Diagnosis")
             print(f"Decision: {gate.get('decision')}")
@@ -138,3 +141,14 @@ def _attach_plugin_summary(plugin_workspace: Path, out: Path) -> None:
                     f"- `{item['plugin_id']}` `{item['type']}` "
                     f"validation `{item['validation_status']}` risk `{item['risk_level']}`\n"
                 )
+
+
+def _attach_android_ops_summary(out: Path) -> None:
+    summary = write_android_ops_ci_summary(out / "android_ops")
+    summary_path = out / "ci_summary.md"
+    if summary_path.exists():
+        with summary_path.open("a", encoding="utf-8") as handle:
+            handle.write("\n## Android Ops\n\n")
+            handle.write(f"- Status: `{summary.get('status')}`\n")
+            handle.write("- Mode: local-only dry-run validation; no real device or Appium startup by default.\n")
+            handle.write("- Report: `android_ops/android_ops_ci_summary.json`\n")

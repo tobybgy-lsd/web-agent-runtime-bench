@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Appium Orchestration","type":"object","required":["schema_version","sessions"],"properties":{"schema_version":{"const":"android_appium_orchestration/v1"},"sessions":{"type":"array"},"external_api_call_count":{"const":0}}}

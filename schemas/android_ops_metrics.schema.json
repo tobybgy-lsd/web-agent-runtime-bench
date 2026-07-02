@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Ops Metrics","type":"object","required":["schema_version","total_tasks","success_tasks"],"properties":{"schema_version":{"const":"android_ops_metrics/v1"},"business_mutation_blocked_count":{"type":"integer"},"final_submit_blocked_count":{"type":"integer"}}}

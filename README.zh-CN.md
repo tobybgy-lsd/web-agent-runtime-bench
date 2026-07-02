@@ -4,8 +4,9 @@
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v5.2 Android APK Production Hardening & Workflow Template Pack
-- 当前稳定版本：v5.2.0
+- 当前里程碑：Agent Failure Doctor v5.3 Android Real Device Farm & Business Workflow Operations Pack
+- 当前稳定版本：v5.3.0
+- 上一稳定版本：v5.2.0 Android APK Production Hardening & Workflow Template Pack
 - 上一稳定版本：v5.1.0 Android APK UI Automation Adapter Pack
 - 上一稳定版本：v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
 - P98 controlled maturity gate：已通过
@@ -49,6 +50,18 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
   --auto-diagnose --auto-handoff --auto-sanitize
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## v5.3 Android 真机矩阵与业务流程运营
+
+```powershell
+failure-doctor android-ops farm init --out .\android_farm
+failure-doctor android-ops farm discover --farm .\android_farm --out .\device_inventory
+failure-doctor android-ops template scaffold --type post_image_text_save_draft --out .\flows\post_image_text.yml
+failure-doctor android-ops data bind --flow .\flows\post_image_text.yml --data .\tasks.csv --out .\bound_tasks
+failure-doctor android-ops scheduler plan --farm .\android_farm --queue .\bound_tasks --out .\schedule_plan
+```
+
+v5.3 新增本地优先的 Android Ops 层：设备池、Appium session 规划、设备锁、恢复策略、业务模板、数据绑定、调度、回放、flaky 检测、兼容性报告、业务变更门禁和运行手册。默认 dry-run、默认先保存草稿、默认阻断最终提交和业务变更；不提供验证码绕过、反风控规避、指纹伪造、APK 修改、hook、root、外部上传或账号/设备/IP 池规避能力。
 
 ## v5.2 Android APK Production Hardening
 

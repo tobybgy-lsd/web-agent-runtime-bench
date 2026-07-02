@@ -4,11 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v5.2.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v5.3.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v5.2.0 Android APK Production Hardening & Workflow Template Pack | pass | Current package stable line with Android Pro app profiles, page objects, locator registry, locator healing recommendations, UI diffs, workflow templates, device matrix, queues, replay packs, and stability scoring. |
+| v5.3.0 Android Real Device Farm & Business Workflow Operations Pack | pass | Current package stable line with local-only Android Ops device farm, device health, lease/recovery, Appium planning, business workflow templates, scheduler, replay, flaky detection, compatibility reports, mutation guard, metrics, runbooks, console, CI, and enterprise policy summaries. |
+| v5.2.0 Android APK Production Hardening & Workflow Template Pack | previous stable | Android Pro app profiles, page objects, locator registry, locator healing recommendations, UI diffs, workflow templates, device matrix, queues, replay packs, and stability scoring. |
 | v5.1.0 Android APK UI Automation Adapter Pack | previous stable | Local-only Android APK UI evidence adapter, flow dry-run validation, UI tree diagnostics, replay, and safety gates. |
 | v5.0.0 Stable API / Schema / Plugin ABI Standardization Release | previous stable | Stable CLI, schema registry, plugin ABI, adapter, deploy, documentation adoption, and compatibility gates. |
 | v4.3.0 Real User Case Program & Public Benchmark Pack | previous stable | Previous package stable line with public-safe case intake, anonymization, publish checks, issue packs, local benchmark suites, regression compare, and no upload or external API calls by default. |
@@ -79,8 +80,11 @@ Agent Failure Doctor v5.2.0 is the current controlled-maturity stable line.
 | Android Production Hardening P98 | 260 | app profiles, page objects, registry validation, workflow lint/compile, replay packs, and stability scoring | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
 | Android Locator Self-Healing P98 | 260 | recommendation-only locator candidates, manual approval required, coordinate-primary blocked | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
 | Android Device Matrix Runner P98 | 260 | local mock matrix, queue checkpointing, onboarding checks, zero external API calls | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
+| Android Real Device Farm P98 | 320 | mock-first device farm, inventory, health, lease, recovery, Appium planning | 0 | pass | `python -m tools.validation.run_android_ops_validation` |
+| Android Business Workflow Ops P98 | 320 | dry-run business templates, data binding, scheduler, replay, mutation guard | 0 | pass | `python -m tools.validation.run_android_ops_validation` |
+| Android Flaky Flow Detection P98 | 320 | flaky detector, compatibility report, metrics, and production runbook generation | 0 | pass | `python -m tools.validation.run_android_ops_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 43 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 46 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Device Health","type":"object","required":["schema_version","device_id","status","safe_to_run"],"properties":{"schema_version":{"const":"android_device_health/v1"},"safe_to_run":{"type":"boolean"}}}

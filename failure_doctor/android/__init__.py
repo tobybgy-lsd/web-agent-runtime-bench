@@ -7,6 +7,6 @@ or platform risk bypasses.
 """
 
 ANDROID_SCHEMA_VERSION = "android_apk_adapter/v1"
-ANDROID_ADAPTER_VERSION = "5.2.0"
+ANDROID_ADAPTER_VERSION = "5.3.0"
 
 __all__ = ["ANDROID_SCHEMA_VERSION", "ANDROID_ADAPTER_VERSION"]

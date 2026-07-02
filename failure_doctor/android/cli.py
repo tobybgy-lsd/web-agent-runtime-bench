@@ -39,6 +39,7 @@ def add_android_parser(sub: Any) -> None:
     run = android_sub.add_parser("run-flow", help="Run an Android UI flow in safe dry-run mode by default")
     run.add_argument("flow")
     run.add_argument("--out", required=True)
+    run.add_argument("--farm", default=None, help="Optional Android Ops farm manifest for planning context")
     run.add_argument("--dry-run", action="store_true", default=True)
 
     replay = android_sub.add_parser("replay", help="Replay an Android run report without touching a device")

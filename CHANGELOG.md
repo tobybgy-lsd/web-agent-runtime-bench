@@ -1,7 +1,14 @@
 # Changelog
 
-> Current package stable line: v5.2.0.
+> Current package stable line: v5.3.0.
 > v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v5.3.0
+
+- Added `failure-doctor android-ops` for local-only Android device farm and business workflow operations.
+- Added mock-first device farm, inventory, health, lease, recovery, Appium planning, business templates, data binding, scheduler, replay, flaky detection, compatibility report, mutation guard, metrics, runbook, console/CI/enterprise summaries.
+- Added Android Ops schemas, templates, examples, docs, release notes, validation runner, and P98 pillars for `android_real_device_farm`, `android_business_workflow_ops`, and `android_flaky_flow_detection`.
+- Android Ops remains authorized-workflow-only, dry-run by default, no upload/no telemetry/no external API, and blocks final submit and business mutation by default.
 
 ## v5.2.0
 

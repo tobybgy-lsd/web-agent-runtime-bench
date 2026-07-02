@@ -1,0 +1,2 @@
+task_id,title,body,sku,price,inventory,mode
+task_001,Mock title,Mock body,SKU001,19.90,100,dry_run

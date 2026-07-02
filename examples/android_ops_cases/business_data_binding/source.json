@@ -1,0 +1,14 @@
+{
+  "local_only": true,
+  "synthetic_or_mock": true,
+  "does_not_access_real_platform": true,
+  "does_not_call_external_api": true,
+  "does_not_upload_documents": true,
+  "does_not_modify_apk": true,
+  "does_not_hook_app": true,
+  "does_not_require_root": true,
+  "does_not_perform_real_business_mutation": true,
+  "contains_private_solution": false,
+  "diagnosis_only_no_bypass": true,
+  "public_safe": true
+}
