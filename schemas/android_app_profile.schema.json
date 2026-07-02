@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Android App Profile",
+  "type": "object",
+  "required": ["schema_version", "package_name", "authorized_target", "dry_run_default", "allow_final_submit_default"],
+  "properties": {
+    "schema_version": {"const": "android_app_profile/v1"},
+    "package_name": {"type": "string"},
+    "authorized_target": {"const": true},
+    "dry_run_default": {"const": true},
+    "allow_final_submit_default": {"const": false}
+  }
+}

@@ -47,7 +47,7 @@ def normalize_adapter_input(input_path: Path, out_dir: Path, *, kind: str) -> di
     subtype = _detect_subtype(kind, text)
     payload = {
         "schema_version": ADAPTER_VERSION,
-        "tool_version": "5.1.0",
+        "tool_version": "5.2.0",
         "created_at": _now(),
         "adapter_kind": kind,
         "input_path": str(input_path),
@@ -78,7 +78,7 @@ def diagnose_adapter_input(input_path: Path, out_dir: Path, *, kind: str) -> dic
     subtype = normalized["candidate_subtype"]
     diagnosis = {
         "schema_version": "adapter_diagnosis/v1",
-        "tool_version": "5.1.0",
+        "tool_version": "5.2.0",
         "failure_type": _failure_type_for_kind(kind),
         "subtype": subtype,
         "confidence": 0.88,

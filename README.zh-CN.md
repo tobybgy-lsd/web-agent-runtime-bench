@@ -1,12 +1,12 @@
-﻿# Agent Failure Doctor 中文文档
+# Agent Failure Doctor 中文文档
 
 [English documentation](README.md)
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack
-- 当前稳定版本：v5.1.0
-- 上一稳定版本：v5.0.1 README stable baseline wording patch
+- 当前里程碑：Agent Failure Doctor v5.2 Android APK Production Hardening & Workflow Template Pack
+- 当前稳定版本：v5.2.0
+- 上一稳定版本：v5.1.0 Android APK UI Automation Adapter Pack
 - 上一稳定版本：v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
 - P98 controlled maturity gate：已通过
 
@@ -49,6 +49,18 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
   --auto-diagnose --auto-handoff --auto-sanitize
 failure-doctor agent-bootstrap --target all --project .
 ```
+
+## v5.2 Android APK Production Hardening
+
+```powershell
+failure-doctor android-pro profile init --package com.example.mock --out .\android_profile
+failure-doctor android-pro locator-registry build --ui-dump .\ui.xml --out .\registry
+failure-doctor android-pro flow scaffold --template post_image_text_dry_run --out .\flow.yml
+failure-doctor android-pro flow lint --flow .\flow.yml --profile .\android_profile\android_app_profile.json --out .\lint
+failure-doctor android-pro onboarding-check --profile .\android_profile\android_app_profile.json --flow .\flow.yml --out .\onboarding
+```
+
+v5.2 新增 Android Pro 生产加固层，用于授权 / mock app 的本地证据工作流。它默认 dry-run，默认阻断最终提交，阻断以绝对坐标作为主定位方式，并且 locator 自愈只输出候选建议，必须人工复核后再采用。
 
 ## v5.1 Android APK UI Automation Adapter
 
@@ -158,4 +170,3 @@ Agent Failure Doctor 不是：
 - 凭据提取器
 
 项目默认只处理本地、脱敏、授权的失败证据。公开仓库和 PyPI 包不包含本地私有训练题、solver、FLAG、hook、VMP、challenge pass、轨迹生成或隐身配方。
-

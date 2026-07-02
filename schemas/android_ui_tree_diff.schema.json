@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android UI Tree Diff","type":"object","required":["schema_version","changes"],"properties":{"schema_version":{"const":"android_ui_tree_diff/v1"},"changes":{"type":"array"}}}

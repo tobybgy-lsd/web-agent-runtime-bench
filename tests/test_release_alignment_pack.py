@@ -1,4 +1,4 @@
-﻿import json
+import json
 import unittest
 from pathlib import Path
 
@@ -11,7 +11,7 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         opening = readme[:2200]
 
-        self.assertIn("Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack", opening)
+        self.assertIn("Current milestone: Agent Failure Doctor v5.2 Android APK Production Hardening & Workflow Template Pack", opening)
         self.assertIn("Earlier stable line: Agent Failure Doctor v3.9.0", opening)
         self.assertIn("P98 gate:", opening)
         self.assertNotIn("Current milestone: v0.8", opening)
@@ -122,5 +122,3 @@ class ReleaseAlignmentPackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-

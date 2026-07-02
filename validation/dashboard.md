@@ -4,12 +4,12 @@ Agent Failure Doctor keeps validation lanes separate. Stable release, completed 
 
 ## 1. Current Stable Release
 
-Agent Failure Doctor v5.1.0 is the current controlled-maturity stable line.
+Agent Failure Doctor v5.2.0 is the current controlled-maturity stable line.
 
 | Release | Status | Notes |
 |---|---|---|
-| v5.1.0 Android APK UI Automation Adapter Pack | pass | Current package stable line with local-only Android APK UI evidence adapter, flow dry-run validation, UI tree diagnostics, replay, and safety gates. |
-| v5.0.1 README stable baseline wording patch | previous stable | README and release wording patch; no API/schema/plugin ABI changes. |
+| v5.2.0 Android APK Production Hardening & Workflow Template Pack | pass | Current package stable line with Android Pro app profiles, page objects, locator registry, locator healing recommendations, UI diffs, workflow templates, device matrix, queues, replay packs, and stability scoring. |
+| v5.1.0 Android APK UI Automation Adapter Pack | previous stable | Local-only Android APK UI evidence adapter, flow dry-run validation, UI tree diagnostics, replay, and safety gates. |
 | v5.0.0 Stable API / Schema / Plugin ABI Standardization Release | previous stable | Stable CLI, schema registry, plugin ABI, adapter, deploy, documentation adoption, and compatibility gates. |
 | v4.3.0 Real User Case Program & Public Benchmark Pack | previous stable | Previous package stable line with public-safe case intake, anonymization, publish checks, issue packs, local benchmark suites, regression compare, and no upload or external API calls by default. |
 | v4.2.0 Plugin SDK & Adapter Ecosystem Pack | previous stable | Previous package stable line with local-only plugin scaffold, validation, registry, audit log, safe candidate runner, plugin-aware console/CI/agent-bootstrap integration, and network/shell/raw access blocked by default. |
@@ -76,8 +76,11 @@ Agent Failure Doctor v5.1.0 is the current controlled-maturity stable line.
 | Android APK UI Automation P98 | 220 | Android flow dry-run, logcat summary, screenshot metadata, and local Appium-style evidence | 0 | pass | `python -m tools.validation.run_android_apk_automation_validation` |
 | Android UI Tree Diagnostics P98 | 220 | UI tree normalization, locator resolution, stale tree and permission dialog diagnostics | 0 | pass | `python -m tools.validation.run_android_apk_automation_validation` |
 | Mobile Flow Replay P98 | 220 | flow validation, safe dry-run replay, final-submit blocked by default | 0 | pass | `python -m tools.validation.run_android_apk_automation_validation` |
+| Android Production Hardening P98 | 260 | app profiles, page objects, registry validation, workflow lint/compile, replay packs, and stability scoring | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
+| Android Locator Self-Healing P98 | 260 | recommendation-only locator candidates, manual approval required, coordinate-primary blocked | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
+| Android Device Matrix Runner P98 | 260 | local mock matrix, queue checkpointing, onboarding checks, zero external API calls | 0 | pass | `python -m tools.validation.run_android_production_hardening_validation` |
 | Safety Boundary P98 | all pillars | global forbidden output 0, private leaks 0, real platform access 0 | 0 | pass | `powershell -ExecutionPolicy Bypass -File scripts\local_safety_scan.ps1` |
-| P98 Master Gate | 40 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
+| P98 Master Gate | 43 pillars | `overall_status=pass`, controlled maturity score 98 | 0 | pass | `python -m tools.validation.run_p98_master_gate` |
 
 ## 4. Limits
 

@@ -71,6 +71,24 @@ class TraceContext:
             url=url or self.url,
         )
 
+
+    def derive(
+        self,
+        run_id: str | None = None,
+        session_id: str | None = None,
+        page_num: int | None = None,
+        record_idx: int | None = None,
+        url: str | None = None,
+    ) -> "TraceContext":
+        """从当前上下文派生，并覆盖指定属性。"""
+        return TraceContext(
+            run_id=run_id if run_id is not None else self.run_id,
+            session_id=session_id if session_id is not None else self.session_id,
+            page_num=page_num if page_num is not None else self.page_num,
+            record_idx=record_idx if record_idx is not None else self.record_idx,
+            url=url if url is not None else self.url,
+        )
+
     def to_dict(self) -> dict[str, Any]:
         d: dict[str, Any] = {"run_id": self.run_id, "session_id": self.session_id}
         if self.page_num is not None:
@@ -123,7 +141,7 @@ class StructuredLogger:
     def _write(self, level: str, msg: str, ctx: TraceContext | None, **extra: Any) -> None:
         self._seq += 1
         entry: dict[str, Any] = {
-            "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "level": level,
             "trace_id": f"{self.run_id}#{self._seq:04d}",
             "run_id": self.run_id,

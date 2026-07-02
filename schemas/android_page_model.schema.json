@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Page Model","type":"object","required":["schema_version","elements"],"properties":{"schema_version":{"const":"android_page_model/v1"},"elements":{"type":"array"}}}

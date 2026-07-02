@@ -10,7 +10,7 @@ class DistributionFeedbackPackTests(unittest.TestCase):
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
 
         self.assertIn('name = "agent-failure-doctor"', pyproject)
-        self.assertIn('version = "5.1.0"', pyproject)
+        self.assertIn('version = "5.2.0"', pyproject)
         self.assertIn('"Development Status :: 4 - Beta"', pyproject)
         self.assertIn('failure-doctor = "failure_doctor.cli:main"', pyproject)
         self.assertIn('Repository = "https://github.com/tobybgy-lsd/web-agent-runtime-bench"', pyproject)
@@ -70,5 +70,4 @@ class DistributionFeedbackPackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
 

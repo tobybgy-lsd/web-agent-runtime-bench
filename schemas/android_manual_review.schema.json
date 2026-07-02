@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Manual Review","type":"object","required":["schema_version","requires_manual_review"],"properties":{"schema_version":{"const":"android_manual_review/v1"},"requires_manual_review":{"type":"boolean"}}}

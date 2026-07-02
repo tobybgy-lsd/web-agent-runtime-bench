@@ -76,7 +76,7 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        self.assertIn('version = "5.1.0"', pyproject)
+        self.assertIn('version = "5.2.0"', pyproject)
         self.assertIn("v3.9 Local Failure Knowledge Base Pack", readme)
         self.assertIn("v2.4.1 P95 Alignment & Missing Tracks Pack", readme)
         self.assertIn("Batch Diagnosis / Fleet Mode", readme)
@@ -90,5 +90,4 @@ class BatchDiagnosisFleetModeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
 

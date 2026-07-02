@@ -1,0 +1,8 @@
+schema_version: android_flow/v1
+authorized_target: true
+target_kind: mock_app
+dry_run_default: true
+allow_final_submit: false
+steps:
+  - action: pick_mock_images
+  - action: preview_selection

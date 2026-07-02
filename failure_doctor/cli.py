@@ -16,6 +16,7 @@ from failure_doctor.adapters.core import normalize_adapter_input
 from failure_doctor.android.cli import add_android_parser, handle_android
 from failure_doctor.android.diagnosis import write_android_diagnosis
 from failure_doctor.android.normalizer import normalize_android_input
+from failure_doctor.android_pro.cli import add_android_pro_parser, handle_android_pro
 from failure_doctor.auto_collect import collect_project, watch_project
 from failure_doctor.benchmark.cli import add_benchmark_parser, handle_benchmark
 from failure_doctor.cases.cli import add_case_parser, handle_case, handle_issue_pack
@@ -132,6 +133,8 @@ def main(argv: list[str] | None = None) -> int:
         return handle_adapter(args)
     if args.command == "android":
         return handle_android(args)
+    if args.command == "android-pro":
+        return handle_android_pro(args)
     if args.command == "deploy":
         return handle_deploy(args)
     if args.command == "stability":
@@ -379,6 +382,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_benchmark_parser(sub)
     add_adapter_parser(sub)
     add_android_parser(sub)
+    add_android_pro_parser(sub)
     add_deploy_parser(sub)
     add_stability_parser(sub)
     add_reasoning_parsers(sub)

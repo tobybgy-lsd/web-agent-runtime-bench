@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Task Result","type":"object","required":["schema_version","status","checkpoint_written"],"properties":{"schema_version":{"const":"android_task_result/v1"},"status":{"enum":["pass","fail"]},"checkpoint_written":{"type":"boolean"}}}

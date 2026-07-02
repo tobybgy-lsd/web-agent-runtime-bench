@@ -17,7 +17,7 @@ class AgentFrontendInvocationTests(unittest.TestCase):
             manifest = bootstrap_agent_frontend(project, target="all")
 
             self.assertEqual(manifest["schema_version"], "agent_invocation_pack/v1")
-            self.assertEqual(manifest["pack_version"], "5.1.0")
+            self.assertEqual(manifest["pack_version"], "5.2.0")
             self.assertEqual(set(manifest["targets"]), set(AGENT_TARGETS))
             self.assertTrue((project / ".failure-doctor" / "AGENT_ENTRYPOINT.md").exists())
 
@@ -90,4 +90,3 @@ class AgentFrontendInvocationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

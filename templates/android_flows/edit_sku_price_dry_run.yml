@@ -1,0 +1,9 @@
+schema_version: android_flow/v1
+authorized_target: true
+target_kind: mock_app
+dry_run_default: true
+allow_final_submit: false
+steps:
+  - action: open_mock_sku
+  - action: edit_price_field
+  - action: preview_change

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Flow Compiled","type":"object","required":["schema_version","status","allow_final_submit"],"properties":{"schema_version":{"const":"android_flow_compiled/v1"},"status":{"enum":["pass","fail"]},"allow_final_submit":{"const":false}}}

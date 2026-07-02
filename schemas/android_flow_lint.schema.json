@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Flow Lint","type":"object","required":["schema_version","status","findings"],"properties":{"schema_version":{"const":"android_flow_lint/v1"},"status":{"enum":["pass","fail"]},"findings":{"type":"array"}}}

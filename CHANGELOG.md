@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v5.1.0.
+> Current package stable line: v5.2.0.
 > v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v5.2.0
+
+- Added the local-only Android APK Production Hardening & Workflow Template Pack.
+- Added `failure-doctor android-pro` profile, page-object, locator-registry, locator-heal, ui-diff, flow, matrix, queue, replay-pack, stability-score, onboarding-check, and console-summary commands.
+- Added Android Pro app profile, page model, locator registry, locator candidate, UI diff, flow, matrix, queue, replay pack, stability score, and manual review schemas.
+- Added safe dry-run Android workflow templates under `templates/android_flows`.
+- Added `android_production_hardening`, `android_locator_self_healing`, and `android_device_matrix_runner` P98 pillars backed by 260 local mock validation cases.
+- Preserved the public safety boundary: dry-run by default, final-submit blocked by default, no external upload, no private device data access, no APK modification, no hook usage, no root requirement, and no unsupported anti-abuse guidance.
 
 ## v5.1.0
 

@@ -27,11 +27,11 @@ Previous P95 stable: v2.4.1.
 
 **Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
 
-Optional v5.1 output: sanitized public cases, benchmark reports, adapter reports, Android APK UI evidence reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
+Optional v5.2 output: sanitized public cases, benchmark reports, adapter reports, Android APK UI evidence reports, Android Pro hardening reports, deployment health reports, stability reports, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
 
-- Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack
-- Current stable line: v5.1.0
-- Previous stable line: Agent Failure Doctor v5.0.1 README stable baseline wording patch
+- Current milestone: Agent Failure Doctor v5.2 Android APK Production Hardening & Workflow Template Pack
+- Current stable line: v5.2.0
+- Previous stable line: Agent Failure Doctor v5.1.0 Android APK UI Automation Adapter Pack
 - Previous stable line: Agent Failure Doctor v5.0.0 Stable API / Schema / Plugin ABI Standardization Release
 - Earlier stable line: Agent Failure Doctor v4.3.0 Real User Case Program & Public Benchmark Pack
 - Previous stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack
@@ -48,7 +48,22 @@ Optional v5.1 output: sanitized public cases, benchmark reports, adapter reports
 
 **Fleet command:** `failure-doctor batch`.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `android`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `android`; `android-pro`; `case`; `issue-pack`; `benchmark`; `adapter`; `deploy`; `stability`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### v5.2 Android APK Production Hardening
+
+```powershell
+failure-doctor android-pro profile init --package com.example.mock --out .\android_profile
+failure-doctor android-pro locator-registry build --ui-dump .\ui.xml --out .\registry
+failure-doctor android-pro flow scaffold --template post_image_text_dry_run --out .\flow.yml
+failure-doctor android-pro flow lint --flow .\flow.yml --profile .\android_profile\android_app_profile.json --out .\lint
+failure-doctor android-pro onboarding-check --profile .\android_profile\android_app_profile.json --flow .\flow.yml --out .\onboarding
+```
+
+v5.2 adds an Android Pro production-hardening layer for authorized/mock app
+automation evidence. It keeps workflows local-only and dry-run by default,
+keeps final action execution off by default, blocks coordinate-primary locators, and reports
+locator healing candidates for manual review instead of auto-applying them.
 
 ### v5.1 Android APK UI Automation Adapter
 
@@ -244,10 +259,10 @@ safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
 regulated workflow, batch/fleet, and full-chain reports. See
 [docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
-Release tracks: Current stable line: Agent Failure Doctor v5.1.0 Android APK UI
-Automation Adapter Pack; previous stable line: Agent Failure Doctor v5.0.1
-README stable baseline wording patch; previous P95 stable line: Agent Failure
-Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
+Release tracks: Current stable line: Agent Failure Doctor v5.2.0 Android APK
+Production Hardening & Workflow Template Pack; previous stable line: Agent Failure
+Doctor v5.1.0 Android APK UI Automation Adapter Pack; previous P95 stable line:
+Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
 
@@ -331,9 +346,9 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v5.1.0 is the current stable technical baseline. It keeps the v5.0 Stable API /
-Schema / Plugin ABI baseline and adds the local-only Android APK UI Automation
-Adapter Pack. The v5.1 stable line includes public-safe case intake, sanitized issue packs, local
+v5.2.0 is the current stable technical baseline. It keeps the v5.0 Stable API /
+Schema / Plugin ABI baseline and adds the local-only Android APK Production
+Hardening & Workflow Template Pack. The v5.2 stable line includes public-safe case intake, sanitized issue packs, local
 benchmark/regression gates, cross-adapter support, deployment hardening,
 documentation/demo adoption assets, and stable API/schema/plugin ABI checks on
 top of the local Plugin SDK, enterprise governance, hybrid evidence reasoning,
@@ -745,7 +760,7 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v5.1 Android APK UI Automation Adapter Pack.
+Current milestone: Agent Failure Doctor v5.2 Android APK Production Hardening & Workflow Template Pack.
 
 Previous stable line: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
 
@@ -876,4 +891,3 @@ Run smoke and safety checks:
 scripts\smoke_test.ps1
 scripts\local_safety_scan.ps1
 ```
-

@@ -1,11 +1,11 @@
 {
-  "version": "v5.1.0",
+  "version": "v5.2.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v5.1.0",
-  "previous_stable_line": "v5.0.1",
+  "current_stable_line": "v5.2.0",
+  "previous_stable_line": "v5.1.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -593,6 +593,63 @@
       "unsafe_flow_cases": 40,
       "external_api_call_count": 0
     },
+    "android_production_hardening": {
+      "status": "pass",
+      "validation_file": "android_production_hardening_validation.json",
+      "total_cases": 260,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 260,
+      "app_profile_validation_correct": 258,
+      "locator_self_healing_candidate_correct": 250,
+      "flow_lint_correct": 258,
+      "unsafe_flow_blocked": 40,
+      "unsafe_flow_cases": 40,
+      "device_matrix_mock_success": 250,
+      "external_api_call_count": 0
+    },
+    "android_locator_self_healing": {
+      "status": "pass",
+      "validation_file": "android_production_hardening_validation.json",
+      "total_cases": 260,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 260,
+      "app_profile_validation_correct": 258,
+      "locator_self_healing_candidate_correct": 250,
+      "flow_lint_correct": 258,
+      "unsafe_flow_blocked": 40,
+      "unsafe_flow_cases": 40,
+      "device_matrix_mock_success": 250,
+      "external_api_call_count": 0
+    },
+    "android_device_matrix_runner": {
+      "status": "pass",
+      "validation_file": "android_production_hardening_validation.json",
+      "total_cases": 260,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "cases": 260,
+      "app_profile_validation_correct": 258,
+      "locator_self_healing_candidate_correct": 250,
+      "flow_lint_correct": 258,
+      "unsafe_flow_blocked": 40,
+      "unsafe_flow_cases": 40,
+      "device_matrix_mock_success": 250,
+      "external_api_call_count": 0
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -604,7 +661,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v5.1.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v5.2.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },

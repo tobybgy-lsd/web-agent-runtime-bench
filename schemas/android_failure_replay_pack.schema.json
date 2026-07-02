@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Android Failure Replay Pack","type":"object","required":["schema_version","status","sanitized"],"properties":{"schema_version":{"const":"android_failure_replay_pack/v1"},"status":{"enum":["pass","fail"]},"sanitized":{"const":true}}}
