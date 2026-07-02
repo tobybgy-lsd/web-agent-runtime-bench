@@ -1,0 +1,4 @@
+{
+  "failure_type": "playwright_locator_failure",
+  "subtype": "locator_timeout_public_safe"
+}

@@ -12,6 +12,8 @@ from failure_doctor.batch import discover_runs, write_batch_report
 from failure_doctor.ai_handoff import write_ai_handoff_pack, write_patch_proposal
 from failure_doctor.agent_invocation import AGENT_TARGETS, bootstrap_agent_frontend
 from failure_doctor.auto_collect import collect_project, watch_project
+from failure_doctor.benchmark.cli import add_benchmark_parser, handle_benchmark
+from failure_doctor.cases.cli import add_case_parser, handle_case, handle_issue_pack
 from failure_doctor.ci.cli import handle_ci
 from failure_doctor.run_capture import capture_run, write_shareable_zip
 from failure_doctor.sanitize_share import sanitize_failure_pack
@@ -113,6 +115,12 @@ def main(argv: list[str] | None = None) -> int:
         return handle_enterprise(args)
     if args.command == "plugin":
         return handle_plugin(args)
+    if args.command == "case":
+        return handle_case(args)
+    if args.command == "issue-pack":
+        return handle_issue_pack(args)
+    if args.command == "benchmark":
+        return handle_benchmark(args)
     parser.print_help()
     return 1
 
@@ -343,6 +351,8 @@ def build_parser() -> argparse.ArgumentParser:
     full_chain.add_argument("--include-visual", action="store_true")
     full_chain.add_argument("--include-regulated", action="store_true")
     add_plugin_parser(sub)
+    add_case_parser(sub)
+    add_benchmark_parser(sub)
     add_reasoning_parsers(sub)
     add_enterprise_parser(sub)
     add_kb_parser(sub)

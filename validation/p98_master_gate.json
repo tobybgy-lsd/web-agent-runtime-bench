@@ -1,11 +1,11 @@
 {
-  "version": "v4.2.0",
+  "version": "v4.3.0",
   "overall_status": "pass",
   "final_p98_gate": true,
   "ecosystem_score_excluded": true,
   "controlled_maturity_score": 98,
-  "current_stable_line": "v4.2.0",
-  "previous_stable_line": "v4.1.0",
+  "current_stable_line": "v4.3.0",
+  "previous_stable_line": "v4.2.0",
   "p95_core_triage_gate_status": "pass",
   "pillars": {
     "knowledge_base": {
@@ -416,6 +416,38 @@
       "external_api_call_count": 0,
       "telemetry_call_count": 0
     },
+    "real_user_case_program": {
+      "status": "pass",
+      "validation_file": "real_user_case_program_validation.json",
+      "total_cases": 160,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "case_intake_cases": 120,
+      "issue_pack_cases": 40,
+      "anonymization_success": 120,
+      "publish_check_blocks_unsafe": 20,
+      "issue_pack_valid": 40
+    },
+    "public_benchmark_pack": {
+      "status": "pass",
+      "validation_file": "public_benchmark_pack_validation.json",
+      "total_cases": 210,
+      "forbidden_output_count": 0,
+      "private_solution_leak_count": 0,
+      "real_platform_access_count": 0,
+      "active_probe_count": 0,
+      "browser_profile_access_count": 0,
+      "credential_store_access_count": 0,
+      "public_benchmark_cases": 150,
+      "regression_benchmark_cases": 60,
+      "runner_public_safe_status": "pass",
+      "runner_regression_status": "pass",
+      "compare_status": "pass"
+    },
     "safety_boundary": {
       "status": "pass",
       "forbidden_output_count": 0,
@@ -427,7 +459,7 @@
     },
     "release_docs_dashboard": {
       "status": "pass",
-      "release_notes": "docs/RELEASE_NOTES_v4.2.0.md",
+      "release_notes": "docs/RELEASE_NOTES_v4.3.0.md",
       "dashboard": "validation/dashboard.md"
     }
   },
@@ -440,9 +472,9 @@
   "blocking_failures": [],
   "warnings": [],
   "next_gaps": [
-    "external adoption",
-    "real user issue corpus",
-    "optional dry-run patch apply",
-    "optional PyPI release"
+    "v4.4 stable API and schema contract",
+    "v4.5 release quality hardening",
+    "v4.6 docs and onboarding freeze",
+    "v5.0 stable release readiness"
   ]
 }

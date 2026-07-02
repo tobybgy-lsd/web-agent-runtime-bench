@@ -1,0 +1,1216 @@
+{
+  "version": "v4.3.0",
+  "status": "pass",
+  "case_intake_cases": 120,
+  "issue_pack_cases": 40,
+  "anonymization_success": 120,
+  "publish_check_blocks_unsafe": 20,
+  "issue_pack_valid": 40,
+  "raw_secret_in_public_case": 0,
+  "private_solution_leak_count": 0,
+  "forbidden_output_count": 0,
+  "external_api_call_count": 0,
+  "real_platform_access_count": 0,
+  "cases": [
+    {
+      "case_id": "real_user_case_001",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_002",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_003",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_004",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_005",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_006",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_007",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_008",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_009",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_010",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_011",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_012",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_013",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_014",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_015",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_016",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_017",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_018",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_019",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_020",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_021",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_022",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_023",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_024",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_025",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_026",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_027",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_028",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_029",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_030",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_031",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_032",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_033",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_034",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_035",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_036",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_037",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_038",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_039",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_040",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_041",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_042",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_043",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_044",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_045",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_046",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_047",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_048",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_049",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_050",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_051",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_052",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_053",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_054",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_055",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_056",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_057",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_058",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_059",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_060",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_061",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_062",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_063",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_064",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_065",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_066",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_067",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_068",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_069",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_070",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_071",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_072",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_073",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_074",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_075",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_076",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_077",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_078",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_079",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_080",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_081",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_082",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_083",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_084",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_085",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_086",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_087",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_088",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_089",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_090",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_091",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_092",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_093",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_094",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_095",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_096",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_097",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_098",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_099",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_100",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_101",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_102",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_103",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_104",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_105",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_106",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_107",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_108",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_109",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_110",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_111",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_112",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_113",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_114",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_115",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_116",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_117",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_118",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_119",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    },
+    {
+      "case_id": "real_user_case_120",
+      "intake_success": true,
+      "anonymized": true,
+      "publish_check_status": "pass",
+      "raw_secret_in_public_case": 0,
+      "private_solution_leak_count": 0,
+      "forbidden_output_count": 0,
+      "export_public_success": true
+    }
+  ]
+}

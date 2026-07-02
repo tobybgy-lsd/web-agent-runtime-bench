@@ -1,0 +1,20 @@
+{
+  "schema_version": "public_case/v1",
+  "case_id": "public_case_001",
+  "created_at": "2026-07-02T00:00:00+00:00",
+  "source": "synthetic",
+  "public_safe": true,
+  "sanitized": true,
+  "contains_real_secret": false,
+  "contains_private_solution": false,
+  "contains_customer_data": false,
+  "contains_pii": false,
+  "contains_phi": false,
+  "contains_credentials": false,
+  "diagnosis_only_no_bypass": true,
+  "license": "MIT",
+  "failure_type": "playwright_locator_failure",
+  "subtype": "locator_timeout_public_safe",
+  "framework": "playwright",
+  "expected_outputs": ["diagnosis", "safety", "full_chain", "benchmark_score"]
+}

@@ -1,12 +1,12 @@
-# Agent Failure Doctor 中文文档
+﻿# Agent Failure Doctor 中文文档
 
 [English documentation](README.md)
 
 Agent Failure Doctor 是一个本地优先的自动化失败诊断工具，面向 AI Browser Agent、Playwright、爬虫脚本、RPA、截图驱动的 Computer Use 运行，以及 OCR / 文档 / 表格密集型自动化失败。
 
-- 当前里程碑：Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack
-- 当前稳定版本：v4.2.0
-- 上一稳定版本：v4.1.0 Enterprise Governance & Role-Based Console Pack
+- 当前里程碑：Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack
+- 当前稳定版本：v4.3.0
+- 上一稳定版本：v4.2.0 Plugin SDK & Adapter Ecosystem Pack
 - P98 controlled maturity gate：已通过
 
 ## 输入
@@ -49,6 +49,17 @@ failure-doctor collect --project . --preset auto --out .\failure_doctor_auto_rep
 failure-doctor agent-bootstrap --target all --project .
 ```
 
+## v4.3 Real User Case Program & Public Benchmark
+
+```powershell
+failure-doctor case intake --input .\raw_failure_pack --out .\sanitized_case
+failure-doctor case publish-check --case .\sanitized_case
+failure-doctor issue-pack create --input .\raw_failure_pack --out .\issue_pack
+failure-doctor benchmark run --suite public-safe --out .\benchmark_public
+failure-doctor benchmark compare --baseline .\benchmark_public --candidate .\benchmark_public --out .\benchmark_compare
+```
+
+v4.3 鎶婄湡瀹炵敤鎴峰け璐ユ潗鏂欐敹闆嗗拰鍏叡 benchmark 鍙樻垚 public-safe 流程：先脱敏，再校验，再生成 issue pack 或 benchmark report。默认本地运行，不上传，不调用外部 API，不发布私有训练解法。
 ## v4.2 Plugin SDK
 
 ```powershell
@@ -124,3 +135,4 @@ Agent Failure Doctor 不是：
 - 凭据提取器
 
 项目默认只处理本地、脱敏、授权的失败证据。公开仓库和 PyPI 包不包含本地私有训练题、solver、FLAG、hook、VMP、challenge pass、轨迹生成或隐身配方。
+

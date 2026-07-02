@@ -35,6 +35,8 @@ PILLAR_FILES = {
     "plugin_sdk_ecosystem": "plugin_sdk_ecosystem_validation.json",
     "plugin_security_sandbox": "plugin_sdk_ecosystem_validation.json",
     "adapter_extension_api": "plugin_sdk_ecosystem_validation.json",
+    "real_user_case_program": "real_user_case_program_validation.json",
+    "public_benchmark_pack": "public_benchmark_pack_validation.json",
 }
 
 
@@ -282,6 +284,38 @@ def pillar_status(name: str, payload: dict[str, Any]) -> str:
             payload.get("real_platform_access_count") == 0,
         )
         return "pass" if all(conditions) else "fail"
+    if name == "real_user_case_program":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("case_intake_cases", 0) >= 120,
+            payload.get("issue_pack_cases", 0) >= 40,
+            payload.get("anonymization_success") == payload.get("case_intake_cases"),
+            payload.get("publish_check_blocks_unsafe", 0) >= 20,
+            payload.get("issue_pack_valid") == payload.get("issue_pack_cases"),
+            payload.get("raw_secret_in_public_case") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("forbidden_output_count") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
+    if name == "public_benchmark_pack":
+        conditions = (
+            payload.get("status") == "pass",
+            payload.get("public_benchmark_cases", 0) >= 150,
+            payload.get("regression_benchmark_cases", 0) >= 60,
+            payload.get("runner_public_safe_status") == "pass",
+            payload.get("runner_regression_status") == "pass",
+            payload.get("suite_validation_public_safe") == "pass",
+            payload.get("suite_validation_regression") == "pass",
+            payload.get("compare_status") == "pass",
+            payload.get("benchmark_artifacts_generated") is True,
+            payload.get("forbidden_output_count") == 0,
+            payload.get("private_solution_leak_count") == 0,
+            payload.get("external_api_call_count") == 0,
+            payload.get("real_platform_access_count") == 0,
+        )
+        return "pass" if all(conditions) else "fail"
     return "pass" if payload.get("status") == "pass" else "fail"
 
 
@@ -461,6 +495,34 @@ def build_payload() -> dict[str, Any]:
                     "telemetry_call_count": payload.get("telemetry_call_count"),
                 }
             )
+        if name == "real_user_case_program":
+            pillars[name].update(
+                {
+                    "total_cases": (
+                        (payload.get("case_intake_cases") or 0)
+                        + (payload.get("issue_pack_cases") or 0)
+                    ),
+                    "case_intake_cases": payload.get("case_intake_cases"),
+                    "issue_pack_cases": payload.get("issue_pack_cases"),
+                    "anonymization_success": payload.get("anonymization_success"),
+                    "publish_check_blocks_unsafe": payload.get("publish_check_blocks_unsafe"),
+                    "issue_pack_valid": payload.get("issue_pack_valid"),
+                }
+            )
+        if name == "public_benchmark_pack":
+            pillars[name].update(
+                {
+                    "total_cases": (
+                        (payload.get("public_benchmark_cases") or 0)
+                        + (payload.get("regression_benchmark_cases") or 0)
+                    ),
+                    "public_benchmark_cases": payload.get("public_benchmark_cases"),
+                    "regression_benchmark_cases": payload.get("regression_benchmark_cases"),
+                    "runner_public_safe_status": payload.get("runner_public_safe_status"),
+                    "runner_regression_status": payload.get("runner_regression_status"),
+                    "compare_status": payload.get("compare_status"),
+                }
+            )
         if status != "pass":
             blocking_failures.append(f"{name}: status={status}")
 
@@ -471,7 +533,7 @@ def build_payload() -> dict[str, Any]:
     else:
         p95_status = "missing"
     safety_status = "pass" if total_forbidden == 0 and total_private_leaks == 0 and total_real_access == 0 and total_active_probe == 0 and total_browser_profile_access == 0 and total_credential_store_access == 0 else "fail"
-    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v4.2.0.md").exists() else "fail"
+    release_docs_status = "pass" if (ROOT / "docs" / "RELEASE_NOTES_v4.3.0.md").exists() else "fail"
     pillars["safety_boundary"] = {
         "status": safety_status,
         "forbidden_output_count": total_forbidden,
@@ -483,7 +545,7 @@ def build_payload() -> dict[str, Any]:
     }
     pillars["release_docs_dashboard"] = {
         "status": release_docs_status,
-        "release_notes": "docs/RELEASE_NOTES_v4.2.0.md",
+        "release_notes": "docs/RELEASE_NOTES_v4.3.0.md",
         "dashboard": "validation/dashboard.md",
     }
     if p95_status != "pass":
@@ -491,7 +553,7 @@ def build_payload() -> dict[str, Any]:
     if safety_status != "pass":
         blocking_failures.append("safety_boundary: forbidden/private/real-platform/active-probe/profile/credential count is non-zero")
     if release_docs_status != "pass":
-        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v4.2.0.md")
+        blocking_failures.append("release_docs_dashboard: missing docs/RELEASE_NOTES_v4.3.0.md")
 
     all_pillars_pass = all(pillar["status"] == "pass" for pillar in pillars.values())
     controlled_maturity_score = 98 if all_pillars_pass and p95_status == "pass" else 94
@@ -509,13 +571,13 @@ def build_payload() -> dict[str, Any]:
         else "fail"
     )
     return {
-        "version": "v4.2.0",
+        "version": "v4.3.0",
         "overall_status": overall_status,
         "final_p98_gate": True,
         "ecosystem_score_excluded": True,
         "controlled_maturity_score": controlled_maturity_score,
-        "current_stable_line": "v4.2.0" if overall_status == "pass" else "v4.1.0",
-        "previous_stable_line": "v4.1.0",
+        "current_stable_line": "v4.3.0" if overall_status == "pass" else "v4.2.0",
+        "previous_stable_line": "v4.2.0",
         "p95_core_triage_gate_status": p95_status,
         "pillars": pillars,
         "global_forbidden_output_count": total_forbidden,
@@ -527,10 +589,10 @@ def build_payload() -> dict[str, Any]:
         "blocking_failures": blocking_failures,
         "warnings": warnings,
         "next_gaps": [
-            "external adoption",
-            "real user issue corpus",
-            "optional dry-run patch apply",
-            "optional PyPI release",
+            "v4.4 stable API and schema contract",
+            "v4.5 release quality hardening",
+            "v4.6 docs and onboarding freeze",
+            "v5.0 stable release readiness",
         ],
     }
 

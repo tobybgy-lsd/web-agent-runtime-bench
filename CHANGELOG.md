@@ -1,7 +1,16 @@
 # Changelog
 
-> Current package stable line: v4.2.0.
-> v4.1.0 remains the previous enterprise governance stable release, v4.0.0 remains the previous hybrid evidence reasoning stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+> Current package stable line: v4.3.0.
+> v4.2.0 remains the previous plugin SDK stable release, v4.1.0 remains the previous enterprise governance stable release, and v2.4.1 remains the previous P95 stable release. Ecosystem maturity is tracked separately from P98 controlled maturity.
+
+## v4.3.0
+
+- Added `failure-doctor case intake/anonymize/validate/publish-check/export-public`.
+- Added `failure-doctor issue-pack create/validate` for sanitized GitHub issue attachments.
+- Added `failure-doctor benchmark run/compare/validate-suite` with public-safe and regression suites.
+- Added public case manifests, anonymization, publish checks, issue packs, benchmark reports, regression diffs, and open-this-first summaries.
+- Added `real_user_case_program` and `public_benchmark_pack` P98 pillars with local-only validation gates.
+- Preserved the public safety boundary: no upload by default, no external API calls, no telemetry, no private local training assets, and benchmark cases remain diagnosis-only.
 
 ## v4.2.0
 

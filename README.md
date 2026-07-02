@@ -13,23 +13,28 @@ Playwright, crawler, RPA, and business automation failures.
 
 **Output:** diagnosis, evidence, next action, repair suggestions, GitHub issue draft, Codex fix prompt.
 
-**Lifecycle commands:** `diagnose` / `plan` / `verify` / `run`.
-
-**Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
-
-Optional v4.2 output: plugin validation reports, plugin candidates, plugin audit logs, evidence-bound reasoning, local web console, and CI/CD gate.
-
 Quickstart: `python -m pip install agent-failure-doctor`; `git clone https://github.com/tobybgy-lsd/web-agent-runtime-bench.git`; `cd web-agent-runtime-bench`; `failure-doctor diagnose .\examples\failed_runs\proxy_network_error --out .\report`; `failure-doctor plan .\report --out .\fix_plan`; `failure-doctor propose-patch --repo . --report .\report --out .\patch_plan`; `failure-doctor agent-bootstrap --target all --project .`.
-
-- Current milestone: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack
-- Current stable line: v4.2.0
-- Previous stable line: Agent Failure Doctor v4.1.0 Enterprise Governance & Role-Based Console Pack
-- Earlier stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
-- Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack (v3.9 Local Failure Knowledge Base Pack)
-- Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **P98 gate:** passed. P98 master gate passed.
 See [validation/dashboard.md](validation/dashboard.md) for the validation dashboard.
+Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack.
+Previous P95 stable: v2.4.1.
+
+**Lifecycle commands:** `diagnose` / `plan` / `verify` / `run`.
+
+**Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
+
+**Key commands:** `failure-doctor propose-patch`; `failure-doctor batch`; `sanitize` / `adapt`.
+
+Optional v4.3 output: sanitized public cases, issue packs, benchmark reports, regression diffs, plugin validation reports, evidence-bound reasoning, local web console, and CI/CD gate.
+
+- Current milestone: Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack
+- Current stable line: v4.3.0
+- Previous stable line: Agent Failure Doctor v4.2.0 Plugin SDK & Adapter Ecosystem Pack
+- Earlier stable line: Agent Failure Doctor v4.1.0 Enterprise Governance & Role-Based Console Pack
+- Earlier stable line: Agent Failure Doctor v4.0.0 Hybrid Evidence Reasoning Pack
+- Earlier stable line: Agent Failure Doctor v3.9.0 Local Failure Knowledge Base Pack (v3.9 Local Failure Knowledge Base Pack)
+- Previous P95 stable line: Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack
 
 **Classic lifecycle:** diagnose -> plan -> AI handoff / patch proposal -> verify -> sanitize/share.
 
@@ -39,7 +44,29 @@ See [validation/dashboard.md](validation/dashboard.md) for the validation dashbo
 
 **Fleet command:** `failure-doctor batch`.
 
-**Core commands:** `diagnose` / `plan` / `verify` / `run`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+**Core commands:** `diagnose` / `plan` / `verify` / `run`; `case`; `issue-pack`; `benchmark`; `plugin`; `reason` / `root-cause` / `causal-chain`; `agent-bootstrap`; `sanitize` / `adapt`; `ocr-evidence`; `visual-runtime`; `regulated-eval`; `full-chain-eval`; `console`; `ci`; `kb`; `failure-doctor propose-patch`; `failure-doctor batch`.
+
+### Real User Case Program & Public Benchmark
+
+```powershell
+failure-doctor case intake --input .\raw_failure_pack --out .\sanitized_case
+failure-doctor case publish-check --case .\sanitized_case
+failure-doctor issue-pack create --input .\raw_failure_pack --out .\issue_pack
+failure-doctor benchmark run --suite public-safe --out .\benchmark_public
+failure-doctor benchmark compare --baseline .\benchmark_public --candidate .\benchmark_public --out .\benchmark_compare
+```
+
+v4.3 adds a public-safe case intake path and deterministic benchmark runner.
+Cases use `public_case/v1` manifests, sanitized inputs, expected diagnosis
+metadata, and publish checks before anything is shared. Benchmarks run local
+synthetic suites only and produce `benchmark_manifest.json`,
+`benchmark_summary.md/json`, `case_results.jsonl`, `failures.md`,
+`regression_diff.json`, and `open_this_first_benchmark.md`.
+
+See [docs/REAL_USER_CASE_PROGRAM.md](docs/REAL_USER_CASE_PROGRAM.md),
+[docs/CASE_CONTRIBUTION_GUIDE.md](docs/CASE_CONTRIBUTION_GUIDE.md),
+[docs/PUBLIC_BENCHMARK_SPEC.md](docs/PUBLIC_BENCHMARK_SPEC.md), and
+[docs/BENCHMARK_RUNNER.md](docs/BENCHMARK_RUNNER.md).
 
 ### Plugin SDK
 
@@ -181,9 +208,9 @@ safety, AI handoff, patch proposal previews, visual runtime, OCR/document,
 regulated workflow, batch/fleet, and full-chain reports. See
 [docs/LOCAL_WEB_CONSOLE.md](docs/LOCAL_WEB_CONSOLE.md).
 
-Release tracks: Current stable line: Agent Failure Doctor v4.2.0 Plugin SDK &
-Adapter Ecosystem Pack; previous stable line: Agent Failure Doctor v4.1.0
-Enterprise Governance & Role-Based Console Pack; previous P95 stable line:
+Release tracks: Current stable line: Agent Failure Doctor v4.3.0 Real User Case
+Program & Public Benchmark Pack; previous stable line: Agent Failure Doctor
+v4.2.0 Plugin SDK & Adapter Ecosystem Pack; previous P95 stable line:
 Agent Failure Doctor v2.4.1 P95 Alignment & Missing Tracks Pack.
 
 **Command groups:** diagnosis, repair planning, verification, collection, OCR evidence, visual runtime, patch proposal, fleet batch, and safe sharing.
@@ -268,8 +295,9 @@ trace/cross-framework/training/composite/handoff/batch/sanitize/auto-collector
 
 ## Distribution & Feedback
 
-v4.2.0 is the current stable technical baseline. It adds the local Plugin SDK
-and adapter ecosystem gate on top of enterprise governance, hybrid evidence
+v4.3.0 is the current stable technical baseline. It adds public-safe case
+intake, sanitized issue packs, and local benchmark/regression gates on top of
+the local Plugin SDK, enterprise governance, hybrid evidence
 reasoning, the local knowledge base, CI/CD gates, the local web console,
 regulated-industry mock workflow evaluation, full-chain agent evaluation,
 OCR/document evidence, offline visual runtime observability, and local-only
@@ -678,9 +706,9 @@ See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) and [docs/GITHUB_ACTION_USAGE.m
 
 ## Validation Status
 
-Current milestone: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
+Current milestone: Agent Failure Doctor v4.3 Real User Case Program & Public Benchmark Pack.
 
-Previous stable line: Agent Failure Doctor v4.1 Enterprise Governance & Role-Based Console Pack.
+Previous stable line: Agent Failure Doctor v4.2 Plugin SDK & Adapter Ecosystem Pack.
 
 - 131 source-ledger records with separated `real_public_issue`, `official_doc_pattern`, and `public_inspired_sanitized` labels
 - 50 traceable real public issue records
